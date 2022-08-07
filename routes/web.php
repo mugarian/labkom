@@ -30,6 +30,10 @@ Route::get('/', function() {
     return view('v_login');
 });
 
+Route::get('/dashboard', function() {
+    return view('v_dashboard');
+});
+
 Route::post('/', [C_login::class, 'login']);
 Route::post('/logout', [C_login::class, 'logout']);
 
