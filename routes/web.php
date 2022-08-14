@@ -6,6 +6,7 @@ use App\Http\Controllers\C_login;
 use App\Http\Controllers\C_Barang;
 use App\Http\Controllers\C_KodeQR;
 use App\Http\Controllers\C_Ruangan;
+use App\Http\Controllers\C_Pelaporan;
 use App\Http\Controllers\C_Peminjaman;
 use App\Http\Controllers\C_Pemakaian;
 use App\Http\Controllers\C_ScanQR;
@@ -31,22 +32,23 @@ Route::get('/', function() {
 });
 
 Route::get('/dashboard', function() {
-    return view('v_dashboard');
+    return view('v_dashboard', [
+        'title' => 'Sistem Pengelolaan Barang & Ruangan'
+    ]);
 });
 
 Route::post('/', [C_login::class, 'login']);
 Route::post('/logout', [C_login::class, 'logout']);
 
-Route::resource('/akun', C_User::class);
 Route::get('/profil', [C_User::class, 'profil']);
 
+Route::resource('/akun', C_User::class);
+Route::resource('/kelas', C_Kelas::class);
 Route::resource('/barang', C_Barang::class);
 Route::resource('/ruangan', C_Ruangan::class);
 
 Route::resource('/kodeqr', C_KodeQR::class);
 Route::get('/kodeqr/{slug}/cetak', [C_kodeQR::class, 'cetak']);
-
-Route::resource('/kelas', C_Kelas::class);
 
 Route::resource('/peminjaman', C_Peminjaman::class);
 Route::get('/peminjaman/{slug}/verifikasi', [C_Peminjaman::class, 'verifikasi']);
@@ -67,6 +69,7 @@ Route::get('/pelaporan/{slug}/verifikasi', [C_Pelaporan::class, 'verifikasi']);
 Route::post('/pelaporan/{slug}/konfirmasi', [C_Pelaporan::class, 'konfirmasi']);
 Route::get('/pelaporan/{slug}/cetak', [C_Pelaporan::class, 'cetak']);
 
+Route::get('/scan', [C_ScanQR::class, 'index']);
 Route::get('/scan/{kode}', [C_ScanQR::class, 'scan']);
 Route::post('/scan/lapor', [C_ScanQR::class, 'lapor']);
 Route::get('/scan/{kode}/pelaporan', [C_ScanQR::class, 'pelaporan']);

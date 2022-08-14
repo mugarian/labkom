@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class C_ScanQR extends Controller
 {
+    public function index() {
+        return view('scanqr.index', [
+            'title' => 'Scan QR'
+        ]);
+    }
+
     public function scan(KodeQR $kodeQR) {
 
     }

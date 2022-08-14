@@ -14,7 +14,9 @@ class C_User extends Controller
      */
     public function index()
     {
-        //
+        return view('user.index', [
+            'title' => 'Kelola Akun'
+        ]);
     }
 
     /**
@@ -24,7 +26,9 @@ class C_User extends Controller
      */
     public function create()
     {
-        //
+        return view('user.create', [
+            'title' => 'Tambah Akun'
+        ]);
     }
 
     /**
@@ -85,7 +89,9 @@ class C_User extends Controller
 
     public function profil(User $user)
     {
-        //
+        return view('user.profil', [
+            'title' => 'Profil'
+        ]);
     }
 
 }

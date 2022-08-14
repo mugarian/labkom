@@ -48,7 +48,7 @@
     {{-- Sidebar --}}
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
-        <li class="menu-item active">
+        <li class="menu-item {{ Request::is('dashboard') ? 'active' : '' }}">
         <a href="/dashboard" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Analytics">Dashboard</div>
@@ -56,13 +56,13 @@
         </li>
 
         <!-- Layouts -->
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('profil') ? 'active' : '' }}">
         <a href="/profil" class="menu-link">
             <i class="menu-icon tf-icons bx bx-user-circle"></i>
             <div data-i18n="Layouts">Profil</div>
         </a>
         </li>
-        <li class="menu-item mb-3">
+        <li class="menu-item mb-3 {{ Request::is('scan*') ? 'active' : '' }}">
         <a href="/scan" class="menu-link">
             <i class="menu-icon tf-icons bx bx-scan"></i>
             <div data-i18n="Layouts">Scan QR</div>
@@ -72,21 +72,21 @@
         <!-- Components -->
         <li class="menu-header small text-uppercase my-0"><span class="menu-header-text">Aktivitas</span></li>
         <!-- Cards -->
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('peminjaman*') ? 'active' : '' }}">
             <a href="/peminjaman" class="menu-link">
             <i class="menu-icon tf-icons bx bx-calendar-plus"></i>
             <div data-i18n="Basic">Peminjaman</div>
             </a>
         </li>
         <!-- User interface -->
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('pemakaian*') ? 'active' : '' }}">
             <a href="/pemakaian" class="menu-link">
             <i class="menu-icon tf-icons bx bx-code-block"></i>
             <div data-i18n="User interface">Pemakaian</div>
             </a>
         </li>
         <!-- Extended components -->
-        <li class="menu-item mb-3">
+        <li class="menu-item mb-3 {{ Request::is('pelaporan*') ? 'active' : '' }}">
             <a href="/pelaporan" class="menu-link">
             <i class="menu-icon tf-icons bx bx-message-error"></i>
             <div data-i18n="Extended UI">Pelaporan</div>
@@ -96,31 +96,31 @@
         <li class="menu-header small text-uppercase my-0">
         <span class="menu-header-text">Pengelolaan</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('akun*') ? 'active' : '' }}">
         <a href="/akun" class="menu-link">
             <i class="menu-icon tf-icons bx bx-group"></i>
             <div data-i18n="Account Settings">Akun</div>
         </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
         <a href="/kelas" class="menu-link">
             <i class="menu-icon tf-icons bx bx-id-card"></i>
             <div data-i18n="Authentications">Kelas</div>
         </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('barang*') ? 'active' : '' }}">
         <a href="/barang" class="menu-link">
             <i class="menu-icon tf-icons bx bx-package"></i>
             <div data-i18n="Misc">Barang</div>
         </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('ruangan*') ? 'active' : '' }}">
         <a href="/ruangan" class="menu-link">
             <i class="menu-icon tf-icons bx bx-door-open"></i>
             <div data-i18n="Misc">Ruangan</div>
         </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ Request::is('kodeqr*') ? 'active' : '' }}">
         <a href="/kodeqr" class="menu-link">
             <i class="menu-icon tf-icons bx bx-qr"></i>
             <div data-i18n="Misc">Kode QR</div>
