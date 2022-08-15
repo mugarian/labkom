@@ -14,7 +14,9 @@ class C_Kelas extends Controller
      */
     public function index()
     {
-        //
+        return view('kelas.index', [
+            'title' => 'Kelola Kelas'
+        ]);
     }
 
     /**
@@ -24,7 +26,9 @@ class C_Kelas extends Controller
      */
     public function create()
     {
-        //
+        return view('kelas.create', [
+            'title' => 'Tambah Kelas'
+        ]);
     }
 
     /**

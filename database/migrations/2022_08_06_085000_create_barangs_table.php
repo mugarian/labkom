@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('ruangan_id');
             $table->string('nama');
             $table->string('status');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

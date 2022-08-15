@@ -14,7 +14,9 @@ class C_Barang extends Controller
      */
     public function index()
     {
-        //
+        return view('barang.index', [
+            'title' => 'Kelola Barang'
+        ]);
     }
 
     /**
@@ -24,7 +26,9 @@ class C_Barang extends Controller
      */
     public function create()
     {
-        //
+        return view('barang.create', [
+            'title' => 'Tambah Barang'
+        ]);
     }
 
     /**

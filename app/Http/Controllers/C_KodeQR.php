@@ -14,7 +14,9 @@ class C_KodeQR extends Controller
      */
     public function index()
     {
-        //
+        return view('kodeqr.index', [
+            'title' => 'Kelola Kode QR'
+        ]);
     }
 
     /**

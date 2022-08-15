@@ -61,16 +61,16 @@
                 </div>
               </div>
               <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label" for="basic-default-company">Jabatan</label>
-                  <div class="col-sm-10">
-                      <input
-                      type="text"
-                      class="form-control"
-                      id="basic-default-company"
-                      placeholder="ACME Inc."
-                      />
-                    </div>
-                </div>
+                <label class="col-sm-2 col-form-label" for="basic-default-company">Jabatan</label>
+              <div class="col-sm-10">
+                    <select id="organization" class="select2 form-select">
+                      <option value="">Select Jabatan</option>
+                      <option value="en">Admin</option>
+                      <option value="fr">Dosen</option>
+                      <option value="de">Mahasiswa</option>
+                    </select>
+                  </div>
+              </div>
               <div class="row mb-3">
                   <label class="col-sm-2 col-form-label" for="basic-default-company">Email</label>
                   <div class="col-sm-10">

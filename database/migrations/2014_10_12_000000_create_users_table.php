@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('nomor_induk')->unique();
             $table->string('name');
             $table->string('jabatan');
+            $table->string('status')->default('aktif');
             $table->foreignId('kelas_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -16,9 +16,7 @@ return new class extends Migration
         Schema::create('kodeqr', function (Blueprint $table) {
             $table->id();
             $table->string('kode')->unique();
-            $table->string('jenis');
-            $table->string('nama');
-            $table->string('gambar');
+            $table->string('keterabgan')->nullable();
             $table->timestamps();
         });
     }

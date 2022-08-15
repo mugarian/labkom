@@ -14,7 +14,9 @@ class C_Ruangan extends Controller
      */
     public function index()
     {
-        //
+        return view('ruangan.index', [
+            'title' => 'Kelola Ruangan'
+        ]);
     }
 
     /**
@@ -24,7 +26,9 @@ class C_Ruangan extends Controller
      */
     public function create()
     {
-        //
+        return view('ruangan.create', [
+            'title' => 'Tambah Ruangan'
+        ]);
     }
 
     /**

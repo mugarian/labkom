@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('wali_dosen');
             $table->string('ketua_kelas');
             $table->string('angkatan');
+            $table->string('status');
             $table->timestamps();
         });
     }
