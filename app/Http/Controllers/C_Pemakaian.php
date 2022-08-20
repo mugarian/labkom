@@ -14,7 +14,9 @@ class C_Pemakaian extends Controller
      */
     public function index()
     {
-        //
+        return view('pemakaian.index', [
+            'title' => 'Kelola Pemakaian'
+        ]);
     }
 
     /**
@@ -24,7 +26,9 @@ class C_Pemakaian extends Controller
      */
     public function create()
     {
-        //
+        return view('pemakaian.create', [
+            'title' => 'Tambah Pemakaian'
+        ]);
     }
 
     /**

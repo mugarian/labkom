@@ -7,7 +7,7 @@
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">Kelola Peminjaman</h5>
             <div>
-                <a href="/barang/create"><button class="btn btn-primary">Tambah Kode Barang</button></a>
+                <a href="/peminjaman/create"><button class="btn btn-primary">Meminjam</button></a>
             </div>
           </div>
         <div class="card-body">
@@ -16,8 +16,12 @@
                 <thead>
                 <tr class="text-center">
                     <th style="width: 0">#</th>
+                    <th style="width: 0">Peminjam</th>
                     <th style="width: 0">Kode QR</th>
-                    <th>Keterangan</th>
+                    <th>Tgl Pinjam</th>
+                    <th>Tgl Kembali</th>
+                    <th style="width: 0">Status</th>
+                    <th style="width: 0">Pin</th>
                     <th style="width: 0">Aksi</th>
                 </tr>
                 </thead>
@@ -25,8 +29,23 @@
                     @for ($i = 1; $i <= 5; $i++)
                     <tr>
                         <td>{{$i}}</td>
-                        <td>24HJ65K8</td>
-                        <td>Kode Untuk Peminjaman PC</td>
+                        <td>Galuh</td>
+                        <td>
+                            <span
+                            data-bs-toggle="tooltip"
+                            data-bs-offset="0m5"
+                            data-bs-placement="bottom"
+                            data-bs-html="true"
+                            title="<span>Lab UX</span>">
+                                278GH3AU
+                            </span>
+                        </td>
+                        <td>12 Agustus 2022</td>
+                        <td>
+                            <a href="/peminjaman/kondisi"><button class="btn btn-sm btn-primary">kembalikan</button></a>
+                        </td>
+                        <td><span class="badge bg-label-success">Disetujui </span> </td>
+                        <td>88723</td>
                         <td>
                         <div class="dropdown">
                             <button

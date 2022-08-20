@@ -50,6 +50,7 @@ Route::resource('/ruangan', C_Ruangan::class);
 Route::resource('/kodeqr', C_KodeQR::class);
 Route::get('/kodeqr/{slug}/cetak', [C_kodeQR::class, 'cetak']);
 
+Route::get('/peminjaman/kondisi', [C_Peminjaman::class, 'cek']);
 Route::resource('/peminjaman', C_Peminjaman::class);
 Route::get('/peminjaman/{slug}/verifikasi', [C_Peminjaman::class, 'verifikasi']);
 Route::post('/peminjaman/{slug}/konfirmasi', [C_Peminjaman::class, 'konfirmasi']);

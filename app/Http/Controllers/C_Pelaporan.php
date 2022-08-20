@@ -14,7 +14,9 @@ class C_Pelaporan extends Controller
      */
     public function index()
     {
-        //
+        return view('pelaporan.index', [
+            'title' => 'Kelola Pelaporan'
+        ]);
     }
 
     /**
@@ -24,7 +26,9 @@ class C_Pelaporan extends Controller
      */
     public function create()
     {
-        //
+        return view('pelaporan.create', [
+            'title' => 'Tambah Pelaporan'
+        ]);
     }
 
     /**

@@ -19,6 +19,13 @@ class C_Peminjaman extends Controller
         ]);
     }
 
+    public function cek()
+    {
+        return view('peminjaman.kondisi', [
+            'title' => 'Kondisi Peminjaman'
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +33,9 @@ class C_Peminjaman extends Controller
      */
     public function create()
     {
-        //
+        return view('peminjaman.create', [
+            'title' => 'Tambah Peminjaman'
+        ]);
     }
 
     /**
