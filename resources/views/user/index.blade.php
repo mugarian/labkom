@@ -2,12 +2,18 @@
 @section('container')
 <!-- Bordered Table -->
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Akun /</span> Kelola Akun</h4>
+    <h4 class="fw-bold py-3 mb-3"><span class="text-muted fw-light">Akun /</span> Kelola Akun</h4>
+    @if (session()->has('success'))
+        <div class="alert alert-success alert-dismissible" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">Kelola Akun</h5>
             <small class="text-muted float-end"><a href="/akun/create"><button class="btn btn-primary">Tambah</button></a></small>
-          </div>
+        </div>
         <div class="card-body">
             <div class="table-responsive text-nowrap">
             <table class="table table-bordered">
@@ -24,39 +30,44 @@
                 </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <tr>
-                            <td>{{$i}}</td>
-                            <td>10107039</td>
-                            <td>Galuh</td>
-                            <td>Mahasiswa</td>
-                            <td>082316039450</td>
-                            <td>Cinangsi</td>
-                            <td>Aktif</td>
-                            <td>
-                            <div class="dropdown">
-                                <button
-                                type="button"
-                                class="btn p-0 dropdown-toggle hide-arrow"
-                                data-bs-toggle="dropdown"
-                                >
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0);"
-                                    ><i class="bx bx-info-circle me-1"></i> Lihat</a
-                                >
-                                <a class="dropdown-item" href="javascript:void(0);"
-                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                >
-                                <a class="dropdown-item" href="javascript:void(0);"
-                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                >
-                                </div>
+                    @foreach ($users as $user)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->nomor_induk }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->jabatan }}</td>
+                        <td>{{ $user->no_hp }}</td>
+                        <td>{{ $user->alamat }}</td>
+                        <td>{{ $user->status }}</td>
+                        <td>
+                        <div class="dropdown">
+                            <button
+                            type="button"
+                            class="btn p-0 dropdown-toggle hide-arrow"
+                            data-bs-toggle="dropdown"
+                            >
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/akun/{{ $user->nomor_induk }}"
+                                ><i class="bx bx-info-circle me-1"></i> Lihat</a
+                            >
+                            <a class="dropdown-item" href="/akun/{{ $user->nomor_induk }}/edit"
+                                ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                            >
+                            <form action="/akun/{{ $user->nomor_induk }}" method="POST" class="">
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="dropdown-item"><i class="bx bx-trash me-1"></i> Delete</button>
+                            </form>
+                            {{-- <a class="dropdown-item" href="javascript:void(0);"
+                                ><i class="bx bx-trash me-1"></i> Delete</a
+                            > --}}
                             </div>
-                            </td>
-                        </tr>
-                    @endfor
+                        </div>
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
             </div>

@@ -14,16 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('nomor_induk')->unique();
-            $table->string('name');
-            $table->string('jabatan');
-            $table->string('status')->default('aktif');
-            $table->foreignId('kelas_id')->nullable();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('nama');
             $table->string('gambar')->nullable();
+            $table->string('status')->default('aktif');
+            $table->enum('role', ['admin', 'dosen', 'mahasiswa', 'staff']);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -103,17 +103,37 @@
               <h4 class="mb-2">Selamat Datang di Sibaru! 👋</h4>
               <p class="mb-4">Sistem Pengelolaan Barang dan Ruangan di Politeknik Negeri Subang</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              @if (session()->has('success'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              @endif
+
+              @if (session()->has('gagal'))
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    {{ session('gagal') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              @endif
+
+              <form id="formAuthentication" class="mb-3" action="/login" method="POST">
+                @csrf
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
-                    type="text"
-                    class="form-control"
+                    type="email"
+                    class="form-control @error('email') is-invalid @enderror"
                     id="email"
-                    name="email-username"
-                    placeholder="Enter your email or username"
+                    name="email"
                     autofocus
+                    value="{{ old('email') }}"
                   />
+                  @error('email')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                  @enderror
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
@@ -126,12 +146,17 @@
                     <input
                       type="password"
                       id="password"
-                      class="form-control"
+                      class="form-control @error('password') is-invalid @enderror"
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
-                    />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                      />
+                      <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                      @error('password')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                      @enderror
                   </div>
                 </div>
                 {{-- <div class="mb-3">
