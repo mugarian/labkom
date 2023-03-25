@@ -1,23 +1,30 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/alat" class="text-secondary">Data Alat</a> /
-            </span> Tambah Data Alat</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/mahasiswa"
+                    class="text-secondary">mahasiswa</a> /
+                <a href="/mahasiswa" class="text-secondary">Kelola mahasiswa</a> /</span> Tambah Data mahasiswa</h4>
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                {{ session('fail') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Alat</h5>
-                        <small class="text-muted float-end"><a href="/alat">
+                        <h5 class="mb-0">Data mahasiswa</h5>
+                        <small class="text-muted float-end"><a href="/mahasiswa">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/alat" method="POST" enctype="multipart/form-data">
+                        <form action="/mahasiswa" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="foto">Foto Alat</label>
+                                <label class="form-label" for="foto">Foto mahasiswa</label>
                                 <div class="">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">
                                         <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
@@ -55,43 +62,22 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="merk">Merk</label>
-                                <input type="text" class="form-control @error('merk') is-invalid @enderror"
-                                    id="merk" placeholder="Merk" value="{{ old('merk') }}" name="merk" required />
-                                @error('merk')
+                                <label class="form-label" for="nomor_induk">Nomor Induk</label>
+                                <input type="text" class="form-control @error('nomor_induk') is-invalid @enderror"
+                                    id="nomor_induk" placeholder="nomor_induk" value="{{ old('nomor_induk') }}"
+                                    name="nomor_induk" required />
+                                @error('nomor_induk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="spesifikasi">Spesifikasi</label>
-                                <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" placeholder="Spesifikasi"
-                                    name="spesifikasi" required>{{ old('spesifikasi') }}
-                                 </textarea>
-                                @error('spesifikasi')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="harga">Harga</label>
-                                <input type="number" class="form-control @error('harga') is-invalid @enderror"
-                                    id="harga" placeholder="harga" name="harga" value="{{ old('harga') }}"
+                                <label class="form-label" for="angkatan">angkatan</label>
+                                <input type="number" class="form-control @error('angkatan') is-invalid @enderror"
+                                    id="angkatan" placeholder="angkatan" name="angkatan" value="{{ old('angkatan') }}"
                                     required />
-                                @error('harga')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="stok">Stok</label>
-                                <input type="number" class="form-control @error('stok') is-invalid @enderror"
-                                    id="stok" placeholder="stok" name="stok" value="{{ old('stok') }}"
-                                    required />
-                                @error('stok')
+                                @error('angkatan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -101,31 +87,45 @@
                 </div>
             </div>
             <div class="col-xl">
-                {{-- <div class="card mb-4">
+                <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Kode QR</h5>
+                        <h5 class="mb-0">Data Akun</h5>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                    <img src="{{ asset('img') }}/qr.png" alt="user-avatar" class="d-block rounded"
-                                        height="190" width="190" id="uploadedAvatar" />
+                        <div class="mb-3">
+                            <label class="form-label" for="password">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                                placeholder="email" name="email" value="{{ old('email') }}" required />
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-default-fullname">Kode</label>
-                                <input type="text" class="form-control" id="basic-default-fullname"
-                                    placeholder="4HBT6IKL" readonly="readonly" />
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-default-message">Keterangan</label>
-                                <textarea id="basic-default-message" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?"
-                                    aria-label="Hi, Do you have a moment to talk Joe?" aria-describedby="basic-icon-default-message2"></textarea>
-                            </div>
-                        </form>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                id="password" placeholder="password" name="password" value="{{ old('password') }}"
+                                required />
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="konfir">Konfirmasi Password</label>
+                            <input type="password" class="form-control @error('konfir') is-invalid @enderror"
+                                id="konfir" placeholder="password" name="konfir" value="{{ old('konfir') }}"
+                                required />
+                            @error('konfir')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
 
@@ -137,8 +137,8 @@
             <div class="card-body">
                 <div class="mb-3 col-12 mb-0">
                     <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Penambahan Data alat</h6>
-                        <p class="mb-0">Ketika Form Tambah Data alat ditambahkan,<br />
+                        <h6 class="alert-heading fw-bold mb-1">Penambahan Data mahasiswa</h6>
+                        <p class="mb-0">Ketika Form Tambah Data mahasiswa ditambahkan,<br />
                             Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
                             Dan Langsung Disambungkan sesuai kode qr yang tertera
                         </p>

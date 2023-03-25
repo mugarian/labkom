@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('jabatan');
             $table->enum('kepalalab', ['true', 'false'])->default('false');
             $table->string('jurusan');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

@@ -13,8 +13,10 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Laboratorium</h5>
-                <small class="text-muted float-end"><a href="/laboratorium/create"><button
-                            class="btn btn-primary">Tambah</button></a></small>
+                @if (auth()->user()->role == 'admin')
+                    <small class="text-muted float-end"><a href="/laboratorium/create"><button
+                                class="btn btn-primary">Tambah</button></a></small>
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
@@ -52,16 +54,18 @@
                                             <a class="btn btn-outline-success p-1"
                                                 href="/laboratorium/{{ $laboratorium->id }}"><i
                                                     class="bx bx-info-circle"></i></a>
-                                            <a class="btn btn-outline-warning p-1"
-                                                href="/laboratorium/{{ $laboratorium->id }}/edit"><i
-                                                    class="bx bx-edit-alt"></i></a>
-                                            <form action="/laboratorium/{{ $laboratorium->id }}" method="post">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger p-1">
-                                                    <i class="bx bx-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
+                                                <a class="btn btn-outline-warning p-1"
+                                                    href="/laboratorium/{{ $laboratorium->id }}/edit"><i
+                                                        class="bx bx-edit-alt"></i></a>
+                                                <form action="/laboratorium/{{ $laboratorium->id }}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-danger p-1">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

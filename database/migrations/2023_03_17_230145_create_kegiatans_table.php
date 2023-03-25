@@ -16,9 +16,13 @@ return new class extends Migration
         Schema::create('kegiatans', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->references('id')->on('users');
+            $table->foreignUuid('dospem_id')->references('id')->on('dosens');
             $table->foreignUuid('laboratorium_id')->references('id')->on('laboratorium');
+            $table->string('kode')->unique();
             $table->string('nama');
             $table->string('deskripsi');
+            $table->enum('jenis', ['perkuliahan', 'peminjaman']);
+            $table->enum('status', ['menunggu', 'diverifikasi', 'disetujui', 'selesai'])->default('menunggu');
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();
             $table->timestamps();

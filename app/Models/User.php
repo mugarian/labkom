@@ -10,6 +10,7 @@ use App\Models\Mahasiswa;
 use App\Models\Pemakaian;
 use App\Models\Penggunaan;
 use App\Models\Laboratorium;
+use App\Traits\Uuids;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Uuids;
 
     /**
      * The attributes that are mass assignable.

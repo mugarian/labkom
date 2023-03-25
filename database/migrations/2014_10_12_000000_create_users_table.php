@@ -17,8 +17,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nomor_induk')->unique();
             $table->string('nama');
-            $table->string('gambar')->nullable();
-            $table->string('status')->default('aktif');
             $table->enum('role', ['admin', 'dosen', 'mahasiswa', 'staff']);
             $table->string('email')->unique();
             $table->string('password');

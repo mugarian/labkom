@@ -2,8 +2,7 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/bahan" class="text-secondary">Bahan</a>
-                /</span> Kelola Bahan</h4>
+        <h4 class="fw-bold py-3 mb-4"><a href="/bahan" class="text-secondary">Data Bahan</a></h4>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
