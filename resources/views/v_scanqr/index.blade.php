@@ -1,7 +1,13 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Scan QR /</span> Opsi</h4>
+        <h4 class="fw-bold py-3 mb-4">Scan QR</h4>
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                {{ session('fail') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 <div class="card mb-4">
@@ -13,9 +19,10 @@
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
                             <i class='bx bx-barcode' style="font-size:100px"></i>
                             <div class="button-wrapper">
-                                <form class="d-flex mb-3" onsubmit="return false">
-                                    <input class="form-control me-2" type="search" placeholder="Kode QR"
-                                        aria-label="Search" />
+                                <form class="d-flex mb-3" action="/scan" method="POST">
+                                    @csrf
+                                    <input class="form-control me-2" type="text" placeholder="Kode QR" id="search"
+                                        name="search" value="{{ old('search') }}" />
                                     <button class="btn btn-outline-primary" type="submit"><i
                                             class="bx bx-search"></i></button>
                                 </form>
@@ -36,7 +43,8 @@
                                             data-bs-toggle="list" href="#list-profile">2. Arahkan Kamera Pemindaian ke
                                             Stiker Kode QR</a>
                                         <a class="list-group-item list-group-item-action" id="list-messages-list"
-                                            data-bs-toggle="list" href="#list-messages">3. Jika Menampilkan Link, maka tekan
+                                            data-bs-toggle="list" href="#list-messages">3. Jika Menampilkan Link, maka
+                                            tekan
                                             lanjutkan</a>
                                         <a class="list-group-item list-group-item-action" id="list-settings-list"
                                             data-bs-toggle="list" href="#list-settings">4. Hasil Pemindaian telah
@@ -70,7 +78,8 @@
                         <div class="mb-3 col-12 mb-0">
                             <div class="alert alert-danger">
                                 <h6 class="alert-heading fw-bold mb-1">Kendala Pemindaian</h6>
-                                <p class="mb-0">Jika Terdapat Kendala Ketika Melakukan Pemindaian Kode QR, <br /> Silahkan
+                                <p class="mb-0">Jika Terdapat Kendala Ketika Melakukan Pemindaian Kode QR, <br />
+                                    Silahkan
                                     Hubungi Admin atau Dosen Pengampu yang sedang mengajar</p>
                             </div>
                         </div>

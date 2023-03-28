@@ -53,20 +53,34 @@
                                                 <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
                                                     @csrf
                                                     <input type="hidden" name="status" value="diverifikasi">
-                                                    <button type="submit" class="btn btn-outline-warning p-1">
-                                                        <i class='bx bx-check-square'></i>
+                                                    <button type="submit" class="btn btn-warning p-1">
+                                                        <i class='bx bx-message-square-check'></i>
+                                                    </button>
+                                                </form>
+                                                <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="ditolak">
+                                                    <button type="submit" class="btn btn-danger p-1">
+                                                        <i class='bx bx-message-square-x'></i>
                                                     </button>
                                                 </form>
                                             @elseif (auth()->user()->id == $kegiatan->laboratorium->user->id && $kegiatan->status == 'diverifikasi')
                                                 <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
                                                     @csrf
                                                     <input type="hidden" name="status" value="disetujui">
-                                                    <button type="submit" class="btn btn-outline-primary p-1">
-                                                        <i class='bx bx-check-circle'></i>
+                                                    <button type="submit" class="btn btn-primary p-1">
+                                                        <i class='bx bx-message-square-check'></i>
+                                                    </button>
+                                                </form>
+                                                <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="ditolak">
+                                                    <button type="submit" class="btn btn-danger p-1">
+                                                        <i class='bx bx-message-square-x'></i>
                                                     </button>
                                                 </form>
                                             @elseif (auth()->user()->id == $kegiatan->user_id)
-                                                <a class="btn btn-outline-warning p-1"
+                                                {{-- <a class="btn btn-outline-warning p-1"
                                                     href="/kegiatan/{{ $kegiatan->id }}/edit"><i
                                                         class="bx bx-edit-alt"></i></a>
                                                 <form action="/kegiatan/{{ $kegiatan->id }}" method="post">
@@ -75,7 +89,7 @@
                                                     <button type="submit" class="btn btn-outline-danger p-1">
                                                         <i class="bx bx-trash"></i>
                                                     </button>
-                                                </form>
+                                                </form> --}}
                                             @endif
                                         </div>
                                     </td>

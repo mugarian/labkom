@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bahan;
+use App\Models\Kegiatan;
 use App\Models\Penggunaan;
+use App\Models\BarangHabis;
+use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 
 class PenggunaanController extends Controller
@@ -14,7 +18,11 @@ class PenggunaanController extends Controller
      */
     public function index()
     {
-        //
+        $penggunaan = Penggunaan::all();
+        return view('v_penggunaan.index', [
+            'title' => 'Data penggunaan',
+            'penggunaans' => $penggunaan,
+        ]);
     }
 
     /**
@@ -24,7 +32,10 @@ class PenggunaanController extends Controller
      */
     public function create()
     {
-        //
+        return view('v_penggunaan.create', [
+            'title' => 'Tambah Data penggunaan',
+            'baranghabis' => null
+        ]);
     }
 
     /**
@@ -35,7 +46,34 @@ class PenggunaanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'user_id' => 'required',
+            'baranghabis_id' => 'required',
+            'kegiatan_id' => 'required',
+            'jumlah' => 'required',
+            'keterangan' => 'required',
+        ]);
+
+        $baranghabis = BarangHabis::where('kode', $validatedData['baranghabis_id'])->first();
+        $kegiatan = kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
+
+        if ($baranghabis && $kegiatan) {
+            if ($validatedData['jumlah'] > $baranghabis->bahan->stok) {
+                return redirect('/penggunaan')->with('fail', 'Jumlah Penggunaan melebihi stok');
+            }
+
+            $validatedData['baranghabis_id'] = $baranghabis->id;
+            $validatedData['kegiatan_id'] = $kegiatan->id;
+            $validatedData['tanggal'] = date("Y-m-d H:i:s");
+            Penggunaan::create($validatedData);
+            return redirect('/penggunaan')->with('success', 'Tambah data penggunaan berhasil');
+        } else {
+            if (!$baranghabis) {
+                return redirect('/penggunaan')->with('fail', 'Kode Barang tidak ditemukan');
+            } else {
+                return redirect('/penggunaan')->with('fail', 'Kode kegiatan tidak ditemukan');
+            }
+        }
     }
 
     /**
@@ -80,6 +118,18 @@ class PenggunaanController extends Controller
      */
     public function destroy(Penggunaan $penggunaan)
     {
-        //
+    }
+
+    public function status(Request $request, $id)
+    {
+        $penggunaan = penggunaan::find($id);
+        $bahan = Bahan::find($penggunaan->baranghabis->bahan->id);
+        $jumlah = $bahan->stok - $penggunaan->jumlah;
+        $penggunaan->update(['status' => $request->status]);
+        if ($request->status == 'disetujui') {
+            Bahan::where('id', $bahan->id)->update(['stok'], $jumlah);
+        }
+
+        return redirect('/penggunaan')->with('success', 'penggunaan ' . $penggunaan->nama . ' telah ' . $request->status);
     }
 }

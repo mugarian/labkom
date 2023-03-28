@@ -1,8 +1,8 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/dosen" class="text-secondary">Dosen</a> /
-                <a href="/dosen" class="text-secondary">Kelola Dosen</a> /</span> {{ $dosen->user->nama }}</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/dosen" class="text-secondary">Data Dosen</a>
+                /</span> {{ $dosen->user->nama }}</h4>
 
         <!-- Basic Layout -->
         <div class="row">

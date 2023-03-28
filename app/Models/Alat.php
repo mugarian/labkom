@@ -17,7 +17,7 @@ class Alat extends Model
         'id' => 'string'
     ];
 
-    public function barangPakai()
+    public function barangpakai()
     {
         return $this->hasMany(BarangPakai::class);
     }

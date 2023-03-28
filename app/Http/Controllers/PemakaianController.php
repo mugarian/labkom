@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangPakai;
+use App\Models\Kegiatan;
 use App\Models\Pemakaian;
 use Illuminate\Http\Request;
+use PhpParser\NodeVisitor\FirstFindingVisitor;
 
 class PemakaianController extends Controller
 {
@@ -14,7 +17,13 @@ class PemakaianController extends Controller
      */
     public function index()
     {
-        //
+        $pemakaian = Pemakaian::where('user_id', auth()->user()->id)->get();
+        $akhir = Pemakaian::all()->last();
+        return view('v_pemakaian.index', [
+            'title' => 'Data pemakaian',
+            'pemakaians' => $pemakaian,
+            'akhir' => $akhir
+        ]);
     }
 
     /**
@@ -24,7 +33,10 @@ class PemakaianController extends Controller
      */
     public function create()
     {
-        //
+        return view('v_pemakaian.create', [
+            'title' => 'Tambah Data Pemakaian',
+            'barangpakai' => null
+        ]);
     }
 
     /**
@@ -35,7 +47,29 @@ class PemakaianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'user_id' => 'required',
+            'barangpakai_id' => 'required',
+            'kegiatan_id' => 'required',
+        ]);
+
+        $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
+        $kegiatan = Kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
+
+        if ($barangpakai && $kegiatan) {
+            $validatedData['barangpakai_id'] = $barangpakai->id;
+            $validatedData['kegiatan_id'] = $kegiatan->id;
+            $validatedData['mulai'] = date("Y-m-d H:i:s");
+
+            Pemakaian::create($validatedData);
+            return redirect('/pemakaian')->with('success', 'Tambah data Pemakaian berhasil');
+        } else {
+            if (!$barangpakai) {
+                return redirect('/pemakaian')->with('fail', 'kode barang tidak ditemukan');
+            } else {
+                return redirect('/pemakaian')->with('fail', 'kode kegiatan tidak ditemukan');
+            }
+        }
     }
 
     /**
@@ -44,9 +78,13 @@ class PemakaianController extends Controller
      * @param  \App\Models\Pemakaian  $pemakaian
      * @return \Illuminate\Http\Response
      */
-    public function show(Pemakaian $pemakaian)
+    public function show($id)
     {
-        //
+        $pemakaian = pemakaian::find($id);
+        return view('v_pemakaian.show', [
+            'title' => 'Pemakaian ' . $pemakaian->barangpakai->nama,
+            'pemakaian' => $pemakaian,
+        ]);
     }
 
     /**
@@ -55,9 +93,13 @@ class PemakaianController extends Controller
      * @param  \App\Models\Pemakaian  $pemakaian
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pemakaian $pemakaian)
+    public function edit($id)
     {
-        //
+        $pemakaian = pemakaian::find($id);
+        return view('v_pemakaian.edit', [
+            'title' => 'Edit Data pemakaian',
+            'pemakaian' => $pemakaian,
+        ]);
     }
 
     /**
@@ -67,9 +109,20 @@ class PemakaianController extends Controller
      * @param  \App\Models\Pemakaian  $pemakaian
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pemakaian $pemakaian)
+    public function update(Request $request, $id)
     {
-        //
+        $pemakaian = pemakaian::find($id);
+        $rules = [
+            'selesai' => 'required',
+            'keterangan' => 'required',
+        ];
+
+        $validatedData = $request->validate($rules);
+        $validatedData['status'] = 'selesai';
+
+        pemakaian::where('id', $pemakaian->id)->update($validatedData);
+
+        return redirect('/pemakaian')->with('success', 'Data pemakaian berhasil diselesaikan');
     }
 
     /**

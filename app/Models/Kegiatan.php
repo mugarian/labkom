@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Laboratorium;
+use App\Models\Dosen;
 use App\Traits\Uuids;
+use App\Models\Laboratorium;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -25,7 +26,7 @@ class Kegiatan extends Model
 
     public function dospem()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Dosen::class);
     }
 
     public function laboratorium()

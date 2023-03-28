@@ -57,7 +57,6 @@ class BahanController extends Controller
         $validatedData['foto'] = $validatedData['upload'];
         unset($validatedData['upload']);
 
-
         Bahan::create($validatedData);
         return redirect('/bahan')->with('success', 'Tambah Data Bahan Berhasil');
     }

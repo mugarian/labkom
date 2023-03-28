@@ -37,7 +37,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="Dosen Pembimbing">Dosen Pembimbing</label>
-                            <p class="form-control">{{ $dospem->user->nama }}</p>
+                            <p class="form-control">{{ $kegiatan->dospem->user->nama }}</p>
+                            {{-- <p class="form-control">{{ $dospem->user->nama }}</p> --}}
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="deskripsi">deskripsi</label>

@@ -58,13 +58,15 @@
                                                 <a class="btn btn-outline-warning p-1"
                                                     href="/laboratorium/{{ $laboratorium->id }}/edit"><i
                                                         class="bx bx-edit-alt"></i></a>
-                                                <form action="/laboratorium/{{ $laboratorium->id }}" method="post">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-outline-danger p-1">
-                                                        <i class="bx bx-trash"></i>
-                                                    </button>
-                                                </form>
+                                                @if (auth()->user()->role == 'admin')
+                                                    <form action="/laboratorium/{{ $laboratorium->id }}" method="post">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-danger p-1">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

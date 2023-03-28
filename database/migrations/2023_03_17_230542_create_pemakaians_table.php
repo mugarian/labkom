@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 return new class extends Migration
 {
@@ -18,8 +19,8 @@ return new class extends Migration
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('kegiatan_id')->references('id')->on('kegiatans');
             $table->foreignUuid('barangpakai_id')->references('id')->on('barang_pakais');
-            $table->string('nama');
-            $table->text('deskripsi');
+            $table->enum('status', ['mulai', 'selesai'])->default('mulai');
+            $table->text('keterangan')->nullable();
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();
             $table->timestamps();

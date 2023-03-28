@@ -5,12 +5,13 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Kegiatan;
 use App\Models\BarangHabis;
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Penggunaan extends Model
 {
-    use HasFactory;
+    use HasFactory, Uuids;
 
     protected $guarded = ['id'];
 
@@ -28,7 +29,7 @@ class Penggunaan extends Model
         return $this->belongsTo(Kegiatan::class);
     }
 
-    public function barangHabis()
+    public function baranghabis()
     {
         return $this->belongsTo(BarangHabis::class);
     }

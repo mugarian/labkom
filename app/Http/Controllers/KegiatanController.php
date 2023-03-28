@@ -89,11 +89,9 @@ class KegiatanController extends Controller
     public function show($id)
     {
         $kegiatan = Kegiatan::find($id);
-        $dospem = Dosen::find($kegiatan->dospem_id);
         return view('v_kegiatan.show', [
             'title' => $kegiatan->nama,
             'kegiatan' => $kegiatan,
-            'dospem' => $dospem
         ]);
     }
 

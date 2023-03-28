@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('deskripsi');
             $table->enum('jenis', ['perkuliahan', 'peminjaman']);
-            $table->enum('status', ['menunggu', 'diverifikasi', 'disetujui', 'selesai'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'diverifikasi', 'disetujui', 'selesai', 'ditolak'])->default('menunggu');
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();
             $table->timestamps();

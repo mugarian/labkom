@@ -9,10 +9,13 @@ use App\Models\Bahan;
 use App\Models\Dosen;
 use App\Models\Staff;
 use Ramsey\Uuid\Uuid;
+use App\Models\Kegiatan;
 use App\Models\Mahasiswa;
+use App\Models\Pemakaian;
 use App\Models\BarangHabis;
 use App\Models\BarangPakai;
 use App\Models\Laboratorium;
+use App\Models\Penggunaan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -40,9 +43,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        $dosen = (string) Uuid::uuid4();
+        $dosenslamet = (string) Uuid::uuid4();
         User::create([
-            'id' => $dosen,
+            'id' => $dosenslamet,
             'nomor_induk' => '2020',
             'nama' => 'slamet',
             'role' => 'dosen',
@@ -50,9 +53,9 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('slamet'),
         ]);
 
-        $dosen2 = (string) Uuid::uuid4();
+        $dosencepi = (string) Uuid::uuid4();
         User::create([
-            'id' => $dosen2,
+            'id' => $dosencepi,
             'nomor_induk' => '5050',
             'nama' => 'cepi',
             'role' => 'dosen',
@@ -80,17 +83,19 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('syifa'),
         ]);
 
+        $dospemslamet = (string) Uuid::uuid4();
         Dosen::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $dosen,
+            'id' => $dospemslamet,
+            'user_id' => $dosenslamet,
             'jabatan' => 'Dosen Pengampu',
             'jurusan' => 'Manajemen Informatika',
             'kepalalab' => 'true'
         ]);
 
+        $dospemcepi = (string) Uuid::uuid4();
         Dosen::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $dosen2,
+            'id' => $dospemcepi,
+            'user_id' => $dosencepi,
             'jabatan' => 'Dosen Pengampu',
             'jurusan' => 'E-Commerce',
             'kepalalab' => 'false'
@@ -111,7 +116,7 @@ class DatabaseSeeder extends Seeder
         $laboratorium = (string) Uuid::uuid4();
         Laboratorium::create([
             'id' => $laboratorium,
-            'user_id' => $dosen,
+            'user_id' => $dosenslamet,
             'nama' => 'LAB Jaringan',
             'deskripsi' => 'Lab untuk praktik jaringan',
         ]);
@@ -136,24 +141,93 @@ class DatabaseSeeder extends Seeder
             'stok' => 20,
         ]);
 
+        $kodebarangpakai = (string) Uuid::uuid4();
         BarangPakai::create([
-            'id' => (string) Uuid::uuid4(),
+            'id' => $kodebarangpakai,
             'alat_id' => $alat,
             'laboratorium_id' => $laboratorium,
             'nama' => 'PC No 1',
-            'kode' => 'AL12023PC',
+            'kode' => bin2hex(random_bytes(4)),
             'deskripsi' => 'komputer Dell',
             'keterangan' => 'Baik',
         ]);
 
+        $kodebaranghabis = (string) Uuid::uuid4();
         BarangHabis::create([
-            'id' => (string) Uuid::uuid4(),
+            'id' => $kodebaranghabis,
             'bahan_id' => $bahan,
             'laboratorium_id' => $laboratorium,
             'nama' => 'RJ45 No 1 Jarkom',
-            'kode' => 'BA12013RJ',
+            'kode' => bin2hex(random_bytes(4)),
             'deskripsi' => 'Penghubung internet',
             'keterangan' => 'Baik',
+        ]);
+
+        $peminjamansetuju = (string) Uuid::uuid4();
+        Kegiatan::create([
+            'id' => $peminjamansetuju,
+            'user_id' => $mahasiswa,
+            'dospem_id' => $dospemcepi,
+            'laboratorium_id' => $laboratorium,
+            'kode' => bin2hex(random_bytes(4)),
+            'nama' => 'Difest',
+            'deskripsi' => 'Digital Festival',
+            'jenis' => 'peminjaman',
+            'status' => 'disetujui',
+            'mulai' => '2023-03-25 14:39:00',
+            'selesai' => '2023-03-26 14:39:00',
+        ]);
+
+        $peminjamanmenunggu = (string) Uuid::uuid4();
+        Kegiatan::create([
+            'id' => $peminjamanmenunggu,
+            'user_id' => $mahasiswa,
+            'dospem_id' => $dospemcepi,
+            'laboratorium_id' => $laboratorium,
+            'kode' => bin2hex(random_bytes(4)),
+            'nama' => 'Revisi Tugas',
+            'deskripsi' => 'Tugas Proyek Akhir',
+            'jenis' => 'peminjaman',
+            'status' => 'menunggu',
+            'mulai' => '2023-03-25 14:39:00',
+            'selesai' => null,
+        ]);
+
+        $perkuliahan = (string) Uuid::uuid4();
+        Kegiatan::create([
+            'id' => $perkuliahan,
+            'user_id' => $dosenslamet,
+            'dospem_id' => $dospemslamet,
+            'laboratorium_id' => $laboratorium,
+            'kode' => bin2hex(random_bytes(4)),
+            'nama' => 'PAM pertemuan 6',
+            'deskripsi' => 'User Interface',
+            'jenis' => 'perkuliahan',
+            'status' => 'disetujui',
+            'mulai' => '2023-03-25 14:39:00',
+            'selesai' => '2023-03-26 14:39:00',
+        ]);
+
+        Pemakaian::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $mahasiswa,
+            'kegiatan_id' => $perkuliahan,
+            'barangpakai_id' => $kodebarangpakai,
+            'keterangan' => 'PC Lambat',
+            'status' => 'selesai',
+            'mulai' => '2023-03-26 14:39:00',
+            'selesai' => '2023-03-27 14:39:00',
+        ]);
+
+        Penggunaan::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $mahasiswa,
+            'kegiatan_id' => $perkuliahan,
+            'baranghabis_id' => $kodebaranghabis,
+            'jumlah' => 2,
+            'status' => 'disetujui',
+            'keterangan' => 'Kondisi Bekas',
+            'tanggal' => '2023-03-26 14:39:00',
         ]);
     }
 }

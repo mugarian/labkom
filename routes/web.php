@@ -7,8 +7,11 @@ use App\Http\Controllers\BahanController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\PemakaianController;
+use App\Http\Controllers\PenggunaanController;
 use App\Http\Controllers\BarangHabisController;
 use App\Http\Controllers\BarangPakaiController;
 use App\Http\Controllers\LaboratoriumController;
@@ -41,11 +44,8 @@ Route::resource('/dosen', DosenController::class);
 Route::resource('/mahasiswa', MahasiswaController::class);
 Route::resource('/staff', StaffController::class);
 
-Route::get('/scan', function () {
-    return view('v_scanqr.index', [
-        'title' => 'Scan QR',
-    ]);
-});
+Route::get('/scan', [BarcodeController::class, 'index']);
+Route::post('/scan', [BarcodeController::class, 'search']);
 
 Route::resource('/alat', AlatController::class);
 Route::resource('/bahan', BahanController::class);
@@ -59,3 +59,9 @@ Route::resource('/baranghabis', BarangHabisController::class);
 Route::get('/kegiatan/peminjaman', [KegiatanController::class, 'peminjaman']);
 Route::post('/kegiatan/{id}/status', [KegiatanController::class, 'status']);
 Route::resource('/kegiatan', KegiatanController::class);
+
+Route::resource('/pemakaian', PemakaianController::class);
+Route::resource('/penggunaan', PenggunaanController::class);
+Route::post('/penggunaan/{id}/status', [PenggunaanController::class, 'status']);
+
+Route::get('/{kode}', [BarcodeController::class, 'scan']);
