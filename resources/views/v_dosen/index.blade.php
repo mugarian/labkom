@@ -32,8 +32,8 @@
                             @foreach ($dosens as $dosen)
                                 <tr>
                                     <td style="width:10%">
-                                        @if ($dosen->foto)
-                                            <img src="{{ asset('storage') . '/' . $dosen->foto }}" alt="dosen-avatar"
+                                        @if ($dosen->user->foto)
+                                            <img src="{{ asset('storage') . '/' . $dosen->user->foto }}" alt="dosen-avatar"
                                                 class="d-block rounded img-preview" height="100" width="100"
                                                 id="uploadedAvatar" />
                                         @else

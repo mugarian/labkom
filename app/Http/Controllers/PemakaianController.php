@@ -17,7 +17,11 @@ class PemakaianController extends Controller
      */
     public function index()
     {
-        $pemakaian = Pemakaian::where('user_id', auth()->user()->id)->get();
+        if (auth()->user()->role == 'admin') {
+            $pemakaian = Pemakaian::all();
+        } else {
+            $pemakaian = Pemakaian::where('user_id', auth()->user()->id)->get();
+        }
         $akhir = Pemakaian::all()->last();
         return view('v_pemakaian.index', [
             'title' => 'Data pemakaian',

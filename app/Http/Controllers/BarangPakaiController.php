@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alat;
+use App\Models\User;
 use App\Models\BarangPakai;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BarangPakaiController extends Controller
 {
@@ -76,9 +78,13 @@ class BarangPakaiController extends Controller
     public function show($id)
     {
         $barangpakai = BarangPakai::find($id);
+        $qrcode = QrCode::size(200)->generate(route('scan', $barangpakai->kode));
+        $user = User::find($barangpakai->laboratorium->user->id);
         return view('v_barangpakai.show', [
             'title' => $barangpakai->nama,
             'barangpakai' => $barangpakai,
+            'qrcode' => $qrcode,
+            'user' => $user
         ]);
     }
 

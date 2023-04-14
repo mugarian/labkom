@@ -44,9 +44,6 @@ Route::resource('/dosen', DosenController::class);
 Route::resource('/mahasiswa', MahasiswaController::class);
 Route::resource('/staff', StaffController::class);
 
-Route::get('/scan', [BarcodeController::class, 'index']);
-Route::post('/scan', [BarcodeController::class, 'search']);
-
 Route::resource('/alat', AlatController::class);
 Route::resource('/bahan', BahanController::class);
 Route::resource('/laboratorium', LaboratoriumController::class);
@@ -56,7 +53,10 @@ Route::resource('/barangpakai', BarangPakaiController::class);
 Route::get('/baranghabis/create/{id}', [BarangHabisController::class, 'create']);
 Route::resource('/baranghabis', BarangHabisController::class);
 
-Route::get('/kegiatan/peminjaman', [KegiatanController::class, 'peminjaman']);
+Route::get('/kegiatan/pelaksanaan', [KegiatanController::class, 'pelaksanaan']);
+Route::post('/pelaksanaan', [KegiatanController::class, 'storePelaksanaan']);
+Route::get('/kegiatan/permohonan', [KegiatanController::class, 'permohonan']);
+Route::post('/permohonan', [KegiatanController::class, 'storePermohonan']);
 Route::post('/kegiatan/{id}/status', [KegiatanController::class, 'status']);
 Route::resource('/kegiatan', KegiatanController::class);
 
@@ -64,4 +64,6 @@ Route::resource('/pemakaian', PemakaianController::class);
 Route::resource('/penggunaan', PenggunaanController::class);
 Route::post('/penggunaan/{id}/status', [PenggunaanController::class, 'status']);
 
-Route::get('/{kode}', [BarcodeController::class, 'scan']);
+Route::get('/scan', [BarcodeController::class, 'index']);
+Route::post('/scan', [BarcodeController::class, 'search']);
+Route::get('/scan/{kode}', [BarcodeController::class, 'scan'])->name('scan');

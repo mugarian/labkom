@@ -15,11 +15,12 @@
                 <h5 class="mb-0">Kelola kegiatan</h5>
                 <div class="d-flex justify-content-end">
                     @if (auth()->user()->role == 'dosen')
-                        <small class="text-muted float-end me-3"><a href="/kegiatan/create"><button
-                                    class="btn btn-primary">perkuliahan</button></a></small>
+                        <small class="text-muted float-end me-3"><a href="/kegiatan/pelaksanaan"><button
+                                    class="btn btn-primary">Pelaksanaan</button></a></small>
+                    @elseif (auth()->user()->role != 'admin')
+                        <small class="text-muted float-end"><a href="/kegiatan/permohonan"><button
+                                    class="btn btn-primary">Permohonan</button></a></small>
                     @endif
-                    <small class="text-muted float-end"><a href="/kegiatan/peminjaman"><button
-                                class="btn btn-primary">peminjaman</button></a></small>
                 </div>
             </div>
             <div class="card-body">
@@ -49,47 +50,38 @@
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" href="/kegiatan/{{ $kegiatan->id }}"><i
                                                     class="bx bx-info-circle"></i></a>
-                                            @if (auth()->user()->role == 'dosen' && $kegiatan->status == 'menunggu')
-                                                <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="diverifikasi">
-                                                    <button type="submit" class="btn btn-warning p-1">
-                                                        <i class='bx bx-message-square-check'></i>
-                                                    </button>
-                                                </form>
-                                                <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="ditolak">
-                                                    <button type="submit" class="btn btn-danger p-1">
-                                                        <i class='bx bx-message-square-x'></i>
-                                                    </button>
-                                                </form>
-                                            @elseif (auth()->user()->id == $kegiatan->laboratorium->user->id && $kegiatan->status == 'diverifikasi')
-                                                <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="disetujui">
-                                                    <button type="submit" class="btn btn-primary p-1">
-                                                        <i class='bx bx-message-square-check'></i>
-                                                    </button>
-                                                </form>
-                                                <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="ditolak">
-                                                    <button type="submit" class="btn btn-danger p-1">
-                                                        <i class='bx bx-message-square-x'></i>
-                                                    </button>
-                                                </form>
-                                            @elseif (auth()->user()->id == $kegiatan->user_id)
-                                                {{-- <a class="btn btn-outline-warning p-1"
-                                                    href="/kegiatan/{{ $kegiatan->id }}/edit"><i
-                                                        class="bx bx-edit-alt"></i></a>
-                                                <form action="/kegiatan/{{ $kegiatan->id }}" method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-outline-danger p-1">
-                                                        <i class="bx bx-trash"></i>
-                                                    </button>
-                                                </form> --}}
+                                            @if (auth()->user()->role == 'dosen')
+                                                @if ($kegiatan->status == 'menunggu')
+                                                    <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="status" value="diverifikasi">
+                                                        <button type="submit" class="btn btn-warning p-1">
+                                                            <i class='bx bx-message-square-check'></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="status" value="ditolak">
+                                                        <button type="submit" class="btn btn-danger p-1">
+                                                            <i class='bx bx-message-square-x'></i>
+                                                        </button>
+                                                    </form>
+                                                @elseif ($kegiatan->status == 'diverifikasi')
+                                                    <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="status" value="disetujui">
+                                                        <button type="submit" class="btn btn-primary p-1">
+                                                            <i class='bx bx-message-square-check'></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="status" value="ditolak">
+                                                        <button type="submit" class="btn btn-danger p-1">
+                                                            <i class='bx bx-message-square-x'></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

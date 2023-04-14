@@ -58,6 +58,14 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <div class="mt-5 mb-3">
+                                <h5 class="mb-3">Kode Barang</h5>
+                                <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                                    {{ $qrcode }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,14 +74,16 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
-                    <a href="/baranghabis/{{ $baranghabis->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
-                    <form action="/baranghabis/{{ $baranghabis->id }}" method="post">
-                        @method('delete')
-                        @csrf
-                        <button type="submit" class="btn btn-outline-danger">
-                            Delete
-                        </button>
-                    </form>
+                    @if (auth()->user()->role == 'admin' || auth()->user()->id == $baranghabis->laboratorium->user->id)
+                        <a href="/baranghabis/{{ $baranghabis->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
+                        <form action="/baranghabis/{{ $baranghabis->id }}" method="post">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger">
+                                Delete
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
             <div class="card-body">

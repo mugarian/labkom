@@ -15,14 +15,14 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('img') }}/unknown.png" alt class="w-px-40 h-auto rounded-circle" />
-                        {{-- @if (auth()->user()->gambar)
-                            <img src="{{ asset('/storage/' . auth()->user()->gambar) }}" alt="Foto Profil"
+                        @if (auth()->user()->foto)
+                            <img src="{{ asset('/storage/' . auth()->user()->foto) }}" alt="Foto Profil"
                                 class="w-px-40 h-auto rounded-circle" />
                         @else
-                            <img src="{{ asset('img') }}/user/{{ rand(1, 2) }}.png" alt
-                                class="w-px-40 h-auto rounded-circle" />
-                        @endif --}}
+                            <img src="{{ asset('img') }}/unknown.png" alt class="w-px-40 h-auto rounded-circle" />
+                            {{-- <img src="{{ asset('img') }}/user/{{ rand(1, 2) }}.png" alt
+                                class="w-px-40 h-auto rounded-circle" /> --}}
+                        @endif
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -31,13 +31,13 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar avatar-online">
-                                        <img src="{{ asset('img') }}/unknown.png" alt
-                                            class="w-px-40 h-auto rounded-circle" />
-                                        {{-- @if (auth()->user()->gambar)
-                                            <img src="{{ asset('/storage/' . auth()->user()->gambar) }}"
-                                                alt="Foto Profil" class="w-px-40 h-auto rounded-circle" />
+                                        @if (auth()->user()->foto)
+                                            <img src="{{ asset('/storage/' . auth()->user()->foto) }}" alt="Foto Profil"
+                                                class="w-px-40 h-auto rounded-circle" />
                                         @else
-                                        @endif --}}
+                                            <img src="{{ asset('img') }}/unknown.png" alt
+                                                class="w-px-40 h-auto rounded-circle" />
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">

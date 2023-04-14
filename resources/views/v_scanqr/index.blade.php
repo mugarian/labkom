@@ -17,7 +17,7 @@
                         <h6 class="fw-lighter">A. Kode QR</h6>
                         {{-- Foto Profil --}}
                         <div class="d-flex align-items-start align-items-sm-center gap-4">
-                            <i class='bx bx-barcode' style="font-size:100px"></i>
+                            <i class='bx bx-qr-scan' style="font-size:100px"></i>
                             <div class="button-wrapper">
                                 <form class="d-flex mb-3" action="/scan" method="POST">
                                     @csrf

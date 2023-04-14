@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('kode')->unique();
             $table->string('nama');
             $table->string('deskripsi');
-            $table->enum('jenis', ['perkuliahan', 'peminjaman']);
+            $table->string('catatan_dospem')->nullable();
+            $table->string('keterangan_kalab')->nullable();
+            $table->enum('jenis', ['pelaksanaan', 'permohonan']);
+            $table->enum('tipe', ['perkuliahan', 'non perkuliahan']);
             $table->enum('status', ['menunggu', 'diverifikasi', 'disetujui', 'selesai', 'ditolak'])->default('menunggu');
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();

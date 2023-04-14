@@ -45,8 +45,8 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($dosen->foto)
-                                    <img src="{{ asset('storage') . '/' . $dosen->foto }}" alt="dosen-avatar"
+                                @if ($dosen->user->foto)
+                                    <img src="{{ asset('storage') . '/' . $dosen->user->foto }}" alt="dosen-avatar"
                                         class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"

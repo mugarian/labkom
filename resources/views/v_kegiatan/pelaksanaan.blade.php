@@ -2,8 +2,7 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/kegiatan" class="text-secondary">kegiatan</a>
-                /
-                <a href="/kegiatan" class="text-secondary">Kelola kegiatan</a> /</span> Tambah Kegiatan Perkuliahan</h4>
+                /</span> Tambah Kegiatan Perkuliahan</h4>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -15,7 +14,7 @@
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/kegiatan" method="POST">
+                        <form action="/pelaksanaan" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label" for="kode">Kode</label>
@@ -30,8 +29,6 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="nama">Nama</label>
-                                <input type="text" class="form-control" id="user_id" placeholder="user_id"
-                                    value="{{ auth()->user()->id }}" name="user_id" hidden />
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" placeholder="Nama" value="{{ old('nama') }}" name="nama" required />
                                 @error('nama')
@@ -43,9 +40,25 @@
                             <div class="mb-3">
                                 <label class="form-label" for="jenis">Jenis Kegiatan</label>
                                 <input type="text" class="form-control @error('jenis') is-invalid @enderror"
-                                    id="jenis" placeholder="jenis" value="perkuliahan" name="jenis" required
+                                    id="jenis" placeholder="jenis" value="pelaksanaan" name="jenis" required
                                     readonly />
                                 @error('jenis')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="tipe">Tipe Kegiatan</label>
+                                <select id="organization" class="select2 form-select @error('tipe') is-invalid @enderror"
+                                    name="tipe">
+                                    <option value="">Pilih Tipe Kegiatan</option>
+                                    <option value="perkuliahan" @selected(old('tipe') == 'perkuliahan')>
+                                        Perkuliahan</option>
+                                    <option value="non perkuliahan" @selected(old('tipe') == 'non perkuliahan')>
+                                        Non Perkuliahan</option>
+                                </select>
+                                @error('tipe')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -56,11 +69,13 @@
                                 <select id="organization"
                                     class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
                                     name="laboratorium_id">
-                                    <option value="">Pilih Laboratorium</option>
+                                    <option value="{{ $laboratorium->id }}" @selected(old('laboratorium_id') == $laboratorium->id)>
+                                        {{ $laboratorium->nama }}</option>
+                                    {{-- <option value="">Pilih Laboratorium</option>
                                     @foreach ($laboratoriums as $laboratorium)
                                         <option value="{{ $laboratorium->id }}" @selected(old('laboratorium_id') == $laboratorium->id)>
                                             {{ $laboratorium->nama }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 @error('laboratorium_id')
                                     <div class="invalid-feedback">

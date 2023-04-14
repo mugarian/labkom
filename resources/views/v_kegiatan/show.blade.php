@@ -75,7 +75,7 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="d-flex justify-content-start">
+                {{-- <div class="d-flex justify-content-start">
                     <a href="/kegiatan/{{ $kegiatan->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
                     <form action="/kegiatan/{{ $kegiatan->id }}" method="post">
                         @method('delete')
@@ -84,7 +84,7 @@
                             Delete
                         </button>
                     </form>
-                </div>
+                </div> --}}
             </div>
             <div class="card-body">
                 <div class="mb-3 col-12 mb-0">

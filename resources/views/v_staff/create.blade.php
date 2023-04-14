@@ -1,8 +1,8 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/staff" class="text-secondary">staff</a> /
-                <a href="/staff" class="text-secondary">Kelola staff</a> /</span> Tambah Data staff</h4>
+        <h4 class="fw-bold py-3 mb-4"><a href="/staff" class="text-secondary">Data Staff</a> /
+            Tambah Data staff</h4>
         @if (session()->has('fail'))
             <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
                 {{ session('fail') }}
@@ -72,9 +72,9 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="bidang">bidang</label>
+                                <label class="form-label" for="bidang">Bidang</label>
                                 <input type="text" class="form-control @error('bidang') is-invalid @enderror"
-                                    id="bidang" placeholder="bidang" name="bidang" value="{{ old('bidang') }}"
+                                    id="bidang" placeholder="Bidang" name="bidang" value="{{ old('bidang') }}"
                                     required />
                                 @error('bidang')
                                     <div class="invalid-feedback">
@@ -113,11 +113,12 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="konfir">Konfirmasi Password</label>
-                            <input type="password" class="form-control @error('konfir') is-invalid @enderror"
-                                id="konfir" placeholder="password" name="konfir" value="{{ old('konfir') }}"
-                                required />
-                            @error('konfir')
+                            <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+                            <input type="password"
+                                class="form-control @error('password_confirmation') is-invalid @enderror"
+                                id="password_confirmation" placeholder="password" name="password_confirmation"
+                                value="{{ old('password_confirmation') }}" required />
+                            @error('password_confirmation')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

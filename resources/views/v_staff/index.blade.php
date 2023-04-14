@@ -2,9 +2,9 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/staff" class="text-secondary">staff</a>
-                /</span> Kelola staff</h4>
+        <h4 class="fw-bold py-3 mb-4">
+            <a href="/staff" class="text-secondary">Data Staff</a>
+        </h4>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -34,8 +34,8 @@
                             @foreach ($staffs as $staff)
                                 <tr>
                                     <td style="width:10%">
-                                        @if ($staff->foto)
-                                            <img src="{{ asset('storage') . '/' . $staff->foto }}" alt="staff-avatar"
+                                        @if ($staff->user->foto)
+                                            <img src="{{ asset('storage') . '/' . $staff->user->foto }}" alt="staff-avatar"
                                                 class="d-block rounded img-preview" height="100" width="100"
                                                 id="uploadedAvatar" />
                                         @else

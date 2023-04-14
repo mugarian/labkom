@@ -60,6 +60,70 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-xl">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tracking Barang Pakai (Alat)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Foto</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Keterangan</th>
+                                        <th style="width: 0">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    @foreach ($barangpakai as $bp)
+                                        <tr>
+                                            <td style="width:10%">
+                                                @if ($bp->foto)
+                                                    <img src="{{ asset('storage') . '/' . $bp->foto }}" alt="bp-avatar"
+                                                        class="d-block rounded img-preview" height="100" width="100"
+                                                        id="uploadedAvatar" />
+                                                @else
+                                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                                        class="d-block rounded img-preview" height="100" width="100"
+                                                        id="uploadedAvatar" />
+                                                @endif
+                                            </td>
+                                            <td>{{ $bp->kode }}</td>
+                                            <td>{{ $bp->nama }}</td>
+                                            <td>{{ $bp->laboratorium->nama }}</td>
+                                            <td>{{ $bp->keterangan }}</td>
+                                            <td>
+                                                <div class="d-flex justify-content-center">
+                                                    <a class="btn btn-outline-success p-1"
+                                                        href="/barangpakai/{{ $bp->id }}"><i
+                                                            class="bx bx-info-circle"></i></a>
+                                                    <a class="btn btn-outline-warning p-1"
+                                                        href="/barangpakai/{{ $bp->id }}/edit"><i
+                                                            class="bx bx-edit-alt"></i></a>
+                                                    <form action="/barangpakai/{{ $bp->id }}" method="post">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-danger p-1">
+                                                            <i class="bx bx-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">

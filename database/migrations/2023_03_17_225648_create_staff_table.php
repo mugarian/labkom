@@ -6,29 +6,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-   /**
-    * Run the migrations.
-    *
-    * @return void
-    */
-   public function up()
-   {
-      Schema::create('staff', function (Blueprint $table) {
-         $table->uuid('id')->primary();
-         $table->foreignUuid('user_id')->references('id')->on('users');
-         $table->string('bidang');
-         $table->string('foto')->nullable();
-         $table->timestamps();
-      });
-   }
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('staff', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->references('id')->on('users');
+            $table->string('bidang');
+            $table->timestamps();
+        });
+    }
 
-   /**
-    * Reverse the migrations.
-    *
-    * @return void
-    */
-   public function down()
-   {
-      Schema::dropIfExists('staff');
-   }
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('staff');
+    }
 };

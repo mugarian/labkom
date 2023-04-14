@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class StaffController extends Controller
@@ -45,34 +46,32 @@ class StaffController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
-            'nomor_induk' => 'required',
+            'nomor_induk' => 'required|unique:users',
             'bidang' => 'required',
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required',
-            'konfir' => 'required',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
-        if ($validatedData['password'] == $validatedData['konfir']) {
-            if ($request->file('upload')) {
-                $validatedData['upload'] = $request->file('upload')->store('staff-images');
-            }
-
-            $validatedData['password'] = bcrypt($validatedData['password']);
-            $validatedData['foto'] = $validatedData['upload'];
-            unset($validatedData['upload']);
-
-            $user = User::create([
-                'email' => $validatedData['email'],
-                'password' => $validatedData['password'],
-                'nomor_induk' => $validatedData['nomor_induk'],
-                'nama' => $validatedData['nama'],
-                'role' => 'staff'
-            ]);
-        } else {
-            return redirect('/staff/create')->with('fail', 'Konfirmasi Password harus sama dengan Password');
+        if ($request->file('upload')) {
+            $validatedData['upload'] = $request->file('upload')->store('user-images');
         }
 
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['foto'] = $validatedData['upload'];
+        unset($validatedData['upload']);
+
+        $user = User::create([
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password'],
+            'nomor_induk' => $validatedData['nomor_induk'],
+            'nama' => $validatedData['nama'],
+            'foto' => $validatedData['foto'],
+            'role' => 'staff'
+        ]);
+
+        unset($validatedData['foto']);
         unset($validatedData['email']);
         unset($validatedData['password']);
         unset($validatedData['nomor_induk']);
@@ -123,69 +122,62 @@ class StaffController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
-            'nomor_induk' => 'required',
-            'angkatan' => 'required',
-            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+            'bidang' => 'required',
+            'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
         if ($request->email != $staff->user->email) {
             $validatedData['email'] = $request->validate(['email' => 'required|email:dns|unique:users']);
         } else {
-            $validatedData['email'] = $request->validate(['email' => 'nullable']);
+            $validatedData['email'] = $request->validate(['email' => 'required']);
         }
 
-        if ($request->has(['baru', 'lama', 'konfir'])) {
-            $validatedData['lama'] = $request->validate(['lama' => 'required']);
-            $validatedData['baru'] = $request->validate(['baru' => 'required']);
-            $validatedData['konfir'] = $request->validate(['konfir' => 'required']);
-            $lama = bcrypt($request->lama);
-            $baru = bcrypt($request->baru);
-            $konfir = bcrypt($request->konfir);
+        if ($request->nomor_induk != $staff->user->nomor_induk) {
+            $validatedData['nomor_induk'] = $request->validate(['nomor_induk' => 'required|unique:users']);
+        } else {
+            $validatedData['nomor_induk'] = $request->validate(['nomor_induk' => 'required']);
+        }
 
-            return dd(bcrypt('cepi') == bcrypt('cepi'));
-
-            if ($lama == $staff->user->password) {
-                if ($baru == $konfir) {
-                    $user = User::create([
-                        'email' => $validatedData['email'],
-                        'password' => $validatedData['password'],
-                        'nomor_induk' => $validatedData['nomor_induk'],
-                        'nama' => $validatedData['nama'],
-                        'role' => 'staff'
-                    ]);
-                } else {
-                    return redirect('/staff/' . $staff->id . '/edit')->with('fail', 'Konfirmasi Password harus sama dengan Password');
-                }
-            } else {
-                return redirect('/staff/' . $staff->id . '/edit')->with('fail', 'Password Salah');
+        if ($request->password) {
+            if (!Hash::check($request->password, $staff->user->password)) {
+                return back()->with('password', 'The password field is incorrect');
             }
+            $validatedData['new_password'] = $request->validate(['new_password' => 'required']);
+            $validatedData['new_password_confirmation'] = $request->validate(['new_password_confirmation' => 'required|same:new_password']);
+            $password = Hash::make($request->new_password);
+        } else {
+            $password = $staff->user->password;
         }
 
         if ($request->file('upload')) {
-            $validatedData['upload'] = $request->file('upload')->store('staff-images');
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['upload'] = $request->file('upload')->store('user-images');
             $validatedData['foto'] = $validatedData['upload'];
             unset($validatedData['upload']);
+        } else {
+            $validatedData['foto'] = $request->oldImage;
         }
 
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => $validatedData['password'],
-            'nomor_induk' => $validatedData['nomor_induk'],
-            'nama' => $validatedData['nama'],
+        User::find($staff->user->id)->update([
+            'email' => $request->email,
+            'password' => $password,
+            'nomor_induk' => $request->nomor_induk,
+            'nama' => $request->nama,
+            'foto' => $validatedData['foto'],
             'role' => 'staff'
         ]);
 
+        unset($validatedData['foto']);
         unset($validatedData['email']);
-        unset($validatedData['lama']);
-        unset($validatedData['baru']);
-        unset($validatedData['konfir']);
         unset($validatedData['nomor_induk']);
         unset($validatedData['nama']);
 
-        $validatedData['user_id'] = $user->id;
+        $validatedData['user_id'] = $staff->user->id;
 
-        staff::create($validatedData);
-        return redirect('/staff')->with('success', 'Tambah Data staff Berhasil');
+        staff::find($staff->id)->update($validatedData);
+        return redirect('/staff')->with('success', 'Ubah Data staff Berhasil');
     }
 
     /**

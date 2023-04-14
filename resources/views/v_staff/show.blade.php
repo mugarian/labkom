@@ -3,8 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/staff" class="text-secondary">staff</a> /
-                <a href="/staff" class="text-secondary">Kelola staff</a> /
+                <a href="/staff" class="text-secondary">Data Staff</a> /
             </span> {{ $staff->user->nama }}
         </h4>
 
@@ -45,8 +44,8 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($staff->foto)
-                                    <img src="{{ asset('storage') . '/' . $staff->foto }}" alt="staff-avatar"
+                                @if ($staff->user->foto)
+                                    <img src="{{ asset('storage') . '/' . $staff->user->foto }}" alt="staff-avatar"
                                         class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"

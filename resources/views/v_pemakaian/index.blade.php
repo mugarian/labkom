@@ -15,13 +15,15 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola pemakaian</h5>
-                <div class="d-flex justify-content-end @if ($akhir->status == 'mulai') d-none @endif">
-                    <small class="text-muted float-end">
-                        <a href="/pemakaian/create">
-                            <button class="btn btn-primary">pemakaian</button>
-                        </a>
-                    </small>
-                </div>
+                @if (auth()->user()->role != 'admin' || $akhir->status == 'mulai')
+                    <div class="d-flex justify-content-end @if ($akhir->status == 'mulai') d-none @endif">
+                        <small class="text-muted float-end">
+                            <a href="/pemakaian/create">
+                                <button class="btn btn-primary">pemakaian</button>
+                            </a>
+                        </small>
+                    </div>
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
@@ -60,17 +62,19 @@
                                 <div class="d-flex justify-content-center">
                                     <a class="btn btn-outline-success p-1" href="/pemakaian/{{ $pemakaian->id }}"><i
                                             class="bx bx-info-circle"></i></a>
-                                    @if ($pemakaian->status == 'mulai')
-                                        <a class="btn btn-outline-primary p-1"
-                                            href="/pemakaian/{{ $pemakaian->id }}/edit"><i
-                                                class='bx bx-calendar-check'></i>
-                                        </a>
-                                        {{-- <form action="/pk/{{ $pemakaian->id }}/done" method="POST">
+                                    @if (auth()->user()->role != 'admin')
+                                        @if ($pemakaian->status == 'mulai')
+                                            <a class="btn btn-outline-primary p-1"
+                                                href="/pemakaian/{{ $pemakaian->id }}/edit"><i
+                                                    class='bx bx-calendar-check'></i>
+                                            </a>
+                                            {{-- <form action="/pk/{{ $pemakaian->id }}/done" method="POST">
                                             @csrf
                                             <button type="submit" class="btn btn-outline-primary p-1">
                                                 <i class='bx bx-calendar-check'></i>
                                             </button>
                                         </form> --}}
+                                        @endif
                                     @endif
                                 </div>
                             </td>

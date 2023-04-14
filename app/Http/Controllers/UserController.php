@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Dosen;
+use App\Models\Staff;
+use App\Models\Mahasiswa;
+use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -100,42 +105,82 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $ni)
+    public function update(Request $request, $id)
     {
-        $user = User::where('nomor_induk', $ni)->first();
-        $rules = [
-            'name' => 'required|max:255',
-            'jabatan' => 'required',
-            'kelas_id' => 'nullable',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:16384',
-            'password' => 'required',
-            'alamat' => 'nullable'
-        ];
-
-        if ($request->nomor_induk != $user->nomor_induk) {
-            $rules['nomor_induk'] = 'required|max:255|unique:users|alpha_num';
-        }
+        $user = User::find($id);
+        $dosen = Dosen::where('user_id', $user->id)->first();
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+        $staff = Staff::where('user_id', $user->id)->first();
+        $validatedData = $request->validate([
+            'nama' => 'required|max:255',
+            'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
+        ]);
 
         if ($request->email != $user->email) {
-            $rules['email'] = 'required|email:dns|unique:users';
+            $validatedData['email'] = $request->validate(['email' => 'required|email:dns|unique:users']);
+        } else {
+            $validatedData['email'] = $request->validate(['email' => 'required']);
         }
 
-        if ($request->no_hp != $user->no_hp) {
-            $rules['no_hp'] = 'required|unique:users';
+        if ($request->nomor_induk != $user->nomor_induk) {
+            $validatedData['nomor_induk'] = $request->validate(['nomor_induk' => 'required|unique:users']);
+        } else {
+            $validatedData['nomor_induk'] = $request->validate(['nomor_induk' => 'required']);
         }
 
-        $validatedData = $request->validate($rules);
+        if ($request->password) {
+            if (!Hash::check($request->password, $user->password)) {
+                return back()->with('password', 'The password field is incorrect');
+            }
+            $validatedData['new_password'] = $request->validate(['new_password' => 'required']);
+            $validatedData['new_password_confirmation'] = $request->validate(['new_password_confirmation' => 'required|same:new_password']);
+            $password = Hash::make($request->new_password);
+        } else {
+            $password = $user->password;
+        }
 
-        if ($request->file('gambar')) {
+        if ($request->file('upload')) {
             if ($request->oldImage) {
                 Storage::delete($request->oldImage);
             }
-            $validatedData['gambar'] = $request->file('gambar')->store('user-images');
+            $validatedData['upload'] = $request->file('upload')->store('user-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+        } else {
+            $validatedData['foto'] = $request->oldImage;
         }
-        $validatedData['password'] = bcrypt($validatedData['password']);
-        User::where('nomor_induk', $user->nomor_induk)->first()->update($validatedData);
 
-        return redirect('/akun')->with('success', 'Ubah Data Akun Berhasil');
+        User::find($user->id)->update([
+            'email' => $request->email,
+            'password' => $password,
+            'nomor_induk' => $request->nomor_induk,
+            'foto' => $validatedData['foto'],
+            'nama' => $request->nama,
+        ]);
+
+        if ($user->role == 'dosen') {
+            $validatedData['jabatan'] = $request->validate(['jabatan' => 'required']);
+            $validatedData['jurusan'] = $request->validate(['jurusan' => 'required']);
+            Dosen::find($dosen->id)->update([
+                'jabatan' => $request->jabatan,
+                'jurusan' => $request->jurusan,
+                'foto' => $validatedData['foto'],
+            ]);
+        } elseif ($user->role == 'mahasiswa') {
+            $validatedData['angkatan'] = $request->validate(['angkatan' => 'required']);
+            Mahasiswa::find($mahasiswa->id)->update([
+                'angkatan' => $request->angkatan,
+                'foto' => $validatedData['foto'],
+            ]);
+        } elseif ($user->role == 'staff') {
+            $validatedData['bidang'] = $request->validate(['bidang' => 'required']);
+            Staff::find($staff->id)->update([
+                'bidang' => $request->bidang,
+                'foto' => $validatedData['foto'],
+            ]);
+        }
+
+        return redirect('/profil')->with('success', 'Ubah Profil Berhasil');
     }
 
     /**
@@ -165,9 +210,18 @@ class UserController extends Controller
 
     public function profil()
     {
-        return view('user.profil', [
+        $user = User::find(auth()->user()->id);
+        $dosen = Dosen::where('user_id', $user->id)->first();
+        $laboratorium = Laboratorium::where('user_id', $user->id)->first();
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+        $staff = Staff::where('user_id', $user->id)->first();
+        return view('v_profil', [
             'title' => 'Profil',
-            'user' => auth()->user()
+            'user' => $user,
+            'dosen' => $dosen,
+            'laboratorium' => $laboratorium,
+            'mahasiswa' => $mahasiswa,
+            'staff' => $staff
         ]);
     }
 }

@@ -3,8 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/mahasiswa" class="text-secondary">mahasiswa</a> /
-                <a href="/mahasiswa" class="text-secondary">Kelola mahasiswa</a> /
+                <a href="/mahasiswa" class="text-secondary">Data mahasiswa</a> /
             </span> {{ $mahasiswa->user->nama }}
         </h4>
 
@@ -45,8 +44,8 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($mahasiswa->foto)
-                                    <img src="{{ asset('storage') . '/' . $mahasiswa->foto }}" alt="mahasiswa-avatar"
+                                @if ($mahasiswa->user->foto)
+                                    <img src="{{ asset('storage') . '/' . $mahasiswa->user->foto }}" alt="mahasiswa-avatar"
                                         class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"

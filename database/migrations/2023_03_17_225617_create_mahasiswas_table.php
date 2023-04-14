@@ -17,7 +17,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->string('angkatan');
-            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

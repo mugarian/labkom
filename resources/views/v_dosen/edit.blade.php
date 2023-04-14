@@ -27,9 +27,9 @@
                                 <label class="form-label" for="foto">Foto Dosen</label>
                                 <div class="">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        @if ($dosen->foto)
-                                            <input type="hidden" name="oldImage" value="{{ $dosen->foto }}">
-                                            <img src="{{ asset('storage') . '/' . $dosen->foto }}" alt="user-avatar"
+                                        @if ($dosen->user->foto)
+                                            <input type="hidden" name="oldImage" value="{{ $dosen->user->foto }}">
+                                            <img src="{{ asset('storage') . '/' . $dosen->user->foto }}" alt="user-avatar"
                                                 class="d-block rounded img-preview" height="100" width="100"
                                                 id="uploadedAvatar" />
                                         @else
@@ -62,7 +62,7 @@
                                 <label class="form-label" for="nama">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" placeholder="Nama" value="{{ old('nama', $dosen->user->nama) }}"
-                                    name="nama" required />
+                                    name="nama" />
                                 @error('nama')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -83,9 +83,12 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="jabatan">Jabatan</label>
-                                <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
-                                    id="jabatan" placeholder="jabatan" name="jabatan"
-                                    value="{{ old('jabatan', $dosen->jabatan) }}" required />
+                                <select id="organization" class="select2 form-select @error('jabatan') is-invalid @enderror"
+                                    name="jabatan">
+                                    <option value="ketua jurusan" @selected(old('jabatan', $dosen->jabatan) == 'Ketua Jurusan')>Ketua Jurusan</option>
+                                    <option value="ketua prodi" @selected(old('jabatan', $dosen->jabatan) == 'ketua prodi')>Ketua Prodi</option>
+                                    <option value="dosen" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen</option>
+                                </select>
                                 @error('jabatan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -93,10 +96,14 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="jurusan">Jurusan</label>
-                                <input type="text" class="form-control @error('jurusan') is-invalid @enderror"
-                                    id="jurusan" placeholder="jurusan" name="jurusan"
-                                    value="{{ old('jurusan', $dosen->jurusan) }}" required />
+                                <label class="form-label" for="jurusan">jurusan</label>
+                                <select id="organization" class="select2 form-select @error('jurusan') is-invalid @enderror"
+                                    name="jurusan">
+                                    <option value="mi" @selected(old('jurusan', $dosen->jurusan) == 'mi')>MI</option>
+                                    <option value="ai" @selected(old('jurusan', $dosen->jurusan) == 'ai')>AI</option>
+                                    <option value="tppm" @selected(old('jurusan', $dosen->jurusan) == 'tppm')>TPPM</option>
+                                    <option value="kesehatan" @selected(old('jurusan', $dosen->jurusan) == 'kesehatan')>Kesehatan</option>
+                                </select>
                                 @error('jurusan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -128,33 +135,33 @@
                             <small>(Kosongkan jika tidak mengubah password)</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="lama">Password Lama</label>
-                            <input type="password" class="form-control @error('lama') is-invalid @enderror"
-                                id="lama" placeholder="Password Lama" name="lama"
-                                value="{{ old('lama') }}" />
-                            @error('lama')
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password"
+                                class="form-control @if (session()->has('password')) is-invalid @endif" id="password"
+                                placeholder="Password" name="password" value="{{ old('password') }}" />
+                            @if (session()->has('password'))
+                                <div class="invalid-feedback">
+                                    {{ session('password') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="new_password">Password Baru</label>
+                            <input type="password" class="form-control @error('new_password') is-invalid @enderror"
+                                id="new_password" placeholder="Password Baru" name="new_password" />
+                            @error('new_password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="baru">Password Baru</label>
-                            <input type="password" class="form-control @error('baru') is-invalid @enderror"
-                                id="baru" placeholder="Password baru" name="baru"
-                                value="{{ old('baru') }}" />
-                            @error('baru')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="konfir">Konfirmasi Password</label>
-                            <input type="password" class="form-control @error('konfir') is-invalid @enderror"
-                                id="konfir" placeholder="konfirmasi password" name="konfir"
-                                value="{{ old('konfir') }}" />
-                            @error('konfir')
+                            <label class="form-label" for="new_password_confirmation">Konfirmasi Password Baru</label>
+                            <input type="password"
+                                class="form-control @error('new_password_confirmation') is-invalid @enderror"
+                                id="new_password_confirmation" placeholder="Konfirmasi Password Baru"
+                                name="new_password_confirmation" />
+                            @error('new_password_confirmation')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bahan;
+use App\Models\Dosen;
 use App\Models\Kegiatan;
 use App\Models\Penggunaan;
 use App\Models\BarangHabis;
@@ -18,7 +19,14 @@ class PenggunaanController extends Controller
      */
     public function index()
     {
-        $penggunaan = Penggunaan::all();
+        if (auth()->user()->role == 'admin') {
+            $penggunaan = Penggunaan::all();
+        } elseif (auth()->user()->role == 'dosen') {
+            $dosen = Dosen::where('user_id', auth()->user()->id)->first();
+            $penggunaan = Penggunaan::where('user_id', auth()->user()->id)->get();
+        } else {
+            $penggunaan = Penggunaan::where('user_id', auth()->user()->id)->get();
+        }
         return view('v_penggunaan.index', [
             'title' => 'Data penggunaan',
             'penggunaans' => $penggunaan,

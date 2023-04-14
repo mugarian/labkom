@@ -12,11 +12,12 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Kegiatan;
 use App\Models\Mahasiswa;
 use App\Models\Pemakaian;
+use App\Models\Penggunaan;
 use App\Models\BarangHabis;
 use App\Models\BarangPakai;
 use App\Models\Laboratorium;
-use App\Models\Penggunaan;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,85 +28,251 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        /**
+         * DIRECTORIES
+         *
+         * UserSeeder
+         * DosenSeeder
+         * MahasiswaSeeder
+         * StaffSeeder
+         * LaboratoriumSeeder
+         * AlatSeeder
+         * BahanSeeder
+         * BarangPakaiSeeder
+         * BarangHabisSeeder
+         * PelaksanaanSeeder
+         * PermohonanSeeder
+         * PemakaianSeeder
+         * PenggunaanSeeder
+         *
+         */
 
+        /**
+         *  UserSeeder
+         *  | admins
+         *  | kalabs
+         *      | kalabMDI
+         *      | kalabUX
+         *      | kalabSI
+         *      | kalabRPL
+         *      | kalabJARKOM
+         *  | dospems
+         *  | kapro
+         *  | kajur
+         *  | userTias
+         *  | staffs
+         */
+
+        //  admins
         User::create([
             'id' => (string) Uuid::uuid4(),
             'nomor_induk' => '1010',
             'nama' => 'admin',
             'role' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin'),
+            'password' => Hash::make('admin'),
         ]);
 
-        $dosenslamet = (string) Uuid::uuid4();
+        // kalabMDI
+        $userHaryati = (string) Uuid::uuid4();
         User::create([
-            'id' => $dosenslamet,
-            'nomor_induk' => '2020',
-            'nama' => 'slamet',
+            'id' => $userHaryati,
+            'nomor_induk' => '199306142019032021',
+            'nama' => 'Haryati, S.Pd., M.Pd',
+            'role' => 'dosen',
+            'email' => 'haryati@gmail.com',
+            'password' => Hash::make('haryati'),
+        ]);
+
+        // kalabUX
+        $userCepi = (string) Uuid::uuid4();
+        User::create([
+            'id' => $userCepi,
+            'nomor_induk' => '199109242022031001',
+            'nama' => 'Chepy Perdana, S.Kom., M.Pd',
+            'role' => 'dosen',
+            'email' => 'chepy@gmail.com',
+            'password' => Hash::make('chepy'),
+        ]);
+
+        // kalabSI
+        $userTaufan = (string) Uuid::uuid4();
+        User::create([
+            'id' => $userTaufan,
+            'nomor_induk' => '199311112022031006',
+            'nama' => 'Taufan Abdurrachman, S.T., M.Kom.',
+            'role' => 'dosen',
+            'email' => 'taufan@gmail.com',
+            'password' => Hash::make('taufan'),
+        ]);
+
+        // kalabRPL
+        $userSari = (string) Uuid::uuid4();
+        User::create([
+            'id' => $userSari,
+            'nomor_induk' => '199408182022032017',
+            'nama' => 'Sari Azhariyah, S.Pd., M.Pd.T.',
+            'role' => 'dosen',
+            'email' => 'sari@gmail.com',
+            'password' => Hash::make('sari'),
+        ]);
+
+        // kalabJARKOM
+        $userSlamet = (string) Uuid::uuid4();
+        User::create([
+            'id' => $userSlamet,
+            'nomor_induk' => '170900045',
+            'nama' => 'Slamet Rahayu S.Pd., M.Pd.',
             'role' => 'dosen',
             'email' => 'slamet@gmail.com',
-            'password' => bcrypt('slamet'),
+            'password' => Hash::make('slamet'),
         ]);
 
-        $dosencepi = (string) Uuid::uuid4();
+        // dospems
+        $userNur = (string) Uuid::uuid4();
         User::create([
-            'id' => $dosencepi,
-            'nomor_induk' => '5050',
-            'nama' => 'cepi',
+            'id' => $userNur,
+            'nomor_induk' => '199603112020122022',
+            'nama' => 'Nurfitria Khoirunnisa, S.Tr.Kom., M.Kom',
             'role' => 'dosen',
-            'email' => 'cepi@gmail.com',
-            'password' => bcrypt('cepi'),
+            'email' => 'nur@gmail.com',
+            'password' => Hash::make('nur'),
         ]);
 
-        $mahasiswa = (string) Uuid::uuid4();
+        // kapro
+        $userDwi = (string) Uuid::uuid4();
         User::create([
-            'id' => $mahasiswa,
-            'nomor_induk' => '3030',
-            'nama' => 'tia',
+            'id' => $userDwi,
+            'nomor_induk' => '199104302019032018',
+            'nama' => 'Dwi Vernanda S.T., M.Pd',
+            'role' => 'dosen',
+            'email' => 'dwi@gmail.com',
+            'password' => Hash::make('dwi'),
+        ]);
+
+        // kajur
+        $userTri = (string) Uuid::uuid4();
+        User::create([
+            'id' => $userTri,
+            'nomor_induk' => '198801052019031008',
+            'nama' => 'Tri Herdiawan Apandi, S.ST., M.T.',
+            'role' => 'dosen',
+            'email' => 'tri@gmail.com',
+            'password' => Hash::make('tri'),
+        ]);
+
+        // userTias
+        $userTia = (string) Uuid::uuid4();
+        User::create([
+            'id' => $userTia,
+            'nomor_induk' => '10107061',
+            'nama' => 'Tia Rostiawati',
             'role' => 'mahasiswa',
             'email' => 'tia@gmail.com',
-            'password' => bcrypt('tia'),
+            'password' => Hash::make('tia'),
         ]);
 
+        // staffs
         $staff = (string) Uuid::uuid4();
         User::create([
             'id' => $staff,
-            'nomor_induk' => '4040',
-            'nama' => 'syifa',
+            'nomor_induk' => '210300082',
+            'nama' => 'Syifa Rizkita Ananda, A.md.Kom',
             'role' => 'staff',
             'email' => 'syifa@gmail.com',
-            'password' => bcrypt('syifa'),
+            'password' => Hash::make('syifa'),
         ]);
 
-        $dospemslamet = (string) Uuid::uuid4();
+        /**
+         * DosenSeeder
+         */
+
+        $dosenHaryati = (string) Uuid::uuid4();
         Dosen::create([
-            'id' => $dospemslamet,
-            'user_id' => $dosenslamet,
-            'jabatan' => 'Dosen Pengampu',
-            'jurusan' => 'Manajemen Informatika',
+            'id' => $dosenHaryati,
+            'user_id' => $userHaryati,
+            'jabatan' => 'dosen pengampu',
+            'jurusan' => 'mi',
             'kepalalab' => 'true'
         ]);
 
-        $dospemcepi = (string) Uuid::uuid4();
+        $dosenCepi = (string) Uuid::uuid4();
         Dosen::create([
-            'id' => $dospemcepi,
-            'user_id' => $dosencepi,
-            'jabatan' => 'Dosen Pengampu',
-            'jurusan' => 'E-Commerce',
+            'id' => $dosenCepi,
+            'user_id' => $userCepi,
+            'jabatan' => 'dosen pengampu',
+            'jurusan' => 'mi',
+            'kepalalab' => 'true'
+        ]);
+
+        $dosenTaufan = (string) Uuid::uuid4();
+        Dosen::create([
+            'id' => $dosenTaufan,
+            'user_id' => $userTaufan,
+            'jabatan' => 'dosen pengampu',
+            'jurusan' => 'mi',
+            'kepalalab' => 'true'
+        ]);
+
+        $dosenSari = (string) Uuid::uuid4();
+        Dosen::create([
+            'id' => $dosenSari,
+            'user_id' => $userSari,
+            'jabatan' => 'dosen pengampu',
+            'jurusan' => 'mi',
+            'kepalalab' => 'true'
+        ]);
+
+        $dosenSlamet = (string) Uuid::uuid4();
+        Dosen::create([
+            'id' => $dosenSlamet,
+            'user_id' => $userSlamet,
+            'jabatan' => 'dosen pengampu',
+            'jurusan' => 'mi',
+            'kepalalab' => 'true'
+        ]);
+
+        $dosenNur = (string) Uuid::uuid4();
+        Dosen::create([
+            'id' => $dosenNur,
+            'user_id' => $userNur,
+            'jabatan' => 'dosen pengampu',
+            'jurusan' => 'mi',
             'kepalalab' => 'false'
         ]);
 
+        $dosenDwi = (string) Uuid::uuid4();
+        Dosen::create([
+            'id' => $dosenDwi,
+            'user_id' => $userDwi,
+            'jabatan' => 'ketua prodi',
+            'jurusan' => 'mi',
+            'kepalalab' => 'false'
+        ]);
+
+        $dosenTri = (string) Uuid::uuid4();
+        Dosen::create([
+            'id' => $dosenTri,
+            'user_id' => $userTri,
+            'jabatan' => 'ketua jurusan',
+            'jurusan' => 'mi',
+            'kepalalab' => 'false'
+        ]);
+
+        /**
+         * MahasiswaSeeder
+         */
+
         Mahasiswa::create([
             'id' => (string) Uuid::uuid4(),
-            'user_id' => $mahasiswa,
+            'user_id' => $userTia,
             'angkatan' => 2020,
         ]);
+
+        /**
+         * StaffSeeder
+         */
 
         Staff::create([
             'id' => (string) Uuid::uuid4(),
@@ -113,13 +280,53 @@ class DatabaseSeeder extends Seeder
             'bidang' => 'administrasi',
         ]);
 
-        $laboratorium = (string) Uuid::uuid4();
+        /**
+         * LaboratoriumSeeder
+         */
+
+        $labMDI = (string) Uuid::uuid4();
         Laboratorium::create([
-            'id' => $laboratorium,
-            'user_id' => $dosenslamet,
-            'nama' => 'LAB Jaringan',
-            'deskripsi' => 'Lab untuk praktik jaringan',
+            'id' => $labMDI,
+            'user_id' => $userHaryati,
+            'nama' => 'LAB MDI',
+            'deskripsi' => 'Laboratorium Manajemen Data & Informasi',
         ]);
+
+        $labUX = (string) Uuid::uuid4();
+        Laboratorium::create([
+            'id' => $labUX,
+            'user_id' => $userCepi,
+            'nama' => 'LAB UX',
+            'deskripsi' => 'Laboratorium User Experience',
+        ]);
+
+        $labSI = (string) Uuid::uuid4();
+        Laboratorium::create([
+            'id' => $labSI,
+            'user_id' => $userTaufan,
+            'nama' => 'LAB SI',
+            'deskripsi' => 'Laboratorium Sistem Informasi',
+        ]);
+
+        $labRPL = (string) Uuid::uuid4();
+        Laboratorium::create([
+            'id' => $labRPL,
+            'user_id' => $userSari,
+            'nama' => 'LAB RPL',
+            'deskripsi' => 'Laboratorium Rekayasa Perangkat Lunak',
+        ]);
+
+        $labJaringan = (string) Uuid::uuid4();
+        Laboratorium::create([
+            'id' => $labJaringan,
+            'user_id' => $userSlamet,
+            'nama' => 'LAB Jaringan',
+            'deskripsi' => 'Laboratorium Jaringan',
+        ]);
+
+        /**
+         * AlatSeeder
+         */
 
         $alat = (string) Uuid::uuid4();
         Alat::create([
@@ -131,6 +338,10 @@ class DatabaseSeeder extends Seeder
             'stok' => 30,
         ]);
 
+        /**
+         * BahanSeeder
+         */
+
         $bahan = (string) Uuid::uuid4();
         Bahan::create([
             'id' => $bahan,
@@ -141,89 +352,167 @@ class DatabaseSeeder extends Seeder
             'stok' => 20,
         ]);
 
-        $kodebarangpakai = (string) Uuid::uuid4();
+        /**
+         * BarangPakaiSeeder
+         */
+
+        $bpUX = (string) Uuid::uuid4();
         BarangPakai::create([
-            'id' => $kodebarangpakai,
+            'id' => $bpUX,
             'alat_id' => $alat,
-            'laboratorium_id' => $laboratorium,
+            'laboratorium_id' => $labUX,
             'nama' => 'PC No 1',
             'kode' => bin2hex(random_bytes(4)),
             'deskripsi' => 'komputer Dell',
             'keterangan' => 'Baik',
         ]);
 
-        $kodebaranghabis = (string) Uuid::uuid4();
+        $bpJaringan = (string) Uuid::uuid4();
+        BarangPakai::create([
+            'id' => $bpJaringan,
+            'alat_id' => $alat,
+            'laboratorium_id' => $labJaringan,
+            'nama' => 'PC No 5',
+            'kode' => bin2hex(random_bytes(4)),
+            'deskripsi' => 'PC Dell',
+            'keterangan' => 'Biasa',
+        ]);
+
+        /**
+         * BarangHabisSeeder
+         */
+
+        $bhJaringan = (string) Uuid::uuid4();
         BarangHabis::create([
-            'id' => $kodebaranghabis,
+            'id' => $bhJaringan,
             'bahan_id' => $bahan,
-            'laboratorium_id' => $laboratorium,
+            'laboratorium_id' => $labJaringan,
             'nama' => 'RJ45 No 1 Jarkom',
             'kode' => bin2hex(random_bytes(4)),
             'deskripsi' => 'Penghubung internet',
             'keterangan' => 'Baik',
         ]);
 
-        $peminjamansetuju = (string) Uuid::uuid4();
+        /**
+         * PelaksanaanSeeder
+         */
+
+        $pelaksanaan = (string) Uuid::uuid4();
         Kegiatan::create([
-            'id' => $peminjamansetuju,
-            'user_id' => $mahasiswa,
-            'dospem_id' => $dospemcepi,
-            'laboratorium_id' => $laboratorium,
+            'id' => $pelaksanaan,
+            'user_id' => $userSlamet,
+            'dospem_id' => $dosenSlamet,
+            'laboratorium_id' => $labJaringan,
             'kode' => bin2hex(random_bytes(4)),
-            'nama' => 'Difest',
-            'deskripsi' => 'Digital Festival',
-            'jenis' => 'peminjaman',
+            'nama' => 'PAM pertemuan 6',
+            'deskripsi' => 'User Interface',
+            'jenis' => 'pelaksanaan',
+            'tipe' => 'perkuliahan',
             'status' => 'disetujui',
             'mulai' => '2023-03-25 14:39:00',
             'selesai' => '2023-03-26 14:39:00',
         ]);
 
-        $peminjamanmenunggu = (string) Uuid::uuid4();
+        /**
+         * PermohonanSeeder
+         *  | PermohonanDisetujui
+         *  | PermohonanDitolak
+         *  | PermohonanMenunggu
+         */
+
+        //  PermohonanDisetujui
+        $permohonanSetuju = (string) Uuid::uuid4();
         Kegiatan::create([
-            'id' => $peminjamanmenunggu,
-            'user_id' => $mahasiswa,
-            'dospem_id' => $dospemcepi,
-            'laboratorium_id' => $laboratorium,
+            'id' => $permohonanSetuju,
+            'user_id' => $userTia,
+            'dospem_id' => $dosenCepi,
+            'laboratorium_id' => $labUX,
             'kode' => bin2hex(random_bytes(4)),
-            'nama' => 'Revisi Tugas',
-            'deskripsi' => 'Tugas Proyek Akhir',
-            'jenis' => 'peminjaman',
+            'nama' => 'Difest',
+            'deskripsi' => 'Digital Festival',
+            'jenis' => 'permohonan',
+            'tipe' => 'non perkuliahan',
+            'status' => 'disetujui',
+            'catatan_dospem' => 'Rapihkan Kembali',
+            'keterangan_kalab' => 'Setelah selesai segera laporan ke saya',
+            'mulai' => '2023-03-25 14:39:00',
+            'selesai' => '2023-03-26 14:39:00',
+        ]);
+
+        // PermohonanDitolak
+        $permohonanTolak = (string) Uuid::uuid4();
+        Kegiatan::create([
+            'id' => $permohonanTolak,
+            'user_id' => $userTia,
+            'dospem_id' => $dosenSlamet,
+            'laboratorium_id' => $labJaringan,
+            'kode' => bin2hex(random_bytes(4)),
+            'nama' => 'Istirahat',
+            'deskripsi' => 'Menunggu matkul',
+            'jenis' => 'permohonan',
+            'tipe' => 'non perkuliahan',
+            'status' => 'ditolak',
+            'catatan_dospem' => 'permohonan tidak jelas',
+            'keterangan_kalab' => 'lab sedang dipakai',
+            'mulai' => '2023-03-25 14:39:00',
+            'selesai' => null,
+        ]);
+
+        // PermohonanMenunggu
+        $permohonanTunggu = (string) Uuid::uuid4();
+        Kegiatan::create([
+            'id' => $permohonanTunggu,
+            'user_id' => $userNur,
+            'dospem_id' => $dosenNur,
+            'laboratorium_id' => $labUX,
+            'kode' => bin2hex(random_bytes(4)),
+            'nama' => 'APSI pertemuan 2',
+            'deskripsi' => 'Presentasi tugas APSI',
+            'jenis' => 'permohonan',
+            'tipe' => 'perkuliahan',
             'status' => 'menunggu',
             'mulai' => '2023-03-25 14:39:00',
             'selesai' => null,
         ]);
 
-        $perkuliahan = (string) Uuid::uuid4();
-        Kegiatan::create([
-            'id' => $perkuliahan,
-            'user_id' => $dosenslamet,
-            'dospem_id' => $dospemslamet,
-            'laboratorium_id' => $laboratorium,
-            'kode' => bin2hex(random_bytes(4)),
-            'nama' => 'PAM pertemuan 6',
-            'deskripsi' => 'User Interface',
-            'jenis' => 'perkuliahan',
-            'status' => 'disetujui',
-            'mulai' => '2023-03-25 14:39:00',
-            'selesai' => '2023-03-26 14:39:00',
-        ]);
+        /**
+         * PemakaianSeeder
+         *  | pemakaianPerkuliahan
+         *  | pemakaianNonPerkuliahan
+         */
 
+        //  PemakaianPerkuliahan
         Pemakaian::create([
             'id' => (string) Uuid::uuid4(),
-            'user_id' => $mahasiswa,
-            'kegiatan_id' => $perkuliahan,
-            'barangpakai_id' => $kodebarangpakai,
+            'user_id' => $userTia,
+            'kegiatan_id' => $pelaksanaan,
+            'barangpakai_id' => $bpJaringan,
             'keterangan' => 'PC Lambat',
             'status' => 'selesai',
             'mulai' => '2023-03-26 14:39:00',
             'selesai' => '2023-03-27 14:39:00',
         ]);
 
+        //  PemakaianNonPerkuliahan
+        Pemakaian::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $userTia,
+            'kegiatan_id' => $permohonanSetuju,
+            'barangpakai_id' => $bpUX,
+            'keterangan' => 'PC Biasa',
+            'status' => 'selesai',
+            'mulai' => '2023-03-26 14:39:00',
+            'selesai' => '2023-03-27 14:39:00',
+        ]);
+
+        /**
+         * PenggunaanSeeder
+         */
         Penggunaan::create([
             'id' => (string) Uuid::uuid4(),
-            'user_id' => $mahasiswa,
-            'kegiatan_id' => $perkuliahan,
-            'baranghabis_id' => $kodebaranghabis,
+            'user_id' => $userTia,
+            'kegiatan_id' => $pelaksanaan,
+            'baranghabis_id' => $bhJaringan,
             'jumlah' => 2,
             'status' => 'disetujui',
             'keterangan' => 'Kondisi Bekas',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BarangHabis;
 use App\Models\BarangPakai;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BarcodeController extends Controller
 {
@@ -28,15 +29,23 @@ class BarcodeController extends Controller
         $baranghabis = BarangHabis::where('kode', $kode)->first();
 
         if ($barangpakai) {
-            return view('v_pemakaian.pakai', [
-                'title' => 'Tambah Data Pemakaian',
-                'barangpakai' => $barangpakai
-            ]);
+            // return view('v_pemakaian.pakai', [
+            //     'title' => 'Tambah Data Pemakaian',
+            //     'barangpakai' => $barangpakai
+            // ]);
+            return redirect('/barangpakai/' . $barangpakai->id);
+            // return view('v_barangpakai.show', [
+            //     'title' => $barangpakai->nama,
+            //     'barangpakai' => $barangpakai,
+            //     'qrcode' => $qrbp
+            // ]);
         } elseif ($baranghabis) {
-            return view('v_penggunaan.guna', [
-                'title' => 'Tambah Data Penggunaan',
-                'baranghabis' => $baranghabis
-            ]);
+            return redirect('/baranghabis/' . $baranghabis->id);
+            // return view('v_baranghabis.show', [
+            //     'title' => $baranghabis->nama,
+            //     'baranghabis' => $baranghabis,
+            //     'qrcode' => $qrbh
+            // ]);
         } else {
             return redirect('/scan')->with('fail', 'Kode tidak ditemukan');
         }

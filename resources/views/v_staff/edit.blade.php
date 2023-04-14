@@ -3,8 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/staff" class="text-secondary">staff</a> /
-                <a href="/staff" class="text-secondary">Kelola staff</a> /
+                <a href="/staff" class="text-secondary">Data Staff</a> /
             </span> Ubah Data staff
         </h4>
         @if (session()->has('fail'))
@@ -31,9 +30,9 @@
                                 <label class="form-label" for="foto">Foto staff</label>
                                 <div class="">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        @if ($staff->foto)
-                                            <input type="hidden" name="oldImage" value="{{ $staff->foto }}">
-                                            <img src="{{ asset('storage') . '/' . $staff->foto }}" alt="user-avatar"
+                                        @if ($staff->user->foto)
+                                            <input type="hidden" name="oldImage" value="{{ $staff->user->foto }}">
+                                            <img src="{{ asset('storage') . '/' . $staff->user->foto }}" alt="user-avatar"
                                                 class="d-block rounded img-preview" height="100" width="100"
                                                 id="uploadedAvatar" />
                                         @else
@@ -86,7 +85,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="bidang">bidang</label>
+                                <label class="form-label" for="bidang">Bidang</label>
                                 <input type="text" class="form-control @error('bidang') is-invalid @enderror"
                                     id="bidang" placeholder="bidang" name="bidang"
                                     value="{{ old('bidang', $staff->bidang) }}" required />
@@ -121,33 +120,33 @@
                             <small>(Kosongkan jika tidak mengubah password)</small>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="lama">Password Lama</label>
-                            <input type="password" class="form-control @error('lama') is-invalid @enderror"
-                                id="lama" placeholder="Password Lama" name="lama"
-                                value="{{ old('lama') }}" />
-                            @error('lama')
+                            <label class="form-label" for="password">Password</label>
+                            <input type="password"
+                                class="form-control @if (session()->has('password')) is-invalid @endif" id="password"
+                                placeholder="Password" name="password" value="{{ old('password') }}" />
+                            @if (session()->has('password'))
+                                <div class="invalid-feedback">
+                                    {{ session('password') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="new_password">Password Baru</label>
+                            <input type="password" class="form-control @error('new_password') is-invalid @enderror"
+                                id="new_password" placeholder="Password Baru" name="new_password" />
+                            @error('new_password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="baru">Password Baru</label>
-                            <input type="password" class="form-control @error('baru') is-invalid @enderror"
-                                id="baru" placeholder="Password baru" name="baru"
-                                value="{{ old('baru') }}" />
-                            @error('baru')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="konfir">Konfirmasi Password</label>
-                            <input type="password" class="form-control @error('konfir') is-invalid @enderror"
-                                id="konfir" placeholder="konfirmasi password" name="konfir"
-                                value="{{ old('konfir') }}" />
-                            @error('konfir')
+                            <label class="form-label" for="new_password_confirmation">Konfirmasi Password Baru</label>
+                            <input type="password"
+                                class="form-control @error('new_password_confirmation') is-invalid @enderror"
+                                id="new_password_confirmation" placeholder="Konfirmasi Password Baru"
+                                name="new_password_confirmation" />
+                            @error('new_password_confirmation')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

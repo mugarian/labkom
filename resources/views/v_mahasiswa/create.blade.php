@@ -1,9 +1,8 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/mahasiswa"
-                    class="text-secondary">mahasiswa</a> /
-                <a href="/mahasiswa" class="text-secondary">Kelola mahasiswa</a> /</span> Tambah Data mahasiswa</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/mahasiswa" class="text-secondary">Data
+                    Mahasiswa</a> /</span> Tambah Data mahasiswa</h4>
         @if (session()->has('fail'))
             <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
                 {{ session('fail') }}
@@ -63,8 +62,8 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="nomor_induk">Nomor Induk</label>
-                                <input type="text" class="form-control @error('nomor_induk') is-invalid @enderror"
-                                    id="nomor_induk" placeholder="nomor_induk" value="{{ old('nomor_induk') }}"
+                                <input type="number" class="form-control @error('nomor_induk') is-invalid @enderror"
+                                    id="nomor_induk" placeholder="Nomor Induk" value="{{ old('nomor_induk') }}"
                                     name="nomor_induk" required />
                                 @error('nomor_induk')
                                     <div class="invalid-feedback">
@@ -73,10 +72,10 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="angkatan">angkatan</label>
+                                <label class="form-label" for="angkatan">Angkatan</label>
                                 <input type="number" class="form-control @error('angkatan') is-invalid @enderror"
-                                    id="angkatan" placeholder="angkatan" name="angkatan" value="{{ old('angkatan') }}"
-                                    required />
+                                    id="angkatan" placeholder="angkatan" name="angkatan"
+                                    value="{{ old('angkatan', date('Y')) }}" required />
                                 @error('angkatan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -114,11 +113,12 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="konfir">Konfirmasi Password</label>
-                            <input type="password" class="form-control @error('konfir') is-invalid @enderror"
-                                id="konfir" placeholder="password" name="konfir" value="{{ old('konfir') }}"
-                                required />
-                            @error('konfir')
+                            <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+                            <input type="password"
+                                class="form-control @error('password_confirmation') is-invalid @enderror"
+                                id="password_confirmation" placeholder="password" name="password_confirmation"
+                                value="{{ old('password_confirmation') }}" required />
+                            @error('password_confirmation')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

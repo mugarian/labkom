@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Dosen;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DosenController extends Controller
@@ -45,35 +47,33 @@ class DosenController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
-            'nomor_induk' => 'required',
+            'nomor_induk' => 'required|unique:users',
             'jabatan' => 'required',
             'jurusan' => 'required',
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required',
-            'konfir' => 'required',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
-        if ($validatedData['password'] == $validatedData['konfir']) {
-            if ($request->file('upload')) {
-                $validatedData['upload'] = $request->file('upload')->store('dosen-images');
-            }
-
-            $validatedData['password'] = bcrypt($validatedData['password']);
-            $validatedData['foto'] = $validatedData['upload'];
-            unset($validatedData['upload']);
-
-            $user = User::create([
-                'email' => $validatedData['email'],
-                'password' => $validatedData['password'],
-                'nomor_induk' => $validatedData['nomor_induk'],
-                'nama' => $validatedData['nama'],
-                'role' => 'dosen'
-            ]);
-        } else {
-            return redirect('/dosen/create')->with('fail', 'Konfirmasi Password harus sama dengan Password');
+        if ($request->file('upload')) {
+            $validatedData['upload'] = $request->file('upload')->store('dosen-images');
         }
 
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['foto'] = $validatedData['upload'];
+        unset($validatedData['upload']);
+
+        $user = User::create([
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password'],
+            'nomor_induk' => $validatedData['nomor_induk'],
+            'nama' => $validatedData['nama'],
+            'foto' => $validatedData['foto'],
+            'role' => 'dosen'
+        ]);
+
+        unset($validatedData['foto']);
         unset($validatedData['email']);
         unset($validatedData['password']);
         unset($validatedData['nomor_induk']);
@@ -124,70 +124,63 @@ class DosenController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
-            'nomor_induk' => 'required',
             'jabatan' => 'required',
             'jurusan' => 'required',
-            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+            'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
         if ($request->email != $dosen->user->email) {
             $validatedData['email'] = $request->validate(['email' => 'required|email:dns|unique:users']);
         } else {
-            $validatedData['email'] = $request->validate(['email' => 'nullable']);
+            $validatedData['email'] = $request->validate(['email' => 'required']);
         }
 
-        if ($request->has(['baru', 'lama', 'konfir'])) {
-            $validatedData['lama'] = $request->validate(['lama' => 'required']);
-            $validatedData['baru'] = $request->validate(['baru' => 'required']);
-            $validatedData['konfir'] = $request->validate(['konfir' => 'required']);
-            $lama = bcrypt($request->lama);
-            $baru = bcrypt($request->baru);
-            $konfir = bcrypt($request->konfir);
+        if ($request->nomor_induk != $dosen->user->nomor_induk) {
+            $validatedData['nomor_induk'] = $request->validate(['nomor_induk' => 'required|unique:users']);
+        } else {
+            $validatedData['nomor_induk'] = $request->validate(['nomor_induk' => 'required']);
+        }
 
-            return dd(bcrypt('cepi') == bcrypt('cepi'));
-
-            if ($lama == $dosen->user->password) {
-                if ($baru == $konfir) {
-                    $user = User::create([
-                        'email' => $validatedData['email'],
-                        'password' => $validatedData['password'],
-                        'nomor_induk' => $validatedData['nomor_induk'],
-                        'nama' => $validatedData['nama'],
-                        'role' => 'dosen'
-                    ]);
-                } else {
-                    return redirect('/dosen/' . $dosen->id . '/edit')->with('fail', 'Konfirmasi Password harus sama dengan Password');
-                }
-            } else {
-                return redirect('/dosen/' . $dosen->id . '/edit')->with('fail', 'Password Salah');
+        if ($request->password) {
+            if (!Hash::check($request->password, $dosen->user->password)) {
+                return back()->with('password', 'The password field is incorrect');
             }
+            $validatedData['new_password'] = $request->validate(['new_password' => 'required']);
+            $validatedData['new_password_confirmation'] = $request->validate(['new_password_confirmation' => 'required|same:new_password']);
+            $password = Hash::make($request->new_password);
+        } else {
+            $password = $dosen->user->password;
         }
 
         if ($request->file('upload')) {
-            $validatedData['upload'] = $request->file('upload')->store('dosen-images');
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['upload'] = $request->file('upload')->store('user-images');
             $validatedData['foto'] = $validatedData['upload'];
             unset($validatedData['upload']);
+        } else {
+            $validatedData['foto'] = $request->oldImage;
         }
 
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => $validatedData['password'],
-            'nomor_induk' => $validatedData['nomor_induk'],
-            'nama' => $validatedData['nama'],
+        User::find($dosen->user->id)->update([
+            'email' => $request->email,
+            'password' => $password,
+            'nomor_induk' => $request->nomor_induk,
+            'nama' => $request->nama,
+            'foto' => $validatedData['foto'],
             'role' => 'dosen'
         ]);
 
+        unset($validatedData['foto']);
         unset($validatedData['email']);
-        unset($validatedData['lama']);
-        unset($validatedData['baru']);
-        unset($validatedData['konfir']);
         unset($validatedData['nomor_induk']);
         unset($validatedData['nama']);
 
-        $validatedData['user_id'] = $user->id;
+        $validatedData['user_id'] = $dosen->user->id;
 
-        Dosen::create($validatedData);
-        return redirect('/dosen')->with('success', 'Tambah Data Dosen Berhasil');
+        Dosen::find($dosen->id)->update($validatedData);
+        return redirect('/dosen')->with('success', 'Ubah Data Dosen Berhasil');
     }
 
     /**

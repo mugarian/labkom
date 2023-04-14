@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alat;
+use App\Models\BarangPakai;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -73,9 +74,11 @@ class AlatController extends Controller
      */
     public function show(Alat $alat)
     {
+        $barangpakai = BarangPakai::where('alat_id', $alat->id)->get();
         return view('v_alat.show', [
             'title' => $alat->nama,
-            'alat' => $alat
+            'alat' => $alat,
+            'barangpakai' => $barangpakai
         ]);
     }
 

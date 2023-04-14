@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bahan;
+use App\Models\BarangHabis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -69,9 +70,11 @@ class BahanController extends Controller
      */
     public function show(Bahan $bahan)
     {
+        $baranghabis = BarangHabis::where('bahan_id', $bahan->id)->get();
         return view('v_bahan.show', [
             'title' => $bahan->nama,
-            'bahan' => $bahan
+            'bahan' => $bahan,
+            'baranghabis' => $baranghabis
         ]);
     }
 
