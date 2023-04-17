@@ -2,9 +2,9 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/pemakaian" class="text-secondary">pemakaian</a> /
-                <a href="/pemakaian/{{ $pemakaian->id }}" class="text-secondary">{{ $pemakaian->barangpakai->nama }}</a> /
-            </span> Validasi
+                <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
+                <a href="/penggunaan/{{ $penggunaan->id }}" class="text-secondary">{{ $penggunaan->baranghabis->nama }}</a> /
+            </span> Menolak Penggunaan
         </h4>
 
         <!-- Basic Layout -->
@@ -12,29 +12,40 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">pemakaian</h5>
-                        <small class="text-muted float-end"><a href="/pemakaian">
+                        <h5 class="mb-0">Penggunaan</h5>
+                        <small class="text-muted float-end"><a href="/penggunaan">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/pemakaian/{{ $pemakaian->id }}" method="POST">
+                        <form action="/penggunaan/{{ $penggunaan->id }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
                                 <div class="alert alert-primary">
-                                    <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Untuk menyelesaikan peakaian barang laboratorium, silahkan isi kolom
-                                        kolom berikut untuk mengetahui kondisi layak pakai barang
+                                    <h6 class="alert-heading fw-bold mb-1">Status Ditolak</h6>
+                                    <p class="mb-0">
+                                        Masukkan Komentar atau keterangan untuk memberitahukan alasan penolakan kegiatan
                                     </p>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="barangpakai_id">Kode Barang</label>
-                                <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
-                                    id="barangpakai_id" placeholder="barangpakai_id"
-                                    value="{{ old('barangpakai_id', $pemakaian->barangpakai->kode) }}" name="barangpakai_id"
-                                    required readonly />
-                                @error('barangpakai_id')
+                                <label class="form-label" for="keterangan">keterangan</label>
+                                <textarea id="keterangan" class="form-control @error('keterangan')
+                                is-invalid @enderror"
+                                    placeholder="keterangan" name="keterangan" required>{{ old('keterangan') }}</textarea>
+                                @error('keterangan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="baranghabis_id">Kode Barang</label>
+                                <input type="text" class="form-control @error('baranghabis_id') is-invalid @enderror"
+                                    id="baranghabis_id" placeholder="baranghabis_id"
+                                    value="{{ old('baranghabis_id', $penggunaan->baranghabis->kode) }}"
+                                    name="baranghabis_id" required readonly />
+                                @error('baranghabis_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -44,8 +55,8 @@
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
                                 <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
                                     id="kegiatan_id" placeholder="kode kegiatan"
-                                    value="{{ old('kegiatan_id', $pemakaian->kegiatan->kode) }}" name="kegiatan_id" required
-                                    readonly />
+                                    value="{{ old('kegiatan_id', $penggunaan->kegiatan->kode) }}" name="kegiatan_id"
+                                    required readonly />
                                 @error('kegiatan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -53,33 +64,11 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="mulai">Mulai Kegiatan</label>
-                                <input type="text" class="form-control @error('mulai') is-invalid @enderror"
-                                    id="mulai" placeholder="kode kegiatan" value="{{ old('mulai', $pemakaian->mulai) }}"
-                                    name="mulai" required readonly />
-                                @error('mulai')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="selesai">Selesai Kegiatan</label>
-                                <input type="text" class="form-control @error('selesai') is-invalid @enderror"
-                                    id="selesai" placeholder="kode kegiatan"
-                                    value="{{ old('selesai', $pemakaian->selesai) }}" name="selesai" required readonly />
-                                @error('selesai')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="keterangan">keterangan</label>
-                                <textarea id="keterangan" class="form-control @error('keterangan')
-                                is-invalid @enderror"
-                                    placeholder="keterangan" name="keterangan" required>{{ old('keterangan') }}</textarea>
-                                @error('keterangan')
+                                <label class="form-label" for="tanggal">tanggal Kegiatan</label>
+                                <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
+                                    id="tanggal" placeholder="kode kegiatan"
+                                    value="{{ old('tanggal', $penggunaan->tanggal) }}" name="tanggal" required readonly />
+                                @error('tanggal')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -96,8 +85,8 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($pemakaian->barangpakai->foto)
-                                    <img src="{{ asset('storage') . '/' . $pemakaian->foto }}" alt="pemakaian-avatar"
+                                @if ($penggunaan->baranghabis->foto)
+                                    <img src="{{ asset('storage') . '/' . $penggunaan->foto }}" alt="penggunaan-avatar"
                                         class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
@@ -107,42 +96,42 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">Kode Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->kode }}</p>
+                            <p class="form-control">{{ $penggunaan->baranghabis->kode }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nama">nama Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
+                            <p class="form-control">{{ $penggunaan->baranghabis->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="keterangan">keterangan Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->keterangan }}</p>
+                            <p class="form-control">{{ $penggunaan->baranghabis->keterangan }}</p>
                         </div>
                         <div class="mt-5 mb-3">
                             <h5 class="mb-0">Kegiatan</h5>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">kode kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->kode }}</p>
+                            <p class="form-control">{{ $penggunaan->kegiatan->kode }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="jenis">jenis kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->jenis }}</p>
+                            <p class="form-control">{{ $penggunaan->kegiatan->jenis }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nama">Oleh</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->user->nama }}</p>
+                            <p class="form-control">{{ $penggunaan->kegiatan->user->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nama">nama kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->nama }}</p>
+                            <p class="form-control">{{ $penggunaan->kegiatan->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="deskripsi">deskripsi kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->deskripsi }}</p>
+                            <p class="form-control">{{ $penggunaan->kegiatan->deskripsi }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="tanggal">Tanggal Mulai</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->mulai }}</p>
+                            <p class="form-control">{{ $penggunaan->kegiatan->mulai }}</p>
                         </div>
                     </div>
                 </div>
@@ -157,8 +146,8 @@
             <div class="card-body">
                 <div class="mb-3 col-12 mb-0">
                     <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">pemakaian Data pemakaian</h6>
-                        <p class="mb-0">Ketika Form Tambah Data pemakaian ditambahkan,<br />
+                        <h6 class="alert-heading fw-bold mb-1">penggunaan Data penggunaan</h6>
+                        <p class="mb-0">Ketika Form Tambah Data penggunaan ditambahkan,<br />
                             Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
                             Dan Langsung Disambungkan sesuai kode qr yang tertera
                         </p>

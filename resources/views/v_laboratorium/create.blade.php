@@ -3,8 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/laboratorium" class="text-secondary">laboratorium</a> /
-                <a href="/laboratorium" class="text-secondary">Kelola laboratorium</a> /
+                <a href="/laboratorium" class="text-secondary">Data Laboratorium</a> /
             </span> Tambah Data laboratorium
         </h4>
 
@@ -13,7 +12,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">laboratorium</h5>
+                        <h5 class="mb-0">Laboratorium</h5>
                         <small class="text-muted float-end"><a href="/laboratorium">
                                 < Kembali </a></small>
                     </div>
@@ -84,11 +83,15 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-xl">
-                {{-- <div class="card mb-4">
+        </div>
+        <div class="col-xl">
+            {{-- <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Kode QR</h5>
                     </div>
@@ -113,26 +116,26 @@
                         </form>
                     </div>
                 </div> --}}
-            </div>
         </div>
+    </div>
 
-        <div class="card">
-            <div class="card-header">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Penamlaboratorium Data laboratorium</h6>
-                        <p class="mb-0">Ketika Form Tambah Data laboratorium ditambahkan,<br />
-                            Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                            Dan Langsung Disambungkan sesuai kode qr yang tertera
-                        </p>
-                    </div>
+    {{-- <div class="card">
+        <div class="card-header">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-primary">
+                    <h6 class="alert-heading fw-bold mb-1">Penamlaboratorium Data laboratorium</h6>
+                    <p class="mb-0">Ketika Form Tambah Data laboratorium ditambahkan,<br />
+                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
+                        Dan Langsung Disambungkan sesuai kode qr yang tertera
+                    </p>
                 </div>
             </div>
         </div>
+    </div> --}}
     </div>
     <script>
         function previewImage() {

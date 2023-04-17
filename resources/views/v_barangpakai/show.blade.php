@@ -34,9 +34,28 @@
                             <label class="form-label" for="deskripsi">Deskripsi</label>
                             <p class="form-control">{{ $barangpakai->deskripsi }}</p>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label" for="keterangan">Keterangan</label>
                             <p class="form-control">{{ $barangpakai->keterangan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-start">
+                                @if (auth()->user()->id == $barangpakai->laboratorium->user->id || auth()->user()->role == 'admin')
+                                    <a href="/barangpakai/{{ $barangpakai->id }}/edit"
+                                        class="btn btn-outline-warning mx-1">Edit</a>
+                                    <form action="/barangpakai/{{ $barangpakai->id }}" method="post">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger mx-1">
+                                            Delete
+                                        </button>
+                                    </form>
+                                @endif
+                                @if (auth()->user()->role != 'admin')
+                                    <a href="/pemakaian/{{ $barangpakai->id }}/pakai"
+                                        class="btn btn-outline-primary mx-1">Pakai</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,18 +88,21 @@
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
                     @if (auth()->user()->id == $barangpakai->laboratorium->user->id || auth()->user()->role == 'admin')
-                        <a href="/barangpakai/{{ $barangpakai->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
+                        <a href="/barangpakai/{{ $barangpakai->id }}/edit" class="btn btn-outline-warning mx-1">Edit</a>
                         <form action="/barangpakai/{{ $barangpakai->id }}" method="post">
                             @method('delete')
                             @csrf
-                            <button type="submit" class="btn btn-outline-danger">
+                            <button type="submit" class="btn btn-outline-danger mx-1">
                                 Delete
                             </button>
                         </form>
+                    @endif
+                    @if (auth()->user()->role != 'admin')
+                        <a href="/pemakaian/{{ $barangpakai->id }}/pakai" class="btn btn-outline-primary mx-1">Pakai</a>
                     @endif
                 </div>
             </div>
@@ -95,6 +117,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -14,11 +14,17 @@ class BahanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['index', 'show']);
+    }
+
     public function index()
     {
         return view('v_bahan.index', [
             'title' => 'Data Bahan',
-            'bahans' => Bahan::all()
+            'bahans' => Bahan::orderBy('nama', 'asc')->paginate(5)
         ]);
     }
 
@@ -70,7 +76,7 @@ class BahanController extends Controller
      */
     public function show(Bahan $bahan)
     {
-        $baranghabis = BarangHabis::where('bahan_id', $bahan->id)->get();
+        $baranghabis = BarangHabis::where('bahan_id', $bahan->id)->orderBy('nama', 'asc')->paginate(5);
         return view('v_bahan.show', [
             'title' => $bahan->nama,
             'bahan' => $bahan,

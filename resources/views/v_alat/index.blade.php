@@ -17,7 +17,7 @@
                                 class="btn btn-primary">Tambah</button></a></small>
                 @endif
             </div>
-            <div class="card-body">
+            <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead>
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @foreach ($alats as $alat)
+                            @forelse ($alats as $alat)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
@@ -45,9 +45,9 @@
                                                 id="uploadedAvatar" />
                                         @endif
                                     </td>
-                                    <td>{{ $alat->nama }}</td>
-                                    <td>{{ $alat->merk }}</td>
-                                    <td>{{ $alat->spesifikasi }}</td>
+                                    <td class="text-wrap">{{ $alat->nama }}</td>
+                                    <td class="text-wrap">{{ $alat->merk }}</td>
+                                    <td class="text-wrap">{{ $alat->spesifikasi }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" href="/alat/{{ $alat->id }}"><i
@@ -66,9 +66,22 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="100%">
+                                        <div class="my-5">
+                                            <h3 class="text-muted">
+                                                Tidak Ada Data Alat
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                    {{ $alats->links() }}
                 </div>
             </div>
         </div>

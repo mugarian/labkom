@@ -2,9 +2,7 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/penggunaan" class="text-secondary">penggunaan</a>
-                /</span> Kelola penggunaan
+        <h4 class="fw-bold py-3 mb-4">Data Penggunaan
         </h4>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
@@ -21,14 +19,16 @@
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola penggunaan</h5>
                 <div class="d-flex justify-content-end ">
-                    <small class="text-muted float-end">
-                        <a href="/penggunaan/create">
-                            <button class="btn btn-primary">penggunaan</button>
-                        </a>
-                    </small>
+                    @if (auth()->user()->role != 'admin')
+                        <small class="text-muted float-end">
+                            <a href="/penggunaan/create">
+                                <button class="btn btn-primary">penggunaan</button>
+                            </a>
+                        </small>
+                    @endif
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead>
@@ -43,18 +43,15 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @foreach ($penggunaans as $penggunaan)
-                                @if (
-                                    $penggunaan->user_id == auth()->user()->id ||
-                                        $penggunaan->kegiatan->laboratorium->user->id == auth()->user()->id ||
-                                        auth()->user()->role == 'admin')
+                            @forelse ($penggunaans as $penggunaan)
+                                @if ($kalab)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $penggunaan->baranghabis->nama }} <br>
-                                            ({{ $penggunaan->kegiatan->laboratorium->nama }})
+                                        <td class="text-wrap">{{ $penggunaan->namabarang }} <br>
+                                            ({{ $penggunaan->namalab }})
                                         </td>
-                                        <td>{{ $penggunaan->kegiatan->nama }}</td>
-                                        <td>{{ $penggunaan->user->nama }}</td>
+                                        <td class="text-wrap">{{ $penggunaan->namakegiatan }}</td>
+                                        <td class="text-wrap">{{ $penggunaan->namauser }}</td>
                                         <td>{{ $penggunaan->tanggal }}</td>
                                         <td>{{ $penggunaan->status }}</td>
                                         <td>
@@ -62,7 +59,7 @@
                                                 <a class="btn btn-outline-success p-1"
                                                     href="/penggunaan/{{ $penggunaan->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
-                                                @if ($penggunaan->status == 'menunggu' && auth()->user()->id == $penggunaan->kegiatan->laboratorium->user->id)
+                                                @if ($penggunaan->status == 'menunggu')
                                                     <form action="/penggunaan/{{ $penggunaan->id }}/status" method="post">
                                                         @csrf
                                                         <input type="hidden" name="status" value="disetujui">
@@ -70,21 +67,49 @@
                                                             <i class='bx bx-message-square-check'></i>
                                                         </button>
                                                     </form>
-                                                    <form action="/penggunaan/{{ $penggunaan->id }}/status" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="status" value="ditolak">
-                                                        <button type="submit" class="btn btn-danger p-1">
-                                                            <i class='bx bx-message-square-x'></i>
-                                                        </button>
-                                                    </form>
+                                                    <a
+                                                        class="btn btn-danger p-1"href="/penggunaan/{{ $penggunaan->id }}/edit">
+                                                        <i class="bx bx-message-square-x"></i>
+                                                    </a>
                                                 @endif
                                             </div>
                                         </td>
                                     </tr>
+                                @else
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="text-wrap">{{ $penggunaan->baranghabis->nama }} <br>
+                                            ({{ $penggunaan->kegiatan->laboratorium->nama }})
+                                        </td>
+                                        <td class="text-wrap">{{ $penggunaan->kegiatan->nama }}</td>
+                                        <td class="text-wrap">{{ $penggunaan->user->nama }}</td>
+                                        <td>{{ $penggunaan->tanggal }}</td>
+                                        <td>{{ $penggunaan->status }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center">
+                                                <a class="btn btn-outline-success p-1"
+                                                    href="/penggunaan/{{ $penggunaan->id }}"><i
+                                                        class="bx bx-info-circle"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endif
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="100%">
+                                        <div class="my-5">
+                                            <h3 class="text-muted">
+                                                Tidak Ada Data Penggunaan
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                    {{ $penggunaans->links() }}
                 </div>
             </div>
         </div>

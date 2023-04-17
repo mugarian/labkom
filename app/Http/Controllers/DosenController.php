@@ -18,7 +18,7 @@ class DosenController extends Controller
      */
     public function index()
     {
-        $dosen = Dosen::all();
+        $dosen = Dosen::orderBy('id', 'asc')->paginate(5);
         return view('v_dosen.index', [
             'title' => 'Kelola Data Dosen',
             'dosens' => $dosen

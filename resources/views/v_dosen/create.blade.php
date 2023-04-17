@@ -78,7 +78,7 @@
                                     <option value="">Pilih Jabatan</option>
                                     <option value="ketua jurusan" @selected(old('jabatan') == 'ketua jurusan')>Ketua Jurusan</option>
                                     <option value="ketua prodi" @selected(old('jabatan') == 'ketua prodi')>Ketua Prodi</option>
-                                    <option value="dosen" @selected(old('jabatan') == 'dosen pengampu')>Dosen</option>
+                                    <option value="dosen pengampu" @selected(old('jabatan') == 'dosen pengampu')>Dosen</option>
                                 </select>
                                 @error('jabatan')
                                     <div class="invalid-feedback">
@@ -86,7 +86,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="jurusan">jurusan</label>
                                 <select id="organization" class="select2 form-select @error('jurusan') is-invalid @enderror"
                                     name="jurusan">
@@ -102,6 +102,9 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -113,59 +116,70 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="password">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                placeholder="email" name="email" value="{{ old('email') }}" required />
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                id="email" placeholder="email" name="email" value="{{ old('email') }}"
+                                required />
                             @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                id="password" placeholder="password" name="password" value="{{ old('password') }}"
-                                required />
-                            @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    placeholder="Password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
-                            <input type="password"
-                                class="form-control @error('password_confirmation') is-invalid @enderror"
-                                id="password_confirmation" placeholder="password" name="password_confirmation"
-                                value="{{ old('password_confirmation') }}" required />
-                            @error('password_confirmation')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password_confirmation"
+                                    class="form-control @error('password_confirmation') is-invalid @enderror"
+                                    name="password_confirmation" placeholder="Konfirmasi Password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @error('password_confirmation')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Penambahan Data dosen</h6>
-                        <p class="mb-0">Ketika Form Tambah Data dosen ditambahkan,<br />
-                            Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                            Dan Langsung Disambungkan sesuai kode qr yang tertera
-                        </p>
-                    </div>
+        {{-- <div class="card">
+        <div class="card-header">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-primary">
+                    <h6 class="alert-heading fw-bold mb-1">Penambahan Data dosen</h6>
+                    <p class="mb-0">Ketika Form Tambah Data dosen ditambahkan,<br />
+                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
+                        Dan Langsung Disambungkan sesuai kode qr yang tertera
+                    </p>
                 </div>
             </div>
         </div>
+    </div> --}}
     </div>
     <script>
         function previewImage() {

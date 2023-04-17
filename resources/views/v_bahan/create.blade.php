@@ -1,8 +1,8 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/bahan" class="text-secondary">Bahan</a> /
-                <a href="/bahan" class="text-secondary">Kelola Bahan</a> /</span> Tambah Data Bahan</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/bahan" class="text-secondary">Data Bahan</a>
+                /</span> Tambah Data Bahan</h4>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -67,8 +67,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="spesifikasi">Spesifikasi</label>
                                 <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" placeholder="Spesifikasi"
-                                    name="spesifikasi" required>{{ old('spesifikasi') }}
-                                 </textarea>
+                                    name="spesifikasi" required>{{ old('spesifikasi') }}</textarea>
                                 @error('spesifikasi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -86,7 +85,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="stok">Stok</label>
                                 <input type="number" class="form-control @error('stok') is-invalid @enderror"
                                     id="stok" placeholder="stok" name="stok" value="{{ old('stok') }}"
@@ -97,11 +96,15 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-xl">
-                {{-- <div class="card mb-4">
+        </div>
+        <div class="col-xl">
+            {{-- <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Kode QR</h5>
                     </div>
@@ -126,10 +129,10 @@
                         </form>
                     </div>
                 </div> --}}
-            </div>
         </div>
+    </div>
 
-        <div class="card">
+    {{-- <div class="card">
             <div class="card-header">
                 <button type="submit" class="btn btn-primary">Tambah</button>
                 </form>
@@ -145,7 +148,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <script>
         function previewImage() {

@@ -17,6 +17,12 @@ class BarangHabisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('dosen')->except(['index', 'show']);
+    }
+
     public function index()
     {
         //
@@ -30,12 +36,16 @@ class BarangHabisController extends Controller
     public function create($lab)
     {
         $laboratorium = Laboratorium::find($lab);
-        $bahan = Bahan::all();
-        return view('v_baranghabis.create', [
-            'title' => 'Tambah Data Barang Habis',
-            'laboratorium' => $laboratorium,
-            'bahans' => $bahan
-        ]);
+        if (auth()->user()->role == 'admin' || $laboratorium->user->id == auth()->user()->id) {
+            $bahan = Bahan::all();
+            return view('v_baranghabis.create', [
+                'title' => 'Tambah Data Barang Habis',
+                'laboratorium' => $laboratorium,
+                'bahans' => $bahan
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -47,26 +57,30 @@ class BarangHabisController extends Controller
     public function store(Request $request)
     {
         $laboratorium_id = $request->laboratorium_id;
-        $validatedData = $request->validate([
-            'kode' => 'required|unique:barang_habis',
-            'nama' => 'required|max:255',
-            'laboratorium_id' => 'required',
-            'bahan_id' => 'required',
-            'deskripsi' => 'required',
-            'keterangan' => 'required',
-            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
-        ]);
+        if (auth()->user()->role == 'admin' || $laboratorium_id == auth()->user()->id) {
+            $validatedData = $request->validate([
+                'kode' => 'required|unique:barang_habis',
+                'nama' => 'required|max:255',
+                'laboratorium_id' => 'required',
+                'bahan_id' => 'required',
+                'deskripsi' => 'required',
+                'keterangan' => 'required',
+                'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+            ]);
 
-        if ($request->file('upload')) {
-            $validatedData['upload'] = $request->file('upload')->store('baranghabis-images');
+            if ($request->file('upload')) {
+                $validatedData['upload'] = $request->file('upload')->store('baranghabis-images');
+            }
+
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+
+            BarangHabis::create($validatedData);
+
+            return redirect('/laboratorium/' . $laboratorium_id)->with('success', 'Tambah Data Barang Habis Berhasil');
+        } else {
+            abort(403);
         }
-
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
-
-        BarangHabis::create($validatedData);
-
-        return redirect('/laboratorium/' . $laboratorium_id)->with('success', 'Tambah Data Barang Habis Berhasil');
     }
 
     /**
@@ -97,12 +111,16 @@ class BarangHabisController extends Controller
     public function edit($id)
     {
         $baranghabis = BarangHabis::find($id);
-        $bahan = Bahan::all()->except([$baranghabis->bahan_id]);
-        return view('v_baranghabis.edit', [
-            'title' => $baranghabis->nama,
-            'baranghabis' => $baranghabis,
-            'bahans' => $bahan
-        ]);
+        if (auth()->user()->role == 'admin' || $baranghabis->laboratorium->user->id == auth()->user()->id) {
+            $bahan = Bahan::all()->except([$baranghabis->bahan_id]);
+            return view('v_baranghabis.edit', [
+                'title' => $baranghabis->nama,
+                'baranghabis' => $baranghabis,
+                'bahans' => $bahan
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -115,32 +133,36 @@ class BarangHabisController extends Controller
     public function update(Request $request, $id)
     {
         $baranghabis = BarangHabis::find($id);
-        $rules = [
-            'nama' => 'required|max:255',
-            'bahan_id' => 'required',
-            'deskripsi' => 'required',
-            'keterangan' => 'required',
-            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
-        ];
+        if (auth()->user()->role == 'admin' || $baranghabis->laboratorium->user->id == auth()->user()->id) {
+            $rules = [
+                'nama' => 'required|max:255',
+                'bahan_id' => 'required',
+                'deskripsi' => 'required',
+                'keterangan' => 'required',
+                'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+            ];
 
-        if ($request->kode != $baranghabis->kode) {
-            $rules['kode'] = 'required|unique:barang_habis';
-        }
-
-        $validatedData = $request->validate($rules);
-
-        if ($request->file('upload')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);
+            if ($request->kode != $baranghabis->kode) {
+                $rules['kode'] = 'required|unique:barang_habis';
             }
-            $validatedData['upload'] = $request->file('upload')->store('baranghabis-images');
+
+            $validatedData = $request->validate($rules);
+
+            if ($request->file('upload')) {
+                if ($request->oldImage) {
+                    Storage::delete($request->oldImage);
+                }
+                $validatedData['upload'] = $request->file('upload')->store('baranghabis-images');
+            }
+
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+
+            BarangHabis::where('id', $baranghabis->id)->update($validatedData);
+            return redirect('/laboratorium/' . $baranghabis->laboratorium_id)->with('success', 'Ubah Data Barang Habis Berhasil');
+        } else {
+            abort(403);
         }
-
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
-
-        BarangHabis::where('id', $baranghabis->id)->update($validatedData);
-        return redirect('/laboratorium/' . $baranghabis->laboratorium_id)->with('success', 'Ubah Data Barang Habis Berhasil');
     }
 
     /**
@@ -152,14 +174,18 @@ class BarangHabisController extends Controller
     public function destroy($id)
     {
         $baranghabis = BarangHabis::find($id);
-        $laboratorium = Laboratorium::find($baranghabis->laboratorium_id);
+        if (auth()->user()->role == 'admin' || $baranghabis->laboratorium->user->id == auth()->user()->id) {
+            $laboratorium = Laboratorium::find($baranghabis->laboratorium_id);
 
-        if ($baranghabis->foto) {
-            Storage::delete($baranghabis->foto);
+            if ($baranghabis->foto) {
+                Storage::delete($baranghabis->foto);
+            }
+
+            BarangHabis::destroy($baranghabis->id);
+
+            return redirect('/laboratorium/' . $laboratorium->id)->with('success', 'Data Barang Habis Berhasil Dihapus');
+        } else {
+            abort(403);
         }
-
-        BarangHabis::destroy($baranghabis->id);
-
-        return redirect('/laboratorium/' . $laboratorium->id)->with('success', 'Data Barang Habis Berhasil Dihapus');
     }
 }

@@ -1,9 +1,11 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/laboratorium"
-                    class="text-secondary">Laboratorium</a> /
-                <a href="/laboratorium" class="text-secondary">Kelola Laboratorium</a> /</span> {{ $laboratorium->nama }}</h4>
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">
+                <a href="/laboratorium" class="text-secondary">Data Laboratorium</a> /
+            </span> {{ $laboratorium->nama }}
+        </h4>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -28,9 +30,26 @@
                             <label class="form-label" for="merk">Kepala Lab</label>
                             <p class="form-control">{{ $laboratorium->user->nama }}</p>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label" for="spesifikasi">Deskripsi</label>
                             <p class="form-control">{{ $laboratorium->deskripsi }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-start">
+                                @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
+                                    <a href="/laboratorium/{{ $laboratorium->id }}/edit"
+                                        class="btn btn-outline-warning me-3">Edit</a>
+                                    @if (auth()->user()->role == 'admin')
+                                        <form action="/laboratorium/{{ $laboratorium->id }}" method="post">
+                                            @method('delete')
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +102,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    @foreach ($barangpakai as $bp)
+                                    @forelse ($barangpakai as $bp)
                                         <tr>
                                             <td>{{ $bp->nama }}</td>
                                             <td>{{ $bp->keterangan }}</td>
@@ -107,7 +126,17 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="100%">
+                                                <div class="my-5">
+                                                    <h5 class="text-muted">
+                                                        Tidak Ada Data Barang Pakai (Alat)
+                                                    </h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -138,10 +167,10 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    @foreach ($baranghabis as $bh)
+                                    @forelse ($baranghabis as $bh)
                                         <tr>
-                                            <td>{{ $bh->nama }}</td>
-                                            <td>{{ $bh->keterangan }}</td>
+                                            <td class="text-wrap">{{ $bh->nama }}</td>
+                                            <td class="text-wrap">{{ $bh->keterangan }}</td>
                                             <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a class="btn btn-outline-success p-1"
@@ -162,7 +191,17 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="100%">
+                                                <div class="my-5">
+                                                    <h5 class="text-muted">
+                                                        Tidak Ada Data Barang Habis (Bahan)
+                                                    </h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -171,7 +210,7 @@
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
                     @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
@@ -200,6 +239,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

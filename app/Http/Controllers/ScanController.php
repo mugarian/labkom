@@ -7,12 +7,12 @@ use App\Models\BarangPakai;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
-class BarcodeController extends Controller
+class ScanController extends Controller
 {
 
     public function index()
     {
-        return view('v_scanqr.index', [
+        return view('v_scanqr', [
             'title' => 'Scan QR',
         ]);
     }
@@ -29,10 +29,10 @@ class BarcodeController extends Controller
         $baranghabis = BarangHabis::where('kode', $kode)->first();
 
         if ($barangpakai) {
-            // return view('v_pemakaian.pakai', [
-            //     'title' => 'Tambah Data Pemakaian',
-            //     'barangpakai' => $barangpakai
-            // ]);
+            return view('v_pemakaian.pakai', [
+                'title' => 'Tambah Data Pemakaian',
+                'barangpakai' => $barangpakai
+            ]);
             return redirect('/barangpakai/' . $barangpakai->id);
             // return view('v_barangpakai.show', [
             //     'title' => $barangpakai->nama,

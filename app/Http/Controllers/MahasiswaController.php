@@ -17,7 +17,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswa = Mahasiswa::all();
+        $mahasiswa = Mahasiswa::paginate(5);
         return view('v_mahasiswa.index', [
             'title' => 'Kelola Data mahasiswa',
             'mahasiswas' => $mahasiswa

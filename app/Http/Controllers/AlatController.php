@@ -15,11 +15,17 @@ class AlatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('admin')->except(['index', 'show']);
+    }
+
     public function index()
     {
         return view('v_alat.index', [
             'title' => 'Data Alat',
-            'alats' => Alat::all()
+            'alats' => Alat::orderBy('nama', 'asc')->paginate(5)
         ]);
     }
 
@@ -74,7 +80,7 @@ class AlatController extends Controller
      */
     public function show(Alat $alat)
     {
-        $barangpakai = BarangPakai::where('alat_id', $alat->id)->get();
+        $barangpakai = BarangPakai::where('alat_id', $alat->id)->orderBy('nama', 'asc')->paginate(5);
         return view('v_alat.show', [
             'title' => $alat->nama,
             'alat' => $alat,

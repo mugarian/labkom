@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Error - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Forbidden</title>
 
     <meta name="description" content="" />
 
@@ -67,27 +67,36 @@
   <body>
     <!-- Content -->
 
-    <!-- Error -->
+    <!--Under Maintenance -->
     <div class="container-xxl container-p-y">
       <div class="misc-wrapper">
-        <h2 class="mb-2 mx-2 text-underline">Halaman Tidak Ditemukan</h2>
-        <p class="my-3 mx-2 fw-lighter">Si Anya beli Burung Itik <br/>Mungkin Jarinya Salah Ngetik</p>
+        <h2 class="mb-2 mx-2">Forbidden!</h2>
+        <p class="mb-4 mx-2">Anda tidak mempunyai akses di halaman ini. Silahkan kembali ke halaman dashboard!</p>
         <a href="/dashboard" class="btn btn-primary">Kembali ke Dashboard</a>
-        <div class="mt-3">
+        <div class="mt-4">
           <img
-            src="{{ asset('sneat') }}/assets/img/illustrations/page-misc-error-light.png"
-            alt="page-misc-error-light"
+            src="{{ asset('sneat') }}/assets/img/illustrations/girl-doing-yoga-light.png"
+            alt="girl-doing-yoga-light"
             width="500"
             class="img-fluid"
-            data-app-dark-img="illustrations/page-misc-error-dark.png"
-            data-app-light-img="illustrations/page-misc-error-light.png"
+            data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+            data-app-light-img="illustrations/girl-doing-yoga-light.png"
           />
         </div>
       </div>
     </div>
-    <!-- /Error -->
+    <!-- /Under Maintenance -->
 
     <!-- / Content -->
+
+    {{-- <div class="buy-now">
+      <a
+        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+        target="_blank"
+        class="btn btn-danger btn-buy-now"
+        >Upgrade to Pro</a
+      >
+    </div> --}}
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

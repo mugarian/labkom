@@ -2,7 +2,7 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/pemakaian" class="text-secondary">pemakaian</a> /
+                <a href="/pemakaian" class="text-secondary">Data Pemakaian</a> /
             </span> {{ $pemakaian->barangpakai->nama }}</h4>
 
         <!-- Basic Layout -->
@@ -39,8 +39,9 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($pemakaian->barangpakai->foto)
-                                    <img src="{{ asset('storage') . '/' . $pemakaian->foto }}" alt="pemakaian-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                    <img src="{{ asset('storage') . '/' . $pemakaian->barangpakai->foto }}"
+                                        alt="pemakaian-avatar" class="d-block rounded" height="200" width="200"
+                                        id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />
@@ -86,32 +87,32 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header">
-            {{-- <div class="d-flex justify-content-start">
-                <a href="/pemakaian/{{ $pemakaian->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
-                <form action="/pemakaian/{{ $pemakaian->id }}" method="post">
-                    @method('delete')
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger">
-                        Delete
-                    </button>
-                </form>
-            </div> --}}
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">Kelola Data pemakaian</h6>
-                    <p class="mb-0">Ketika Form Tambah Data pemakaian dihapus atau diubah,<br />
-                        Maka Secara Otomatis Kode QR akan dihapus atau terubah, <br />
-                        Dan Langsung diseusaikan dengan kode qr yang tertera
-                    </p>
+        {{-- <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-start">
+                    <a href="/pemakaian/{{ $pemakaian->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
+                    <form action="/pemakaian/{{ $pemakaian->id }}" method="post">
+                        @method('delete')
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger">
+                            Delete
+                        </button>
+                    </form>
                 </div>
             </div>
-        </div>
+            <div class="card-body">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-primary">
+                        <h6 class="alert-heading fw-bold mb-1">Kelola Data pemakaian</h6>
+                        <p class="mb-0">Ketika Form Tambah Data pemakaian dihapus atau diubah,<br />
+                            Maka Secara Otomatis Kode QR akan dihapus atau terubah, <br />
+                            Dan Langsung diseusaikan dengan kode qr yang tertera
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
     </div>
+
     </div>
 @endsection

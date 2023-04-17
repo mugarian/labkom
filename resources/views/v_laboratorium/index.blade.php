@@ -2,8 +2,8 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/laboratorium" class="text-secondary">Laborotorium</a> /</span> Kelola laborotorium</h4>
+        <h4 class="fw-bold py-3 mb-4">
+            Data Laborotorium </h4>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -18,7 +18,7 @@
                                 class="btn btn-primary">Tambah</button></a></small>
                 @endif
             </div>
-            <div class="card-body">
+            <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead>
@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @foreach ($laboratoriums as $laboratorium)
+                            @forelse ($laboratoriums as $laboratorium)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
@@ -46,9 +46,9 @@
                                                 id="uploadedAvatar" />
                                         @endif
                                     </td>
-                                    <td>{{ $laboratorium->nama }}</td>
-                                    <td>{{ $laboratorium->user->nama }}</td>
-                                    <td>{{ $laboratorium->deskripsi }}</td>
+                                    <td class="text-wrap">{{ $laboratorium->nama }}</td>
+                                    <td class="text-wrap">{{ $laboratorium->user->nama }}</td>
+                                    <td class="text-wrap">{{ $laboratorium->deskripsi }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1"
@@ -71,9 +71,22 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="100%">
+                                        <div class="my-5">
+                                            <h3 class="text-muted">
+                                                Tidak Ada Data Laboratorium
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                    {{ $laboratoriums->links() }}
                 </div>
             </div>
         </div>

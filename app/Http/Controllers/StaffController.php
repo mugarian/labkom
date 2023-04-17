@@ -17,7 +17,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staff = staff::all();
+        $staff = staff::orderBy('id', 'asc')->paginate(5);
         return view('v_staff.index', [
             'title' => 'Kelola Data staff',
             'staffs' => $staff

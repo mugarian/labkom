@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string('kode')->unique();
             $table->string('nama');
             $table->string('deskripsi');
-            $table->string('catatan_dospem')->nullable();
-            $table->string('keterangan_kalab')->nullable();
+            $table->string('keterangan')->nullable();
             $table->enum('jenis', ['pelaksanaan', 'permohonan']);
             $table->enum('tipe', ['perkuliahan', 'non perkuliahan']);
             $table->enum('status', ['menunggu', 'diverifikasi', 'disetujui', 'selesai', 'ditolak'])->default('menunggu');

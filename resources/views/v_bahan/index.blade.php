@@ -17,7 +17,7 @@
                                 class="btn btn-primary">Tambah</button></a></small>
                 @endif
             </div>
-            <div class="card-body">
+            <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead>
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @foreach ($bahans as $bahan)
+                            @forelse ($bahans as $bahan)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
@@ -45,9 +45,9 @@
                                                 id="uploadedAvatar" />
                                         @endif
                                     </td>
-                                    <td>{{ $bahan->nama }}</td>
-                                    <td>{{ $bahan->merk }}</td>
-                                    <td>{{ $bahan->spesifikasi }}</td>
+                                    <td class="text-wrap">{{ $bahan->nama }}</td>
+                                    <td class="text-wrap">{{ $bahan->merk }}</td>
+                                    <td class="text-wrap">{{ $bahan->spesifikasi }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" href="/bahan/{{ $bahan->id }}"><i
@@ -67,9 +67,22 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="100%">
+                                        <div class="my-5">
+                                            <h3 class="text-muted">
+                                                Tidak Ada Data Bahan
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                    {{ $bahans->links() }}
                 </div>
             </div>
         </div>

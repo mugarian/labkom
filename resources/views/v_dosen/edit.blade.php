@@ -1,8 +1,12 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/dosen" class="text-secondary">Data Dosen</a>
-                /</span> Ubah Data Dosen</h4>
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">
+                <a href="/dosen" class="text-secondary">Data Dosen</a> /
+                <a href="/dosen/{{ $dosen->id }}" class="text-secondary">{{ $dosen->user->nama }}</a> /
+            </span> Ubah Data Dosen
+        </h4>
         @if (session()->has('fail'))
             <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
                 {{ session('fail') }}
@@ -87,7 +91,7 @@
                                     name="jabatan">
                                     <option value="ketua jurusan" @selected(old('jabatan', $dosen->jabatan) == 'Ketua Jurusan')>Ketua Jurusan</option>
                                     <option value="ketua prodi" @selected(old('jabatan', $dosen->jabatan) == 'ketua prodi')>Ketua Prodi</option>
-                                    <option value="dosen" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen</option>
+                                    <option value="dosen pengampu" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen</option>
                                 </select>
                                 @error('jabatan')
                                     <div class="invalid-feedback">
@@ -95,7 +99,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="jurusan">jurusan</label>
                                 <select id="organization" class="select2 form-select @error('jurusan') is-invalid @enderror"
                                     name="jurusan">
@@ -110,6 +114,9 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Ubah</button>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -120,7 +127,7 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="password">Email</label>
+                            <label class="form-label" for="email">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                 id="email" placeholder="email" name="email"
                                 value="{{ old('email', $dosen->user->email) }}" required />
@@ -134,45 +141,63 @@
                             <h5 class="mb-0">Ubah Password</h5>
                             <small>(Kosongkan jika tidak mengubah password)</small>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password">Password</label>
-                            <input type="password"
-                                class="form-control @if (session()->has('password')) is-invalid @endif" id="password"
-                                placeholder="Password" name="password" value="{{ old('password') }}" />
-                            @if (session()->has('password'))
-                                <div class="invalid-feedback">
-                                    {{ session('password') }}
-                                </div>
-                            @endif
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password"
+                                    class="form-control @if (session()->has('password')) is-invalid @endif"
+                                    id="password" placeholder="Password" name="password"
+                                    value="{{ old('password') }}" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @if (session()->has('password'))
+                                    <div class="invalid-feedback">
+                                        {{ session('password') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="new_password">Password Baru</label>
-                            <input type="password" class="form-control @error('new_password') is-invalid @enderror"
-                                id="new_password" placeholder="Password Baru" name="new_password" />
-                            @error('new_password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="new_password">Password Baru</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control @error('new_password') is-invalid @enderror"
+                                    id="new_password" placeholder="Password Baru" name="new_password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @error('new_password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="new_password_confirmation">Konfirmasi Password Baru</label>
-                            <input type="password"
-                                class="form-control @error('new_password_confirmation') is-invalid @enderror"
-                                id="new_password_confirmation" placeholder="Konfirmasi Password Baru"
-                                name="new_password_confirmation" />
-                            @error('new_password_confirmation')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="new_password_confirmation">Konfirmasi
+                                    Password Baru</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password"
+                                    class="form-control @error('new_password_confirmation') is-invalid @enderror"
+                                    id="new_password_confirmation" placeholder="Password Baru"
+                                    name="new_password_confirmation" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @error('new_password_confirmation')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <button type="submit" class="btn btn-primary">Ubah</button>
                 </form>
@@ -188,7 +213,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <script>
         function previewImage() {

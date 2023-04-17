@@ -71,7 +71,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="angkatan">Angkatan</label>
                                 <input type="number" class="form-control @error('angkatan') is-invalid @enderror"
                                     id="angkatan" placeholder="angkatan" name="angkatan"
@@ -81,6 +81,10 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+
                             </div>
                     </div>
                 </div>
@@ -101,35 +105,45 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password">Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                id="password" placeholder="password" name="password" value="{{ old('password') }}"
-                                required />
-                            @error('password')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    placeholder="Password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
-                            <input type="password"
-                                class="form-control @error('password_confirmation') is-invalid @enderror"
-                                id="password_confirmation" placeholder="password" name="password_confirmation"
-                                value="{{ old('password_confirmation') }}" required />
-                            @error('password_confirmation')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password_confirmation">Konfirmasi Password</label>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password_confirmation"
+                                    class="form-control @error('password_confirmation') is-invalid @enderror"
+                                    name="password_confirmation" placeholder="Konfirmasi Password" />
+                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                @error('password_confirmation')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <button type="submit" class="btn btn-primary">Tambah</button>
                 </form>
@@ -145,7 +159,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <script>
         function previewImage() {

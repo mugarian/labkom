@@ -15,7 +15,7 @@
                 <small class="text-muted float-end"><a href="/dosen/create"><button
                             class="btn btn-primary">Tambah</button></a></small>
             </div>
-            <div class="card-body">
+            <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead>
@@ -29,7 +29,7 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @foreach ($dosens as $dosen)
+                            @forelse ($dosens as $dosen)
                                 <tr>
                                     <td style="width:10%">
                                         @if ($dosen->user->foto)
@@ -43,9 +43,9 @@
                                         @endif
                                     </td>
                                     <td>{{ $dosen->user->nomor_induk }}</td>
-                                    <td>{{ $dosen->user->nama }}</td>
+                                    <td class="text-wrap">{{ $dosen->user->nama }}</td>
                                     <td>{{ $dosen->jurusan }}</td>
-                                    <td>{{ $dosen->user->email }}</td>
+                                    <td class="text-wrap">{{ $dosen->user->email }}</td>
                                     <td>
 
                                         <div class="d-flex justify-content-center">
@@ -63,9 +63,22 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="100%">
+                                        <div class="my-5">
+                                            <h3 class="text-muted">
+                                                Tidak Ada Data Dosen
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                    {{ $dosens->links() }}
                 </div>
             </div>
         </div>

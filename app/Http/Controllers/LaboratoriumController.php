@@ -17,11 +17,17 @@ class LaboratoriumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('admin')->only(['create', 'store', 'destroy']);
+    }
+
     public function index()
     {
         return view('v_laboratorium.index', [
             'title' => 'Data laboratorium',
-            'laboratoriums' => laboratorium::all()
+            'laboratoriums' => laboratorium::orderBy('nama', 'asc')->paginate(5)
         ]);
     }
 
@@ -75,8 +81,8 @@ class LaboratoriumController extends Controller
      */
     public function show(Laboratorium $laboratorium)
     {
-        $barangpakai = BarangPakai::where('laboratorium_id', $laboratorium->id)->get();
-        $baranghabis = BarangHabis::where('laboratorium_id', $laboratorium->id)->get();
+        $barangpakai = BarangPakai::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
+        $baranghabis = BarangHabis::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
         return view('v_laboratorium.show', [
             'title' => $laboratorium->nama,
             'laboratorium' => $laboratorium,
@@ -93,12 +99,16 @@ class LaboratoriumController extends Controller
      */
     public function edit(Laboratorium $laboratorium)
     {
-        $kepalalab = Dosen::where('kepalalab', 'false')->get();
-        return view('v_laboratorium.edit', [
-            'title' => 'Edit Data laboratorium',
-            'laboratorium' => $laboratorium,
-            'kepalalab' => $kepalalab
-        ]);
+        if (auth()->user()->role == 'admin' || $laboratorium->user->id == auth()->user()->id) {
+            $kepalalab = Dosen::where('kepalalab', 'false')->get();
+            return view('v_laboratorium.edit', [
+                'title' => 'Edit Data laboratorium',
+                'laboratorium' => $laboratorium,
+                'kepalalab' => $kepalalab
+            ]);
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -110,28 +120,32 @@ class LaboratoriumController extends Controller
      */
     public function update(Request $request, Laboratorium $laboratorium)
     {
-        $rules = [
-            'nama' => 'required|max:255',
-            'user_id' => 'required',
-            'deskripsi' => 'required',
-            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
-        ];
+        if (auth()->user()->role == 'admin' || $laboratorium->user->id == auth()->user()->id) {
+            $rules = [
+                'nama' => 'required|max:255',
+                'user_id' => 'required',
+                'deskripsi' => 'required',
+                'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+            ];
 
-        $validatedData = $request->validate($rules);
+            $validatedData = $request->validate($rules);
 
-        if ($request->file('upload')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);
+            if ($request->file('upload')) {
+                if ($request->oldImage) {
+                    Storage::delete($request->oldImage);
+                }
+                $validatedData['upload'] = $request->file('upload')->store('laboratorium-images');
             }
-            $validatedData['upload'] = $request->file('upload')->store('laboratorium-images');
+
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+
+            laboratorium::where('id', $laboratorium->id)->update($validatedData);
+            Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);
+            return redirect('/laboratorium')->with('success', 'Data laboratorium berhasil diubah');
+        } else {
+            abort(403);
         }
-
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
-
-        laboratorium::where('id', $laboratorium->id)->update($validatedData);
-        Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);
-        return redirect('/laboratorium')->with('success', 'Data laboratorium berhasil diubah');
     }
 
     /**

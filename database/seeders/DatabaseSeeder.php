@@ -288,7 +288,7 @@ class DatabaseSeeder extends Seeder
         Laboratorium::create([
             'id' => $labMDI,
             'user_id' => $userHaryati,
-            'nama' => 'LAB MDI',
+            'nama' => 'LAB 1 MDI',
             'deskripsi' => 'Laboratorium Manajemen Data & Informasi',
         ]);
 
@@ -296,7 +296,7 @@ class DatabaseSeeder extends Seeder
         Laboratorium::create([
             'id' => $labUX,
             'user_id' => $userCepi,
-            'nama' => 'LAB UX',
+            'nama' => 'LAB 2 UX',
             'deskripsi' => 'Laboratorium User Experience',
         ]);
 
@@ -304,7 +304,7 @@ class DatabaseSeeder extends Seeder
         Laboratorium::create([
             'id' => $labSI,
             'user_id' => $userTaufan,
-            'nama' => 'LAB SI',
+            'nama' => 'LAB 3 SI',
             'deskripsi' => 'Laboratorium Sistem Informasi',
         ]);
 
@@ -312,7 +312,7 @@ class DatabaseSeeder extends Seeder
         Laboratorium::create([
             'id' => $labRPL,
             'user_id' => $userSari,
-            'nama' => 'LAB RPL',
+            'nama' => 'LAB 4 RPL',
             'deskripsi' => 'Laboratorium Rekayasa Perangkat Lunak',
         ]);
 
@@ -320,8 +320,8 @@ class DatabaseSeeder extends Seeder
         Laboratorium::create([
             'id' => $labJaringan,
             'user_id' => $userSlamet,
-            'nama' => 'LAB Jaringan',
-            'deskripsi' => 'Laboratorium Jaringan',
+            'nama' => 'LAB 5 Jarkom',
+            'deskripsi' => 'Laboratorium Jaringan Komputer',
         ]);
 
         /**
@@ -393,6 +393,17 @@ class DatabaseSeeder extends Seeder
             'keterangan' => 'Baik',
         ]);
 
+        $bhUX = (string) Uuid::uuid4();
+        BarangHabis::create([
+            'id' => $bhUX,
+            'bahan_id' => $bahan,
+            'laboratorium_id' => $labUX,
+            'nama' => 'Kertas A4 UX',
+            'kode' => bin2hex(random_bytes(4)),
+            'deskripsi' => 'Kertas Printeran',
+            'keterangan' => 'Baik',
+        ]);
+
         /**
          * PelaksanaanSeeder
          */
@@ -417,6 +428,7 @@ class DatabaseSeeder extends Seeder
          * PermohonanSeeder
          *  | PermohonanDisetujui
          *  | PermohonanDitolak
+         *  | PermohonanDiverifikasi
          *  | PermohonanMenunggu
          */
 
@@ -433,8 +445,6 @@ class DatabaseSeeder extends Seeder
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',
             'status' => 'disetujui',
-            'catatan_dospem' => 'Rapihkan Kembali',
-            'keterangan_kalab' => 'Setelah selesai segera laporan ke saya',
             'mulai' => '2023-03-25 14:39:00',
             'selesai' => '2023-03-26 14:39:00',
         ]);
@@ -452,16 +462,15 @@ class DatabaseSeeder extends Seeder
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',
             'status' => 'ditolak',
-            'catatan_dospem' => 'permohonan tidak jelas',
-            'keterangan_kalab' => 'lab sedang dipakai',
+            'keterangan' => 'lab sedang dipakai',
             'mulai' => '2023-03-25 14:39:00',
             'selesai' => null,
         ]);
 
-        // PermohonanMenunggu
-        $permohonanTunggu = (string) Uuid::uuid4();
+        // PermohonanDiverifikasi
+        $permohonanVerifikasi = (string) Uuid::uuid4();
         Kegiatan::create([
-            'id' => $permohonanTunggu,
+            'id' => $permohonanVerifikasi,
             'user_id' => $userNur,
             'dospem_id' => $dosenNur,
             'laboratorium_id' => $labUX,
@@ -470,6 +479,23 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Presentasi tugas APSI',
             'jenis' => 'permohonan',
             'tipe' => 'perkuliahan',
+            'status' => 'diverifikasi',
+            'mulai' => '2023-03-25 14:39:00',
+            'selesai' => null,
+        ]);
+
+        // PermohonanMenunggu
+        $permohonanTunggu = (string) Uuid::uuid4();
+        Kegiatan::create([
+            'id' => $permohonanTunggu,
+            'user_id' => $userTia,
+            'dospem_id' => $dosenNur,
+            'laboratorium_id' => $labJaringan,
+            'kode' => bin2hex(random_bytes(4)),
+            'nama' => 'Japok',
+            'deskripsi' => 'Kerja Kelompok APSI',
+            'jenis' => 'permohonan',
+            'tipe' => 'non perkuliahan',
             'status' => 'menunggu',
             'mulai' => '2023-03-25 14:39:00',
             'selesai' => null,
@@ -507,7 +533,13 @@ class DatabaseSeeder extends Seeder
 
         /**
          * PenggunaanSeeder
+         * | PenggunaanDisetujui
+         * | PenggunaanDitolak
+         * | PenggunaanMenungguJaringan
+         * | PenggunaanMenungguUX
          */
+
+        //  PenggunaanDisetujui
         Penggunaan::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $userTia,
@@ -515,7 +547,39 @@ class DatabaseSeeder extends Seeder
             'baranghabis_id' => $bhJaringan,
             'jumlah' => 2,
             'status' => 'disetujui',
-            'keterangan' => 'Kondisi Bekas',
+            'tanggal' => '2023-03-26 14:39:00',
+        ]);
+
+        // PenggunaanDitolak
+        Penggunaan::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $userTia,
+            'kegiatan_id' => $pelaksanaan,
+            'baranghabis_id' => $bhJaringan,
+            'jumlah' => 2,
+            'status' => 'ditolak',
+            'keterangan' => 'Kondisi Rusak',
+            'tanggal' => '2023-03-26 14:39:00',
+        ]);
+
+        // PenggunaanMenungguJaringan
+        Penggunaan::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $userTia,
+            'kegiatan_id' => $pelaksanaan,
+            'baranghabis_id' => $bhJaringan,
+            'jumlah' => 2,
+            'status' => 'menunggu',
+            'tanggal' => '2023-03-26 14:39:00',
+        ]);
+        // PenggunaanMenungguUX
+        Penggunaan::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $userTia,
+            'kegiatan_id' => $permohonanSetuju,
+            'baranghabis_id' => $bhUX,
+            'jumlah' => 2,
+            'status' => 'menunggu',
             'tanggal' => '2023-03-26 14:39:00',
         ]);
     }

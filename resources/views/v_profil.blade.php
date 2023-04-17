@@ -2,7 +2,12 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Profil /</span> {{ $user->nama }}</h4>
-
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-12">
                 {{-- <ul class="nav nav-pills flex-column flex-md-row mb-3">
@@ -170,41 +175,59 @@
                                             <h5 class="mb-0">Ubah Password</h5>
                                             <small>(Kosongkan jika tidak mengubah password)</small>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="password">Password</label>
-                                            <input type="password"
-                                                class="form-control @if (session()->has('password')) is-invalid @endif"
-                                                id="password" placeholder="Password" name="password"
-                                                value="{{ old('password') }}" />
-                                            @if (session()->has('password'))
-                                                <div class="invalid-feedback">
-                                                    {{ session('password') }}
-                                                </div>
-                                            @endif
+                                        <div class="mb-3 form-password-toggle">
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label" for="password">Password</label>
+                                            </div>
+                                            <div class="input-group input-group-merge">
+                                                <input type="password"
+                                                    class="form-control @if (session()->has('password')) is-invalid @endif"
+                                                    id="password" placeholder="Password" name="password"
+                                                    value="{{ old('password') }}" />
+                                                <span class="input-group-text cursor-pointer"><i
+                                                        class="bx bx-hide"></i></span>
+                                                @if (session()->has('password'))
+                                                    <div class="invalid-feedback">
+                                                        {{ session('password') }}
+                                                    </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="new_password">Password Baru</label>
-                                            <input type="password"
-                                                class="form-control @error('new_password') is-invalid @enderror"
-                                                id="new_password" placeholder="Password Baru" name="new_password" />
-                                            @error('new_password')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+                                        <div class="mb-3 form-password-toggle">
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label" for="new_password">Password Baru</label>
+                                            </div>
+                                            <div class="input-group input-group-merge">
+                                                <input type="password"
+                                                    class="form-control @error('new_password') is-invalid @enderror"
+                                                    id="new_password" placeholder="Password Baru" name="new_password" />
+                                                <span class="input-group-text cursor-pointer"><i
+                                                        class="bx bx-hide"></i></span>
+                                                @error('new_password')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="new_password_confirmation">Konfirmasi Password
-                                                Baru</label>
-                                            <input type="password"
-                                                class="form-control @error('new_password_confirmation') is-invalid @enderror"
-                                                id="new_password_confirmation" placeholder="Konfirmasi Password Baru"
-                                                name="new_password_confirmation" />
-                                            @error('new_password_confirmation')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
+                                        <div class="mb-3 form-password-toggle">
+                                            <div class="d-flex justify-content-between">
+                                                <label class="form-label" for="new_password_confirmation">Konfirmasi
+                                                    Password Baru</label>
+                                            </div>
+                                            <div class="input-group input-group-merge">
+                                                <input type="password"
+                                                    class="form-control @error('new_password_confirmation') is-invalid @enderror"
+                                                    id="new_password_confirmation" placeholder="Password Baru"
+                                                    name="new_password_confirmation" />
+                                                <span class="input-group-text cursor-pointer"><i
+                                                        class="bx bx-hide"></i></span>
+                                                @error('new_password_confirmation')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +239,7 @@
                     </div>
                     <!-- /Account -->
                 </div>
-                <div class="card">
+                {{-- <div class="card">
                     <h5 class="card-header">Relasi Akun</h5>
                     <div class="card-body">
                         <div class="mb-3 col-12 mb-0">
@@ -226,7 +249,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

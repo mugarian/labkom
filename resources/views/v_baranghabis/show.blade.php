@@ -34,9 +34,28 @@
                             <label class="form-label" for="deskripsi">Deskripsi</label>
                             <p class="form-control">{{ $baranghabis->deskripsi }}</p>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label" for="keterangan">Keterangan</label>
                             <p class="form-control">{{ $baranghabis->keterangan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-start">
+                                @if (auth()->user()->role == 'admin' || auth()->user()->id == $baranghabis->laboratorium->user->id)
+                                    <a href="/baranghabis/{{ $baranghabis->id }}/edit"
+                                        class="btn btn-outline-warning mx-1">Edit</a>
+                                    <form action="/baranghabis/{{ $baranghabis->id }}" method="post">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger mx-1">
+                                            Delete
+                                        </button>
+                                    </form>
+                                @endif
+                                @if (auth()->user()->role != 'admin')
+                                    <a href="/penggunaan/{{ $baranghabis->id }}/guna"
+                                        class="btn btn-outline-primary mx-1">Gunakan</a>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -71,18 +90,21 @@
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
                     @if (auth()->user()->role == 'admin' || auth()->user()->id == $baranghabis->laboratorium->user->id)
-                        <a href="/baranghabis/{{ $baranghabis->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
+                        <a href="/baranghabis/{{ $baranghabis->id }}/edit" class="btn btn-outline-warning mx-1">Edit</a>
                         <form action="/baranghabis/{{ $baranghabis->id }}" method="post">
                             @method('delete')
                             @csrf
-                            <button type="submit" class="btn btn-outline-danger">
+                            <button type="submit" class="btn btn-outline-danger mx-1">
                                 Delete
                             </button>
                         </form>
+                    @endif
+                    @if (auth()->user()->role != 'admin')
+                        <a href="/penggunaan/{{ $baranghabis->id }}/guna" class="btn btn-outline-primary mx-1">Gunakan</a>
                     @endif
                 </div>
             </div>
@@ -97,6 +119,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

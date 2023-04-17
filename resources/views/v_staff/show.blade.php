@@ -29,9 +29,19 @@
                             <label class="form-label" for="bidang">bidang</label>
                             <p class="form-control">{{ $staff->bidang }}</p>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label" for="Email">email</label>
                             <p class="form-control">{{ $staff->user->email }}</p>
+                        </div>
+                        <div class="d-flex justify-content-start">
+                            <a href="/staff/{{ $staff->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
+                            <form action="/staff/{{ $staff->id }}" method="post">
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -58,7 +68,7 @@
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
                     <a href="/staff/{{ $staff->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
@@ -82,6 +92,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -30,9 +30,21 @@
                             <label class="form-label" for="jurusan">Jurusan</label>
                             <p class="form-control">{{ $dosen->jurusan }}</p>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label" for="Email">email</label>
                             <p class="form-control">{{ $dosen->user->email }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-start">
+                                <a href="/dosen/{{ $dosen->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
+                                <form action="/dosen/{{ $dosen->id }}" method="post">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +71,7 @@
             </div>
         </div>
 
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
                     <a href="/dosen/{{ $dosen->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
@@ -83,6 +95,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

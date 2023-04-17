@@ -21,9 +21,10 @@
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Masukkan kode barang yang telah tertera di barang secara manual,atau
-                                        lakukan pemindaian kode qr untuk menambah data pemakaian secara otomatis.
-                                        selanjutnya masukan kode kegiatan yang sedang berlangsung
+                                    <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
+                                        dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
+                                        disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
+                                        yang tertera pada barang untuk pengisian kode barang secara otomatis
                                     </p>
                                 </div>
                             </div>
@@ -31,7 +32,7 @@
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="barangpakai_id">Kode Barang</label>
                                 <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
-                                    id="barangpakai_id" placeholder="barangpakai_id" value="{{ old('barangpakai_id') }}"
+                                    id="barangpakai_id" placeholder="kode barang" value="{{ old('barangpakai_id') }}"
                                     name="barangpakai_id" required />
                                 @error('barangpakai_id')
                                     <div class="invalid-feedback">
@@ -39,10 +40,10 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
                                 <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
-                                    id="kegiatan_id" placeholder="kegiatan_id" value="{{ old('kegiatan_id') }}"
+                                    id="kegiatan_id" placeholder="kode kegiatan" value="{{ old('kegiatan_id') }}"
                                     name="kegiatan_id" required />
                                 @error('kegiatan_id')
                                     <div class="invalid-feedback">
@@ -50,30 +51,34 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Pakai</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-xl">
-            </div>
         </div>
+        <div class="col-xl">
+        </div>
+    </div>
 
-        <div class="card">
-            <div class="card-header">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">pemakaian Data pemakaian</h6>
-                        <p class="mb-0">Ketika Form Tambah Data pemakaian ditambahkan,<br />
-                            Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                            Dan Langsung Disambungkan sesuai kode qr yang tertera
-                        </p>
-                    </div>
+    {{-- <div class="card">
+        <div class="card-header">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-primary">
+                    <h6 class="alert-heading fw-bold mb-1">pemakaian Data pemakaian</h6>
+                    <p class="mb-0">Ketika Form Tambah Data pemakaian ditambahkan,<br />
+                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
+                        Dan Langsung Disambungkan sesuai kode qr yang tertera
+                    </p>
                 </div>
             </div>
         </div>
+    </div> --}}
     </div>
     <script>
         let currentDate = new Date().toISOString().slice(0, -8);

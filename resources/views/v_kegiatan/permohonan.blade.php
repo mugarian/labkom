@@ -52,11 +52,16 @@
                                 <label class="form-label" for="tipe">Tipe Kegiatan</label>
                                 <select id="organization" class="select2 form-select @error('tipe') is-invalid @enderror"
                                     name="tipe">
-                                    <option value="">Pilih Tipe Kegiatan</option>
-                                    <option value="perkuliahan" @selected(old('tipe') == 'perkuliahan')>
-                                        Perkuliahan</option>
-                                    <option value="non perkuliahan" @selected(old('tipe') == 'non perkuliahan')>
-                                        Non Perkuliahan</option>
+                                    @if (auth()->user()->role == 'dosen')
+                                        <option value="">Pilih Tipe Kegiatan</option>
+                                        <option value="perkuliahan" @selected(old('tipe') == 'perkuliahan')>
+                                            Perkuliahan</option>
+                                        <option value="non perkuliahan" @selected(old('tipe') == 'non perkuliahan')>
+                                            Non Perkuliahan</option>
+                                    @else
+                                        <option value="non perkuliahan" @selected(old('tipe') == 'non perkuliahan')>
+                                            Non Perkuliahan</option>
+                                    @endif
                                 </select>
                                 @error('tipe')
                                     <div class="invalid-feedback">
@@ -127,55 +132,48 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-xl">
-                {{-- <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Kode QR</h5>
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                    <img src="{{ asset('img') }}/qr.png" alt="user-avatar" class="d-block rounded"
-                                        height="190" width="190" id="uploadedAvatar" />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-default-fullname">Kode</label>
-                                <input type="text" class="form-control" id="basic-default-fullname"
-                                    placeholder="4HBT6IKL" readonly="readonly" />
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-default-message">Keterangan</label>
-                                <textarea id="basic-default-message" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?"
-                                    aria-label="Hi, Do you have a moment to talk Joe?" aria-describedby="basic-icon-default-message2"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                </div> --}}
-            </div>
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
+        <div class="col-xl">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Perhatian</h5>
+                </div>
+                <div class="card-body">
                     <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Penamkegiatan Data kegiatan</h6>
-                        <p class="mb-0">Ketika Form Tambah Data kegiatan ditambahkan,<br />
-                            Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                            Dan Langsung Disambungkan sesuai kode qr yang tertera
+                        <h6 class="alert-heading fw-bold mb-1">Status Kegiatan</h6>
+                        <p class="mb-0">
+                            Kegiatan berjenis permohonan bisa dilaksanakan ketika status sudah diverifikasi
+                            oleh Dosen Pengampu dan disetujui Kepala Lab
                         </p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    {{-- <div class="card">
+        <div class="card-header">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-primary">
+                    <h6 class="alert-heading fw-bold mb-1">Penamkegiatan Data kegiatan</h6>
+                    <p class="mb-0">Ketika Form Tambah Data kegiatan ditambahkan,<br />
+                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
+                        Dan Langsung Disambungkan sesuai kode qr yang tertera
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div> --}}
     </div>
     <script>
         let currentDate = new Date().toISOString().slice(0, -8);

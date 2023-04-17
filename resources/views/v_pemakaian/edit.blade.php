@@ -2,9 +2,9 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/pemakaian" class="text-secondary">pemakaian</a> /
+                <a href="/pemakaian" class="text-secondary">Data Pemakaian</a> /
                 <a href="/pemakaian/{{ $pemakaian->id }}" class="text-secondary">{{ $pemakaian->barangpakai->nama }}</a> /
-            </span> Validasi
+            </span> Cek Kondisi
         </h4>
 
         <!-- Basic Layout -->
@@ -12,7 +12,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">pemakaian</h5>
+                        <h5 class="mb-0">Pemakaian</h5>
                         <small class="text-muted float-end"><a href="/pemakaian">
                                 < Kembali </a></small>
                     </div>
@@ -74,7 +74,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="keterangan">keterangan</label>
                                 <textarea id="keterangan" class="form-control @error('keterangan')
                                 is-invalid @enderror"
@@ -85,71 +85,75 @@
                                     </div>
                                 @enderror
                             </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Barang</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($pemakaian->barangpakai->foto)
-                                    <img src="{{ asset('storage') . '/' . $pemakaian->foto }}" alt="pemakaian-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
-                                @else
-                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
-                                        height="200" width="200" id="uploadedAvatar" />
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="kode">Kode Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->kode }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama">nama Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="keterangan">keterangan Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->keterangan }}</p>
-                        </div>
-                        <div class="mt-5 mb-3">
-                            <h5 class="mb-0">Kegiatan</h5>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="kode">kode kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->kode }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="jenis">jenis kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->jenis }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama">Oleh</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->user->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama">nama kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="deskripsi">deskripsi kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->deskripsi }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="tanggal">Tanggal Mulai</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->mulai }}</p>
-                        </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Selesai</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-xl">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Barang</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                            @if ($pemakaian->barangpakai->foto)
+                                <img src="{{ asset('storage') . '/' . $pemakaian->foto }}" alt="pemakaian-avatar"
+                                    class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                            @else
+                                <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
+                                    height="200" width="200" id="uploadedAvatar" />
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="kode">Kode Barang</label>
+                        <p class="form-control">{{ $pemakaian->barangpakai->kode }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nama">nama Barang</label>
+                        <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="keterangan">keterangan Barang</label>
+                        <p class="form-control">{{ $pemakaian->barangpakai->keterangan }}</p>
+                    </div>
+                    <div class="mt-5 mb-3">
+                        <h5 class="mb-0">Kegiatan</h5>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="kode">kode kegiatan</label>
+                        <p class="form-control">{{ $pemakaian->kegiatan->kode }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="jenis">jenis kegiatan</label>
+                        <p class="form-control">{{ $pemakaian->kegiatan->jenis }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nama">Oleh</label>
+                        <p class="form-control">{{ $pemakaian->kegiatan->user->nama }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="nama">nama kegiatan</label>
+                        <p class="form-control">{{ $pemakaian->kegiatan->nama }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="deskripsi">deskripsi kegiatan</label>
+                        <p class="form-control">{{ $pemakaian->kegiatan->deskripsi }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="tanggal">Tanggal Mulai</label>
+                        <p class="form-control">{{ $pemakaian->kegiatan->mulai }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="card">
+    {{-- <div class="card">
             <div class="card-header">
                 <button type="submit" class="btn btn-primary">Selesai</button>
                 </form>
@@ -165,7 +169,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <script>
         function padTo2Digits(num) {

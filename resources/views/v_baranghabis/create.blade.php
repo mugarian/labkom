@@ -96,7 +96,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label" for="keterangan">Keterangan</label>
                                 <textarea id="keterangan" class="form-control @error('keterangan') is-invalid @enderror" placeholder="keterangan"
                                     name="keterangan" required>{{ old('keterangan') }}</textarea>
@@ -106,11 +106,15 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-xl">
-                {{-- <div class="card mb-4">
+        </div>
+        <div class="col-xl">
+            {{-- <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Kode QR</h5>
                     </div>
@@ -135,10 +139,10 @@
                         </form>
                     </div>
                 </div> --}}
-            </div>
         </div>
+    </div>
 
-        <div class="card">
+    {{-- <div class="card">
             <div class="card-header">
                 <button type="submit" class="btn btn-primary">Tambah</button>
                 </form>
@@ -154,7 +158,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <script>
         function previewImage() {
