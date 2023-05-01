@@ -3,8 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/laboratorium/{{ $baranghabis->laboratorium_id }}"
-                    class="text-secondary">{{ $baranghabis->laboratorium->nama }}</a> /
+                <a href="/baranghabis" class="text-secondary">Data Barang Habis</a> /
             </span> {{ $baranghabis->nama }}
         </h4>
         <!-- Basic Layout -->
@@ -14,7 +13,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Barang Habis</h5>
                         <small class="text-muted float-end">
-                            <a href="/laboratorium/{{ $baranghabis->laboratorium_id }}">
+                            <a href="/baranghabis">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
@@ -31,6 +30,10 @@
                             <p class="form-control">{{ $baranghabis->bahan->nama }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="merk">Laboratorium</label>
+                            <p class="form-control">{{ $baranghabis->laboratorium->nama }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="deskripsi">Deskripsi</label>
                             <p class="form-control">{{ $baranghabis->deskripsi }}</p>
                         </div>
@@ -40,20 +43,21 @@
                         </div>
                         <div class="mb-3">
                             <div class="d-flex justify-content-start">
-                                @if (auth()->user()->role == 'admin' || auth()->user()->id == $baranghabis->laboratorium->user->id)
+                                @if (auth()->user()->id == $baranghabis->laboratorium->user->id || auth()->user()->role == 'admin')
                                     <a href="/baranghabis/{{ $baranghabis->id }}/edit"
                                         class="btn btn-outline-warning mx-1">Edit</a>
                                     <form action="/baranghabis/{{ $baranghabis->id }}" method="post">
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger mx-1">
+                                        <button type="submit" class="btn btn-outline-danger mx-1"
+                                            onclick="if (confirm('Hapus Data')) return true; return false">
                                             Delete
                                         </button>
                                     </form>
                                 @endif
                                 @if (auth()->user()->role != 'admin')
-                                    <a href="/penggunaan/{{ $baranghabis->id }}/guna"
-                                        class="btn btn-outline-primary mx-1">Gunakan</a>
+                                    <a href="/pemakaian/{{ $baranghabis->id }}/pakai"
+                                        class="btn btn-outline-primary mx-1">Pakai</a>
                                 @endif
                             </div>
                         </div>
@@ -77,12 +81,10 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <div class="mt-5 mb-3">
-                                <h5 class="mb-3">Kode Barang</h5>
-                                <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                    {{ $qrcode }}
-                                </div>
+                        <div class="mt-5 mb-3">
+                            <h5 class="mb-3">Kode Barang</h5>
+                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                                {{ $qrcode }}
                             </div>
                         </div>
                     </div>
@@ -93,7 +95,7 @@
         {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">
-                    @if (auth()->user()->role == 'admin' || auth()->user()->id == $baranghabis->laboratorium->user->id)
+                    @if (auth()->user()->id == $baranghabis->laboratorium->user->id || auth()->user()->role == 'admin')
                         <a href="/baranghabis/{{ $baranghabis->id }}/edit" class="btn btn-outline-warning mx-1">Edit</a>
                         <form action="/baranghabis/{{ $baranghabis->id }}" method="post">
                             @method('delete')
@@ -104,15 +106,15 @@
                         </form>
                     @endif
                     @if (auth()->user()->role != 'admin')
-                        <a href="/penggunaan/{{ $baranghabis->id }}/guna" class="btn btn-outline-primary mx-1">Gunakan</a>
+                        <a href="/pemakaian/{{ $baranghabis->id }}/pakai" class="btn btn-outline-primary mx-1">Pakai</a>
                     @endif
                 </div>
             </div>
             <div class="card-body">
                 <div class="mb-3 col-12 mb-0">
                     <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Kelola Data Barang habis</h6>
-                        <p class="mb-0">Ketika Form Tambah Data barang habis dihapus atau diubah,<br />
+                        <h6 class="alert-heading fw-bold mb-1">Kelola Data Barang Habis</h6>
+                        <p class="mb-0">Ketika Form Tambah Data Barang Habis dihapus atau diubah,<br />
                             Maka Secara Otomatis Kode QR akan dihapus atau terubah, <br />
                             Dan Langsung diseusaikan dengan kode qr yang tertera
                         </p>

@@ -51,14 +51,22 @@
                                     <td>
 
                                         <div class="d-flex justify-content-center">
-                                            <a class="btn btn-outline-success p-1" href="/staff/{{ $staff->id }}"><i
-                                                    class="bx bx-info-circle"></i></a>
-                                            <a class="btn btn-outline-warning p-1" href="/staff/{{ $staff->id }}/edit"><i
-                                                    class="bx bx-edit-alt"></i></a>
+                                            <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-title="Lihat"
+                                                href="/staff/{{ $staff->id }}">
+                                                <i class="bx bx-info-circle"></i>
+                                            </a>
+                                            <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-title="Ubah"
+                                                href="/staff/{{ $staff->id }}/edit">
+                                                <i class="bx bx-edit-alt"></i>
+                                            </a>
                                             <form action="/staff/{{ $staff->id }}" method="post">
                                                 @method('delete')
                                                 @csrf
-                                                <button type="submit" class="btn btn-outline-danger p-1">
+                                                <button type="submit" class="btn btn-outline-danger p-1"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hapus"
+                                                    onclick="if (confirm('Hapus Data')) return true; return false">
                                                     <i class="bx bx-trash"></i>
                                                 </button>
                                             </form>

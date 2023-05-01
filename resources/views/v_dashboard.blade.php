@@ -6,70 +6,76 @@
         @if (auth()->user()->role == 'admin')
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-group'></i>
+                    <a href="/dosen">
+                        <div class="card">
+                            <center>
+                                <div class="card-body">
+                                    <div class="card-title d-flex align-items-center justify-content-center">
+                                        <div class="avatar flex-shrink-0">
+                                            <i class='fs-1 text-primary bx bx-group'></i>
+                                        </div>
                                     </div>
+                                    <span class="fw-semibold d-block mb-1">Dosen</span>
+                                    <h3 class="card-title mb-2">{{ $dosen->count() }}</h3>
+                                    {{-- <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
+                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
+                                        3</small>
+                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
+                                        1</small>
+                                </div> --}}
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Dosen</span>
-                                <h3 class="card-title mb-2">{{ $dosen->count() }}</h3>
-                                {{-- <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                    3</small>
-                                <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                    1</small>
-                            </div> --}}
-                            </div>
-                        </center>
-                    </div>
+                            </center>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-group'></i>
+                    <a href="/mahasiswa">
+                        <div class="card">
+                            <center>
+                                <div class="card-body">
+                                    <div class="card-title d-flex align-items-center justify-content-center">
+                                        <div class="avatar flex-shrink-0">
+                                            <i class='fs-1 text-primary bx bx-group'></i>
+                                        </div>
                                     </div>
+                                    <span class="fw-semibold d-block mb-1">Mahasiswa</span>
+                                    <h3 class="card-title mb-2">{{ $mahasiswa->count() }}</h3>
+                                    {{-- <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
+                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
+                                        3</small>
+                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
+                                        1</small>
+                                </div> --}}
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Mahasiswa</span>
-                                <h3 class="card-title mb-2">{{ $mahasiswa->count() }}</h3>
-                                {{-- <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                    3</small>
-                                <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                    1</small>
-                            </div> --}}
-                            </div>
-                        </center>
-                    </div>
+                            </center>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-group'></i>
+                    <a href="/staff">
+                        <div class="card">
+                            <center>
+                                <div class="card-body">
+                                    <div class="card-title d-flex align-items-center justify-content-center">
+                                        <div class="avatar flex-shrink-0">
+                                            <i class='fs-1 text-primary bx bx-group'></i>
+                                        </div>
                                     </div>
+                                    <span class="fw-semibold d-block mb-1">Staff</span>
+                                    <h3 class="card-title mb-2">{{ $staff->count() }}</h3>
+                                    {{-- <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
+                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
+                                        3</small>
+                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
+                                        1</small>
+                                </div> --}}
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Staff</span>
-                                <h3 class="card-title mb-2">{{ $staff->count() }}</h3>
-                                {{-- <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                    3</small>
-                                <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                    1</small>
-                            </div> --}}
-                            </div>
-                        </center>
-                    </div>
+                            </center>
+                        </div>
+                    </a>
                 </div>
             </div>
         @endif
@@ -77,166 +83,187 @@
         {{-- FASILITAS --}}
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <div class="card">
-                    <center>
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-center justify-content-center">
-                                <div class="avatar flex-shrink-0">
-                                    <i class='fs-1 text-primary bx bx-door-open'></i>
+                <a href="/laboratorium">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-door-open'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block mb-1">Laboratorium</span>
+                                <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
+                                <small> &nbsp; </small>
+                                <div class="d-flex justify-content-evenly">
+                                    {{-- <small class="text-primary fw-semibold">
+                                        <i class="bx bx-desktop"></i>{{ $barangpakai->count() }}
+                                    </small>
+                                    <small class="text-primary fw-semibold">
+                                        <i class="bx bx-package"></i> {{ $baranghabis->count() }}
+                                    </small> --}}
+                                    {{-- <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
+                                        1</small> --}}
                                 </div>
                             </div>
-                            <span class="fw-semibold d-block mb-1">Laboratorium</span>
-                            <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
-                            <small> &nbsp; </small>
-                            <div class="d-flex justify-content-evenly">
-                                {{-- <small class="text-primary fw-semibold">
-                                    <i class="bx bx-desktop"></i>{{ $barangpakai->count() }}
-                                </small>
-                                <small class="text-primary fw-semibold">
-                                    <i class="bx bx-package"></i> {{ $baranghabis->count() }}
-                                </small> --}}
-                                {{-- <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                    1</small> --}}
-                            </div>
-                        </div>
-                    </center>
-                </div>
+                        </center>
+                    </div>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <div class="card">
-                    <center>
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-center justify-content-center">
-                                <div class="avatar flex-shrink-0">
-                                    <i class='fs-1 text-primary bx bx-desktop'></i>
+                <a href="alat">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-desktop'></i>
+                                    </div>
                                 </div>
+                                <span class="fw-semibold d-block mb-1">Alat</span>
+                                <h3 class="card-title mb-2">
+                                    {{ $alat->count() }}
+                                </h3>
+                                <small>(Barang Pakai: {{ $barangpakai->count() }})</small>
+                                {{-- <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
+                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
+                                        3</small>
+                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
+                                        1</small>
+                                </div> --}}
                             </div>
-                            <span class="fw-semibold d-block mb-1">Alat</span>
-                            <h3 class="card-title mb-2">
-                                {{ $alat->count() }}
-                            </h3>
-                            <small>(Barang Pakai: {{ $barangpakai->count() }})</small>
-                            {{-- <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                    3</small>
-                                <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                    1</small>
-                            </div> --}}
-                        </div>
-                    </center>
-                </div>
+                        </center>
+                    </div>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <div class="card">
-                    <center>
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-center justify-content-center">
-                                <div class="avatar flex-shrink-0">
-                                    <i class='fs-1 text-primary bx bx-package'></i>
+                <a href="/bahan">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-package'></i>
+                                    </div>
                                 </div>
+                                <span class="fw-semibold d-block mb-1">Bahan</span>
+                                <h3 class="card-title mb-2">
+                                    {{ $bahan->count() }}
+                                </h3>
+                                <small>(Barang Habis: {{ $baranghabis->count() }})</small>
+                                {{-- <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
+                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
+                                        3</small>
+                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
+                                        1</small>
+                                </div> --}}
                             </div>
-                            <span class="fw-semibold d-block mb-1">Bahan</span>
-                            <h3 class="card-title mb-2">
-                                {{ $bahan->count() }}
-                            </h3>
-                            <small>(Barang Habis: {{ $baranghabis->count() }})</small>
-                            {{-- <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                    3</small>
-                                <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                    1</small>
-                            </div> --}}
-                        </div>
-                    </center>
-                </div>
+                        </center>
+                    </div>
+                </a>
             </div>
         </div>
 
         {{-- AKTIVITAS --}}
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <div class="card">
-                    <center>
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-center justify-content-center">
-                                <div class="avatar flex-shrink-0">
-                                    <i class='fs-1 text-primary bx bx-message-error'></i>
+                <a href="/kegiatan">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block mb-1">Kegiatan</span>
+                                <h3 class="card-title mb-2">{{ $kegiatan }}</h3>
+                                <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Disetujui">
+                                        <i class="bx bx-check-double"></i> {{ $ksetuju }}
+                                    </small>
+                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Diverifikasi">
+                                        <i class="bx bx-check"></i> {{ $kverif }}
+                                    </small>
+                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Ditolak">
+                                        <i class="bx bx-x"></i> {{ $ktolak }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Menunggu">
+                                        <i class="bx bx-question-mark"></i> {{ $ktunggu }}
+                                    </small>
                                 </div>
                             </div>
-                            <span class="fw-semibold d-block mb-1">Kegiatan</span>
-                            <h3 class="card-title mb-2">{{ $kegiatan }}</h3>
-                            <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold">
-                                    <i class="bx bx-check-double"></i> {{ $ksetuju }}
-                                </small>
-                                <small class="text-primary fw-semibold">
-                                    <i class="bx bx-check"></i> {{ $kverif }}
-                                </small>
-                                <small class="text-danger fw-semibold">
-                                    <i class="bx bx-x"></i> {{ $ktolak }}
-                                </small>
-                                <small class="text-secondary fw-semibold">
-                                    <i class="bx bx-question-mark"></i> {{ $ktunggu }}
-                                </small>
-                            </div>
-                        </div>
-                    </center>
-                </div>
+                        </center>
+                    </div>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <div class="card">
-                    <center>
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-center justify-content-center">
-                                <div class="avatar flex-shrink-0">
-                                    <i class='fs-1 text-primary bx bx-code-block'></i>
+                <a href="/pemakaian">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar-heart'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block mb-1">Pemakaian</span>
+                                <h3 class="card-title mb-2">
+                                    {{ $pemakaian }}
+                                </h3>
+                                <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold">
+                                        <i class="bx bx-check-circle" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Selesai"></i> {{ $pkselesai }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Mulai">
+                                        <i class="bx bx-time"></i> {{ $pkmulai }}
+                                    </small>
                                 </div>
                             </div>
-                            <span class="fw-semibold d-block mb-1">Pemakaian</span>
-                            <h3 class="card-title mb-2">
-                                {{ $pemakaian }}
-                            </h3>
-                            <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold">
-                                    <i class="bx bx-check-circle"></i> {{ $pkselesai }}
-                                </small>
-                                <small class="text-secondary fw-semibold">
-                                    <i class="bx bx-time"></i> {{ $pkmulai }}
-                                </small>
-                            </div>
-                        </div>
-                    </center>
-                </div>
+                        </center>
+                    </div>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <div class="card">
-                    <center>
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-center justify-content-center">
-                                <div class="avatar flex-shrink-0">
-                                    <i class='fs-1 text-primary bx bx-calendar-plus'></i>
+                <a href="/penggunaan">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar-star'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block mb-1">Penggunaan</span>
+                                <h3 class="card-title mb-2">
+                                    {{ $penggunaan }}
+                                </h3>
+                                <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold">
+                                        <i class="bx bx-check" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Disetujui"></i> {{ $pgsetuju }}
+                                    </small>
+                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Ditolak">
+                                        <i class="bx bx-x"></i> {{ $pgtolak }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Menunggu">
+                                        <i class="bx bx-question-mark"></i> {{ $pgtunggu }}
+                                    </small>
                                 </div>
                             </div>
-                            <span class="fw-semibold d-block mb-1">Penggunaan</span>
-                            <h3 class="card-title mb-2">
-                                {{ $penggunaan }}
-                            </h3>
-                            <div class="d-flex justify-content-evenly">
-                                <small class="text-success fw-semibold">
-                                    <i class="bx bx-check"></i> {{ $pgsetuju }}
-                                </small>
-                                <small class="text-danger fw-semibold">
-                                    <i class="bx bx-x"></i> {{ $pgtolak }}
-                                </small>
-                                <small class="text-secondary fw-semibold">
-                                    <i class="bx bx-question-mark"></i> {{ $pgtunggu }}
-                                </small>
-                            </div>
-                        </div>
-                    </center>
-                </div>
+                        </center>
+                    </div>
+                </a>
             </div>
         </div>
 

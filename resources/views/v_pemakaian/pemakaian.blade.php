@@ -83,6 +83,7 @@
         <div class="card">
             <div class="card-header">
                 <button type="submit" class="btn btn-primary">Tambah</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
                 </form>
             </div>
             <div class="card-body">

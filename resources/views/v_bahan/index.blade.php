@@ -50,16 +50,21 @@
                                     <td class="text-wrap">{{ $bahan->spesifikasi }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <a class="btn btn-outline-success p-1" href="/bahan/{{ $bahan->id }}"><i
-                                                    class="bx bx-info-circle"></i></a>
+                                            <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-title="Lihat"
+                                                href="/bahan/{{ $bahan->id }}"><i class="bx bx-info-circle"></i></a>
                                             @if (auth()->user()->role == 'admin')
-                                                <a class="btn btn-outline-warning p-1"
+                                                <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Ubah"
                                                     href="/bahan/{{ $bahan->id }}/edit"><i
                                                         class="bx bx-edit-alt"></i></a>
                                                 <form action="/bahan/{{ $bahan->id }}" method="post">
                                                     @method('delete')
                                                     @csrf
-                                                    <button type="submit" class="btn btn-outline-danger p-1">
+                                                    <button type="submit" class="btn btn-outline-danger p-1"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Hapus"
+                                                        onclick="if (confirm('Hapus Data')) return true; return false">
                                                         <i class="bx bx-trash"></i>
                                                     </button>
                                                 </form>

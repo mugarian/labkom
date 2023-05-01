@@ -23,6 +23,24 @@
                             <label class="form-label" for="selesai">Selesai Pemakaian</label>
                             <p class="form-control">{{ $pemakaian->selesai }}</p>
                         </div>
+                        @if ($pemakaian->barangpakai->alat->kategori == 'pc')
+                            <div class="mb-3">
+                                <label class="form-label" for="cpu">CPU</label>
+                                <p class="form-control">{{ $pemakaian->cpu }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="monitor">Monitor</label>
+                                <p class="form-control">{{ $pemakaian->monitor }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="keyboard">Keyboard</label>
+                                <p class="form-control">{{ $pemakaian->keyboard }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="mouse">Mouse</label>
+                                <p class="form-control">{{ $pemakaian->mouse }}</p>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label class="form-label" for="keterangan">keterangan</label>
                             <p class="form-control">{{ $pemakaian->keterangan }}</p>

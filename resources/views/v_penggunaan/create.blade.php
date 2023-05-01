@@ -32,7 +32,7 @@
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="baranghabis_id">Kode Barang</label>
                                 <input type="text" class="form-control @error('baranghabis_id') is-invalid @enderror"
-                                    id="baranghabis_id" placeholder="baranghabis_id" value="{{ old('baranghabis_id') }}"
+                                    id="baranghabis_id" placeholder="Kode Barang" value="{{ old('baranghabis_id') }}"
                                     name="baranghabis_id" required />
                                 @error('baranghabis_id')
                                     <div class="invalid-feedback">
@@ -43,7 +43,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
                                 <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
-                                    id="kegiatan_id" placeholder="kegiatan_id" value="{{ old('kegiatan_id') }}"
+                                    id="kegiatan_id" placeholder="Kode Kegiatan" value="{{ old('kegiatan_id') }}"
                                     name="kegiatan_id" required />
                                 @error('kegiatan_id')
                                     <div class="invalid-feedback">
@@ -64,6 +64,7 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Gunakan</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>

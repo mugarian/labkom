@@ -74,9 +74,84 @@
                                     </div>
                                 @enderror
                             </div>
+                            @if ($pemakaian->barangpakai->alat->kategori == 'pc')
+                                <div class="mb-3">
+                                    <label class="form-label" for="cpu">CPU</label>
+                                    <select id="organization" class="select2 form-select @error('cpu') is-invalid @enderror"
+                                        name="cpu">
+                                        <option value="">Pilih Kondisi</option>
+                                        <option value="berfungsi" @selected(old('cpu') == 'berfungsi')>
+                                            Berfungsi
+                                        </option>
+                                        <option value="tidak berfungsi" @selected(old('cpu') == 'tidak berfungsi')>
+                                            Tidak Berfungsi
+                                        </option>
+                                    </select>
+                                    @error('cpu')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="monitor">Monitor</label>
+                                    <select id="organization"
+                                        class="select2 form-select @error('monitor') is-invalid @enderror" name="monitor">
+                                        <option value="">Pilih Kondisi</option>
+                                        <option value="berfungsi" @selected(old('monitor') == 'berfungsi')>
+                                            Berfungsi
+                                        </option>
+                                        <option value="tidak berfungsi" @selected(old('monitor') == 'tidak berfungsi')>
+                                            Tidak Berfungsi
+                                        </option>
+                                    </select>
+                                    @error('monitor')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="keyboard">keyboard</label>
+                                    <select id="organization"
+                                        class="select2 form-select @error('keyboard') is-invalid @enderror" name="keyboard">
+                                        <option value="">Pilih Kondisi</option>
+                                        <option value="berfungsi" @selected(old('keyboard') == 'berfungsi')>
+                                            Berfungsi
+                                        </option>
+                                        <option value="tidak berfungsi" @selected(old('keyboard') == 'tidak berfungsi')>
+                                            Tidak Berfungsi
+                                        </option>
+                                    </select>
+                                    @error('keyboard')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="mouse">mouse</label>
+                                    <select id="organization"
+                                        class="select2 form-select @error('mouse') is-invalid @enderror" name="mouse">
+                                        <option value="">Pilih Kondisi</option>
+                                        <option value="berfungsi" @selected(old('mouse') == 'berfungsi')>
+                                            Berfungsi
+                                        </option>
+                                        <option value="tidak berfungsi" @selected(old('mouse') == 'tidak berfungsi')>
+                                            Tidak Berfungsi
+                                        </option>
+                                    </select>
+                                    @error('mouse')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            @endif
                             <div class="mb-4">
-                                <label class="form-label" for="keterangan">keterangan</label>
-                                <textarea id="keterangan" class="form-control @error('keterangan')
+                                <label class="form-label" for="keterangan">Keterangan</label>
+                                <textarea id="keterangan"
+                                    class="form-control @error('keterangan')
                                 is-invalid @enderror"
                                     placeholder="keterangan" name="keterangan" required>{{ old('keterangan') }}</textarea>
                                 @error('keterangan')

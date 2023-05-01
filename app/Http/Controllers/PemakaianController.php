@@ -164,7 +164,11 @@ class PemakaianController extends Controller
         $pemakaian = pemakaian::find($id);
         $rules = [
             'selesai' => 'required',
-            'keterangan' => 'required',
+            'cpu' => 'nullable',
+            'monitor' => 'nullable',
+            'keyboard' => 'nullable',
+            'mouse' => 'nullable',
+            'keterangan' => 'nullable',
         ];
 
         $validatedData = $request->validate($rules);

@@ -50,18 +50,23 @@
                                     <td>{{ $kegiatan->status }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <a class="btn btn-outline-success p-1" href="/kegiatan/{{ $kegiatan->id }}"><i
-                                                    class="bx bx-info-circle"></i></a>
+                                            <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-title="Lihat"
+                                                href="/kegiatan/{{ $kegiatan->id }}"><i class="bx bx-info-circle"></i></a>
                                             @if ($kegiatan->status == 'menunggu')
                                                 @if ($kegiatan->dospem->user->id == auth()->user()->id)
                                                     <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
                                                         @csrf
                                                         <input type="hidden" name="status" value="diverifikasi">
-                                                        <button type="submit" class="btn btn-warning p-1">
+                                                        <button type="submit" class="btn btn-warning p-1"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Diverifikasi">
                                                             <i class='bx bx-message-square-check'></i>
                                                         </button>
                                                     </form>
-                                                    <a class="btn btn-danger p-1"href="/kegiatan/{{ $kegiatan->id }}/edit">
+                                                    <a class="btn btn-danger p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Ditolak"
+                                                        href="/kegiatan/{{ $kegiatan->id }}/edit">
                                                         <i class="bx bx-message-square-x"></i>
                                                     </a>
                                                     {{-- <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
@@ -77,11 +82,15 @@
                                                     <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">
                                                         @csrf
                                                         <input type="hidden" name="status" value="disetujui">
-                                                        <button type="submit" class="btn btn-primary p-1">
+                                                        <button type="submit" class="btn btn-primary p-1"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Disetujui">
                                                             <i class='bx bx-message-square-check'></i>
                                                         </button>
                                                     </form>
-                                                    <a class="btn btn-danger p-1"href="/kegiatan/{{ $kegiatan->id }}/edit">
+                                                    <a class="btn btn-danger p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Ditolak"
+                                                        href="/kegiatan/{{ $kegiatan->id }}/edit">
                                                         <i class="bx bx-message-square-x"></i>
                                                     </a>
                                                     {{-- <form action="/kegiatan/{{ $kegiatan->id }}/status" method="post">

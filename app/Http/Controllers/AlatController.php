@@ -51,6 +51,7 @@ class AlatController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
+            'kategori' => 'required',
             'spesifikasi' => 'required|max:255',
             'harga' => 'required',
             'stok' => 'required',
@@ -113,6 +114,7 @@ class AlatController extends Controller
     {
         $rules = [
             'nama' => 'required|max:255',
+            'kategori' => 'required',
             'spesifikasi' => 'required|max:255',
             'harga' => 'required',
             'stok' => 'required',

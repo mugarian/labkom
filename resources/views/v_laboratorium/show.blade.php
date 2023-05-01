@@ -43,7 +43,8 @@
                                         <form action="/laboratorium/{{ $laboratorium->id }}" method="post">
                                             @method('delete')
                                             @csrf
-                                            <button type="submit" class="btn btn-outline-danger">
+                                            <button type="submit" class="btn btn-outline-danger"
+                                                onclick="if (confirm('Hapus Data')) return true; return false">
                                                 Delete
                                             </button>
                                         </form>

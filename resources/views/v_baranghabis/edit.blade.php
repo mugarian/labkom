@@ -3,8 +3,8 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/laboratorium/{{ $baranghabis->laboratorium_id }}"class="text-secondary">
-                    {{ $baranghabis->laboratorium->nama }}
+                <a href="/baranghabis"class="text-secondary">
+                    Data Barang Habis
                 </a> /
                 <a href="/baranghabis/{{ $baranghabis->id }}"class="text-secondary">
                     {{ $baranghabis->nama }}
@@ -42,7 +42,7 @@
                                         <div class="button-wrapper">
                                             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                                 <span class="d-none d-sm-block">
-                                                    Upload new photo
+                                                    Unggah Foto
                                                 </span>
                                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                                 <input type="file" id="upload" name="upload"
@@ -55,7 +55,7 @@
                                                 @enderror
                                             </label>
 
-                                            <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 8MB</p>
+                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
                                         </div>
                                     </div>
                                 </div>
@@ -99,6 +99,35 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="laboratorium_id">Laboratorium</label>
+                                @if (auth()->user()->role == 'admin')
+                                    <select id="organization"
+                                        class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
+                                        name="laboratorium_id">
+                                        <option value="{{ $baranghabis->laboratorium_id }}">
+                                            {{ $baranghabis->laboratorium->nama }}
+                                        </option>
+                                        @foreach ($laboratoriums as $laboratorium)
+                                            <option value="{{ $laboratorium->id }}" @selected(old('laboratorium_id') == $laboratorium->id)>
+                                                {{ $laboratorium->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select id="organization"
+                                        class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
+                                        name="laboratorium_id">
+                                        <option value="{{ $baranghabis->laboratorium_id }}">
+                                            {{ $baranghabis->laboratorium->nama }}
+                                        </option>
+                                    </select>
+                                @endif
+                                @error('laboratorium_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
                                 <textarea id="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="deskripsi"
                                     name="deskripsi" required>{{ old('deskripsi', $baranghabis->deskripsi) }}</textarea>
@@ -120,6 +149,7 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>

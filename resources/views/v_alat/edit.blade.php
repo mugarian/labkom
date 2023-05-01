@@ -38,7 +38,7 @@
                                         <div class="button-wrapper">
                                             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                                 <span class="d-none d-sm-block">
-                                                    Upload new photo
+                                                    Unggah Foto
                                                 </span>
                                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                                 <input type="file" id="upload" name="upload"
@@ -51,10 +51,28 @@
                                                 @enderror
                                             </label>
 
-                                            <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 8MB</p>
+                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="kategori">Kategori</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('kategori') is-invalid @enderror" name="kategori">
+                                    <option value="">Pilih Kategori</option>
+                                    <option value="pc" @selected(old('kategori', $alat->kategori) == 'pc')>
+                                        PC
+                                    </option>
+                                    <option value="non-pc" @selected(old('kategori', $alat->kategori) == 'non-pc')>
+                                        Non-PC
+                                    </option>
+                                </select>
+                                @error('kategori')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="nama">Nama</label>
@@ -102,8 +120,8 @@
                             <div class="mb-4">
                                 <label class="form-label" for="stok">Stok</label>
                                 <input type="number" class="form-control @error('stok') is-invalid @enderror"
-                                    id="stok" placeholder="stok" name="stok" value="{{ old('stok', $alat->stok) }}"
-                                    required />
+                                    id="stok" placeholder="stok" name="stok"
+                                    value="{{ old('stok', $alat->stok) }}" required />
                                 @error('stok')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -112,6 +130,7 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>

@@ -42,7 +42,8 @@
                                     <form action="/bahan/{{ $bahan->id }}" method="post">
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger">
+                                        <button type="submit" class="btn btn-outline-danger"
+                                            onclick="if (confirm('Hapus Data')) return true; return false">
                                             Delete
                                         </button>
                                     </form>
@@ -89,8 +90,9 @@
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Lokasi</th>
+                                        <th>Deskripsi</th>
                                         <th>Keterangan</th>
-                                        <th style="width: 0">Aksi</th>
+                                        {{-- <th style="width: 0">Aksi</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -110,8 +112,9 @@
                                             <td>{{ $bh->kode }}</td>
                                             <td class="text-wrap">{{ $bh->nama }}</td>
                                             <td class="text-wrap">{{ $bh->laboratorium->nama }}</td>
+                                            <td class="text-wrap">{{ $bh->deskripsi }}</td>
                                             <td class="text-wrap">{{ $bh->keterangan }}</td>
-                                            <td>
+                                            {{-- <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a class="btn btn-outline-success p-1"
                                                         href="/baranghabis/{{ $bh->id }}"><i
@@ -123,13 +126,14 @@
                                                         <form action="/baranghabis/{{ $bh->id }}" method="post">
                                                             @method('delete')
                                                             @csrf
-                                                            <button type="submit" class="btn btn-outline-danger p-1">
+                                                            <button type="submit" class="btn btn-outline-danger p-1"
+                                                                onclick="if (confirm('Hapus Data')) return true; return false">
                                                                 <i class="bx bx-trash"></i>
                                                             </button>
                                                         </form>
                                                     @endif
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @empty
                                         <tr>

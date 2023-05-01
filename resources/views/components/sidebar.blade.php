@@ -84,21 +84,21 @@
         <!-- Extended components -->
         <li class="menu-item {{ Request::is('kegiatan*') ? 'active' : '' }}">
             <a href="/kegiatan" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-message-error"></i>
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
                 <div data-i18n="Misc">kegiatan</div>
             </a>
         </li>
         <!-- User interface -->
         <li class="menu-item {{ Request::is('pemakaian*') ? 'active' : '' }}">
             <a href="/pemakaian" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-code-block"></i>
+                <i class="menu-icon tf-icons bx bx-calendar-heart"></i>
                 <div data-i18n="User interface">Pemakaian Alat</div>
             </a>
         </li>
         <!-- Cards -->
         <li class="menu-item {{ Request::is('penggunaan*') ? 'active' : '' }}">
             <a href="/penggunaan" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar-plus"></i>
+                <i class="menu-icon tf-icons bx bx-calendar-star"></i>
                 <div data-i18n="Basic">Penggunaan Bahan</div>
             </a>
         </li>
@@ -113,13 +113,25 @@
                 <div data-i18n="Misc">Alat</div>
             </a>
         </li>
+        <li class="menu-item {{ Request::is('barangpakai*') ? 'active' : '' }}">
+            <a href="/barangpakai" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-slideshow"></i>
+                <div data-i18n="Misc">Barang Pakai</div>
+            </a>
+        </li>
         <li class="menu-item {{ Request::is('bahan*') ? 'active' : '' }}">
             <a href="/bahan" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-package"></i>
                 <div data-i18n="Misc">Bahan</div>
             </a>
         </li>
-        <li class="menu-item {{ Request::is('laboratorium*', 'barangpakai*', 'baranghabis*') ? 'active' : '' }}">
+        <li class="menu-item {{ Request::is('baranghabis*') ? 'active' : '' }}">
+            <a href="/baranghabis" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div data-i18n="Misc">Barang Habis</div>
+            </a>
+        </li>
+        <li class="menu-item {{ Request::is('laboratorium*') ? 'active' : '' }}">
             <a href="/laboratorium" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-door-open"></i>
                 <div data-i18n="Misc">Laboratorium</div>

@@ -3,7 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/laboratorium/{{ $laboratorium->id }}" class="text-secondary">{{ $laboratorium->nama }}</a> /
+                <a href="/barangpakai" class="text-secondary">Data Barang Habis</a> /
             </span> Tambah Data Barang Habis
         </h4>
 
@@ -13,7 +13,7 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Barang Habis</h5>
-                        <small class="text-muted float-end"><a href="/baranghabis">
+                        <small class="text-muted float-end"><a href="/barangpakai">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
@@ -29,7 +29,7 @@
                                         <div class="button-wrapper">
                                             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                                 <span class="d-none d-sm-block">
-                                                    Upload new photo
+                                                    Unggah Foto
                                                 </span>
                                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                                 <input type="file" id="upload" name="upload"
@@ -42,18 +42,16 @@
                                                 @enderror
                                             </label>
 
-                                            <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 8MB</p>
+                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <input type="text" hidden class="form-control" id="laboratorium_id"
-                                placeholder="laboratorium_id" value="{{ $laboratorium->id }}" name="laboratorium_id"
-                                required />
                             <div class="mb-3">
                                 <label class="form-label" for="kode">kode</label>
                                 <input type="text" class="form-control @error('kode') is-invalid @enderror"
-                                    id="kode" placeholder="kode" value="{{ old('kode') }}" name="kode" required />
+                                    id="kode" placeholder="kode" value="{{ old('kode', $kode) }}" name="kode"
+                                    required />
                                 @error('kode')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -87,6 +85,31 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="laboratorium_id">Laboratorium</label>
+                                @if (auth()->user()->role == 'admin')
+                                    <select id="organization"
+                                        class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
+                                        name="laboratorium_id">
+                                        <option value="">Pilih laboratorium</option>
+                                        @foreach ($laboratoriums as $laboratorium)
+                                            <option value="{{ $laboratorium->id }}" @selected(old('laboratorium_id') == $laboratorium->id)>
+                                                {{ $laboratorium->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select id="organization"
+                                        class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
+                                        name="laboratorium_id">
+                                        <option value="{{ $kalab->id }}">{{ $kalab->nama }}</option>
+                                    </select>
+                                @endif
+                                @error('laboratorium_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
                                 <textarea id="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="deskripsi"
                                     name="deskripsi" required>{{ old('deskripsi') }}</textarea>
@@ -108,6 +131,7 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>
@@ -143,22 +167,22 @@
     </div>
 
     {{-- <div class="card">
-            <div class="card-header">
-                <button type="submit" class="btn btn-primary">Tambah</button>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Penamlaboratorium Data laboratorium</h6>
-                        <p class="mb-0">Ketika Form Tambah Data laboratorium ditambahkan,<br />
-                            Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                            Dan Langsung Disambungkan sesuai kode qr yang tertera
-                        </p>
-                    </div>
+        <div class="card-header">
+            <button type="submit" class="btn btn-primary">Tambah</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-primary">
+                    <h6 class="alert-heading fw-bold mb-1">Penamlaboratorium Data laboratorium</h6>
+                    <p class="mb-0">Ketika Form Tambah Data laboratorium ditambahkan,<br />
+                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
+                        Dan Langsung Disambungkan sesuai kode qr yang tertera
+                    </p>
                 </div>
             </div>
-        </div> --}}
+        </div>
+    </div> --}}
     </div>
     <script>
         function previewImage() {

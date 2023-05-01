@@ -46,11 +46,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('/alat', AlatController::class);
     Route::resource('/bahan', BahanController::class);
     Route::resource('/laboratorium', LaboratoriumController::class);
-
-    Route::get('/barangpakai/create/{id}', [BarangPakaiController::class, 'create'])->middleware('dosen');
     Route::resource('/barangpakai', BarangPakaiController::class);
-    Route::get('/baranghabis/create/{id}', [BarangHabisController::class, 'create'])->middleware('dosen');
-    Route::resource('/baranghabis', BarangHabisController::class);
+    Route::resource('/baranghabis', barangHabisController::class);
+
+    // Route::get('/barangpakai/create/{id}', [BarangPakaiController::class, 'tambah'])->middleware('dosen');
+    // Route::resource('/barangpakai', BarangPakaiController::class);
+    // Route::get('/baranghabis/create/{id}', [BarangHabisController::class, 'create'])->middleware('dosen');
+    // Route::resource('/baranghabis', BarangHabisController::class);
 
     Route::get('/kegiatan/pelaksanaan', [KegiatanController::class, 'pelaksanaan'])->middleware('dosen');
     Route::post('/pelaksanaan', [KegiatanController::class, 'storePelaksanaan']);

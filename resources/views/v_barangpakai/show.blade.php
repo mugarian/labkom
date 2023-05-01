@@ -3,8 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/laboratorium/{{ $barangpakai->laboratorium_id }}"
-                    class="text-secondary">{{ $barangpakai->laboratorium->nama }}</a> /
+                <a href="/barangpakai" class="text-secondary">Data Barang Pakai</a> /
             </span> {{ $barangpakai->nama }}
         </h4>
         <!-- Basic Layout -->
@@ -14,7 +13,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Barang Pakai</h5>
                         <small class="text-muted float-end">
-                            <a href="/laboratorium/{{ $barangpakai->laboratorium_id }}">
+                            <a href="/barangpakai">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
@@ -29,6 +28,10 @@
                         <div class="mb-3">
                             <label class="form-label" for="merk">Alat</label>
                             <p class="form-control">{{ $barangpakai->alat->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="merk">Laboratorium</label>
+                            <p class="form-control">{{ $barangpakai->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="deskripsi">Deskripsi</label>
@@ -46,7 +49,8 @@
                                     <form action="/barangpakai/{{ $barangpakai->id }}" method="post">
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger mx-1">
+                                        <button type="submit" class="btn btn-outline-danger mx-1"
+                                            onclick="if (confirm('Hapus Data')) return true; return false">
                                             Delete
                                         </button>
                                     </form>

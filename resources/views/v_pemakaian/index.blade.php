@@ -65,11 +65,13 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <a class="btn btn-outline-success p-1"
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
                                                     href="/pemakaian/{{ $pemakaian->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
                                                 @if ($pemakaian->iduser == auth()->user()->id && $pemakaian->status == 'mulai')
-                                                    <a class="btn btn-outline-primary p-1"
+                                                    <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Seelesai"
                                                         href="/pemakaian/{{ $pemakaian->id }}/edit"><i
                                                             class='bx bx-calendar-check'></i>
                                                     </a>
@@ -103,11 +105,13 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <a class="btn btn-outline-success p-1"
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
                                                     href="/pemakaian/{{ $pemakaian->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
                                                 @if ($pemakaian->user->id == auth()->user()->id && $pemakaian->status == 'mulai')
-                                                    <a class="btn btn-outline-primary p-1"
+                                                    <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Selesai"
                                                         href="/pemakaian/{{ $pemakaian->id }}/edit">
                                                         <i class='bx bx-calendar-check'></i>
                                                     </a>

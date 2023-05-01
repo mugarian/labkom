@@ -20,6 +20,10 @@ return new class extends Migration
             $table->foreignUuid('kegiatan_id')->references('id')->on('kegiatans');
             $table->foreignUuid('barangpakai_id')->references('id')->on('barang_pakais');
             $table->enum('status', ['mulai', 'selesai'])->default('mulai');
+            $table->text('cpu')->nullable();
+            $table->text('monitor')->nullable();
+            $table->text('keyboard')->nullable();
+            $table->text('mouse')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();

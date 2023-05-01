@@ -198,46 +198,37 @@ class KegiatanController extends Controller
 
     public function pelaksanaan()
     {
-        $dosen = Dosen::where('user_id', auth()->user()->id)->first();
-        if (auth()->user()->role == 'admin' || $dosen->kepalalab == 'true') {
-            $laboratorium = Laboratorium::where('user_id', auth()->user()->id)->first();
-            return view('v_kegiatan.pelaksanaan', [
-                'title' => 'Tambah Kegiatan Perkuliahan',
-                'laboratorium' => $laboratorium
-            ]);
-        } else {
-            abort(403);
-        }
+        $laboratorium = Laboratorium::where('user_id', auth()->user()->id)->first();
+        return view('v_kegiatan.pelaksanaan', [
+            'title' => 'Tambah Kegiatan Perkuliahan',
+            'laboratorium' => $laboratorium
+        ]);
     }
 
     public function storePelaksanaan(Request $request)
     {
         $dosen = Dosen::where('user_id', auth()->user()->id)->first();
-        if (auth()->user()->role == 'admin' || $dosen->kepalalab == 'true') {
-            $validatedData = $request->validate([
-                'laboratorium_id' => 'required',
-                'kode' => 'required|unique:kegiatans,kode',
-                'nama' => 'required|max:255',
-                'deskripsi' => 'required',
-                'jenis' => 'required',
-                'tipe' => 'required',
-                'mulai' => 'required',
-            ]);
+        $validatedData = $request->validate([
+            'laboratorium_id' => 'required',
+            'kode' => 'required|unique:kegiatans,kode',
+            'nama' => 'required|max:255',
+            'deskripsi' => 'required',
+            'jenis' => 'required',
+            'tipe' => 'required',
+            'mulai' => 'required',
+        ]);
 
-            $dosen = Dosen::where('user_id', auth()->user()->id)->first();
+        $dosen = Dosen::where('user_id', auth()->user()->id)->first();
 
-            $validatedData['status'] = 'disetujui';
-            $validatedData['user_id'] = auth()->user()->id;
-            $validatedData['dospem_id'] = $dosen->id;
+        $validatedData['status'] = 'disetujui';
+        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['dospem_id'] = $dosen->id;
 
-            if ($validatedData['jenis'] == 'perkuliahan') {
-            }
-
-            Kegiatan::create($validatedData);
-            return redirect('/kegiatan')->with('success', 'Tambah Data kegiatan Berhasil');
-        } else {
-            abort(403);
+        if ($validatedData['jenis'] == 'perkuliahan') {
         }
+
+        Kegiatan::create($validatedData);
+        return redirect('/kegiatan')->with('success', 'Tambah Data kegiatan Berhasil');
     }
 
     public function permohonan()
@@ -281,12 +272,8 @@ class KegiatanController extends Controller
     public function status(Request $request, $id)
     {
         $kegiatan = Kegiatan::find($id);
-        if (auth()->user()->role == 'admin' || $kegiatan->laboratorium->user->id == auth()->user()->id) {
-            $kegiatan->update(['status' => $request->status]);
+        $kegiatan->update(['status' => $request->status]);
 
-            return redirect('/kegiatan')->with('success', 'Kegiatan ' . $kegiatan->nama . ' telah ' . $request->status);
-        } else {
-            abort(403);
-        }
+        return redirect('/kegiatan')->with('success', 'Kegiatan ' . $kegiatan->nama . ' telah ' . $request->status);
     }
 }

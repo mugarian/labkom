@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alat;
 use App\Models\User;
 use App\Models\BarangPakai;
+use Illuminate\Support\Str;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,12 +21,15 @@ class BarangPakaiController extends Controller
 
     public function __construct()
     {
-        $this->middleware('dosen')->except(['index', 'show']);
+        $this->middleware('dosen')->except(['show']);
     }
 
     public function index()
     {
-        //
+        return view('v_barangpakai.index', [
+            'title' => 'Data Barang Pakai',
+            'barangpakai' => BarangPakai::all()
+        ]);
     }
 
     /**
@@ -33,7 +37,22 @@ class BarangPakaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($lab)
+    public function create()
+    {
+        $laboratoriums = Laboratorium::orderBy('nama')->get();
+        $alats = Alat::all();
+        $kode = Str::random(8);
+        $kalab = Laboratorium::where('user_id', auth()->user()->id)->first();
+        return view('v_barangpakai.create', [
+            'title' => 'Data Barang Pakai',
+            'laboratoriums' => $laboratoriums,
+            'alats' => $alats,
+            'kode' => $kode,
+            'kalab' => $kalab
+        ]);
+    }
+
+    public function tambah($lab)
     {
         $laboratorium = Laboratorium::find($lab);
         if (auth()->user()->role == 'admin' || $laboratorium->user->id == auth()->user()->id) {
@@ -56,31 +75,26 @@ class BarangPakaiController extends Controller
      */
     public function store(Request $request)
     {
-        $laboratorium_id = $request->laboratorium_id;
-        if (auth()->user()->role == 'admin' || $laboratorium_id == auth()->user()->id) {
-            $validatedData = $request->validate([
-                'kode' => 'required|unique:barang_pakais',
-                'nama' => 'required|max:255',
-                'laboratorium_id' => 'required',
-                'alat_id' => 'required',
-                'deskripsi' => 'required',
-                'keterangan' => 'required',
-                'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
-            ]);
+        $validatedData = $request->validate([
+            'kode' => 'required|unique:barang_pakais',
+            'nama' => 'required|max:255',
+            'laboratorium_id' => 'required',
+            'alat_id' => 'required',
+            'deskripsi' => 'required',
+            'keterangan' => 'required',
+            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+        ]);
 
-            if ($request->file('upload')) {
-                $validatedData['upload'] = $request->file('upload')->store('barangpakai-images');
-            }
-
-            $validatedData['foto'] = $validatedData['upload'];
-            unset($validatedData['upload']);
-
-            BarangPakai::create($validatedData);
-
-            return redirect('/laboratorium/' . $laboratorium_id)->with('success', 'Tambah Data Barang Pakai Berhasil');
-        } else {
-            abort(403);
+        if ($request->file('upload')) {
+            $validatedData['upload'] = $request->file('upload')->store('barangpakai-images');
         }
+
+        $validatedData['foto'] = $validatedData['upload'];
+        unset($validatedData['upload']);
+
+        BarangPakai::create($validatedData);
+
+        return redirect('/barangpakai')->with('success', 'Tambah Data Barang Pakai Berhasil');
     }
 
     /**
@@ -108,7 +122,23 @@ class BarangPakaiController extends Controller
      * @param  \App\Models\BarangPakai  $barangPakai
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BarangPakai $barangpakai)
+    {
+        if (auth()->user()->role == 'admin' || $barangpakai->laboratorium->user->id == auth()->user()->id) {
+            $alat = Alat::all()->except([$barangpakai->alat_id]);
+            $laboratoriums = Laboratorium::orderBy('nama')->get()->except([$barangpakai->laboratorium_id]);
+            return view('v_barangpakai.edit', [
+                'title' => $barangpakai->nama,
+                'barangpakai' => $barangpakai,
+                'laboratoriums' => $laboratoriums,
+                'alats' => $alat
+            ]);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function ubah($id)
     {
         $barangpakai = BarangPakai::find($id);
         if (auth()->user()->role == 'admin' || $barangpakai->laboratorium->user->id == auth()->user()->id) {
@@ -130,16 +160,16 @@ class BarangPakaiController extends Controller
      * @param  \App\Models\BarangPakai  $barangPakai
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BarangPakai $barangpakai)
     {
-        $barangpakai = BarangPakai::find($id);
         if (auth()->user()->role == 'admin' || $barangpakai->laboratorium->user->id == auth()->user()->id) {
             $rules = [
                 'nama' => 'required|max:255',
                 'alat_id' => 'required',
+                'laboratorium_id' => 'required',
                 'deskripsi' => 'required',
                 'keterangan' => 'required',
-                'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+                'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
             ];
 
             if ($request->kode != $barangpakai->kode) {
@@ -153,13 +183,13 @@ class BarangPakaiController extends Controller
                     Storage::delete($request->oldImage);
                 }
                 $validatedData['upload'] = $request->file('upload')->store('barangpakai-images');
+                $validatedData['foto'] = $validatedData['upload'];
+                unset($validatedData['upload']);
             }
 
-            $validatedData['foto'] = $validatedData['upload'];
-            unset($validatedData['upload']);
 
             BarangPakai::where('id', $barangpakai->id)->update($validatedData);
-            return redirect('/laboratorium/' . $barangpakai->laboratorium_id)->with('success', 'Ubah Data Barang Pakai Berhasil');
+            return redirect('/barangpakai/')->with('success', 'Ubah Data Barang Pakai Berhasil');
         } else {
             abort(403);
         }
@@ -171,19 +201,16 @@ class BarangPakaiController extends Controller
      * @param  \App\Models\BarangPakai  $barangPakai
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BarangPakai $barangpakai)
     {
-        $barangpakai = BarangPakai::find($id);
         if (auth()->user()->role == 'admin' || $barangpakai->laboratorium->user->id == auth()->user()->id) {
-            $laboratorium = Laboratorium::find($barangpakai->laboratorium_id);
-
             if ($barangpakai->foto) {
                 Storage::delete($barangpakai->foto);
             }
 
             barangpakai::destroy($barangpakai->id);
 
-            return redirect('/laboratorium/' . $laboratorium->id)->with('success', 'Data Barang Pakai Berhasil Dihapus');
+            return redirect('/barangpakai')->with('success', 'Data Barang Pakai Berhasil Dihapus');
         } else {
             abort(403);
         }

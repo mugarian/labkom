@@ -15,6 +15,7 @@ use App\Models\Pemakaian;
 use App\Models\Penggunaan;
 use App\Models\BarangHabis;
 use App\Models\BarangPakai;
+use Illuminate\Support\Str;
 use App\Models\Laboratorium;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -328,12 +329,24 @@ class DatabaseSeeder extends Seeder
          * AlatSeeder
          */
 
-        $alat = (string) Uuid::uuid4();
+        $alatpc = (string) Uuid::uuid4();
         Alat::create([
-            'id' => $alat,
+            'id' => $alatpc,
             'nama' => 'Dell PC High Ultra',
             'merk' => 'Dell',
+            'kategori' => 'pc',
             'spesifikasi' => 'i7 gen7',
+            'harga' => 8000000,
+            'stok' => 30,
+        ]);
+
+        $alatnonpc = (string) Uuid::uuid4();
+        Alat::create([
+            'id' => $alatnonpc,
+            'nama' => 'Proyektor BenQ',
+            'merk' => 'BenQ',
+            'kategori' => 'non-pc',
+            'spesifikasi' => '4K HD',
             'harga' => 8000000,
             'stok' => 30,
         ]);
@@ -359,10 +372,10 @@ class DatabaseSeeder extends Seeder
         $bpUX = (string) Uuid::uuid4();
         BarangPakai::create([
             'id' => $bpUX,
-            'alat_id' => $alat,
+            'alat_id' => $alatpc,
             'laboratorium_id' => $labUX,
             'nama' => 'PC No 1',
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'deskripsi' => 'komputer Dell',
             'keterangan' => 'Baik',
         ]);
@@ -370,12 +383,23 @@ class DatabaseSeeder extends Seeder
         $bpJaringan = (string) Uuid::uuid4();
         BarangPakai::create([
             'id' => $bpJaringan,
-            'alat_id' => $alat,
+            'alat_id' => $alatpc,
             'laboratorium_id' => $labJaringan,
             'nama' => 'PC No 5',
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'deskripsi' => 'PC Dell',
             'keterangan' => 'Biasa',
+        ]);
+
+        $bpProyektor = (string) Uuid::uuid4();
+        BarangPakai::create([
+            'id' => $bpProyektor,
+            'alat_id' => $alatnonpc,
+            'laboratorium_id' => $labJaringan,
+            'nama' => 'Proyektor 99',
+            'kode' => Str::random(8),
+            'deskripsi' => 'Proyektor BenQ',
+            'keterangan' => 'Mudah Panas',
         ]);
 
         /**
@@ -388,7 +412,7 @@ class DatabaseSeeder extends Seeder
             'bahan_id' => $bahan,
             'laboratorium_id' => $labJaringan,
             'nama' => 'RJ45 No 1 Jarkom',
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'deskripsi' => 'Penghubung internet',
             'keterangan' => 'Baik',
         ]);
@@ -399,7 +423,7 @@ class DatabaseSeeder extends Seeder
             'bahan_id' => $bahan,
             'laboratorium_id' => $labUX,
             'nama' => 'Kertas A4 UX',
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'deskripsi' => 'Kertas Printeran',
             'keterangan' => 'Baik',
         ]);
@@ -414,7 +438,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userSlamet,
             'dospem_id' => $dosenSlamet,
             'laboratorium_id' => $labJaringan,
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'nama' => 'PAM pertemuan 6',
             'deskripsi' => 'User Interface',
             'jenis' => 'pelaksanaan',
@@ -439,7 +463,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'dospem_id' => $dosenCepi,
             'laboratorium_id' => $labUX,
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'nama' => 'Difest',
             'deskripsi' => 'Digital Festival',
             'jenis' => 'permohonan',
@@ -456,7 +480,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'dospem_id' => $dosenSlamet,
             'laboratorium_id' => $labJaringan,
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'nama' => 'Istirahat',
             'deskripsi' => 'Menunggu matkul',
             'jenis' => 'permohonan',
@@ -474,7 +498,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userNur,
             'dospem_id' => $dosenNur,
             'laboratorium_id' => $labUX,
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'nama' => 'APSI pertemuan 2',
             'deskripsi' => 'Presentasi tugas APSI',
             'jenis' => 'permohonan',
@@ -491,7 +515,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'dospem_id' => $dosenNur,
             'laboratorium_id' => $labJaringan,
-            'kode' => bin2hex(random_bytes(4)),
+            'kode' => Str::random(8),
             'nama' => 'Japok',
             'deskripsi' => 'Kerja Kelompok APSI',
             'jenis' => 'permohonan',

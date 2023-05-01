@@ -56,19 +56,23 @@
                                         <td>{{ $penggunaan->status }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center">
-                                                <a class="btn btn-outline-success p-1"
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
                                                     href="/penggunaan/{{ $penggunaan->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
                                                 @if ($penggunaan->status == 'menunggu')
                                                     <form action="/penggunaan/{{ $penggunaan->id }}/status" method="post">
                                                         @csrf
                                                         <input type="hidden" name="status" value="disetujui">
-                                                        <button type="submit" class="btn btn-primary p-1">
+                                                        <button type="submit" class="btn btn-primary p-1"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            data-bs-title="Disetujui">
                                                             <i class='bx bx-message-square-check'></i>
                                                         </button>
                                                     </form>
-                                                    <a
-                                                        class="btn btn-danger p-1"href="/penggunaan/{{ $penggunaan->id }}/edit">
+                                                    <a class="btn btn-danger p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Ditolak"
+                                                        href="/penggunaan/{{ $penggunaan->id }}/edit">
                                                         <i class="bx bx-message-square-x"></i>
                                                     </a>
                                                 @endif

@@ -44,7 +44,7 @@
                                         <div class="button-wrapper">
                                             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                                 <span class="d-none d-sm-block">
-                                                    Upload new photo
+                                                    Unggah Foto
                                                 </span>
                                                 <i class="bx bx-upload d-block d-sm-none"></i>
                                                 <input type="file" id="upload" name="upload"
@@ -57,7 +57,7 @@
                                                 @enderror
                                             </label>
 
-                                            <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 8MB</p>
+                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
                                         </div>
                                     </div>
                                 </div>
@@ -98,6 +98,7 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                     </div>
                 </div>
@@ -110,9 +111,9 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="password">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                placeholder="email" name="email" value="{{ old('email', $mahasiswa->user->email) }}"
-                                required />
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                id="email" placeholder="email" name="email"
+                                value="{{ old('email', $mahasiswa->user->email) }}" required />
                             @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
