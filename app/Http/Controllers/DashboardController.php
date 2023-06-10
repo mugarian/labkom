@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Alat;
 use App\Models\User;
 use App\Models\Bahan;
+use App\Models\BahanJurusan;
+use App\Models\BahanPraktikum;
 use App\Models\Dosen;
 use App\Models\Staff;
 use App\Models\Kegiatan;
 use App\Models\Mahasiswa;
 use App\Models\Pemakaian;
 use App\Models\Penggunaan;
-use App\Models\BarangHabis;
-use App\Models\BarangPakai;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,10 +26,9 @@ class DashboardController extends Controller
         $mahasiswa = Mahasiswa::all();
         $staff = Staff::all();
         $alat = Alat::all();
-        $bahan = Bahan::all();
+        $bahanpraktikum = BahanPraktikum::all();
+        $bahanjurusan = BahanJurusan::all();
         $laboratorium = Laboratorium::all();
-        $barangpakai = BarangPakai::all();
-        $baranghabis = BarangHabis::all();
 
         if ($user->role == 'admin') {
             $kegiatan = Kegiatan::all()->count();
@@ -88,31 +87,31 @@ class DashboardController extends Controller
                 $penggunaan = DB::table('penggunaans')
                     ->join('kegiatans', 'penggunaans.kegiatan_id', '=', 'kegiatans.id')
                     ->join('users', 'penggunaans.user_id', '=', 'users.id')
-                    ->join('barang_habis', 'penggunaans.baranghabis_id', '=', 'barang_habis.id')
-                    ->join('laboratorium', 'barang_habis.laboratorium_id', '=', 'laboratorium.id')
+                    ->join('bahan_praktikums', 'penggunaans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
+                    ->join('laboratorium', 'bahan_praktikums.laboratorium_id', '=', 'laboratorium.id')
                     ->where('laboratorium.id', '=', $laboratorium->id)
                     ->count();
                 $pgsetuju = DB::table('penggunaans')
                     ->join('kegiatans', 'penggunaans.kegiatan_id', '=', 'kegiatans.id')
                     ->join('users', 'penggunaans.user_id', '=', 'users.id')
-                    ->join('barang_habis', 'penggunaans.baranghabis_id', '=', 'barang_habis.id')
-                    ->join('laboratorium', 'barang_habis.laboratorium_id', '=', 'laboratorium.id')
+                    ->join('bahan_praktikums', 'penggunaans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
+                    ->join('laboratorium', 'bahan_praktikums.laboratorium_id', '=', 'laboratorium.id')
                     ->where('laboratorium.id', '=', $laboratorium->id)
                     ->where('penggunaans.status', 'disetujui')
                     ->count();
                 $pgtolak = DB::table('penggunaans')
                     ->join('kegiatans', 'penggunaans.kegiatan_id', '=', 'kegiatans.id')
                     ->join('users', 'penggunaans.user_id', '=', 'users.id')
-                    ->join('barang_habis', 'penggunaans.baranghabis_id', '=', 'barang_habis.id')
-                    ->join('laboratorium', 'barang_habis.laboratorium_id', '=', 'laboratorium.id')
+                    ->join('bahan_praktikums', 'penggunaans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
+                    ->join('laboratorium', 'bahan_praktikums.laboratorium_id', '=', 'laboratorium.id')
                     ->where('laboratorium.id', '=', $laboratorium->id)
                     ->where('penggunaans.status', 'ditolak')
                     ->count();
                 $pgtunggu = DB::table('penggunaans')
                     ->join('kegiatans', 'penggunaans.kegiatan_id', '=', 'kegiatans.id')
                     ->join('users', 'penggunaans.user_id', '=', 'users.id')
-                    ->join('barang_habis', 'penggunaans.baranghabis_id', '=', 'barang_habis.id')
-                    ->join('laboratorium', 'barang_habis.laboratorium_id', '=', 'laboratorium.id')
+                    ->join('bahan_praktikums', 'penggunaans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
+                    ->join('laboratorium', 'bahan_praktikums.laboratorium_id', '=', 'laboratorium.id')
                     ->where('laboratorium.id', '=', $laboratorium->id)
                     ->where('penggunaans.status', 'menunggu')
                     ->count();
@@ -164,15 +163,13 @@ class DashboardController extends Controller
             $pgtunggu = Penggunaan::where('user_id', $user->id)->where('status', 'menunggu')->count();
         }
         return view('v_dashboard', [
-            'title' => 'Sistem Pengelolaan Barang & Ruangan',
+            'title' => 'Sistem Informasi Manajemen Administrasi Laboratorium Komputer',
             'dosen' => $dosen,
             'mahasiswa' => $mahasiswa,
             'staff' => $staff,
             'alat' => $alat,
-            'bahan' => $bahan,
+            'bahanpraktikum' => $bahanpraktikum,
             'laboratorium' => $laboratorium,
-            'baranghabis' => $baranghabis,
-            'barangpakai' => $barangpakai,
             'kegiatan' => $kegiatan,
             'ksetuju' => $ksetuju,
             'ktolak' => $ktolak,

@@ -65,8 +65,7 @@
                                         <div class="mb-3">
                                             <label for="nama" class="form-label">Nama</label>
                                             <input class="form-control @error('nama') is-invalid @enderror" type="text"
-                                                id="nama" name="nama" value="{{ old('nama', $user->nama) }}"
-                                                required />
+                                                id="nama" name="nama" value="{{ old('nama', $user->nama) }}" />
                                             @error('nama')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -234,6 +233,7 @@
                             </div>
                             <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Simpan</button>
+                                <button type="reset" class="btn btn-secondary me-2">Reset</button>
                             </div>
                         </form>
                     </div>

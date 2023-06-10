@@ -130,7 +130,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>

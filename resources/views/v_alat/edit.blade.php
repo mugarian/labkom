@@ -107,29 +107,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="harga">Harga</label>
-                                <input type="number" class="form-control @error('harga') is-invalid @enderror"
-                                    id="harga" placeholder="harga" name="harga"
-                                    value="{{ old('harga', $alat->harga) }}" required />
-                                @error('harga')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="stok">Stok</label>
-                                <input type="number" class="form-control @error('stok') is-invalid @enderror"
-                                    id="stok" placeholder="stok" name="stok"
-                                    value="{{ old('stok', $alat->stok) }}" required />
-                                @error('stok')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>

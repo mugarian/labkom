@@ -24,12 +24,12 @@
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
                                     <p class="mb-0">Untuk menyelesaikan peakaian barang laboratorium, silahkan isi kolom
-                                        kolom berikut untuk mengetahui kondisi layak pakai barang
+                                        kolom berikut untuk mengetahui kondisi layak pakai barangpakai
                                     </p>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="barangpakai_id">Kode Barang</label>
+                                <label class="form-label" for="barangpakai_id">Kode barangpakai</label>
                                 <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
                                     id="barangpakai_id" placeholder="barangpakai_id"
                                     value="{{ old('barangpakai_id', $pemakaian->barangpakai->kode) }}" name="barangpakai_id"
@@ -161,7 +161,8 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Selesai</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>
@@ -170,7 +171,7 @@
         <div class="col-xl">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Barang</h5>
+                    <h5 class="mb-0">barangpakai</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -185,16 +186,12 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="kode">Kode Barang</label>
+                        <label class="form-label" for="kode">Kode barangpakai</label>
                         <p class="form-control">{{ $pemakaian->barangpakai->kode }}</p>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="nama">nama Barang</label>
+                        <label class="form-label" for="nama">nama barangpakai</label>
                         <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="keterangan">keterangan Barang</label>
-                        <p class="form-control">{{ $pemakaian->barangpakai->keterangan }}</p>
                     </div>
                     <div class="mt-5 mb-3">
                         <h5 class="mb-0">Kegiatan</h5>

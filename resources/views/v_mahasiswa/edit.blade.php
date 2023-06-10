@@ -85,6 +85,24 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="kelas_id">Kelas</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('kelas_id') is-invalid @enderror" name="kelas_id">
+                                    <option value="{{ $mahasiswa->kelas_id }}">
+                                        {{ $mahasiswa->kelas->nama . ' (' . $mahasiswa->kelas->angkatan . ')' }}
+                                    </option>
+                                    @foreach ($kelas as $kls)
+                                        <option value="{{ $kls->id }}" @selected(old('kelas_id', $mahasiswa->kelas_id) == $kls->id)>
+                                            {{ $kls->nama . ' (' . $kls->angkatan . ')' }}</option>
+                                    @endforeach
+                                </select>
+                                @error('kelas_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-4">
                                 <label class="form-label" for="angkatan">angkatan</label>
                                 <input type="number" class="form-control @error('angkatan') is-invalid @enderror"
@@ -96,8 +114,23 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="jurusan">jurusan</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('jurusan') is-invalid @enderror" name="jurusan">
+                                    <option value="mi" @selected(old('jurusan', $mahasiswa->jurusan) == 'mi')>MI</option>
+                                    <option value="ai" @selected(old('jurusan', $mahasiswa->jurusan) == 'ai')>AI</option>
+                                    <option value="tppm" @selected(old('jurusan', $mahasiswa->jurusan) == 'tppm')>TPPM</option>
+                                    <option value="kesehatan" @selected(old('jurusan', $mahasiswa->jurusan) == 'kesehatan')>Kesehatan</option>
+                                </select>
+                                @error('jurusan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                     </div>

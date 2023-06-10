@@ -30,11 +30,11 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="baranghabis_id">Kode Barang</label>
-                                <input type="text" class="form-control @error('baranghabis_id') is-invalid @enderror"
-                                    id="baranghabis_id" placeholder="Kode Barang" value="{{ old('baranghabis_id') }}"
-                                    name="baranghabis_id" required />
-                                @error('baranghabis_id')
+                                <label class="form-label" for="bahanpraktikum_id">Kode Bahan</label>
+                                <input type="text" class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
+                                    id="bahanpraktikum_id" placeholder="Kode Bahan" value="{{ old('bahanpraktikum_id') }}"
+                                    name="bahanpraktikum_id" required />
+                                @error('bahanpraktikum_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

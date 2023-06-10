@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alat;
+use App\Models\BarangPakai;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Kegiatan;
 use App\Models\Pemakaian;
-use App\Models\BarangPakai;
+use App\Models\Peminjaman;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,13 +25,13 @@ class PemakaianController extends Controller
     {
         $user = User::find(auth()->user()->id);
         if ($user->role == 'admin') {
-            $pemakaian = Pemakaian::orderBy('mulai', 'desc')->paginate(5);
+            $pemakaian = Pemakaian::orderBy('mulai', 'desc')->get();
             $kalab = false;
         } elseif ($user->role == 'dosen') {
             $dosen = Dosen::where('user_id', $user->id)->first();
             if ($dosen->kepalalab == 'true') {
                 $laboratorium = Laboratorium::where('user_id', $user->id)->first();
-                $pemakaian = Pemakaian::orderBy('mulai', 'desc')->paginate(5);
+                $pemakaian = Pemakaian::orderBy('mulai', 'desc')->get();
                 $kalab = true;
 
                 // todo join pemakaian == barangpakai == laboratorium
@@ -47,25 +49,36 @@ class PemakaianController extends Controller
                     ->join('barang_pakais', 'pemakaians.barangpakai_id', '=', 'barang_pakais.id')
                     ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
                     ->where('laboratorium.id', '=', $laboratorium->id)
-                    ->select('pemakaians.*', 'kegiatans.nama as namakegiatan', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarang', 'users.nama as namauser', 'users.id as iduser')
+                    ->orWhere('users.id', '=', $user->id)
+                    ->select('pemakaians.*', 'kegiatans.nama as namakegiatan', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
                     ->orderBy('pemakaians.mulai', 'desc')
-                    ->paginate(5);
+                    ->get();
 
                 // todo pemakaian->barangpakai->laboratorium->user->id == auth()->user()->id
             } else {
-                $pemakaian = Pemakaian::where('user_id', $user->id)->orderBy('mulai', 'desc')->paginate(5);
+                $pemakaian = Pemakaian::where('user_id', $user->id)->orderBy('mulai', 'desc')->get();
                 $kalab = false;
             }
         } else {
-            $pemakaian = Pemakaian::where('user_id', $user->id)->orderBy('mulai', 'desc')->paginate(5);
+            $pemakaian = Pemakaian::where('user_id', $user->id)->orderBy('mulai', 'desc')->get();
             $kalab = false;
         }
 
-        $akhir = Pemakaian::all()->last();
+        $terakhir = Pemakaian::where('status', 'mulai')->where('user_id', auth()->user()->id)->orderBy('mulai', 'desc')->first();
+        if ($terakhir) {
+            if ($terakhir->status == 'selesai') {
+                $selesai = 1;
+            } else {
+                $selesai = 0;
+            }
+        } else {
+            $selesai = 1;
+        }
+
         return view('v_pemakaian.index', [
             'title' => 'Data pemakaian',
             'pemakaians' => $pemakaian,
-            'akhir' => $akhir,
+            'selesai' => $selesai,
             'kalab' => $kalab
         ]);
     }
@@ -79,7 +92,6 @@ class PemakaianController extends Controller
     {
         return view('v_pemakaian.create', [
             'title' => 'Tambah Data Pemakaian',
-            'barangpakai' => null
         ]);
     }
 
@@ -99,13 +111,21 @@ class PemakaianController extends Controller
 
         $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
         $kegiatan = Kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
+        $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
+        $peminjamanTerakhir = Peminjaman::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
 
         if ($barangpakai && $kegiatan) {
             if ($barangpakai->laboratorium->id != $kegiatan->laboratorium->id) {
-                return redirect('/pemakaian')->with('fail', 'Barang tidak tersedia di kegiatan yang dimaksud');
+                return redirect('/pemakaian')->with('fail', 'barangpakai tidak tersedia di kegiatan yang dimaksud');
             }
-            if ($kegiatan->status != 'disetujui') {
-                return redirect('/pemakaian')->with('fail', 'kode kegiatan tidak ada atau belum disetujui');
+            if ($pemakaianTerakhir) {
+                return redirect('/pemakaian')->with('fail', 'barangpakai sedang dipakai');
+            }
+            if ($peminjamanTerakhir) {
+                return redirect('/pemakaian')->with('fail', 'barangpakai sedang dipinjam');
+            }
+            if ($kegiatan->status != 'berlangsung') {
+                return redirect('/pemakaian')->with('fail', 'Kegiatan yang dimaksud belum berlangsung atau sudah selesai');
             }
             $validatedData['barangpakai_id'] = $barangpakai->id;
             $validatedData['kegiatan_id'] = $kegiatan->id;
@@ -115,7 +135,7 @@ class PemakaianController extends Controller
             return redirect('/pemakaian')->with('success', 'Tambah data Pemakaian berhasil');
         } else {
             if (!$barangpakai) {
-                return redirect('/pemakaian')->with('fail', 'kode barang tidak ditemukan');
+                return redirect('/pemakaian')->with('fail', 'kode barangpakai tidak ditemukan');
             } else {
                 return redirect('/pemakaian')->with('fail', 'kode kegiatan tidak ditemukan');
             }

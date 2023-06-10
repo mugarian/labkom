@@ -12,12 +12,17 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Barang Habis</h5>
-                <small class="text-muted float-end"><a href="/baranghabis/create"><button
-                            class="btn btn-primary">Tambah</button></a></small>
+                @if (auth()->user()->role == 'admin' || $kalab == 'true')
+                    <small class="text-muted float-end">
+                        <a href="/baranghabis/create">
+                            <button class="btn btn-primary">Tambah</button>
+                        </a>
+                    </small>
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
@@ -29,6 +34,17 @@
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>Foto</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Bahan</th>
+                                <th>Laboratorium</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
                             @foreach ($baranghabis as $bh)
                                 <tr>
@@ -54,20 +70,23 @@
                                                 data-bs-placement="top" data-bs-title="Lihat"
                                                 href="/baranghabis/{{ $bh->id }}"><i
                                                     class="bx bx-info-circle"></i></a>
-                                            <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" data-bs-title="Ubah"
-                                                href="/baranghabis/{{ $bh->id }}/edit">
-                                                <i class="bx bx-edit-alt"></i>
-                                            </a>
-                                            <form action="/baranghabis/{{ $bh->id }}" method="post">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-danger p-1"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Hapus"
-                                                    onclick="if (confirm('Hapus Data')) return true; return false">
-                                                    <i class="bx bx-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if (auth()->user()->role == 'admin' || $bh->laboratorium->user->id == auth()->user()->id)
+                                                <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Ubah"
+                                                    href="/baranghabis/{{ $bh->id }}/edit">
+                                                    <i class="bx bx-edit-alt"></i>
+                                                </a>
+                                                <form action="/baranghabis/{{ $bh->id }}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-outline-danger p-1"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Hapus"
+                                                        onclick="if (confirm('Hapus Data')) return true; return false">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

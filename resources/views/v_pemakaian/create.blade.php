@@ -21,7 +21,8 @@
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
+                                    <p class="mb-0">Masukkan kode barang pakai yang terdapat di laboratorium pada kegiatan
+                                        yang
                                         dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
                                         disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
                                         yang tertera pada barang untuk pengisian kode barang secara otomatis
@@ -30,11 +31,11 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="barangpakai_id">Kode Barang</label>
-                                <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
-                                    id="barangpakai_id" placeholder="kode barang" value="{{ old('barangpakai_id') }}"
-                                    name="barangpakai_id" required />
-                                @error('barangpakai_id')
+                                <label class="form-label" for="alat_id">Kode Alat</label>
+                                <input type="text" class="form-control @error('alat_id') is-invalid @enderror"
+                                    id="alat_id" placeholder="kode alat" value="{{ old('alat_id') }}" name="alat_id"
+                                    required />
+                                @error('alat_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -53,7 +54,7 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Pakai</button>
-                                <button type="reset" class="btn btn-secondary">Pakai</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>

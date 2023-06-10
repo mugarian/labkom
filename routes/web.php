@@ -2,20 +2,28 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlatController;
+use App\Http\Controllers\AlgoritmaController;
+use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BahanController;
+use App\Http\Controllers\BahanPraktikumController;
+use App\Http\Controllers\BahanJurusanController;
 use App\Http\Controllers\DosenController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\StaffController;
-use App\Http\Controllers\ScanController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PemakaianController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PenggunaanController;
+use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\BarangHabisController;
 use App\Http\Controllers\BarangPakaiController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PelaksanaanController;
 use App\Http\Controllers\LaboratoriumController;
+use App\Http\Controllers\PeminjamanAlatController;
+use App\Http\Controllers\PeminjamanBahanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +37,7 @@ use App\Http\Controllers\LaboratoriumController;
 */
 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [loginController::class, 'login']);
+Route::post('/', [loginController::class, 'login']);
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [loginController::class, 'logout']);
@@ -44,30 +52,56 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('/alat', AlatController::class);
-    Route::resource('/bahan', BahanController::class);
-    Route::resource('/laboratorium', LaboratoriumController::class);
     Route::resource('/barangpakai', BarangPakaiController::class);
-    Route::resource('/baranghabis', barangHabisController::class);
+    Route::resource('/bahanpraktikum', BahanPraktikumController::class);
+    Route::resource('/bahanjurusan', BahanJurusanController::class);
+    Route::resource('/laboratorium', LaboratoriumController::class);
+    Route::resource('/kelas', KelasController::class);
+    Route::resource('pelaksanaan', PelaksanaanController::class);
+    Route::resource('pengajuan', AlgoritmaController::class);
+
+    Route::get('permohonan/{id}/ditolak', [PermohonanController::class, 'ditolak']);
+    Route::post('permohonan/{id}/ditolak', [PermohonanController::class, 'updateDitolak']);
+    Route::resource('permohonan', PermohonanController::class);
+
+    Route::get('/pemakaian/{id}/pakai', [PemakaianController::class, 'pakai']);
+    Route::resource('pemakaian', PemakaianController::class);
+
+    Route::get('penggunaan/{id}/ditolak', [PenggunaanController::class, 'ditolak']);
+    Route::post('penggunaan/{id}/ditolak', [PenggunaanController::class, 'updateDitolak']);
+    Route::get('/penggunaan/{id}/guna', [PenggunaanController::class, 'guna']);
+    Route::resource('penggunaan', PenggunaanController::class);
+
+    Route::get('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'ditolak']);
+    Route::post('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'updateDitolak']);
+    Route::get('peminjamanalat/{id}/pinjam', [PeminjamanAlatController::class, 'pinjam']);
+    Route::resource('peminjamanalat', PeminjamanAlatController::class);
+
+    Route::get('peminjamanbahan/{id}/ditolak', [PeminjamanBahanController::class, 'ditolak']);
+    Route::post('peminjamanbahan/{id}/ditolak', [PeminjamanBahanController::class, 'updateDitolak']);
+    Route::get('peminjamanbahan/{id}/pinjam', [PeminjamanBahanController::class, 'pinjam']);
+    Route::resource('peminjamanbahan', PeminjamanBahanController::class);
+
+    Route::get('/scan', [ScanController::class, 'index']);
+    Route::post('/scan', [ScanController::class, 'search']);
+    Route::get('/scan/{kode}', [ScanController::class, 'scan'])->name('scan');
+
+    // Route::resource('/baranghabis', barangHabisController::class);
 
     // Route::get('/barangpakai/create/{id}', [BarangPakaiController::class, 'tambah'])->middleware('dosen');
     // Route::resource('/barangpakai', BarangPakaiController::class);
     // Route::get('/baranghabis/create/{id}', [BarangHabisController::class, 'create'])->middleware('dosen');
     // Route::resource('/baranghabis', BarangHabisController::class);
 
-    Route::get('/kegiatan/pelaksanaan', [KegiatanController::class, 'pelaksanaan'])->middleware('dosen');
-    Route::post('/pelaksanaan', [KegiatanController::class, 'storePelaksanaan']);
-    Route::get('/kegiatan/permohonan', [KegiatanController::class, 'permohonan']);
-    Route::post('/permohonan', [KegiatanController::class, 'storePermohonan']);
-    Route::post('/kegiatan/{id}/status', [KegiatanController::class, 'status'])->middleware('dosen');
-    Route::resource('/kegiatan', KegiatanController::class);
+    // Route::get('/kegiatan/pelaksanaan', [KegiatanController::class, 'pelaksanaan'])->middleware('dosen');
+    // Route::post('/pelaksanaan', [KegiatanController::class, 'storePelaksanaan']);
+    // Route::get('/kegiatan/permohonan', [KegiatanController::class, 'permohonan']);
+    // Route::post('/permohonan', [KegiatanController::class, 'storePermohonan']);
+    // Route::post('/kegiatan/{id}/status', [KegiatanController::class, 'status'])->middleware('dosen');
+    // Route::resource('/kegiatan', KegiatanController::class);
 
-    Route::get('/pemakaian/{id}/pakai', [PemakaianController::class, 'pakai']);
-    Route::resource('/pemakaian', PemakaianController::class);
-    Route::get('/penggunaan/{id}/guna', [PenggunaanController::class, 'guna']);
-    Route::post('/penggunaan/{id}/status', [PenggunaanController::class, 'status'])->middleware('dosen');
-    Route::resource('/penggunaan', PenggunaanController::class);
+    // Route::resource('/pemakaian', PemakaianController::class);
+    // Route::post('/penggunaan/{id}/status', [PenggunaanController::class, 'status'])->middleware('dosen');
+    // Route::resource('/penggunaan', PenggunaanController::class);
 
-    Route::get('/scan', [ScanController::class, 'index']);
-    Route::post('/scan', [ScanController::class, 'search']);
-    Route::get('/scan/{kode}', [ScanController::class, 'scan'])->name('scan');
 });

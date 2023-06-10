@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Models\User;
 use App\Traits\Uuids;
 use App\Models\Kegiatan;
-use App\Models\BarangHabis;
-use App\Models\BarangPakai;
+use App\Models\BahanPraktikum;
+use App\Models\BahanJurusan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,12 +29,16 @@ class Laboratorium extends Model
     }
 
     //bahan
-    public function barangHabis()
+    public function bahanpraktikum()
     {
-        return $this->hasMany(BarangHabis::class);
+        return $this->hasMany(BahanPraktikum::class);
+    }
+    public function bahanjurusan()
+    {
+        return $this->hasMany(BahanJurusan::class);
     }
     //alat
-    public function barangPakai()
+    public function barangpakai()
     {
         return $this->hasMany(BarangPakai::class);
     }

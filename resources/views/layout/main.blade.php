@@ -12,7 +12,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('sneat') }}/assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/logo.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,7 +33,11 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('sneat') }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="{{ asset('sneat') }}/assets/vendor/libs/apex-charts/apex-charts.css" />
+    {{-- <link rel="stylesheet" href="{{ asset('sneat') }}/assets/vendor/libs/apex-charts/apex-charts.css" /> --}}
+    {{-- <link href="https://cdn.datatables.net/v/bs5/dt-1.13.4/r-2.4.1/datatables.min.css" rel="stylesheet" /> --}}
+    <link
+        href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/datatables.min.css"
+        rel="stylesheet" />
 
     <!-- Page CSS -->
 
@@ -96,16 +100,47 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{{ asset('sneat') }}/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    {{-- <script src="{{ asset('sneat') }}/assets/vendor/libs/apex-charts/apexcharts.js"></script> --}}
 
     <!-- Main JS -->
     <script src="{{ asset('sneat') }}/assets/js/main.js"></script>
 
     <!-- Page JS -->
     <script src="{{ asset('sneat') }}/assets/js/dashboards-analytics.js"></script>
+    {{-- <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/r-2.4.1/datatables.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script
+        src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/datatables.min.js">
+    </script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    {{-- <script async defer src="https://buttons.github.io/buttons.js"></script> --}}
+    <script>
+        let table = new DataTable('#myTable', {
+            // options
+            dom: 'Bflrtip',
+            buttons: [{
+                    extend: 'print',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'btn btn-primary'
+                },
+
+            ]
+        });
+        let table2 = new DataTable('#myTable2', {
+            // options
+            dom: 'Bflrtip',
+            buttons: ['print', 'excel', 'pdf']
+        });
+    </script>
 </body>
 
 </html>

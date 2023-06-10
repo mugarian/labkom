@@ -72,7 +72,7 @@
 
         <div class="card">
             <div class="card-header">
-                <button type="submit" class="btn btn-primary">Tambah</button>
+                <button type="submit" class="btn btn-primary">Pakai</button>
                 </form>
             </div>
             <div class="card-body">

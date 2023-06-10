@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alat;
-use App\Models\BarangPakai;
 use Ramsey\Uuid\Uuid;
+use App\Models\Pemakaian;
+use App\Models\BarangPakai;
+use Illuminate\Support\Str;
+use App\Models\Laboratorium;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AlatController extends Controller
 {
@@ -23,9 +28,14 @@ class AlatController extends Controller
 
     public function index()
     {
+        $alats = Alat::orderBy('nama', 'asc')->get();
+        $jumlahharga = DB::select('SELECT sum(harga) as jumlah, alat_id FROM barang_pakais GROUP BY alat_id');
+        $total = BarangPakai::sum('harga');
         return view('v_alat.index', [
             'title' => 'Data Alat',
-            'alats' => Alat::orderBy('nama', 'asc')->paginate(5)
+            'alats' => $alats,
+            'jumlahharga' => $jumlahharga,
+            'total' => "Rp " . number_format($total, 2, ',', '.'),
         ]);
     }
 
@@ -50,24 +60,18 @@ class AlatController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama' => 'required|max:255',
             'kategori' => 'required',
+            'nama' => 'required|max:255',
             'spesifikasi' => 'required|max:255',
-            'harga' => 'required',
-            'stok' => 'required',
             'merk' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
         if ($request->file('upload')) {
             $validatedData['upload'] = $request->file('upload')->store('alat-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
         }
-
-        // $validatedData['id'] = (string) Uuid::uuid4();
-
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
-
 
         Alat::create($validatedData);
         return redirect('/alat')->with('success', 'Tambah Data Alat Berhasil');
@@ -81,11 +85,13 @@ class AlatController extends Controller
      */
     public function show(Alat $alat)
     {
-        $barangpakai = BarangPakai::where('alat_id', $alat->id)->orderBy('nama', 'asc')->paginate(5);
+        $barangpakai = BarangPakai::where('alat_id', $alat->id)->get();
+        $jumlahharga = BarangPakai::where('alat_id', $alat->id)->sum('harga');
         return view('v_alat.show', [
             'title' => $alat->nama,
             'alat' => $alat,
-            'barangpakai' => $barangpakai
+            'barangpakai' => $barangpakai,
+            'jumlahharga' => $jumlahharga
         ]);
     }
 
@@ -99,7 +105,7 @@ class AlatController extends Controller
     {
         return view('v_alat.edit', [
             'title' => 'Edit Data Alat',
-            'alat' => $alat
+            'alat' => $alat,
         ]);
     }
 
@@ -116,23 +122,22 @@ class AlatController extends Controller
             'nama' => 'required|max:255',
             'kategori' => 'required',
             'spesifikasi' => 'required|max:255',
-            'harga' => 'required',
-            'stok' => 'required',
             'merk' => 'required',
-            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+            'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ];
 
         $validatedData = $request->validate($rules);
+
 
         if ($request->file('upload')) {
             if ($request->oldImage) {
                 Storage::delete($request->oldImage);
             }
             $validatedData['upload'] = $request->file('upload')->store('alat-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
         }
 
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
 
         Alat::where('id', $alat->id)->update($validatedData);
 

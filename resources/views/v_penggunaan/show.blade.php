@@ -3,7 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
                 <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
-            </span> {{ $penggunaan->baranghabis->nama }}</h4>
+            </span> {{ $penggunaan->bahanpraktikum->nama }}</h4>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -52,8 +52,8 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($penggunaan->baranghabis->foto)
-                                    <img src="{{ asset('storage') . '/' . $penggunaan->baranghabis->foto }}"
+                                @if ($penggunaan->bahanpraktikum->foto)
+                                    <img src="{{ asset('storage') . '/' . $penggunaan->bahanpraktikum->foto }}"
                                         alt="penggunaan-avatar" class="d-block rounded" height="200" width="200"
                                         id="uploadedAvatar" />
                                 @else
@@ -64,18 +64,22 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">Kode Barang</label>
-                            <p class="form-control">{{ $penggunaan->baranghabis->kode }}</p>
+                            <p class="form-control">{{ $penggunaan->kode }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="nama">nama Barang</label>
-                            <p class="form-control">{{ $penggunaan->baranghabis->nama }}</p>
+                            <label class="form-label" for="nama">Nama Barang</label>
+                            <p class="form-control">{{ $penggunaan->bahanpraktikum->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="keterangan">keterangan Barang</label>
-                            <p class="form-control">{{ $penggunaan->baranghabis->keterangan }}</p>
+                            <label class="form-label" for="stok">stok Barang</label>
+                            <p class="form-control">{{ $penggunaan->bahanpraktikum->stok }}</p>
                         </div>
                         <div class="mt-5 mb-3">
                             <h5 class="mb-0">Kegiatan</h5>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="kode">kode kegiatan</label>
+                            <p class="form-control">{{ $penggunaan->kegiatan->kode }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="jenis">jenis kegiatan</label>

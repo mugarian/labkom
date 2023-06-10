@@ -72,51 +72,90 @@
                                 @endif
                             </div>
                         </div>
+                        @if ($kegiatan)
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="my-3">Status Laboratorium</h5>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="merk">Status Kegiatan</label>
+                                <p class="form-control">{{ $kegiatan->status }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="merk">Nama Kegiatan</label>
+                                <p class="form-control">{{ $kegiatan->nama }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="merk">Oleh</label>
+                                <p class="form-control">{{ $kegiatan->user->nama }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="merk">Tanggal Mulai</label>
+                                <p class="form-control">{{ $kegiatan->mulai }}</p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- barang pakai & habis --}}
-        <div class="row">
-            {{-- barang pakai --}}
+        <div class="row mb-3">
             <div class="col-xl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Barang Pakai</h5>
-                        @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
-                            <small class="text-muted float-end">
-                                <a href="/barangpakai/create/{{ $laboratorium->id }}">
-                                    <button class="btn btn-primary">Tambah</button>
-                                </a>
-                            </small>
-                        @endif
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tracking Barang Pakai (Alat)</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pb-2">
                         <div class="table-responsive text-nowrap">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr class="text-center">
+                                        <th>Foto</th>
+                                        <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Keterangan</th>
-                                        <th style="width: 0">Aksi</th>
+                                        <th>Lokasi</th>
+                                        <th>Harga</th>
+                                        {{-- <th style="width: 0">Aksi</th> --}}
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr class="text-center">
+                                        <th>Foto</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Harga</th>
+                                        {{-- <th style="width: 0">Aksi</th> --}}
+                                    </tr>
+                                </tfoot>
                                 <tbody class="text-center">
-                                    @forelse ($barangpakai as $bp)
+                                    @foreach ($barangpakais as $baprak)
                                         <tr>
-                                            <td>{{ $bp->nama }}</td>
-                                            <td>{{ $bp->keterangan }}</td>
-                                            <td>
+                                            <td style="width:10%">
+                                                @if ($baprak->foto)
+                                                    <img src="{{ asset('storage') . '/' . $baprak->foto }}" alt="bp-avatar"
+                                                        class="d-block rounded img-preview" height="100" width="100"
+                                                        id="uploadedAvatar" />
+                                                @else
+                                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                                        class="d-block rounded img-preview" height="100" width="100"
+                                                        id="uploadedAvatar" />
+                                                @endif
+                                            </td>
+                                            <td>{{ $baprak->kode }}</td>
+                                            <td class="text-wrap">{{ $baprak->nama }}</td>
+                                            <td class="text-wrap">{{ $baprak->laboratorium->nama }}</td>
+                                            <td class="text-wrap">Rp. {{ number_format($baprak->harga, 2, ',', '.') }}
+                                            </td>
+                                            {{-- <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a class="btn btn-outline-success p-1"
-                                                        href="/barangpakai/{{ $bp->id }}"><i
+                                                        href="/barangpakai/{{ $baprak->id }}"><i
                                                             class="bx bx-info-circle"></i></a>
-                                                    @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
+                                                    @if (auth()->user()->role == 'admin' || $baprak->laboratorium->user->id == auth()->user()->id)
                                                         <a class="btn btn-outline-warning p-1"
-                                                            href="/barangpakai/{{ $bp->id }}/edit"><i
+                                                            href="/barangpakai/{{ $baprak->id }}/edit"><i
                                                                 class="bx bx-edit-alt"></i></a>
-                                                        <form action="/barangpakai/{{ $bp->id }}" method="post">
+                                                        <form action="/barangpakai/{{ $baprak->id }}" method="post">
                                                             @method('delete')
                                                             @csrf
                                                             <button type="submit" class="btn btn-outline-danger p-1">
@@ -125,63 +164,88 @@
                                                         </form>
                                                     @endif
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="100%">
-                                                <div class="my-5">
-                                                    <h5 class="text-muted">
-                                                        Tidak Ada Data Barang Pakai (Alat)
-                                                    </h5>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                        {{-- @empty
+                                            <tr>
+                                                <td colspan="100%">
+                                                    <div class="my-5">
+                                                        <h3 class="text-muted">
+                                                            Tidak Ada Data Barang Pakai (Alat)
+                                                        </h3>
+                                                    </div>
+                                                </td>
+                                            </tr> --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
+                        {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                            {{ $barangpakai->links() }}
+                        </div> --}}
                     </div>
                 </div>
             </div>
-            {{-- barang habis --}}
+        </div>
+
+        <div class="row">
             <div class="col-xl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Barang Habis</h5>
-                        @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
-                            <small class="text-muted float-end">
-                                <a href="/baranghabis/create/{{ $laboratorium->id }}">
-                                    <button class="btn btn-primary">Tambah</button>
-                                </a>
-                            </small>
-                        @endif
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tracking Bahan Jurusan</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pb-2">
                         <div class="table-responsive text-nowrap">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="myTable2">
                                 <thead>
                                     <tr class="text-center">
+                                        <th>Foto</th>
+                                        <th>Kode</th>
                                         <th>Nama</th>
-                                        <th>Keterangan</th>
-                                        <th style="width: 0">Aksi</th>
+                                        <th>Lokasi</th>
+                                        <th>Harga</th>
+                                        {{-- <th style="width: 0">Aksi</th> --}}
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr class="text-center">
+                                        <th>Foto</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Harga</th>
+                                        {{-- <th style="width: 0">Aksi</th> --}}
+                                    </tr>
+                                </tfoot>
                                 <tbody class="text-center">
-                                    @forelse ($baranghabis as $bh)
+                                    @foreach ($bahanpraktikums as $baprak)
                                         <tr>
-                                            <td class="text-wrap">{{ $bh->nama }}</td>
-                                            <td class="text-wrap">{{ $bh->keterangan }}</td>
-                                            <td>
+                                            <td style="width:10%">
+                                                @if ($baprak->foto)
+                                                    <img src="{{ asset('storage') . '/' . $baprak->foto }}"
+                                                        alt="bp-avatar" class="d-block rounded img-preview"
+                                                        height="100" width="100" id="uploadedAvatar" />
+                                                @else
+                                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                                        class="d-block rounded img-preview" height="100" width="100"
+                                                        id="uploadedAvatar" />
+                                                @endif
+                                            </td>
+                                            <td>{{ $baprak->kode }}</td>
+                                            <td class="text-wrap">{{ $baprak->nama }}</td>
+                                            <td class="text-wrap">{{ $baprak->laboratorium->nama }}</td>
+                                            <td class="text-wrap">Rp. {{ number_format($baprak->harga, 2, ',', '.') }}
+                                            </td>
+                                            {{-- <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a class="btn btn-outline-success p-1"
-                                                        href="/baranghabis/{{ $bh->id }}"><i
+                                                        href="/barangpakai/{{ $baprak->id }}"><i
                                                             class="bx bx-info-circle"></i></a>
-                                                    @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
+                                                    @if (auth()->user()->role == 'admin' || $baprak->laboratorium->user->id == auth()->user()->id)
                                                         <a class="btn btn-outline-warning p-1"
-                                                            href="/baranghabis/{{ $bh->id }}/edit"><i
+                                                            href="/barangpakai/{{ $baprak->id }}/edit"><i
                                                                 class="bx bx-edit-alt"></i></a>
-                                                        <form action="/baranghabis/{{ $bh->id }}" method="post">
+                                                        <form action="/barangpakai/{{ $baprak->id }}" method="post">
                                                             @method('delete')
                                                             @csrf
                                                             <button type="submit" class="btn btn-outline-danger p-1">
@@ -190,22 +254,25 @@
                                                         </form>
                                                     @endif
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="100%">
-                                                <div class="my-5">
-                                                    <h5 class="text-muted">
-                                                        Tidak Ada Data Barang Habis (Bahan)
-                                                    </h5>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                        {{-- @empty
+                                            <tr>
+                                                <td colspan="100%">
+                                                    <div class="my-5">
+                                                        <h3 class="text-muted">
+                                                            Tidak Ada Data Barang Pakai (Alat)
+                                                        </h3>
+                                                    </div>
+                                                </td>
+                                            </tr> --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
+                        {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                            {{ $barangpakai->links() }}
+                        </div> --}}
                     </div>
                 </div>
             </div>

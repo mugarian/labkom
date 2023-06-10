@@ -13,8 +13,10 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Barang Pakai</h5>
-                        <small class="text-muted float-end"><a href="/barangpakai">
-                                < Kembali </a></small>
+                        <small class="text-muted float-end">
+                            <a href="/barangpakai">
+                                < Kembali </a>
+                        </small>
                     </div>
                     <div class="card-body">
                         <form action="/barangpakai" method="POST" enctype="multipart/form-data">
@@ -69,6 +71,17 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="harga">harga</label>
+                                <input type="number" class="form-control @error('harga') is-invalid @enderror"
+                                    id="harga" placeholder="harga" value="{{ old('harga') }}" name="harga"
+                                    min="0" required />
+                                @error('harga')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="alat_id">Alat</label>
                                 <select id="organization" class="select2 form-select @error('alat_id') is-invalid @enderror"
                                     name="alat_id">
@@ -110,27 +123,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="deskripsi">Deskripsi</label>
-                                <textarea id="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="deskripsi"
-                                    name="deskripsi" required>{{ old('deskripsi') }}</textarea>
-                                @error('deskripsi')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="keterangan">Keterangan</label>
-                                <textarea id="keterangan" class="form-control @error('keterangan') is-invalid @enderror" placeholder="keterangan"
-                                    name="keterangan" required>{{ old('keterangan') }}</textarea>
-                                @error('keterangan')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>

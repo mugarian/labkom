@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('barang_habis', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('bahan_id')->references('id')->on('bahans');
+            $table->foreignUuid('bahanpraktikum_id')->references('id')->on('bahan_praktikums');
             $table->foreignUuid('laboratorium_id')->references('id')->on('laboratorium');
             $table->string('nama');
             $table->string('kode')->unique();

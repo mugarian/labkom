@@ -17,7 +17,7 @@
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th>Foto</th>
@@ -28,8 +28,18 @@
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th>Foto</th>
+                                <th style="width: 0">NIP/NIK</th>
+                                <th>Nama</th>
+                                <th>Jurusan</th>
+                                <th>Email</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
-                            @forelse ($dosens as $dosen)
+                            @foreach ($dosens as $dosen)
                                 <tr>
                                     <td style="width:10%">
                                         @if ($dosen->user->foto)
@@ -71,23 +81,23 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="100%">
-                                        <div class="my-5">
-                                            <h3 class="text-muted">
-                                                Tidak Ada Data Dosen
-                                            </h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
+                                {{-- @empty
+                                    <tr>
+                                        <td colspan="100%">
+                                            <div class="my-5">
+                                                <h3 class="text-muted">
+                                                    Tidak Ada Data Dosen
+                                                </h3>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                     {{ $dosens->links() }}
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Bordered Table -->

@@ -3,6 +3,9 @@
         {{-- Logo --}}
         <a href="index.html" class="app-brand-link">
             <span class="app-brand-logo demo">
+                <img src="{{ asset('img/logo.png') }}" width="40" alt="logo sistem">
+            </span>
+            {{-- <span class="app-brand-logo demo">
                 <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
@@ -45,8 +48,8 @@
                         </g>
                     </g>
                 </svg>
-            </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">SIBARU</span>
+            </span> --}}
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">SIMALAKOM</span>
         </a>
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
@@ -79,57 +82,99 @@
             </a>
         </li>
 
-        <!-- Components -->
-        <li class="menu-header small text-uppercase my-0"><span class="menu-header-text">Aktivitas</span></li>
-        <!-- Extended components -->
-        <li class="menu-item {{ Request::is('kegiatan*') ? 'active' : '' }}">
-            <a href="/kegiatan" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar"></i>
-                <div data-i18n="Misc">kegiatan</div>
-            </a>
-        </li>
-        <!-- User interface -->
-        <li class="menu-item {{ Request::is('pemakaian*') ? 'active' : '' }}">
-            <a href="/pemakaian" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar-heart"></i>
-                <div data-i18n="User interface">Pemakaian Alat</div>
-            </a>
-        </li>
-        <!-- Cards -->
-        <li class="menu-item {{ Request::is('penggunaan*') ? 'active' : '' }}">
-            <a href="/penggunaan" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar-star"></i>
-                <div data-i18n="Basic">Penggunaan Bahan</div>
-            </a>
-        </li>
-
-
         <li class="menu-header small text-uppercase my-0">
             <span class="menu-header-text">Pengelolaan</span>
         </li>
-        <li class="menu-item {{ Request::is('alat*') ? 'active' : '' }}">
-            <a href="/alat" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-desktop"></i>
-                <div data-i18n="Misc">Alat</div>
+
+        <li class="menu-item {{ Request::is('pelaksanaan*', 'permohonan*') ? 'active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-calendar"></i>
+                <div data-i18n="kegiatan">Kegiatan</div>
             </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {{ Request::is('pelaksanaan*') ? 'active' : '' }}">
+                    <a href="/pelaksanaan" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Pelaksanaan Kegiatan</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('permohonan*') ? 'active' : '' }}">
+                    <a href="/permohonan" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Permohonan Kegiatan</div>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <li class="menu-item {{ Request::is('barangpakai*') ? 'active' : '' }}">
-            <a href="/barangpakai" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-slideshow"></i>
-                <div data-i18n="Misc">Barang Pakai</div>
-            </a>
-        </li>
-        <li class="menu-item {{ Request::is('bahan*') ? 'active' : '' }}">
-            <a href="/bahan" class="menu-link">
+
+        <li
+            class="menu-item {{ Request::is('alat*', 'barangpakai*', 'bahanjurusan*', 'bahanpraktikum*') ? 'active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-package"></i>
-                <div data-i18n="Misc">Bahan</div>
+                <div data-i18n="kegiatan">Inventori</div>
             </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {{ Request::is('alat*') ? 'active' : '' }}">
+                    <a href="/alat" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Alat</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('barangpakai*') ? 'active' : '' }}">
+                    <a href="/barangpakai" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Barang Pakai (Alat)</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('bahanpraktikum*') ? 'active' : '' }}">
+                    <a href="/bahanpraktikum" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Bahan Praktikum</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('bahanjurusan*') ? 'active' : '' }}">
+                    <a href="/bahanjurusan" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Bahan Jurusan</div>
+                    </a>
+                </li>
+            </ul>
         </li>
-        <li class="menu-item {{ Request::is('baranghabis*') ? 'active' : '' }}">
-            <a href="/baranghabis" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-box"></i>
-                <div data-i18n="Misc">Barang Habis</div>
+        <li
+            class="menu-item {{ Request::is('pemakaian*', 'peminjamanalat*', 'peminjamanbahan*', 'penggunaan*') ? 'active' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="kegiatan">Logbook</div>
             </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item {{ Request::is('pemakaian*') ? 'active' : '' }}">
+                    <a href="/pemakaian" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Pemakaian Alat</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('penggunaan*') ? 'active' : '' }}">
+                    <a href="/penggunaan" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Penggunaan Bahan</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('peminjamanalat*') ? 'active' : '' }}">
+                    <a href="/peminjamanalat" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Peminjaman Alat</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ Request::is('peminjamanbahan*') ? 'active' : '' }}">
+                    <a href="/peminjamanbahan" class="menu-link">
+                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                        <div data-i18n="Misc">Peminjaman Bahan</div>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li class="menu-item {{ Request::is('laboratorium*') ? 'active' : '' }}">
             <a href="/laboratorium" class="menu-link">
@@ -138,27 +183,72 @@
             </a>
         </li>
 
+        <li class="menu-item {{ Request::is('kelas*') ? 'active' : '' }}">
+            <a href="/kelas" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-chalkboard"></i>
+                <div data-i18n="Misc">Kelas</div>
+            </a>
+        </li>
+
+
+        @if (auth()->user()->role != 'mahasiswa')
+            <li class="menu-header small text-uppercase my-0">
+                <span class="menu-header-text">Rekomendasi Pengajuan</span>
+            </li>
+            <li class="menu-item {{ Request::is('pengajuan*', 'rule*', 'rekomendasi*') ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class='menu-icon tf-icons bx bx-sitemap'></i>
+                    <div data-i18n="kegiatan">Pengajuan</div>
+                </a>
+
+                <ul class="menu-sub">
+                    <li class="menu-item {{ Request::is('pengajuan*') ? 'active' : '' }}">
+                        <a href="/pengajuan" class="menu-link">
+                            {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                            <div data-i18n="Misc">Data</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ Request::is('rule*') ? 'active' : '' }}">
+                        <a href="/rule" class="menu-link">
+                            {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                            <div data-i18n="Misc">Rule</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ Request::is('rekomendasi*') ? 'active' : '' }}">
+                        <a href="/rekomendasi" class="menu-link">
+                            {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                            <div data-i18n="Misc">Rekomendasi</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
+
+
         @if (auth()->user()->role == 'admin')
             <li class="menu-header small text-uppercase my-0">
-                <span class="menu-header-text">Akun</span>
+                <span class="menu-header-text">Akun Pengguna</span>
             </li>
-            <li class="menu-item {{ Request::is('dosen*') ? 'active' : '' }}">
-                <a href="/dosen" class="menu-link">
+            <li class="menu-item {{ Request::is('dosen*', 'mahasiswa*') ? 'active' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-group"></i>
-                    <div data-i18n="Misc">Dosen</div>
+                    <div data-i18n="Layouts">Akun</div>
                 </a>
-            </li>
-            <li class="menu-item {{ Request::is('mahasiswa*') ? 'active' : '' }}">
-                <a href="/mahasiswa" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-group"></i>
-                    <div data-i18n="Misc">Mahasiswa</div>
-                </a>
-            </li>
-            <li class="menu-item {{ Request::is('staff*') ? 'active' : '' }}">
-                <a href="/staff" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-group"></i>
-                    <div data-i18n="Misc">Staff</div>
-                </a>
+
+                <ul class="menu-sub">
+                    <li class="menu-item {{ Request::is('dosen*') ? 'active' : '' }}">
+                        <a href="/dosen" class="menu-link">
+                            {{-- <i class="menu-icon tf-icons bx bx-group"></i> --}}
+                            <div data-i18n="Misc">Dosen</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ Request::is('mahasiswa*') ? 'active' : '' }}">
+                        <a href="/mahasiswa" class="menu-link">
+                            {{-- <i class="menu-icon tf-icons bx bx-group"></i> --}}
+                            <div data-i18n="Misc">Mahasiswa</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
         @endif
     </ul>

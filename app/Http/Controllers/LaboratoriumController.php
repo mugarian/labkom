@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarangHabis;
-use App\Models\BarangPakai;
-use App\Models\User;
+use App\Models\Alat;
+use App\Models\Bahan;
 use App\Models\Dosen;
+use App\Models\Kegiatan;
+use App\Models\BarangPakai;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
+use App\Models\BahanPraktikum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class LaboratoriumController extends Controller
@@ -20,14 +23,26 @@ class LaboratoriumController extends Controller
 
     public function __construct()
     {
-        $this->middleware('admin')->only(['create', 'store', 'destroy']);
+        $this->middleware('admin')->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
 
     public function index()
     {
+        // SELECT laboratorium.foto, laboratorium.nama, laboratorium.user_id, laboratorium.deskripsi, kegiatans.status, kegiatans.mulai FROM `kegiatans` INNER JOIN `laboratorium` ON kegiatans.laboratorium_id = laboratorium.id GROUP BY laboratorium.id ORDER BY kegiatans.mulai DESC;
+
+        $laboratorium = laboratorium::orderBy('nama', 'asc')->get();
+
+        $kegiatans = DB::table('kegiatans')
+            ->join('laboratorium', 'kegiatans.laboratorium_id', '=', 'laboratorium.id')
+            ->select('laboratorium.id as idlab', 'kegiatans.nama as namakegiatan', 'kegiatans.status as statuskegiatan', 'kegiatans.mulai as mulaikegiatan', 'kegiatans.selesai as selesaikegiatan')
+            ->groupBy('laboratorium.id')
+            ->orderBy('kegiatans.mulai', 'desc')
+            ->get();
+
         return view('v_laboratorium.index', [
             'title' => 'Data laboratorium',
-            'laboratoriums' => laboratorium::orderBy('nama', 'asc')->paginate(5)
+            'laboratoriums' => $laboratorium,
+            'kegiatans' => $kegiatans,
         ]);
     }
 
@@ -63,10 +78,10 @@ class LaboratoriumController extends Controller
 
         if ($request->file('upload')) {
             $validatedData['upload'] = $request->file('upload')->store('laboratorium-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
         }
 
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
 
         Laboratorium::create($validatedData);
         Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);
@@ -81,13 +96,15 @@ class LaboratoriumController extends Controller
      */
     public function show(Laboratorium $laboratorium)
     {
-        $barangpakai = BarangPakai::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
-        $baranghabis = BarangHabis::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
+        $barangpakais = BarangPakai::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
+        $bahanpraktikums = BahanPraktikum::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
+        $kegiatan = Kegiatan::where('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->first();
         return view('v_laboratorium.show', [
             'title' => $laboratorium->nama,
             'laboratorium' => $laboratorium,
-            'barangpakai' => $barangpakai,
-            'baranghabis' => $baranghabis,
+            'barangpakais' => $barangpakais,
+            'bahanpraktikums' => $bahanpraktikums,
+            'kegiatan' => $kegiatan,
         ]);
     }
 
@@ -135,10 +152,10 @@ class LaboratoriumController extends Controller
                     Storage::delete($request->oldImage);
                 }
                 $validatedData['upload'] = $request->file('upload')->store('laboratorium-images');
+                $validatedData['foto'] = $validatedData['upload'];
+                unset($validatedData['upload']);
             }
 
-            $validatedData['foto'] = $validatedData['upload'];
-            unset($validatedData['upload']);
 
             laboratorium::where('id', $laboratorium->id)->update($validatedData);
             Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);

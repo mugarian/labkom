@@ -18,7 +18,7 @@ class DosenController extends Controller
      */
     public function index()
     {
-        $dosen = Dosen::orderBy('id', 'asc')->paginate(5);
+        $dosen = Dosen::orderBy('id', 'asc')->get();
         return view('v_dosen.index', [
             'title' => 'Kelola Data Dosen',
             'dosens' => $dosen
@@ -58,11 +58,11 @@ class DosenController extends Controller
 
         if ($request->file('upload')) {
             $validatedData['upload'] = $request->file('upload')->store('dosen-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
         }
 
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
 
         $user = User::create([
             'email' => $validatedData['email'],
@@ -73,7 +73,6 @@ class DosenController extends Controller
             'role' => 'dosen'
         ]);
 
-        unset($validatedData['foto']);
         unset($validatedData['email']);
         unset($validatedData['password']);
         unset($validatedData['nomor_induk']);
@@ -172,7 +171,6 @@ class DosenController extends Controller
             'role' => 'dosen'
         ]);
 
-        unset($validatedData['foto']);
         unset($validatedData['email']);
         unset($validatedData['nomor_induk']);
         unset($validatedData['nama']);

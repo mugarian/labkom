@@ -4,11 +4,6 @@
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
                 <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
             </span>
-            @if ($baranghabis)
-                {{ $baranghabis->nama }}
-            @else
-                Tambah Data Pemakaian
-            @endif
         </h4>
 
         <!-- Basic Layout -->
@@ -26,21 +21,21 @@
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
-                                        dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
-                                        disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
-                                        yang tertera pada barang untuk pengisian kode barang secara otomatis
+                                    <p class="mb-0">Masukkan kode bahan praktikum yang terdapat di laboratorium pada
+                                        kegiatan yang dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung
+                                        atau berstatus disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR
+                                        Kode yang tertera pada barang untuk pengisian kode barang secara otomatis
                                     </p>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="baranghabis_id">Kode Barang</label>
-                                <input type="text" class="form-control @error('baranghabis_id') is-invalid @enderror"
-                                    id="baranghabis_id" placeholder="baranghabis_id"
-                                    value="{{ old('baranghabis_id', $baranghabis->kode) }}" name="baranghabis_id" required
-                                    readonly />
-                                @error('baranghabis_id')
+                                <label class="form-label" for="bahanpraktikum_id">Kode Bahan Praktikum</label>
+                                <input type="text" class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
+                                    id="bahanpraktikum_id" placeholder="bahanpraktikum_id"
+                                    value="{{ old('bahanpraktikum_id', $bahanpraktikum->kode) }}" name="bahanpraktikum_id"
+                                    required readonly />
+                                @error('bahanpraktikum_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -58,10 +53,10 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="jumlah">Jumlah Barang</label>
+                                <label class="form-label" for="jumlah">Jumlah Bahan Praktikum</label>
                                 <input type="number" class="form-control @error('jumlah') is-invalid @enderror"
                                     id="jumlah" placeholder="jumlah" value="{{ old('jumlah') }}" name="jumlah"
-                                    required />
+                                    min="0" max="{{ $bahanpraktikum->stok }}" required />
                                 @error('jumlah')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -84,17 +79,17 @@
                     <div class="alert alert-primary">
                         <h6 class="alert-heading fw-bold mb-1">Status Kegiatan</h6>
                         <p class="mb-0">
-                            Penggunaan bahan bisa dilakukan ketika status sudah disetujui oleh Kepala Lab
+                            Penggunaan Bahan Praktikum bisa dilakukan ketika status sudah disetujui oleh Kepala Lab
                         </p>
                     </div>
-                    @if ($baranghabis)
+                    @if ($bahanpraktikum)
                         <div class="mt-4 mb-0">
-                            <h5 class="mb-0">Data Barang</h5>
+                            <h5 class="mb-0">Data Bahan Praktikum</h5>
                         </div>
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($baranghabis->foto)
-                                    <img src="{{ asset('storage') . '/' . $baranghabis->foto }}" alt="pemakaian-avatar"
+                                @if ($bahanpraktikum->foto)
+                                    <img src="{{ asset('storage') . '/' . $bahanpraktikum->foto }}" alt="pemakaian-avatar"
                                         class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
@@ -103,16 +98,20 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="kode">Kode Barang</label>
-                            <p class="form-control">{{ $baranghabis->kode }}</p>
+                            <label class="form-label" for="jenis">jenis Bahan Praktikum</label>
+                            <p class="form-control">{{ $bahanpraktikum->jenis }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="nama">nama Barang</label>
-                            <p class="form-control">{{ $baranghabis->nama }}</p>
+                            <label class="form-label" for="kode">Kode Bahan Praktikum</label>
+                            <p class="form-control">{{ $bahanpraktikum->kode }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="keterangan">keterangan Barang</label>
-                            <p class="form-control">{{ $baranghabis->keterangan }}</p>
+                            <label class="form-label" for="nama">Nama Bahan Praktikum</label>
+                            <p class="form-control">{{ $bahanpraktikum->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="stok">Stok Bahan Praktikum</label>
+                            <p class="form-control">{{ $bahanpraktikum->stok }}</p>
                         </div>
                 </div>
             </div>

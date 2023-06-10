@@ -21,29 +21,29 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="selesai">Selesai Pemakaian</label>
-                            <p class="form-control">{{ $pemakaian->selesai }}</p>
+                            <p class="form-control">{{ $pemakaian->selesai ?? '-' }}</p>
                         </div>
                         @if ($pemakaian->barangpakai->alat->kategori == 'pc')
                             <div class="mb-3">
                                 <label class="form-label" for="cpu">CPU</label>
-                                <p class="form-control">{{ $pemakaian->cpu }}</p>
+                                <p class="form-control">{{ $pemakaian->cpu ?? '-' }}</p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="monitor">Monitor</label>
-                                <p class="form-control">{{ $pemakaian->monitor }}</p>
+                                <p class="form-control">{{ $pemakaian->monitor ?? '-' }}</p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="keyboard">Keyboard</label>
-                                <p class="form-control">{{ $pemakaian->keyboard }}</p>
+                                <p class="form-control">{{ $pemakaian->keyboard ?? '-' }}</p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="mouse">Mouse</label>
-                                <p class="form-control">{{ $pemakaian->mouse }}</p>
+                                <p class="form-control">{{ $pemakaian->mouse ?? '-' }}</p>
                             </div>
                         @endif
                         <div class="mb-3">
                             <label class="form-label" for="keterangan">keterangan</label>
-                            <p class="form-control">{{ $pemakaian->keterangan }}</p>
+                            <p class="form-control">{{ $pemakaian->keterangan ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -67,19 +67,19 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="kode">Kode Barang</label>
+                            <label class="form-label" for="kode">Kode barangpakai</label>
                             <p class="form-control">{{ $pemakaian->barangpakai->kode }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="nama">nama Barang</label>
+                            <label class="form-label" for="nama">nama barangpakai</label>
                             <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="keterangan">keterangan Barang</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->keterangan }}</p>
                         </div>
                         <div class="mt-5 mb-3">
                             <h5 class="mb-0">Kegiatan</h5>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="kode">kode kegiatan</label>
+                            <p class="form-control">{{ $pemakaian->kegiatan->kode }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="jenis">jenis kegiatan</label>

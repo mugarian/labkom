@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\BarangHabis;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Bahan extends Model
+class Algoritma extends Model
 {
     use HasFactory, Uuids;
 
@@ -16,9 +15,4 @@ class Bahan extends Model
     protected $casts = [
         'id' => 'string'
     ];
-
-    public function barangHabis()
-    {
-        return $this->hasMany(BarangHabis::class);
-    }
 }

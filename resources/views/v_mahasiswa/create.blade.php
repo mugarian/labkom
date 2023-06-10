@@ -71,6 +71,22 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="kelas_id">Kelas</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('kelas_id') is-invalid @enderror" name="kelas_id">
+                                    <option value="">Pilih Kelas</option>
+                                    @foreach ($kelas as $kls)
+                                        <option value="{{ $kls->id }}" @selected(old('kelas_id') == $kls->id)>
+                                            {{ $kls->nama . ' (' . $kls->angkatan . ')' }}</option>
+                                    @endforeach
+                                </select>
+                                @error('kelas_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-4">
                                 <label class="form-label" for="angkatan">Angkatan</label>
                                 <input type="number" class="form-control @error('angkatan') is-invalid @enderror"
@@ -82,8 +98,24 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="jurusan">jurusan</label>
+                                <select id="organization" class="select2 form-select @error('jurusan') is-invalid @enderror"
+                                    name="jurusan">
+                                    <option value="">Pilih Jurusan</option>
+                                    <option value="mi" @selected(old('jurusan') == 'mi')>MI</option>
+                                    <option value="ai" @selected(old('jurusan') == 'ai')>AI</option>
+                                    <option value="tppm" @selected(old('jurusan') == 'tppm')>TPPM</option>
+                                    <option value="kesehatan" @selected(old('jurusan') == 'kesehatan')>Kesehatan</option>
+                                </select>
+                                @error('jurusan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                     </div>
@@ -97,8 +129,9 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="password">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                                placeholder="email" name="email" value="{{ old('email') }}" required />
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                id="email" placeholder="email" name="email" value="{{ old('email') }}"
+                                required />
                             @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}

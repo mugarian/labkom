@@ -32,12 +32,8 @@
                             <p class="form-control">{{ $alat->spesifikasi }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="harga">Harga</label>
-                            <p class="form-control">{{ $alat->harga }}</p>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label" for="stok">Stok</label>
-                            <p class="form-control">{{ $alat->stok }}</p>
+                            <label class="form-label" for="spesifikasi">Jumlah Harga</label>
+                            <p class="form-control">Rp. {{ number_format($jumlahharga, 2, ',', '.') }}</p>
                         </div>
                         <div class="mb-3">
                             @if (auth()->user()->role == 'admin')
@@ -87,20 +83,29 @@
                     </div>
                     <div class="card-body pb-2">
                         <div class="table-responsive text-nowrap">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr class="text-center">
                                         <th>Foto</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Lokasi</th>
-                                        <th>Deskripsi</th>
-                                        <th>Keterangan</th>
+                                        <th>Harga</th>
                                         {{-- <th style="width: 0">Aksi</th> --}}
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr class="text-center">
+                                        <th>Foto</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Harga</th>
+                                        {{-- <th style="width: 0">Aksi</th> --}}
+                                    </tr>
+                                </tfoot>
                                 <tbody class="text-center">
-                                    @forelse ($barangpakai as $bp)
+                                    @foreach ($barangpakai as $bp)
                                         <tr>
                                             <td style="width:10%">
                                                 @if ($bp->foto)
@@ -116,8 +121,7 @@
                                             <td>{{ $bp->kode }}</td>
                                             <td class="text-wrap">{{ $bp->nama }}</td>
                                             <td class="text-wrap">{{ $bp->laboratorium->nama }}</td>
-                                            <td class="text-wrap">{{ $bp->deskripsi }}</td>
-                                            <td class="text-wrap">{{ $bp->keterangan }}</td>
+                                            <td class="text-wrap">Rp. {{ number_format($bp->harga, 2, ',', '.') }}</td>
                                             {{-- <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a class="btn btn-outline-success p-1"
@@ -138,54 +142,26 @@
                                                 </div>
                                             </td> --}}
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="100%">
-                                                <div class="my-5">
-                                                    <h3 class="text-muted">
-                                                        Tidak Ada Data Barang Pakai (Alat)
-                                                    </h3>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                        {{-- @empty
+                                            <tr>
+                                                <td colspan="100%">
+                                                    <div class="my-5">
+                                                        <h3 class="text-muted">
+                                                            Tidak Ada Data Barang Pakai (Alat)
+                                                        </h3>
+                                                    </div>
+                                                </td>
+                                            </tr> --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                        {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                             {{ $barangpakai->links() }}
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
         </div>
-
-        {{-- <div class="card mt-4">
-            <div class="card-header">
-                @if (auth()->user()->role == 'admin')
-                    <div class="d-flex justify-content-start">
-                        <a href="/alat/{{ $alat->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
-                        <form action="/alat/{{ $alat->id }}" method="post">
-                            @method('delete')
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
-                @endif
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">Kelola Data alat</h6>
-                        <p class="mb-0">Ketika Form Tambah Data alat dihapus atau diubah,<br />
-                            Maka Secara Otomatis Kode QR akan dihapus atau terubah, <br />
-                            Dan Langsung diseusaikan dengan kode qr yang tertera
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
 @endsection

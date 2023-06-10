@@ -25,10 +25,11 @@
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
+                                <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Jenis</th>
                                 <th>Oleh</th>
@@ -37,16 +38,31 @@
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Jenis</th>
+                                <th>Oleh</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Status</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
-                            @forelse ($kegiatans as $kegiatan)
+                            @foreach ($kegiatans as $kegiatan)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td class="text-wrap">
+                                        {{ $kegiatan->kode }}
+                                    </td>
                                     <td class="text-wrap">
                                         {{ $kegiatan->nama }} <br> ({{ $kegiatan->laboratorium->nama }})
                                     </td>
                                     <td>{{ $kegiatan->jenis }}</td>
                                     <td class="text-wrap">{{ $kegiatan->user->nama }}</td>
-                                    <td>{{ $kegiatan->mulai }}</td>
+                                    <td class="text-wrap">{{ $kegiatan->mulai }}</td>
                                     <td>{{ $kegiatan->status }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
@@ -105,7 +121,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
+                                {{-- @empty
                                 <tr>
                                     <td colspan="100%">
                                         <div class="my-5">
@@ -114,14 +130,14 @@
                                             </h3>
                                         </div>
                                     </td>
-                                </tr>
-                            @endforelse
+                                </tr> --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                     {{ $kegiatans->links() }}
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Bordered Table -->

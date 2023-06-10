@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('kode')->unique();
             $table->string('foto')->nullable();
-            $table->text('deskripsi');
-            $table->text('keterangan');
+            $table->integer('harga');
             $table->timestamps();
         });
     }

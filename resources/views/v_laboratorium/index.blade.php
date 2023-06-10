@@ -20,7 +20,7 @@
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
@@ -28,11 +28,23 @@
                                 <th>Nama</th>
                                 <th>Kepala Lab</th>
                                 <th>Deskripsi</th>
+                                <th>Status</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>Foto</th>
+                                <th>Nama</th>
+                                <th>Kepala Lab</th>
+                                <th>Deskripsi</th>
+                                <th>Status</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
-                            @forelse ($laboratoriums as $laboratorium)
+                            @foreach ($laboratoriums as $laboratorium)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
@@ -49,6 +61,17 @@
                                     <td class="text-wrap">{{ $laboratorium->nama }}</td>
                                     <td class="text-wrap">{{ $laboratorium->user->nama }}</td>
                                     <td class="text-wrap">{{ $laboratorium->deskripsi }}</td>
+                                    <td class="text-wrap">
+                                        @foreach ($kegiatans as $kegiatan)
+                                            @if ($kegiatan->idlab == $laboratorium->id)
+                                                @if ($kegiatan->statuskegiatan == 'berlangsung')
+                                                    Sedang Dipakai
+                                                @endif
+                                            @else
+                                                @continue
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
@@ -56,7 +79,7 @@
                                                 href="/laboratorium/{{ $laboratorium->id }}">
                                                 <i class="bx bx-info-circle"></i>
                                             </a>
-                                            @if (auth()->user()->id == $laboratorium->user->id || auth()->user()->role == 'admin')
+                                            @if (auth()->user()->role == 'admin')
                                                 <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" data-bs-title="Ubah"
                                                     href="/laboratorium/{{ $laboratorium->id }}/edit">
@@ -78,23 +101,23 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="100%">
-                                        <div class="my-5">
-                                            <h3 class="text-muted">
-                                                Tidak Ada Data Laboratorium
-                                            </h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
+                                {{-- @empty
+                                    <tr>
+                                        <td colspan="100%">
+                                            <div class="my-5">
+                                                <h3 class="text-muted">
+                                                    Tidak Ada Data Laboratorium
+                                                </h3>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                     {{ $laboratoriums->links() }}
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Bordered Table -->

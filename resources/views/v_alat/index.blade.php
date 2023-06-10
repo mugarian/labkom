@@ -12,26 +12,38 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Alat</h5>
+                <p class="mb-0">Total Harga: {{ $total }}</p>
                 @if (auth()->user()->role == 'admin')
-                    <small class="text-muted float-end"><a href="/alat/create"><button
-                                class="btn btn-primary">Tambah</button></a></small>
+                    <small class="text-muted float-end">
+                        <a href="/alat/create"><button class="btn btn-primary">Tambah</button></a>
+                    </small>
                 @endif
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
                                 <th>Foto</th>
                                 <th>Nama</th>
                                 <th>Merk</th>
-                                <th>Spesifikasi</th>
+                                <th>Jumlah Harga</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>Foto</th>
+                                <th>Nama</th>
+                                <th>Merk</th>
+                                <th>Jumlah Harga</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
-                            @forelse ($alats as $alat)
+                            @foreach ($alats as $alat)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
@@ -47,7 +59,14 @@
                                     </td>
                                     <td class="text-wrap">{{ $alat->nama }}</td>
                                     <td class="text-wrap">{{ $alat->merk }}</td>
-                                    <td class="text-wrap">{{ $alat->spesifikasi }}</td>
+                                    <td class="text-wrap">Rp.
+                                        @foreach ($jumlahharga as $jh)
+                                            @if ($jh->alat_id == $alat->id)
+                                                {{ number_format($jh->jumlah, 2, ',', '.') }}
+                                            @else
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
@@ -72,23 +91,23 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="100%">
-                                        <div class="my-5">
-                                            <h3 class="text-muted">
-                                                Tidak Ada Data Alat
-                                            </h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
+                                {{-- @empty
+                                    <tr>
+                                        <td colspan="100%">
+                                            <div class="my-5">
+                                                <h3 class="text-muted">
+                                                    Tidak Ada Data Alat
+                                                </h3>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                     {{ $alats->links() }}
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Bordered Table -->

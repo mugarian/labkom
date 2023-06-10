@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('merk');
             $table->enum('kategori', ['pc', 'non-pc']);
             $table->text('spesifikasi');
-            $table->integer('harga');
-            $table->integer('stok');
             $table->string('foto')->nullable();
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Kelas;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $mahasiswa = Mahasiswa::paginate(5);
+        $mahasiswa = Mahasiswa::all();
         return view('v_mahasiswa.index', [
             'title' => 'Kelola Data mahasiswa',
             'mahasiswas' => $mahasiswa
@@ -31,8 +32,10 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
+        $kelas = Kelas::orderBy('angkatan', 'desc')->get();
         return view('v_mahasiswa.create', [
             'title' => 'Tambah Data mahasiswa',
+            'kelas' => $kelas,
         ]);
     }
 
@@ -47,6 +50,8 @@ class MahasiswaController extends Controller
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
             'nomor_induk' => 'required|unique:users',
+            'kelas_id' => 'required',
+            'jurusan' => 'required',
             'angkatan' => 'required',
             'email' => 'required|email:dns|unique:users',
             'password' => 'required|confirmed',
@@ -56,11 +61,11 @@ class MahasiswaController extends Controller
 
         if ($request->file('upload')) {
             $validatedData['upload'] = $request->file('upload')->store('user-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
         }
 
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
 
         $user = User::create([
             'email' => $validatedData['email'],
@@ -104,9 +109,11 @@ class MahasiswaController extends Controller
      */
     public function edit(Mahasiswa $mahasiswa)
     {
+        $kelas = Kelas::where('id', '<>', $mahasiswa->kelas_id)->orderBy('angkatan', 'desc')->get();
         return view('v_mahasiswa.edit', [
             'title' => 'Edit Data mahasiswa',
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'kelas' => $kelas
         ]);
     }
 
@@ -121,6 +128,8 @@ class MahasiswaController extends Controller
     {
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
+            'kelas_id' => 'required',
+            'jurusan' => 'required',
             'angkatan' => 'required',
             'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ]);
@@ -168,7 +177,6 @@ class MahasiswaController extends Controller
             'role' => 'mahasiswa'
         ]);
 
-        unset($validatedData['foto']);
         unset($validatedData['email']);
         unset($validatedData['nomor_induk']);
         unset($validatedData['nama']);

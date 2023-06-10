@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Alat;
 use App\Traits\Uuids;
 use App\Models\Pemakaian;
+use App\Models\PeminjamanAlat;
 use App\Models\Laboratorium;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,5 +33,10 @@ class BarangPakai extends Model
     public function pemakaian()
     {
         return $this->hasMany(Pemakaian::class);
+    }
+
+    public function peminjamanalat()
+    {
+        return $this->hasMany(PeminjamanAlat::class);
     }
 }

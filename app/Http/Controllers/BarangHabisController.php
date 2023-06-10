@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Bahan;
+use App\Models\Dosen;
 use App\Models\BarangHabis;
 use Illuminate\Support\Str;
 use App\Models\Laboratorium;
@@ -21,14 +22,20 @@ class BarangHabisController extends Controller
 
     public function __construct()
     {
-        $this->middleware('dosen')->except(['show']);
+        $this->middleware('dosen')->except(['index', 'show']);
     }
 
     public function index()
     {
+        if (auth()->user()->role == 'dosen') {
+            $kalab = Dosen::where('user_id', auth()->user()->id)->first()->kepalalab;
+        } else {
+            $kalab = 'false';
+        }
         return view('v_baranghabis.index', [
             'title' => 'Data Barang Habis',
-            'baranghabis' => BarangHabis::all()
+            'baranghabis' => BarangHabis::all(),
+            'kalab' => $kalab
         ]);
     }
 
@@ -213,7 +220,7 @@ class BarangHabisController extends Controller
 
             BarangHabis::destroy($baranghabis->id);
 
-            return redirect('/laboratorium/' . $laboratorium->id)->with('success', 'Data Barang Habis Berhasil Dihapus');
+            return redirect('/baranghabis')->with('success', 'Data Barang Habis Berhasil Dihapus');
         } else {
             abort(403);
         }

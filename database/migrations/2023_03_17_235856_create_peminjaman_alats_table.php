@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('penggunaans', function (Blueprint $table) {
+        Schema::create('peminjaman_alats', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->references('id')->on('users');
-            $table->foreignUuid('kegiatan_id')->references('id')->on('kegiatans');
-            $table->foreignUuid('baranghabis_id')->references('id')->on('barang_habis');
+            $table->foreignUuid('barangpakai_id')->references('id')->on('barang_pakais');
+            $table->text('deskripsi');
+            $table->text('kondisi')->nullable();
             $table->text('keterangan')->nullable();
-            $table->enum('status', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
-            $table->integer('jumlah');
-            $table->timestamp('tanggal')->nullable();
+            $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'selesai'])->default('menunggu');
+            $table->enum('jenis', ['luar', 'dalam']);
+            $table->timestamp('tgl_pinjam')->nullable();
+            $table->timestamp('tgl_kembali')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('penggunaans');
+        Schema::dropIfExists('peminjaman_alats');
     }
 };

@@ -6,6 +6,12 @@
                 <a href="/barangpakai" class="text-secondary">Data Barang Pakai</a> /
             </span> {{ $barangpakai->nama }}
         </h4>
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
@@ -26,6 +32,10 @@
                             <p class="form-control">{{ $barangpakai->nama }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="harga">harga</label>
+                            <p class="form-control">Rp. {{ number_format($barangpakai->harga, 2, ',', '.') }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="merk">Alat</label>
                             <p class="form-control">{{ $barangpakai->alat->nama }}</p>
                         </div>
@@ -34,16 +44,8 @@
                             <p class="form-control">{{ $barangpakai->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="deskripsi">Deskripsi</label>
-                            <p class="form-control">{{ $barangpakai->deskripsi }}</p>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label" for="keterangan">Keterangan</label>
-                            <p class="form-control">{{ $barangpakai->keterangan }}</p>
-                        </div>
-                        <div class="mb-3">
                             <div class="d-flex justify-content-start">
-                                @if (auth()->user()->id == $barangpakai->laboratorium->user->id || auth()->user()->role == 'admin')
+                                @if (auth()->user()->role == 'admin')
                                     <a href="/barangpakai/{{ $barangpakai->id }}/edit"
                                         class="btn btn-outline-warning mx-1">Edit</a>
                                     <form action="/barangpakai/{{ $barangpakai->id }}" method="post">
@@ -56,8 +58,8 @@
                                     </form>
                                 @endif
                                 @if (auth()->user()->role != 'admin')
-                                    <a href="/pemakaian/{{ $barangpakai->id }}/pakai"
-                                        class="btn btn-outline-primary mx-1">Pakai</a>
+                                    <a href="/peminjamanalat/{{ $barangpakai->id }}/pinjam"
+                                        class="btn btn-outline-primary mx-1">Pinjam</a>
                                 @endif
                             </div>
                         </div>

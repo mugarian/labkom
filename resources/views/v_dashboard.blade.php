@@ -15,7 +15,7 @@
                                             <i class='fs-1 text-primary bx bx-group'></i>
                                         </div>
                                     </div>
-                                    <span class="fw-semibold d-block mb-1">Dosen</span>
+                                    <span class="fw-semibold d-block text-black mb-1">Dosen</span>
                                     <h3 class="card-title mb-2">{{ $dosen->count() }}</h3>
                                     {{-- <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
@@ -39,7 +39,7 @@
                                             <i class='fs-1 text-primary bx bx-group'></i>
                                         </div>
                                     </div>
-                                    <span class="fw-semibold d-block mb-1">Mahasiswa</span>
+                                    <span class="fw-semibold d-block text-black mb-1">Mahasiswa</span>
                                     <h3 class="card-title mb-2">{{ $mahasiswa->count() }}</h3>
                                     {{-- <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
@@ -63,7 +63,7 @@
                                             <i class='fs-1 text-primary bx bx-group'></i>
                                         </div>
                                     </div>
-                                    <span class="fw-semibold d-block mb-1">Staff</span>
+                                    <span class="fw-semibold d-block text-black mb-1">Staff</span>
                                     <h3 class="card-title mb-2">{{ $staff->count() }}</h3>
                                     {{-- <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
@@ -92,9 +92,8 @@
                                         <i class='fs-1 text-primary bx bx-door-open'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Laboratorium</span>
+                                <span class="fw-semibold d-block text-black mb-1">Laboratorium</span>
                                 <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
-                                <small> &nbsp; </small>
                                 <div class="d-flex justify-content-evenly">
                                     {{-- <small class="text-primary fw-semibold">
                                         <i class="bx bx-desktop"></i>{{ $barangpakai->count() }}
@@ -120,11 +119,10 @@
                                         <i class='fs-1 text-primary bx bx-desktop'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Alat</span>
+                                <span class="fw-semibold d-block text-black mb-1">Alat</span>
                                 <h3 class="card-title mb-2">
                                     {{ $alat->count() }}
                                 </h3>
-                                <small>(Barang Pakai: {{ $barangpakai->count() }})</small>
                                 {{-- <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
                                     <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
@@ -147,11 +145,10 @@
                                         <i class='fs-1 text-primary bx bx-package'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Bahan</span>
+                                <span class="fw-semibold d-block text-black mb-1">Bahan Praktikum</span>
                                 <h3 class="card-title mb-2">
-                                    {{ $bahan->count() }}
+                                    {{ $bahanpraktikum->count() }}
                                 </h3>
-                                <small>(Barang Habis: {{ $baranghabis->count() }})</small>
                                 {{-- <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
                                     <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
@@ -178,7 +175,7 @@
                                         <i class='fs-1 text-primary bx bx-calendar'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Kegiatan</span>
+                                <span class="fw-semibold d-block text-black mb-1">Kegiatan</span>
                                 <h3 class="card-title mb-2">{{ $kegiatan }}</h3>
                                 <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -213,7 +210,7 @@
                                         <i class='fs-1 text-primary bx bx-calendar-heart'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Pemakaian</span>
+                                <span class="fw-semibold d-block text-black mb-1">Pemakaian</span>
                                 <h3 class="card-title mb-2">
                                     {{ $pemakaian }}
                                 </h3>
@@ -242,7 +239,7 @@
                                         <i class='fs-1 text-primary bx bx-calendar-star'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Penggunaan</span>
+                                <span class="fw-semibold d-block text-black mb-1">Penggunaan</span>
                                 <h3 class="card-title mb-2">
                                     {{ $penggunaan }}
                                 </h3>
@@ -305,7 +302,7 @@
                                             <i class='fs-1 text-success bx bx-calendar-plus'></i>
                                         </div>
                                     </div>
-                                    <span class="fw-semibold d-block mb-1">Peminjaman</span>
+                                    <span class="fw-semibold d-block text-black mb-1">Peminjaman</span>
                                     <h3 class="card-title mb-2">12</h3>
                                     <div class="d-flex justify-content-evenly">
                                         <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
@@ -518,7 +515,7 @@
                                             <i class='fs-1 text-info bx bx-code-block'></i>
                                         </div>
                                     </div>
-                                    <span class="fw-semibold d-block mb-1">Pemakaian</span>
+                                    <span class="fw-semibold d-block text-black mb-1">Pemakaian</span>
                                     <h3 class="card-title mb-2">12</h3>
                                     <div class="d-flex justify-content-evenly">
                                         <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
@@ -542,7 +539,7 @@
                                             <i class='fs-1 text-danger bx bx-message-error'></i>
                                         </div>
                                     </div>
-                                    <span class="fw-semibold d-block mb-1">Pelaporan</span>
+                                    <span class="fw-semibold d-block text-black mb-1">Pelaporan</span>
                                     <h3 class="card-title mb-2">12</h3>
                                     <div class="d-flex justify-content-evenly">
                                         <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>

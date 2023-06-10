@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alat;
 use App\Models\User;
+use App\Models\Dosen;
 use App\Models\BarangPakai;
 use Illuminate\Support\Str;
 use App\Models\Laboratorium;
@@ -21,14 +22,14 @@ class BarangPakaiController extends Controller
 
     public function __construct()
     {
-        $this->middleware('dosen')->except(['show']);
+        $this->middleware('dosen')->except(['index', 'show']);
     }
 
     public function index()
     {
         return view('v_barangpakai.index', [
             'title' => 'Data Barang Pakai',
-            'barangpakai' => BarangPakai::all()
+            'barangpakai' => BarangPakai::all(),
         ]);
     }
 
@@ -42,13 +43,11 @@ class BarangPakaiController extends Controller
         $laboratoriums = Laboratorium::orderBy('nama')->get();
         $alats = Alat::all();
         $kode = Str::random(8);
-        $kalab = Laboratorium::where('user_id', auth()->user()->id)->first();
         return view('v_barangpakai.create', [
             'title' => 'Data Barang Pakai',
             'laboratoriums' => $laboratoriums,
             'alats' => $alats,
             'kode' => $kode,
-            'kalab' => $kalab
         ]);
     }
 
@@ -78,19 +77,18 @@ class BarangPakaiController extends Controller
         $validatedData = $request->validate([
             'kode' => 'required|unique:barang_pakais',
             'nama' => 'required|max:255',
+            'harga' => 'required',
             'laboratorium_id' => 'required',
             'alat_id' => 'required',
-            'deskripsi' => 'required',
-            'keterangan' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
         if ($request->file('upload')) {
             $validatedData['upload'] = $request->file('upload')->store('barangpakai-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
         }
 
-        $validatedData['foto'] = $validatedData['upload'];
-        unset($validatedData['upload']);
 
         BarangPakai::create($validatedData);
 
@@ -166,9 +164,8 @@ class BarangPakaiController extends Controller
             $rules = [
                 'nama' => 'required|max:255',
                 'alat_id' => 'required',
+                'harga' => 'required',
                 'laboratorium_id' => 'required',
-                'deskripsi' => 'required',
-                'keterangan' => 'required',
                 'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
             ];
 

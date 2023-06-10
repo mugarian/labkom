@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Dosen;
+use App\Models\Kelas;
 use App\Traits\Uuids;
 use App\Models\Laboratorium;
 use Illuminate\Database\Eloquent\Model;
@@ -32,5 +33,10 @@ class Kegiatan extends Model
     public function laboratorium()
     {
         return $this->belongsTo(Laboratorium::class);
+    }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
     }
 }

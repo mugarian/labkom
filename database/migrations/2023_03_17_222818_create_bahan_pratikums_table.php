@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bahans', function (Blueprint $table) {
+        Schema::create('bahan_praktikums', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('laboratorium_id')->references('id')->on('laboratorium');
+            $table->string('kode')->unique();
+            $table->enum('jenis', ['habis', 'tidak habis']);
             $table->string('nama');
             $table->string('merk');
             $table->text('spesifikasi');

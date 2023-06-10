@@ -19,23 +19,25 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola pemakaian</h5>
-                @if (auth()->user()->role != 'admin' || $akhir->status == 'mulai')
-                    <div class="d-flex justify-content-end @if ($akhir->status == 'mulai') d-none @endif">
-                        <small class="text-muted float-end">
-                            <a href="/pemakaian/create">
-                                <button class="btn btn-primary">pemakaian</button>
-                            </a>
-                        </small>
-                    </div>
-                @endif
+                <div class="d-flex justify-content-end">
+                    <small class="text-muted float-end">
+                        @if (auth()->user()->role != 'admin')
+                            @if ($selesai)
+                                <a href="/pemakaian/create">
+                                    <button class="btn btn-primary">Tambah</button>
+                                </a>
+                            @endif
+                        @endif
+                    </small>
+                </div>
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
-                                <th>Barang</th>
+                                <th>barang pakai</th>
                                 <th>Kegiatan</th>
                                 <th>Oleh</th>
                                 <th>Tanggal Mulai</th>
@@ -43,12 +45,23 @@
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>barang pakai</th>
+                                <th>Kegiatan</th>
+                                <th>Oleh</th>
+                                <th>Tanggal Mulai</th>
+                                <th>Tanggal Selesai</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
-                            @forelse ($pemakaians as $pemakaian)
+                            @foreach ($pemakaians as $pemakaian)
                                 @if ($kalab)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap">{{ $pemakaian->namabarang }}
+                                        <td class="text-wrap">{{ $pemakaian->namabarangpakai }}
                                             <br>({{ $pemakaian->namalab }})
                                         </td>
                                         <td class="text-wrap">{{ $pemakaian->namakegiatan }}</td>
@@ -126,23 +139,23 @@
                                         </td>
                                     </tr>
                                 @endif
-                            @empty
-                                <tr>
-                                    <td colspan="100%">
-                                        <div class="my-5">
-                                            <h3 class="text-muted">
-                                                Tidak Ada Data Pemakaian
-                                            </h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
+                                {{-- @empty
+                                    <tr>
+                                        <td colspan="100%">
+                                            <div class="my-5">
+                                                <h3 class="text-muted">
+                                                    Tidak Ada Data Pemakaian
+                                                </h3>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                     {{ $pemakaians->links() }}
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Bordered Table -->

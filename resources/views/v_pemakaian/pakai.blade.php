@@ -4,11 +4,6 @@
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
                 <a href="/pemakaian" class="text-secondary">Data Pemakaian</a> /
             </span>
-            @if ($barangpakai)
-                {{ $barangpakai->nama }}
-            @else
-                Tambah Data Pemakaian
-            @endif
         </h4>
 
         <!-- Basic Layout -->
@@ -26,16 +21,17 @@
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
+                                    <p class="mb-0">Masukkan kode barangpakai yang terdapat di laboratorium pada kegiatan
+                                        yang
                                         dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
-                                        disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
-                                        yang tertera pada barang untuk pengisian kode barang secara otomatis
+                                        disetujui. Pemakaian alat bisa dilakukan dengan cara memindai QR Kode
+                                        yang tertera pada alat untuk pengisian kode alat secara otomatis
                                     </p>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="barangpakai_id">Kode Barang</label>
+                                <label class="form-label" for="barangpakai_id">Kode barang pakai</label>
                                 <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
                                     id="barangpakai_id" placeholder="barangpakai_id"
                                     value="{{ old('barangpakai_id', $barangpakai->kode) }}" name="barangpakai_id" required
@@ -58,7 +54,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="submit" class="btn btn-primary">Pakai</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
@@ -69,7 +65,7 @@
             @if ($barangpakai)
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Data Barang</h5>
+                        <h5 class="mb-0">Data barangpakai</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -84,20 +80,20 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="kode">Kode Barang</label>
+                            <label class="form-label" for="kode">Kode barang pakai</label>
                             <p class="form-control">{{ $barangpakai->kode }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="nama">nama Barang</label>
+                            <label class="form-label" for="nama">nama barang pakai</label>
                             <p class="form-control">{{ $barangpakai->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="nama">Lokasi Barang</label>
+                            <label class="form-label" for="nama">Lokasi barang pakai</label>
                             <p class="form-control">{{ $barangpakai->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="keterangan">keterangan Barang</label>
-                            <p class="form-control">{{ $barangpakai->keterangan }}</p>
+                            <label class="form-label" for="nama">Harga barang pakai</label>
+                            <p class="form-control">{{ $barangpakai->harga }}</p>
                         </div>
                     </div>
                 </div>

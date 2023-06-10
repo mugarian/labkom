@@ -41,7 +41,7 @@ class KegiatanController extends Controller
         $user = User::find(auth()->user()->id);
 
         if ($user->role == 'mahasiswa' || $user->role == 'staff') {
-            $kegiatan = Kegiatan::where('user_id', auth()->user()->id)->orderBy('mulai', 'desc')->paginate(5);
+            $kegiatan = Kegiatan::where('user_id', auth()->user()->id)->orderBy('mulai', 'desc')->get();
             $jabatan = 'ms';
             $dospem = 'false';
         } elseif ($user->role == 'dosen') {
@@ -50,7 +50,7 @@ class KegiatanController extends Controller
                 if ($dosen->kepalalab == 'true') {
                     // kepala lab
                     $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
-                    $kegiatan = Kegiatan::where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->paginate(5);
+                    $kegiatan = Kegiatan::where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->get();
                     $jabatan = 'kalab';
                     $pengampu = Kegiatan::where('dospem_id', $dosen->id)->get();
                     if ($pengampu) {
@@ -60,19 +60,19 @@ class KegiatanController extends Controller
                     }
                 } else {
                     // dosen pengampu
-                    $kegiatan = Kegiatan::where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orderBy('mulai', 'desc')->paginate(5);
+                    $kegiatan = Kegiatan::where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orderBy('mulai', 'desc')->get();
                     $jabatan = 'dospem';
                     $dospem = 'true';
                 }
             } else {
                 // ketua jurusan + prodi
-                $kegiatan = Kegiatan::orderBy('mulai', 'desc')->paginate(5);
+                $kegiatan = Kegiatan::orderBy('mulai', 'desc')->get();
                 $jabatan = 'kajurpro';
                 $dospem = 'false';
             }
         } else {
             //admin
-            $kegiatan = Kegiatan::orderBy('mulai', 'desc')->paginate(5);
+            $kegiatan = Kegiatan::orderBy('mulai', 'desc')->get();
             $jabatan = 'admin';
             $dospem = 'false';
         }
@@ -274,6 +274,6 @@ class KegiatanController extends Controller
         $kegiatan = Kegiatan::find($id);
         $kegiatan->update(['status' => $request->status]);
 
-        return redirect('/kegiatan')->with('success', 'Kegiatan ' . $kegiatan->nama . ' telah ' . $request->status);
+        return redirect('/kegiatan')->with('success', 'Data Kegiatan telah ' . $request->status);
     }
 }

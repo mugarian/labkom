@@ -3,7 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
                 <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
-                <a href="/penggunaan/{{ $penggunaan->id }}" class="text-secondary">{{ $penggunaan->baranghabis->nama }}</a> /
+                <a href="/penggunaan/{{ $penggunaan->id }}" class="text-secondary">{{ $penggunaan->bahan->nama }}</a> /
             </span> Menolak Penggunaan
         </h4>
 
@@ -17,9 +17,8 @@
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/penggunaan/{{ $penggunaan->id }}" method="POST">
+                        <form action="/penggunaan/{{ $penggunaan->id }}/ditolak" method="POST">
                             @csrf
-                            @method('PUT')
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Status Ditolak</h6>
@@ -27,6 +26,16 @@
                                         Masukkan Komentar atau keterangan untuk memberitahukan alasan penolakan kegiatan
                                     </p>
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="status">Status</label>
+                                <input type="text" class="form-control @error('status') is-invalid @enderror"
+                                    id="status" placeholder="status" value="ditolak" name="status" required readonly />
+                                @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="keterangan">keterangan</label>
@@ -40,12 +49,12 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="baranghabis_id">Kode Barang</label>
-                                <input type="text" class="form-control @error('baranghabis_id') is-invalid @enderror"
-                                    id="baranghabis_id" placeholder="baranghabis_id"
-                                    value="{{ old('baranghabis_id', $penggunaan->baranghabis->kode) }}"
-                                    name="baranghabis_id" required readonly />
-                                @error('baranghabis_id')
+                                <label class="form-label" for="bahan_id">Kode Barang</label>
+                                <input type="text" class="form-control @error('bahan_id') is-invalid @enderror"
+                                    id="bahan_id" placeholder="bahan_id"
+                                    value="{{ old('bahan_id', $penggunaan->bahan->kode) }}" name="bahan_id" required
+                                    readonly />
+                                @error('bahan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -63,8 +72,19 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah">Jumlah</label>
+                                <input type="text" class="form-control @error('jumlah') is-invalid @enderror"
+                                    id="jumlah" placeholder="Jumlah" value="{{ old('jumlah', $penggunaan->jumlah) }}"
+                                    name="jumlah" required readonly />
+                                @error('jumlah')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-4">
-                                <label class="form-label" for="tanggal">tanggal Kegiatan</label>
+                                <label class="form-label" for="tanggal">Tanggal</label>
                                 <input type="text" class="form-control @error('tanggal') is-invalid @enderror"
                                     id="tanggal" placeholder="kode kegiatan"
                                     value="{{ old('tanggal', $penggunaan->tanggal) }}" name="tanggal" required readonly />
@@ -90,7 +110,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                            @if ($penggunaan->baranghabis->foto)
+                            @if ($penggunaan->bahan->foto)
                                 <img src="{{ asset('storage') . '/' . $penggunaan->foto }}" alt="penggunaan-avatar"
                                     class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                             @else
@@ -101,15 +121,15 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="kode">Kode Barang</label>
-                        <p class="form-control">{{ $penggunaan->baranghabis->kode }}</p>
+                        <p class="form-control">{{ $penggunaan->bahan->kode }}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="nama">nama Barang</label>
-                        <p class="form-control">{{ $penggunaan->baranghabis->nama }}</p>
+                        <p class="form-control">{{ $penggunaan->bahan->nama }}</p>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="keterangan">keterangan Barang</label>
-                        <p class="form-control">{{ $penggunaan->baranghabis->keterangan }}</p>
+                        <label class="form-label" for="stok">stok Barang</label>
+                        <p class="form-control">{{ $penggunaan->bahan->stok }}</p>
                     </div>
                     <div class="mt-5 mb-3">
                         <h5 class="mb-0">Kegiatan</h5>
@@ -135,7 +155,7 @@
                         <p class="form-control">{{ $penggunaan->kegiatan->deskripsi }}</p>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="tanggal">Tanggal Mulai</label>
+                        <label class="form-label" for="tanggal">Tanggal</label>
                         <p class="form-control">{{ $penggunaan->kegiatan->mulai }}</p>
                     </div>
                 </div>
@@ -143,9 +163,10 @@
         </div>
     </div>
 
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-header">
-            <button type="submit" class="btn btn-primary">Selesai</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
             </form>
         </div>
         <div class="card-body">
@@ -159,7 +180,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     </div>
     <script>
         function padTo2Digits(num) {

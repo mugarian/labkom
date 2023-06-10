@@ -22,7 +22,7 @@
                     @if (auth()->user()->role != 'admin')
                         <small class="text-muted float-end">
                             <a href="/penggunaan/create">
-                                <button class="btn btn-primary">penggunaan</button>
+                                <button class="btn btn-primary">Tambah</button>
                             </a>
                         </small>
                     @endif
@@ -30,11 +30,11 @@
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
-                                <th>Barang</th>
+                                <th>Bahan Praktikum</th>
                                 <th>Kegiatan</th>
                                 <th>Oleh</th>
                                 <th>Tanggal</th>
@@ -42,12 +42,23 @@
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>Bahan Praktikum</th>
+                                <th>Kegiatan</th>
+                                <th>Oleh</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
-                            @forelse ($penggunaans as $penggunaan)
+                            @foreach ($penggunaans as $penggunaan)
                                 @if ($kalab)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap">{{ $penggunaan->namabarang }} <br>
+                                        <td class="text-wrap">{{ $penggunaan->namabahanpraktikum }} <br>
                                             ({{ $penggunaan->namalab }})
                                         </td>
                                         <td class="text-wrap">{{ $penggunaan->namakegiatan }}</td>
@@ -61,18 +72,19 @@
                                                     href="/penggunaan/{{ $penggunaan->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
                                                 @if ($penggunaan->status == 'menunggu')
-                                                    <form action="/penggunaan/{{ $penggunaan->id }}/status" method="post">
+                                                    <form action="/penggunaan/{{ $penggunaan->id }}" method="post">
                                                         @csrf
+                                                        @method('PUT')
                                                         <input type="hidden" name="status" value="disetujui">
-                                                        <button type="submit" class="btn btn-primary p-1"
+                                                        <button type="submit" class="btn btn-outline-primary p-1"
                                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                                             data-bs-title="Disetujui">
                                                             <i class='bx bx-message-square-check'></i>
                                                         </button>
                                                     </form>
-                                                    <a class="btn btn-danger p-1" data-bs-toggle="tooltip"
+                                                    <a class="btn btn-outline-danger p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Ditolak"
-                                                        href="/penggunaan/{{ $penggunaan->id }}/edit">
+                                                        href="/penggunaan/{{ $penggunaan->id }}/ditolak">
                                                         <i class="bx bx-message-square-x"></i>
                                                     </a>
                                                 @endif
@@ -82,7 +94,7 @@
                                 @else
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap">{{ $penggunaan->baranghabis->nama }} <br>
+                                        <td class="text-wrap">{{ $penggunaan->bahanpraktikum->nama }} <br>
                                             ({{ $penggunaan->kegiatan->laboratorium->nama }})
                                         </td>
                                         <td class="text-wrap">{{ $penggunaan->kegiatan->nama }}</td>
@@ -98,23 +110,23 @@
                                         </td>
                                     </tr>
                                 @endif
-                            @empty
-                                <tr>
-                                    <td colspan="100%">
-                                        <div class="my-5">
-                                            <h3 class="text-muted">
-                                                Tidak Ada Data Penggunaan
-                                            </h3>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforelse
+                                {{-- @empty
+                                    <tr>
+                                        <td colspan="100%">
+                                            <div class="my-5">
+                                                <h3 class="text-muted">
+                                                    Tidak Ada Data Penggunaan
+                                                </h3>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                     {{ $penggunaans->links() }}
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--/ Bordered Table -->

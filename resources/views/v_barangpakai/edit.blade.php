@@ -83,6 +83,17 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="harga">Harga</label>
+                                <input type="number" class="form-control @error('harga') is-invalid @enderror"
+                                    id="harga" placeholder="harga" value="{{ old('harga', $barangpakai->harga) }}"
+                                    min="0" name="harga" required />
+                                @error('harga')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="alat_id">alat</label>
                                 <select id="organization" class="select2 form-select @error('alat_id') is-invalid @enderror"
                                     name="alat_id">
@@ -128,27 +139,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="deskripsi">Deskripsi</label>
-                                <textarea id="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="deskripsi"
-                                    name="deskripsi" required>{{ old('deskripsi', $barangpakai->deskripsi) }}</textarea>
-                                @error('deskripsi')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="keterangan">Keterangan</label>
-                                <textarea id="keterangan" class="form-control @error('keterangan') is-invalid @enderror" placeholder="keterangan"
-                                    name="keterangan" required>{{ old('keterangan', $barangpakai->keterangan) }}</textarea>
-                                @error('keterangan')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Ubah</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>

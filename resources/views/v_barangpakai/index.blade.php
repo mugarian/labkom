@@ -12,12 +12,17 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Barang Pakai</h5>
-                <small class="text-muted float-end"><a href="/barangpakai/create"><button
-                            class="btn btn-primary">Tambah</button></a></small>
+                @if (auth()->user()->role == 'admin')
+                    <small class="text-muted float-end">
+                        <a href="/barangpakai/create">
+                            <button class="btn btn-primary">Tambah</button>
+                        </a>
+                    </small>
+                @endif
             </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
@@ -29,6 +34,17 @@
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                            <tr class="text-center">
+                                <th style="width: 0">#</th>
+                                <th>Foto</th>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Alat</th>
+                                <th>Laboratorium</th>
+                                <th style="width: 0">Aksi</th>
+                            </tr>
+                        </tfoot>
                         <tbody class="text-center">
                             @foreach ($barangpakai as $bp)
                                 <tr>
@@ -55,7 +71,7 @@
                                                 href="/barangpakai/{{ $bp->id }}">
                                                 <i class="bx bx-info-circle"></i>
                                             </a>
-                                            @if (auth()->user()->role == 'admin' || $bp->laboratorium->user->id == auth()->user()->id)
+                                            @if (auth()->user()->role == 'admin')
                                                 <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" data-bs-title="Ubah"
                                                     href="/barangpakai/{{ $bp->id }}/edit">

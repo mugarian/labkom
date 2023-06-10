@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Kegiatan;
-use App\Models\BarangHabis;
+use App\Models\BahanPraktikum;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,8 +29,8 @@ class Penggunaan extends Model
         return $this->belongsTo(Kegiatan::class);
     }
 
-    public function baranghabis()
+    public function bahanpraktikum()
     {
-        return $this->belongsTo(BarangHabis::class);
+        return $this->belongsTo(BahanPraktikum::class);
     }
 }

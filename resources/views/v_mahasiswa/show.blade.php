@@ -29,6 +29,11 @@
                             <label class="form-label" for="angkatan">angkatan</label>
                             <p class="form-control">{{ $mahasiswa->angkatan }}</p>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="kelas">kelas</label>
+                            <p class="form-control">{{ $mahasiswa->kelas->nama . ' (' . $mahasiswa->kelas->angkatan . ')' }}
+                            </p>
+                        </div>
                         <div class="mb-4">
                             <label class="form-label" for="Email">email</label>
                             <p class="form-control">{{ $mahasiswa->user->email }}</p>
