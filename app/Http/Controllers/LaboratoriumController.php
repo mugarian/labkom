@@ -35,7 +35,6 @@ class LaboratoriumController extends Controller
         $kegiatans = DB::table('kegiatans')
             ->join('laboratorium', 'kegiatans.laboratorium_id', '=', 'laboratorium.id')
             ->select('laboratorium.id as idlab', 'kegiatans.nama as namakegiatan', 'kegiatans.status as statuskegiatan', 'kegiatans.mulai as mulaikegiatan', 'kegiatans.selesai as selesaikegiatan')
-            ->groupBy('laboratorium.id')
             ->orderBy('kegiatans.mulai', 'desc')
             ->get();
 
@@ -81,7 +80,6 @@ class LaboratoriumController extends Controller
             $validatedData['foto'] = $validatedData['upload'];
             unset($validatedData['upload']);
         }
-
 
         Laboratorium::create($validatedData);
         Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);

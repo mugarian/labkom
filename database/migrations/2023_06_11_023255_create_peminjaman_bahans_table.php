@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('bahanjurusan_id')->references('id')->on('bahan_jurusans');
             $table->text('deskripsi');
+            $table->integer('jumlah');
             $table->text('kondisi')->nullable();
             $table->text('keterangan')->nullable();
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'selesai'])->default('menunggu');

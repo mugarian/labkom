@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alat;
-use App\Models\BarangPakai;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Kegiatan;
 use App\Models\Pemakaian;
 use App\Models\Peminjaman;
+use App\Models\BarangPakai;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
+use App\Models\PeminjamanAlat;
 use Illuminate\Support\Facades\DB;
 use PhpParser\NodeVisitor\FirstFindingVisitor;
 
@@ -112,7 +113,7 @@ class PemakaianController extends Controller
         $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
         $kegiatan = Kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
         $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
-        $peminjamanTerakhir = Peminjaman::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        $peminjamanTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
 
         if ($barangpakai && $kegiatan) {
             if ($barangpakai->laboratorium->id != $kegiatan->laboratorium->id) {

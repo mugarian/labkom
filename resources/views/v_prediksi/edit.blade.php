@@ -1,8 +1,12 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/alat" class="text-secondary">Data Alat</a> /
-            </span> Tambah Data Alat</h4>
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">
+                <a href="/alat" class="text-secondary">Data Alat</a> /
+                <a href="/alat/{{ $alat->id }}" class="text-secondary">{{ $alat->nama }}</a> /
+            </span> Ubah Data Alat
+        </h4>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -14,15 +18,23 @@
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/alat" method="POST" enctype="multipart/form-data">
+                        <form action="/alat/{{ $alat->id }}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="mb-3">
                                 <label class="form-label" for="foto">Foto Alat</label>
                                 <div class="">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                            class="d-block rounded img-preview" height="100" width="100"
-                                            id="uploadedAvatar" />
+                                        @if ($alat->foto)
+                                            <input type="hidden" name="oldImage" value="{{ $alat->foto }}">
+                                            <img src="{{ asset('storage') . '/' . $alat->foto }}" alt="user-avatar"
+                                                class="d-block rounded img-preview" height="100" width="100"
+                                                id="uploadedAvatar" />
+                                        @else
+                                            <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                                class="d-block rounded img-preview" height="100" width="100"
+                                                id="uploadedAvatar" />
+                                        @endif
                                         <div class="button-wrapper">
                                             <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                                 <span class="d-none d-sm-block">
@@ -48,11 +60,11 @@
                                 <label class="form-label" for="kategori">Kategori</label>
                                 <select id="organization"
                                     class="select2 form-select @error('kategori') is-invalid @enderror" name="kategori">
-                                    <option value="">Pilih Alat</option>
-                                    <option value="pc" @selected(old('kategori') == 'pc')>
+                                    <option value="">Pilih Kategori</option>
+                                    <option value="pc" @selected(old('kategori', $alat->kategori) == 'pc')>
                                         PC
                                     </option>
-                                    <option value="non-pc" @selected(old('kategori') == 'non-pc')>
+                                    <option value="non-pc" @selected(old('kategori', $alat->kategori) == 'non-pc')>
                                         Non-PC
                                     </option>
                                 </select>
@@ -63,9 +75,39 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="laboratorium_id">Laboratorium</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
+                                    name="laboratorium_id">
+                                    @forelse ($laboratoriums as $laboratorium)
+                                        <option value="{{ $laboratorium->id }}" @selected(old('laboratorium_id', $alat->laboratorium->id) == $laboratorium->id)>
+                                            {{ $laboratorium->nama }}</option>
+                                    @empty
+                                        <option value="">Tidak Ada Data Laboratorium</option>
+                                    @endforelse
+                                </select>
+                                @error('laboratorium_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="kode">kode</label>
+                                <input type="text" class="form-control @error('kode') is-invalid @enderror"
+                                    id="kode" placeholder="kode" value="{{ old('kode', $alat->kode) }}" name="kode"
+                                    required />
+                                @error('kode')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="nama">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    id="nama" placeholder="Nama" value="{{ old('nama') }}" name="nama" required />
+                                    id="nama" placeholder="Nama" value="{{ old('nama', $alat->nama) }}" name="nama"
+                                    required />
                                 @error('nama')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -75,7 +117,8 @@
                             <div class="mb-3">
                                 <label class="form-label" for="merk">Merk</label>
                                 <input type="text" class="form-control @error('merk') is-invalid @enderror"
-                                    id="merk" placeholder="Merk" value="{{ old('merk') }}" name="merk" required />
+                                    id="merk" placeholder="Merk" value="{{ old('merk', $alat->merk) }}" name="merk"
+                                    required />
                                 @error('merk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -85,7 +128,7 @@
                             <div class="mb-3">
                                 <label class="form-label" for="spesifikasi">Spesifikasi</label>
                                 <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" placeholder="Spesifikasi"
-                                    name="spesifikasi" required>{{ old('spesifikasi') }} </textarea>
+                                    name="spesifikasi" required>{{ old('spesifikasi', $alat->spesifikasi) }} </textarea>
                                 @error('spesifikasi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -93,17 +136,16 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="tahun">tahun</label>
-                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
-                                    id="tahun" placeholder="tahun" value="{{ old('tahun', date('Y')) }}" name="tahun"
-                                    min="0" required />
-                                @error('tahun')
+                                <label class="form-label" for="harga">Harga</label>
+                                <input type="number" class="form-control @error('harga') is-invalid @enderror"
+                                    id="harga" placeholder="harga" name="harga"
+                                    value="{{ old('harga', $alat->harga) }}" required />
+                                @error('harga')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
@@ -143,7 +185,7 @@
 
     {{-- <div class="card">
         <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
+            <button type="submit" class="btn btn-primary">Ubah</button>
             </form>
         </div>
         <div class="card-body">

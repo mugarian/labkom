@@ -94,6 +94,7 @@ class PenggunaanController extends Controller
             'bahanpraktikum_id' => 'required',
             'kegiatan_id' => 'required',
             'jumlah' => 'required',
+            'deskripsi' => 'required'
         ]);
 
         $bahanpraktikum = BahanPraktikum::where('kode', $validatedData['bahanpraktikum_id'])->first();
@@ -117,24 +118,22 @@ class PenggunaanController extends Controller
             $validatedData['kegiatan_id'] = $kegiatan->id;
             $validatedData['tanggal'] = date("Y-m-d H:i:s");
 
-            if ($bahanpraktikum->laboratorium->user->id == auth()->user()->id) {
-                $validatedData['status'] = 'disetujui';
-                $jumlah = $bahanpraktikum->stok - $request->jumlah;
-                BahanPraktikum::where('id', $bahanpraktikum->id)->update(['stok' => $jumlah]);
-                if ($bahanpraktikum->jenis == 'tidak habis') {
-                    $bahanjurusan = BahanJurusan::where('bahanpraktikum_id', $bahanpraktikum->id)->first();
-                    if ($bahanjurusan) {
-                        BahanJurusan::where('bahanpraktikum_id', $bahanpraktikum->id)->update([
-                            'stok' => $bahanjurusan->stok + $request->jumlah,
-                        ]);
-                    } else {
-                        BahanJurusan::create([
-                            'laboratorium_id' => $bahanpraktikum->laboratorium_id,
-                            'bahanpraktikum_id' => $bahanpraktikum->id,
-                            'stok' => $request->jumlah,
-                            'kode' => Str::random(8),
-                        ]);
-                    }
+            $jumlah = $bahanpraktikum->stok - $request->jumlah;
+            BahanPraktikum::where('id', $bahanpraktikum->id)->update(['stok' => $jumlah]);
+
+            if ($bahanpraktikum->jenis == 'tidak habis') {
+                $bahanjurusan = BahanJurusan::where('bahanpraktikum_id', $bahanpraktikum->id)->first();
+                if ($bahanjurusan) {
+                    BahanJurusan::where('bahanpraktikum_id', $bahanpraktikum->id)->update([
+                        'stok' => $bahanjurusan->stok + $request->jumlah,
+                    ]);
+                } else {
+                    BahanJurusan::create([
+                        'laboratorium_id' => $bahanpraktikum->laboratorium_id,
+                        'bahanpraktikum_id' => $bahanpraktikum->id,
+                        'stok' => $request->jumlah,
+                        'kode' => Str::random(8),
+                    ]);
                 }
             }
 

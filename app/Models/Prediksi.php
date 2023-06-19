@@ -6,7 +6,7 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Algoritma extends Model
+class Prediksi extends Model
 {
     use HasFactory, Uuids;
 
@@ -18,6 +18,6 @@ class Algoritma extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(user::class);
     }
 }

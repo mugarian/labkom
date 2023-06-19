@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Penggunaan;
 use Illuminate\Support\Str;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use App\Models\BahanPraktikum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -30,7 +32,7 @@ class BahanPraktikumController extends Controller
         return view('v_bahanpraktikum.index', [
             'title' => 'Data Bahan Praktikum',
             'bahanpraktikums' => $bahanpraktikum,
-            'total' => "Rp " . number_format($total, 2, ',', '.')
+            'total' => "Rp " . number_format($total, 2, ',', '.'),
         ]);
     }
 
@@ -67,6 +69,7 @@ class BahanPraktikumController extends Controller
             'spesifikasi' => 'required',
             'harga' => 'required',
             'stok' => 'required',
+            'tahun' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
@@ -92,11 +95,13 @@ class BahanPraktikumController extends Controller
         $bahanpraktikum = BahanPraktikum::find($id);
         $qrcode = QrCode::size(200)->generate(route('scan', $bahanpraktikum->kode));
         $user = User::find($bahanpraktikum->laboratorium->user->id);
+        $penggunaans = Penggunaan::where('bahanpraktikum_id', $bahanpraktikum->id)->orderBy('tanggal', 'desc')->get();
         return view('v_bahanpraktikum.show', [
             'title' => $bahanpraktikum->nama,
             'bahanpraktikum' => $bahanpraktikum,
             'qrcode' => $qrcode,
-            'user' => $user
+            'user' => $user,
+            'penggunaans' => $penggunaans
         ]);
     }
 
@@ -136,6 +141,7 @@ class BahanPraktikumController extends Controller
             'spesifikasi' => 'required',
             'harga' => 'required',
             'stok' => 'required',
+            'tahun' => 'required',
             'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ];
 

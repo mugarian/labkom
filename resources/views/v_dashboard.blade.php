@@ -2,87 +2,9 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        {{-- AKUN --}}
-        @if (auth()->user()->role == 'admin')
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                    <a href="/dosen">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-group'></i>
-                                        </div>
-                                    </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Dosen</span>
-                                    <h3 class="card-title mb-2">{{ $dosen->count() }}</h3>
-                                    {{-- <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                        3</small>
-                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                        1</small>
-                                </div> --}}
-                                </div>
-                            </center>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                    <a href="/mahasiswa">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-group'></i>
-                                        </div>
-                                    </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Mahasiswa</span>
-                                    <h3 class="card-title mb-2">{{ $mahasiswa->count() }}</h3>
-                                    {{-- <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                        3</small>
-                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                        1</small>
-                                </div> --}}
-                                </div>
-                            </center>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                    <a href="/staff">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-group'></i>
-                                        </div>
-                                    </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Staff</span>
-                                    <h3 class="card-title mb-2">{{ $staff->count() }}</h3>
-                                    {{-- <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                        3</small>
-                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                        1</small>
-                                </div> --}}
-                                </div>
-                            </center>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        @endif
-
         {{-- FASILITAS --}}
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
                 <a href="/laboratorium">
                     <div class="card">
                         <center>
@@ -94,23 +16,53 @@
                                 </div>
                                 <span class="fw-semibold d-block text-black mb-1">Laboratorium</span>
                                 <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                <a href="/kelas">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-chalkboard'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Kelas</span>
+                                <h3 class="card-title mb-2">{{ $kelas->count() }}</h3>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {{-- INVENTORI --}}
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-3">
+                <a href="/alat">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-wrench'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Alat</span>
+                                <h3 class="card-title mb-2">{{ $alat->count() }}</h3>
                                 <div class="d-flex justify-content-evenly">
-                                    {{-- <small class="text-primary fw-semibold">
-                                        <i class="bx bx-desktop"></i>{{ $barangpakai->count() }}
-                                    </small>
-                                    <small class="text-primary fw-semibold">
-                                        <i class="bx bx-package"></i> {{ $baranghabis->count() }}
-                                    </small> --}}
-                                    {{-- <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                        1</small> --}}
                                 </div>
                             </div>
                         </center>
                     </div>
                 </a>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <a href="alat">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-3">
+                <a href="#">
                     <div class="card">
                         <center>
                             <div class="card-body">
@@ -119,24 +71,36 @@
                                         <i class='fs-1 text-primary bx bx-desktop'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block text-black mb-1">Alat</span>
-                                <h3 class="card-title mb-2">
-                                    {{ $alat->count() }}
-                                </h3>
-                                {{-- <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
-                                    <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
-                                        3</small>
-                                    <small class="text-secondary fw-semibold"><i class="bx bx-question-mark"></i>
-                                        1</small>
-                                </div> --}}
+                                <span class="fw-semibold d-block text-black mb-1">Barang Pakai</span>
+                                <h3 class="card-title mb-2">{{ $barangpakai->count() }}</h3>
+                                <div class="d-flex justify-content-evenly">
+                                </div>
                             </div>
                         </center>
                     </div>
                 </a>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <a href="/bahan">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
+                <a href="/bahanpraktikum">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-archive'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Bahan Praktikum</span>
+                                <h3 class="card-title mb-2">
+                                    {{ $bahanpraktikum->count() }}
+                                </h3>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
+                <a href="/bahanjurusan">
                     <div class="card">
                         <center>
                             <div class="card-body">
@@ -145,9 +109,9 @@
                                         <i class='fs-1 text-primary bx bx-package'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block text-black mb-1">Bahan Praktikum</span>
+                                <span class="fw-semibold d-block text-black mb-1">Bahan Jurusan</span>
                                 <h3 class="card-title mb-2">
-                                    {{ $bahanpraktikum->count() }}
+                                    {{ $bahanjurusan->count() }}
                                 </h3>
                                 {{-- <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> 8</small>
@@ -163,36 +127,40 @@
             </div>
         </div>
 
-        {{-- AKTIVITAS --}}
+        {{-- KEGIATAN --}}
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <a href="/kegiatan">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                <a href="/pelaksanaan">
                     <div class="card">
                         <center>
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-center justify-content-center">
                                     <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar'></i>
+                                        <i class='fs-1 text-primary bx bx-calendar-week'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block text-black mb-1">Kegiatan</span>
-                                <h3 class="card-title mb-2">{{ $kegiatan }}</h3>
+                                <span class="fw-semibold d-block text-black mb-1">Pelaksanaan Kegiatan</span>
+                                <h3 class="card-title mb-2">{{ $pelaksanaan }}</h3>
                                 <div class="d-flex justify-content-evenly">
                                     <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Disetujui">
-                                        <i class="bx bx-check-double"></i> {{ $ksetuju }}
+                                        data-bs-title="Selesai">
+                                        <i class="bx bx-check-double"></i> {{ $plselesai }}
+                                    </small>
+                                    <small class="text-warning fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Berlangsung">
+                                        <i class="bx bx-time"></i> {{ $plberlangsung }}
                                     </small>
                                     <small class="text-primary fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Diverifikasi">
-                                        <i class="bx bx-check"></i> {{ $kverif }}
+                                        data-bs-title="Disetujui">
+                                        <i class="bx bx-check"></i> {{ $pldisetujui }}
                                     </small>
                                     <small class="text-danger fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
                                         data-bs-title="Ditolak">
-                                        <i class="bx bx-x"></i> {{ $ktolak }}
+                                        <i class="bx bx-x"></i> {{ $plditolak }}
                                     </small>
                                     <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
                                         data-bs-placement="top" data-bs-title="Menunggu">
-                                        <i class="bx bx-question-mark"></i> {{ $ktunggu }}
+                                        <i class="bx bx-question-mark"></i> {{ $plmenunggu }}
                                     </small>
                                 </div>
                             </div>
@@ -200,61 +168,39 @@
                     </div>
                 </a>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <a href="/pemakaian">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                <a href="/permohonan">
                     <div class="card">
                         <center>
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-center justify-content-center">
                                     <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-heart'></i>
+                                        <i class='fs-1 text-primary bx bx-calendar-event'></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block text-black mb-1">Pemakaian</span>
-                                <h3 class="card-title mb-2">
-                                    {{ $pemakaian }}
-                                </h3>
+                                <span class="fw-semibold d-block text-black mb-1">Permohonan Kegiatan</span>
+                                <h3 class="card-title mb-2">{{ $permohonan }}</h3>
                                 <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold">
-                                        <i class="bx bx-check-circle" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Selesai"></i> {{ $pkselesai }}
+                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Selesai">
+                                        <i class="bx bx-check-double"></i> {{ $prselesai }}
                                     </small>
-                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Mulai">
-                                        <i class="bx bx-time"></i> {{ $pkmulai }}
+                                    <small class="text-warning fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Berlangsung">
+                                        <i class="bx bx-time"></i> {{ $prberlangsung }}
                                     </small>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
-                <a href="/penggunaan">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-star'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Penggunaan</span>
-                                <h3 class="card-title mb-2">
-                                    {{ $penggunaan }}
-                                </h3>
-                                <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold">
-                                        <i class="bx bx-check" data-bs-toggle="tooltip" data-bs-placement="top"
-                                            data-bs-title="Disetujui"></i> {{ $pgsetuju }}
+
+                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Disetujui">
+                                        <i class="bx bx-check"></i> {{ $prdisetujui }}
                                     </small>
                                     <small class="text-danger fw-semibold" data-bs-toggle="tooltip"
                                         data-bs-placement="top" data-bs-title="Ditolak">
-                                        <i class="bx bx-x"></i> {{ $pgtolak }}
+                                        <i class="bx bx-x"></i> {{ $prditolak }}
                                     </small>
                                     <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
                                         data-bs-placement="top" data-bs-title="Menunggu">
-                                        <i class="bx bx-question-mark"></i> {{ $pgtunggu }}
+                                        <i class="bx bx-question-mark"></i> {{ $prmenunggu }}
                                     </small>
                                 </div>
                             </div>
@@ -263,6 +209,176 @@
                 </a>
             </div>
         </div>
+        {{-- LOGBOOK --}}
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
+                <a href="/pemakaian">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Pemakaian Alat</span>
+                                <h3 class="card-title mb-2">{{ $pemakaian }}</h3>
+                                <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Selesai">
+                                        <i class="bx bx-check-circle"></i> {{ $pkselesai }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Dimulai">
+                                        <i class="bx bx-check"></i> {{ $pkmulai }}
+                                    </small>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
+                <a href="/peminjamanalat">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Peminjaman Alat</span>
+                                <h3 class="card-title mb-2">{{ $palat }}</h3>
+                                <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Selesai">
+                                        <i class="bx bx-check-double"></i> {{ $paselesai }}
+                                    </small>
+                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Disetujui">
+                                        <i class="bx bx-check"></i> {{ $padisetujui }}
+                                    </small>
+                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Ditolak">
+                                        <i class="bx bx-x"></i> {{ $paditolak }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Menunggu">
+                                        <i class="bx bx-question-mark"></i> {{ $pamenunggu }}
+                                    </small>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
+                <a href="/penggunaan">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Penggunaan Bahan</span>
+                                <h3 class="card-title mb-2">
+                                    {{ $penggunaan }}
+                                </h3>
+                                <div class="d-flex justify-content-evenly">
+                                    &nbsp;
+                                    {{-- <small class="text-success fw-semibold">
+                                        <i class="bx bx-check-circle" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Selesai"></i> {{ $pkselesai }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Mulai">
+                                        <i class="bx bx-time"></i> {{ $pkmulai }}
+                                    </small> --}}
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
+                <a href="/peminjamanbahan">
+                    <div class="card">
+                        <center>
+                            <div class="card-body">
+                                <div class="card-title d-flex align-items-center justify-content-center">
+                                    <div class="avatar flex-shrink-0">
+                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
+                                    </div>
+                                </div>
+                                <span class="fw-semibold d-block text-black mb-1">Peminjaman Bahan</span>
+                                <h3 class="card-title mb-2">{{ $pbahan }}</h3>
+                                <div class="d-flex justify-content-evenly">
+                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Selesai">
+                                        <i class="bx bx-check-double"></i> {{ $pbselesai }}
+                                    </small>
+                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Disetujui">
+                                        <i class="bx bx-check"></i> {{ $pbdisetujui }}
+                                    </small>
+                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Ditolak">
+                                        <i class="bx bx-x"></i> {{ $pbditolak }}
+                                    </small>
+                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Menunggu">
+                                        <i class="bx bx-question-mark"></i> {{ $pbmenunggu }}
+                                    </small>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {{-- AKUN --}}
+        @if (auth()->user()->role == 'admin')
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <a href="/dosen">
+                        <div class="card">
+                            <center>
+                                <div class="card-body">
+                                    <div class="card-title d-flex align-items-center justify-content-center">
+                                        <div class="avatar flex-shrink-0">
+                                            <i class='fs-1 text-primary bx bx-group'></i>
+                                        </div>
+                                    </div>
+                                    <span class="fw-semibold d-block text-black mb-1">Dosen</span>
+                                    <h3 class="card-title mb-2">{{ $dosen->count() }}</h3>
+                                </div>
+                            </center>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <a href="/mahasiswa">
+                        <div class="card">
+                            <center>
+                                <div class="card-body">
+                                    <div class="card-title d-flex align-items-center justify-content-center">
+                                        <div class="avatar flex-shrink-0">
+                                            <i class='fs-1 text-primary bx bx-group'></i>
+                                        </div>
+                                    </div>
+                                    <span class="fw-semibold d-block text-black mb-1">Mahasiswa</span>
+                                    <h3 class="card-title mb-2">{{ $mahasiswa->count() }}</h3>
+                                </div>
+                            </center>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        @endif
 
         {{-- <div class="row">
 

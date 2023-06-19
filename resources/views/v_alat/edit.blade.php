@@ -107,6 +107,17 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="tahun">tahun</label>
+                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
+                                    id="tahun" placeholder="tahun" value="{{ old('tahun', $alat->tahun) }}"
+                                    min="0" name="tahun" required />
+                                @error('tahun')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>

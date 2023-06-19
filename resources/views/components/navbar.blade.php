@@ -58,12 +58,18 @@
                     <li>
                         {{-- <a class="dropdown-item" href="auth-login-basic.html"> --}}
                         <div class="dropdown-divider"></div>
-                        <form action="/logout" method="post">
+                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <i class="bx bx-power-off me-2"></i>
+                            Logout
+                        </button>
+                        {{-- <form action="/logout" method="post">
                             @csrf
                             <button type="submit" class="btn btn-light">
                                 <i class="bx bx-power-off me-2"></i>Logout
                             </button>
-                        </form>
+                        </form> --}}
+
                         {{-- <span class="align-middle">Log Out</span> --}}
                         </a>
                     </li>
@@ -73,3 +79,26 @@
         </ul>
     </div>
 </nav>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Logout</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin melakukan Logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                <form action="/logout" method="post">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-power-off me-2"></i>Ya
+                    </button>
+                </form>
+                {{-- <button type="button" class="btn btn-primary">Ya</button> --}}
+            </div>
+        </div>
+    </div>
+</div>

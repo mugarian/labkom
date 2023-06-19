@@ -3,9 +3,9 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/alat" class="text-secondary">Data Alat</a> /
-                <a href="/alat/{{ $alat->id }}" class="text-secondary">{{ $alat->nama }}</a> /
-            </span> Ubah Data Alat
+                <a href="/training" class="text-secondary">Data training</a> /
+                <a href="/training/{{ $training->id }}" class="text-secondary">{{ $training->nama }}</a> /
+            </span> Ubah Data Training
         </h4>
 
         <!-- Basic Layout -->
@@ -13,101 +13,19 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Alat</h5>
-                        <small class="text-muted float-end"><a href="/alat">
+                        <h5 class="mb-0">Data Training</h5>
+                        <small class="text-muted float-end"><a href="/training">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/alat/{{ $alat->id }}" method="POST" enctype="multipart/form-data">
+                        <form action="/training/{{ $training->id }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="foto">Foto Alat</label>
-                                <div class="">
-                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        @if ($alat->foto)
-                                            <input type="hidden" name="oldImage" value="{{ $alat->foto }}">
-                                            <img src="{{ asset('storage') . '/' . $alat->foto }}" alt="user-avatar"
-                                                class="d-block rounded img-preview" height="100" width="100"
-                                                id="uploadedAvatar" />
-                                        @else
-                                            <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                                class="d-block rounded img-preview" height="100" width="100"
-                                                id="uploadedAvatar" />
-                                        @endif
-                                        <div class="button-wrapper">
-                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                                <span class="d-none d-sm-block">
-                                                    Unggah Foto
-                                                </span>
-                                                <i class="bx bx-upload d-block d-sm-none"></i>
-                                                <input type="file" id="upload" name="upload"
-                                                    class="account-file-input @error('upload') is-invalid @enderror" hidden
-                                                    accept="image/png, image/jpeg" onchange="previewImage()" />
-                                                @error('upload')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </label>
-
-                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="kategori">Kategori</label>
-                                <select id="organization"
-                                    class="select2 form-select @error('kategori') is-invalid @enderror" name="kategori">
-                                    <option value="">Pilih Kategori</option>
-                                    <option value="pc" @selected(old('kategori', $alat->kategori) == 'pc')>
-                                        PC
-                                    </option>
-                                    <option value="non-pc" @selected(old('kategori', $alat->kategori) == 'non-pc')>
-                                        Non-PC
-                                    </option>
-                                </select>
-                                @error('kategori')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="laboratorium_id">Laboratorium</label>
-                                <select id="organization"
-                                    class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
-                                    name="laboratorium_id">
-                                    @forelse ($laboratoriums as $laboratorium)
-                                        <option value="{{ $laboratorium->id }}" @selected(old('laboratorium_id', $alat->laboratorium->id) == $laboratorium->id)>
-                                            {{ $laboratorium->nama }}</option>
-                                    @empty
-                                        <option value="">Tidak Ada Data Laboratorium</option>
-                                    @endforelse
-                                </select>
-                                @error('laboratorium_id')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="kode">kode</label>
-                                <input type="text" class="form-control @error('kode') is-invalid @enderror"
-                                    id="kode" placeholder="kode" value="{{ old('kode', $alat->kode) }}" name="kode"
-                                    required />
-                                @error('kode')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
                                 <label class="form-label" for="nama">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    id="nama" placeholder="Nama" value="{{ old('nama', $alat->nama) }}" name="nama"
-                                    required />
+                                    id="nama" placeholder="Nama" value="{{ old('nama', $training->nama) }}"
+                                    name="nama" required />
                                 @error('nama')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -115,32 +33,57 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="merk">Merk</label>
-                                <input type="text" class="form-control @error('merk') is-invalid @enderror"
-                                    id="merk" placeholder="Merk" value="{{ old('merk', $alat->merk) }}" name="merk"
-                                    required />
-                                @error('merk')
+                                <label class="form-label" for="pengajuan">Kategori Pengajuan</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('pengajuan') is-invalid @enderror" name="pengajuan">
+                                    <option value="">Pilih pengajuan</option>
+                                    <option value="lebih" @selected(old('pengajuan', $training->pengajuan) == 'lebih')>
+                                        Melebihi Kuota
+                                    </option>
+                                    <option value="pas" @selected(old('pengajuan', $training->pengajuan) == 'pas')>
+                                        Sesuai Kuota
+                                    </option>
+                                    <option value="kurang" @selected(old('pengajuan', $training->pengajuan) == 'kurang')>
+                                        Kurang dari Kuota
+                                    </option>
+                                </select>
+                                @error('pengajuan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="spesifikasi">Spesifikasi</label>
-                                <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" placeholder="Spesifikasi"
-                                    name="spesifikasi" required>{{ old('spesifikasi', $alat->spesifikasi) }} </textarea>
-                                @error('spesifikasi')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="harga">Harga</label>
-                                <input type="number" class="form-control @error('harga') is-invalid @enderror"
-                                    id="harga" placeholder="harga" name="harga"
-                                    value="{{ old('harga', $alat->harga) }}" required />
+                                <label class="form-label" for="harga">Kategori Harga</label>
+                                <select id="organization" class="select2 form-select @error('harga') is-invalid @enderror"
+                                    name="harga">
+                                    <option value="">Pilih Harga</option>
+                                    <option value="mahal" @selected(old('harga', $training->harga) == 'mahal')>
+                                        Mahal
+                                    </option>
+                                    <option value="murah" @selected(old('harga', $training->harga) == 'murah')>
+                                        Murah
+                                    </option>
+                                </select>
                                 @error('harga')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="label">Label</label>
+                                <select id="organization" class="select2 form-select @error('label') is-invalid @enderror"
+                                    name="label">
+                                    <option value="">Pilih Label</option>
+                                    <option value="layak" @selected(old('label', $training->label) == 'layak')>
+                                        Layak
+                                    </option>
+                                    <option value="tidak layak" @selected(old('label', $training->label) == 'tidak layak')>
+                                        Tidak Layak
+                                    </option>
+                                </select>
+                                @error('label')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -191,8 +134,8 @@
         <div class="card-body">
             <div class="mb-3 col-12 mb-0">
                 <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">Penambahan Data alat</h6>
-                    <p class="mb-0">Ketika Form Tambah Data alat ditambahkan,<br />
+                    <h6 class="alert-heading fw-bold mb-1">Penambahan Data training</h6>
+                    <p class="mb-0">Ketika Form Tambah Data training ditambahkan,<br />
                         Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
                         Dan Langsung Disambungkan sesuai kode qr yang tertera
                     </p>

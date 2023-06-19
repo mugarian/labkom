@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('spesifikasi');
             $table->integer('harga');
             $table->integer('stok');
+            $table->string('tahun');
             $table->string('foto')->nullable();
             $table->timestamps();
         });

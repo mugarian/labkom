@@ -112,4 +112,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Laboratorium::class);
     }
+
+    public function algoritma()
+    {
+        return $this->hasMany(Algoritma::class);
+    }
+
+    public function prediksi()
+    {
+        return $this->hasMany(Prediksi::class);
+    }
 }

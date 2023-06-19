@@ -44,7 +44,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
                                         @if ($bahanjurusan->bahanpraktikum->foto)
-                                            <img src="{{ asset('storage') . '/' . $bahanjurusan->praktikum->foto }}"
+                                            <img src="{{ asset('storage') . '/' . $bahanjurusan->bahanpraktikum->foto }}"
                                                 alt="bahanjurusan-avatar" class="d-block rounded img-preview" height="100"
                                                 width="100" id="uploadedAvatar" />
                                         @else

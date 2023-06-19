@@ -122,12 +122,11 @@
                         <div data-i18n="Misc">Alat</div>
                     </a>
                 </li>
-                <li class="menu-item {{ Request::is('barangpakai*') ? 'active' : '' }}">
+                {{-- <li class="menu-item {{ Request::is('barangpakai*') ? 'active' : '' }}">
                     <a href="/barangpakai" class="menu-link">
-                        {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
                         <div data-i18n="Misc">Barang Pakai (Alat)</div>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu-item {{ Request::is('bahanpraktikum*') ? 'active' : '' }}">
                     <a href="/bahanpraktikum" class="menu-link">
                         {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
@@ -195,29 +194,29 @@
             <li class="menu-header small text-uppercase my-0">
                 <span class="menu-header-text">Rekomendasi Pengajuan</span>
             </li>
-            <li class="menu-item {{ Request::is('pengajuan*', 'rule*', 'rekomendasi*') ? 'active' : '' }}">
+            <li class="menu-item {{ Request::is('training*', 'rule*', 'prediksi*') ? 'active' : '' }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class='menu-icon tf-icons bx bx-sitemap'></i>
                     <div data-i18n="kegiatan">Pengajuan</div>
                 </a>
 
                 <ul class="menu-sub">
-                    <li class="menu-item {{ Request::is('pengajuan*') ? 'active' : '' }}">
-                        <a href="/pengajuan" class="menu-link">
+                    <li class="menu-item {{ Request::is('training*') ? 'active' : '' }}">
+                        <a href="/training" class="menu-link">
                             {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                            <div data-i18n="Misc">Data</div>
+                            <div data-i18n="Misc">Data Training</div>
                         </a>
                     </li>
                     <li class="menu-item {{ Request::is('rule*') ? 'active' : '' }}">
                         <a href="/rule" class="menu-link">
                             {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                            <div data-i18n="Misc">Rule</div>
+                            <div data-i18n="Misc">Hasil Rule</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ Request::is('rekomendasi*') ? 'active' : '' }}">
-                        <a href="/rekomendasi" class="menu-link">
+                    <li class="menu-item {{ Request::is('prediksi*') ? 'active' : '' }}">
+                        <a href="/prediksi" class="menu-link">
                             {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                            <div data-i18n="Misc">Rekomendasi</div>
+                            <div data-i18n="Misc">Prediksi</div>
                         </a>
                     </li>
                 </ul>

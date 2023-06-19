@@ -2,16 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlatController;
-use App\Http\Controllers\AlgoritmaController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BahanPraktikumController;
-use App\Http\Controllers\BahanJurusanController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\PrediksiController;
+use App\Http\Controllers\AlgoritmaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PemakaianController;
@@ -21,7 +20,9 @@ use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\BarangHabisController;
 use App\Http\Controllers\BarangPakaiController;
 use App\Http\Controllers\PelaksanaanController;
+use App\Http\Controllers\BahanJurusanController;
 use App\Http\Controllers\LaboratoriumController;
+use App\Http\Controllers\BahanPraktikumController;
 use App\Http\Controllers\PeminjamanAlatController;
 use App\Http\Controllers\PeminjamanBahanController;
 
@@ -58,7 +59,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/laboratorium', LaboratoriumController::class);
     Route::resource('/kelas', KelasController::class);
     Route::resource('pelaksanaan', PelaksanaanController::class);
-    Route::resource('pengajuan', AlgoritmaController::class);
+
+    Route::resource('training', AlgoritmaController::class);
+    Route::get('rule', [AlgoritmaController::class, 'rule']);
+    Route::resource('prediksi', PrediksiController::class);
 
     Route::get('permohonan/{id}/ditolak', [PermohonanController::class, 'ditolak']);
     Route::post('permohonan/{id}/ditolak', [PermohonanController::class, 'updateDitolak']);

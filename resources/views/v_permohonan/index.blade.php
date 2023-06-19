@@ -9,11 +9,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                {{ session('fail') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Permohonan</h5>
                 <div class="d-flex justify-content-end">
-                    @if (auth()->user()->role != 'admin' || $selesai)
+                    @if (auth()->user()->role != 'admin' && $selesai)
                         <small class="text-muted float-end me-3">
                             <a href="/permohonan/create">
                                 <button class="btn btn-primary">Tambah</button>
@@ -75,7 +81,12 @@
                                             <b>Rencana Mulai:</b> <br>
                                         @endif
                                         {{ $permohonan->mulai }} <br>
-                                        <b>Selesai:</b> <br> {{ $permohonan->selesai ?? '-' }}
+                                        @if ($permohonan->status == 'selesai')
+                                            <b>Selesai:</b> <br>
+                                        @else
+                                            <b>Rencana Selesai:</b> <br>
+                                        @endif
+                                        {{ $permohonan->selesai ?? '-' }}
                                     </td>
                                     <td class="text-wrap">
                                         <b>Dospem:</b> <br> {{ $permohonan->verif_dospem }} <br>

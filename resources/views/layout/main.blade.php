@@ -138,7 +138,19 @@
         let table2 = new DataTable('#myTable2', {
             // options
             dom: 'Bflrtip',
-            buttons: ['print', 'excel', 'pdf']
+            buttons: [{
+                    extend: 'print',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-primary'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    className: 'btn btn-primary'
+                },
+            ]
         });
     </script>
 </body>

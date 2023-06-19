@@ -10,6 +10,7 @@ use App\Models\Mahasiswa;
 use App\Models\Pelaksanaan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PelaksanaanController extends Controller
 {
@@ -60,6 +61,16 @@ class PelaksanaanController extends Controller
             $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->get();
             $jabatan = 'admin';
             $dospem = 'false';
+        }
+
+        $current_date = date('Y-m-d H:i:s');
+
+        foreach ($kegiatan as $kg) {
+            if ($current_date > $kg->selesai && $kg->status == 'berlangsung') {
+                DB::table('kegiatans')->where('id', $kg->id)->update([
+                    'status' => 'selesai'
+                ]);
+            }
         }
 
         $terakhir = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orderBy('mulai', 'desc')->first();
@@ -118,7 +129,14 @@ class PelaksanaanController extends Controller
             'deskripsi' => 'required',
             'tipe' => 'required',
             'mulai' => 'required',
+            'selesai' => 'required',
         ]);
+
+        $kegiatan = Kegiatan::where('laboratorium_id', $validatedData['laboratorium_id'])->orderBy('mulai', 'desc')->first();
+
+        if ($kegiatan->status == 'berlangsung') {
+            return redirect('/pelaksanaan')->with('fail', 'Laboratorium Sedang Dipakai');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['jenis'] = 'pelaksanaan';

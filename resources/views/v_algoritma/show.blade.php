@@ -1,8 +1,10 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/alat" class="text-secondary">Data Alat</a>
-                /</span> {{ $alat->nama }}
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">
+                <a href="/training" class="text-secondary">Data training</a> /
+            </span> {{ $training->nama }}
         </h4>
 
         <!-- Basic Layout -->
@@ -10,44 +12,41 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Alat</h5>
-                        <small class="text-muted float-end"><a href="/alat">
+                        <h5 class="mb-0">Data Training</h5>
+                        <small class="text-muted float-end"><a href="/training">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="kategori">Kategori</label>
-                            <p class="form-control">{{ $alat->kategori }}</p>
+                            <label class="form-label" for="nama">nama</label>
+                            <p class="form-control">{{ $training->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="laboratorium">laboratorium</label>
-                            <p class="form-control">{{ $alat->laboratorium->nama }}</p>
+                            <label class="form-label" for="pengajuan">Kategori Pengajuan</label>
+                            <p class="form-control">
+                                @if ($training->pengajuan == 'lebih')
+                                    Melebihi Kuota
+                                @elseif ($training->pengajuan == 'pas')
+                                    Sesuai Kuota
+                                @else
+                                    Kurang dari Kuota
+                                @endif
+                            </p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="kode">kode</label>
-                            <p class="form-control">{{ $alat->kode }}</p>
+                            <label class="form-label" for="Harga">Kategori Harga</label>
+                            <p class="form-control">{{ $training->harga }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="nama">Nama</label>
-                            <p class="form-control">{{ $alat->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="merk">Merk</label>
-                            <p class="form-control">{{ $alat->merk }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="spesifikasi">Spesifikasi</label>
-                            <p class="form-control">{{ $alat->spesifikasi }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="harga">Harga</label>
-                            <p class="form-control">{{ $alat->harga }}</p>
+                            <label class="form-label" for="label">Label</label>
+                            <p class="form-control">{{ $training->label }}</p>
                         </div>
                         <div class="mb-3">
                             @if (auth()->user()->role == 'admin')
                                 <div class="d-flex justify-content-start">
-                                    <a href="/alat/{{ $alat->id }}/edit" class="btn btn-outline-warning me-3">Edit</a>
-                                    <form action="/alat/{{ $alat->id }}" method="post">
+                                    <a href="/training/{{ $training->id }}/edit"
+                                        class="btn btn-outline-warning me-3">Edit</a>
+                                    <form action="/training/{{ $training->id }}" method="post">
                                         @method('delete')
                                         @csrf
                                         <button type="submit" class="btn btn-outline-danger"
@@ -57,36 +56,6 @@
                                     </form>
                                 </div>
                             @endif
-                            @if (auth()->user()->role != 'admin')
-                                <a href="/pemakaian/{{ $alat->id }}/pakai"
-                                    class="btn btn-outline-primary mx-1">Pakai</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Foto Alat</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($alat->foto)
-                                    <img src="{{ asset('storage') . '/' . $alat->foto }}" alt="alat-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
-                                @else
-                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
-                                        height="200" width="200" id="uploadedAvatar" />
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mt-5 mb-3">
-                            <h5 class="mb-3">Kode QR Alat</h5>
-                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                {{ $qrcode }}
-                            </div>
                         </div>
                     </div>
                 </div>

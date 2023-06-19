@@ -71,6 +71,17 @@ class PeminjamanAlatController extends Controller
             $selesai = 1;
         }
 
+        $current_date = date('Y-m-d');
+
+        foreach ($peminjamanalat as $pj) {
+            if ($current_date > $pj->tgl_pinjam && $pj->status == 'menunggu') {
+                DB::table('peminjaman_alats')->where('id', $pj->id)->update([
+                    'keterangan' => 'Peminjaman Alat Kadaluarsa',
+                    'status' => 'ditolak',
+                ]);
+            }
+        }
+
         return view('v_peminjamanalat.index', [
             'title' => 'Data Peminjaman Alat',
             'peminjamanalats' => $peminjamanalat,

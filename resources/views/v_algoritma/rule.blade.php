@@ -1,0 +1,22 @@
+@extends('layout.main')
+@section('container')
+    <!-- Bordered Table -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><a href="/rule" class="text-secondary">Rule</a></h4>
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Hasil Rule</h5>
+            </div>
+            <div class="card-body pb-2">
+                <pre>{{ $rule }}</pre>
+            </div>
+        </div>
+        <!--/ Bordered Table -->
+    </div>
+@endsection

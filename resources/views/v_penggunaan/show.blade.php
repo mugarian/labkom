@@ -10,27 +10,15 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">penggunaan</h5>
+                        <h5 class="mb-0">Penggunaan</h5>
                         <small class="text-muted float-end"><a href="/penggunaan">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <div class="alert alert-primary">
-                                <h6 class="alert-heading fw-bold mb-1">Status Penggunaan</h6>
-                                <p class="mb-0">
-                                    Penggunaan bisa dilakukan ketika status sudah disetujui Kepala Lab
-                                </p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="status">Status</label>
-                            <p class="form-control">{{ $penggunaan->status }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="keterangan">keterangan</label>
+                            <label class="form-label" for="deskripsi">deskripsi</label>
                             <p class="form-control">
-                                {{ $penggunaan->keterangan ?? '-' }}
+                                {{ $penggunaan->deskripsi ?? '-' }}
                             </p>
                         </div>
                         <div class="mb-3">
@@ -38,8 +26,16 @@
                             <p class="form-control">{{ $penggunaan->tanggal }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="nama">Nama Barang</label>
+                            <p class="form-control">{{ $penggunaan->bahanpraktikum->nama }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="jumlah">Jumlah Barang</label>
                             <p class="form-control">{{ $penggunaan->jumlah }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="nama">Nama Kegiatan</label>
+                            <p class="form-control">{{ $penggunaan->kegiatan->nama }}</p>
                         </div>
                     </div>
                 </div>
@@ -64,7 +60,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">Kode Barang</label>
-                            <p class="form-control">{{ $penggunaan->kode }}</p>
+                            <p class="form-control">{{ $penggunaan->bahanpraktikum->kode }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nama">Nama Barang</label>

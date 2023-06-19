@@ -3,7 +3,8 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">
-                <a href="/barangpakai" class="text-secondary">Data Barang Pakai</a> /
+                <a href="/alat" class="text-secondary">Data Alat</a> /
+                <a href="/alat/{{ $barangpakai->alat->id }}" class="text-secondary">{{ $barangpakai->alat->nama }}</a> /
             </span> {{ $barangpakai->nama }}
         </h4>
         @if (session()->has('success'))
@@ -58,8 +59,10 @@
                                     </form>
                                 @endif
                                 @if (auth()->user()->role != 'admin')
+                                    <a href="/pemakaian/{{ $barangpakai->id }}/pakai"
+                                        class="btn btn-outline-primary mx-1">Pakai</a>
                                     <a href="/peminjamanalat/{{ $barangpakai->id }}/pinjam"
-                                        class="btn btn-outline-primary mx-1">Pinjam</a>
+                                        class="btn btn-outline-warning mx-1">Pinjam</a>
                                 @endif
                             </div>
                         </div>
@@ -93,7 +96,129 @@
                 </div>
             </div>
         </div>
-
+        {{-- PEMAKAIAN --}}
+        <div class="row">
+            <div class="col-xl">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Tracking Pemakaian</h5>
+                    </div>
+                    <div class="card-body pb-2">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered" id="myTable">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No.</th>
+                                        <th>Oleh</th>
+                                        <th>Kegiatan</th>
+                                        <th class="text-wrap">Tanggal Pemakaian</th>
+                                        <th>Kondisi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr class="text-center">
+                                        <th>No.</th>
+                                        <th>Oleh</th>
+                                        <th>Kegiatan</th>
+                                        <th class="text-wrap">Tanggal Pemakaian</th>
+                                        <th>Kondisi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody class="text-center">
+                                    @foreach ($pemakaians as $pemakaian)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $pemakaian->user->nama }}</td>
+                                            <td class="text-wrap">{{ $pemakaian->kegiatan->nama }}</td>
+                                            <td class="text-wrap">
+                                                <b>Mulai:</b><br> {{ $pemakaian->mulai }} <br>
+                                                <b>Selesai:</b><br> {{ $pemakaian->selesai }}
+                                            </td>
+                                            <td class="text-wrap">{{ $pemakaian->keterangan ?? '-' }}</td>
+                                            <td class="text-wrap">{{ $pemakaian->status }}</td>
+                                            <td>
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
+                                                    href="/pemakaian/{{ $pemakaian->id }}">
+                                                    <i class="bx bx-info-circle"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                            {{ $barangpakai->links() }}
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- PEMINJAMAN --}}
+        <div class="row my-4">
+            <div class="col-xl">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Tracking Peminjaman Alat</h5>
+                    </div>
+                    <div class="card-body pb-2">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered" id="myTable2">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>No.</th>
+                                        <th>Oleh</th>
+                                        <th class="text-wrap">Tanggal Peminjaman</th>
+                                        <th>Kondisi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr class="text-center">
+                                        <th>No.</th>
+                                        <th>Oleh</th>
+                                        <th class="text-wrap">Tanggal Peminjaman</th>
+                                        <th>Kondisi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody class="text-center">
+                                    @foreach ($peminjamans as $peminjaman)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $peminjaman->user->nama }}</td>
+                                            <td class="text-wrap">
+                                                <b>Mulai:</b><br> {{ $peminjaman->tgl_pinjam }} <br>
+                                                <b>Selesai:</b><br> {{ $peminjaman->tgl_kembali }}
+                                            </td>
+                                            <td class="text-wrap">{{ $peminjaman->kondisi ?? '-' }}</td>
+                                            <td class="text-wrap">{{ $peminjaman->status }}</td>
+                                            <td>
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
+                                                    href="/peminjamanalat/{{ $peminjaman->id }}">
+                                                    <i class="bx bx-info-circle"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
+                            {{ $barangpakai->links() }}
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
         {{-- <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-start">

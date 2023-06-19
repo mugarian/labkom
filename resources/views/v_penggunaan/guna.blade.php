@@ -3,7 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
                 <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
-            </span>
+            </span> {{ $bahanpraktikum->nama }}
         </h4>
 
         <!-- Basic Layout -->
@@ -108,6 +108,10 @@
                         <div class="mb-3">
                             <label class="form-label" for="nama">Nama Bahan Praktikum</label>
                             <p class="form-control">{{ $bahanpraktikum->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="laboratorium">Lokasi</label>
+                            <p class="form-control">{{ $bahanpraktikum->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="stok">Stok Bahan Praktikum</label>

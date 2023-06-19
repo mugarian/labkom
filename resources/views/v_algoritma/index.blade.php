@@ -2,7 +2,7 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><a href="/algoritma" class="text-secondary">Data algoritma</a></h4>
+        <h4 class="fw-bold py-3 mb-4"><a href="/training" class="text-secondary">Data training</a></h4>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -11,10 +11,10 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola algoritma</h5>
+                <h5 class="mb-0">Kelola training</h5>
                 @if (auth()->user()->role == 'admin')
                     <small class="text-muted float-end">
-                        <a href="/pengajuan/create"><button class="btn btn-primary">Tambah</button></a>
+                        <a href="/training/create"><button class="btn btn-primary">Tambah</button></a>
                     </small>
                 @endif
             </div>
@@ -24,46 +24,51 @@
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
-                                <th>outlook</th>
-                                <th>temperature</th>
-                                <th>humidity</th>
-                                <th>windy</th>
-                                <th>play</th>
+                                <th>Nama Bahan</th>
+                                <th>pengajuan</th>
+                                <th>Harga</th>
+                                <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
-                                <th>outlook</th>
-                                <th>temperature</th>
-                                <th>humidity</th>
-                                <th>windy</th>
-                                <th>play</th>
+                                <th>Nama Bahan</th>
+                                <th>pengajuan</th>
+                                <th>Harga</th>
+                                <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </tfoot>
                         <tbody class="text-center">
-                            @foreach ($algoritmas as $algoritma)
+                            @foreach ($trainings as $training)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td class="text-wrap">{{ $algoritma->outlook }}</td>
-                                    <td class="text-wrap">{{ $algoritma->temperature }}</td>
-                                    <td class="text-wrap">{{ $algoritma->humidity }}</td>
-                                    <td class="text-wrap">{{ $algoritma->windy }}</td>
-                                    <td class="text-wrap">{{ $algoritma->play }}</td>
+                                    <td class="text-wrap">{{ $training->nama }}</td>
+                                    <td class="text-wrap">
+                                        @if ($training->pengajuan == 'lebih')
+                                            Melebihi Kuota
+                                        @elseif ($training->pengajuan == 'pas')
+                                            Sesuai Kuota
+                                        @else
+                                            Kurang dari Kuota
+                                        @endif
+                                    </td>
+                                    <td class="text-wrap">{{ $training->harga }}</td>
+                                    <td class="text-wrap">{{ $training->label }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" data-bs-title="Lihat"
-                                                href="/algoritma/{{ $algoritma->id }}"><i class="bx bx-info-circle"></i></a>
+                                                href="/training/{{ $training->id }}"><i class="bx bx-info-circle"></i></a>
                                             @if (auth()->user()->role == 'admin')
                                                 <a class="btn btn-outline-warning p-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" data-bs-title="Ubah"
-                                                    href="/algoritma/{{ $algoritma->id }}/edit">
+                                                    href="/training/{{ $training->id }}/edit">
                                                     <i class="bx bx-edit-alt"></i>
                                                 </a>
-                                                <form action="/algoritma/{{ $algoritma->id }}" method="post">
+                                                <form action="/training/{{ $training->id }}" method="post">
                                                     @method('delete')
                                                     @csrf
                                                     <button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -81,7 +86,7 @@
                                         <td colspan="100%">
                                             <div class="my-5">
                                                 <h3 class="text-muted">
-                                                    Tidak Ada Data algoritma
+                                                    Tidak Ada Data training
                                                 </h3>
                                             </div>
                                         </td>
@@ -91,7 +96,7 @@
                     </table>
                 </div>
                 {{-- <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
-                    {{ $algoritmas->links() }}
+                    {{ $trainings->links() }}
                 </div> --}}
             </div>
         </div>

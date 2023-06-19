@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->text('deskripsi');
             $table->text('keterangan');
+            $table->string('tahun');
             $table->timestamps();
         });
     }

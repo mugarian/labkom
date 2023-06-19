@@ -104,54 +104,53 @@
             </div>
         </div>
 
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-xl">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Tracking Barang Habis (bahanjurusan)</h5>
+                        <h5 class="mb-0">Tracking Peminjaman Bahan</h5>
                     </div>
                     <div class="card-body pb-2">
                         <div class="table-responsive text-nowrap">
                             <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr class="text-center">
-                                        <th>Foto</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Lokasi</th>
+                                        <th>#</th>
+                                        <th>Oleh</th>
                                         <th>Deskripsi</th>
-                                        <th>Keterangan</th>
+                                        <th>Kondisi</th>
+                                        <th>Jenis</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr class="text-center">
-                                        <th>Foto</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Lokasi</th>
+                                        <th>#</th>
+                                        <th>Oleh</th>
                                         <th>Deskripsi</th>
-                                        <th>Keterangan</th>
+                                        <th>Kondisi</th>
+                                        <th>Jenis</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </tfoot>
                                 <tbody class="text-center">
-                                    @foreach ($baranghabis as $bh)
+                                    @foreach ($peminjamans as $peminjaman)
                                         <tr>
-                                            <td style="width:10%">
-                                                @if ($bh->foto)
-                                                    <img src="{{ asset('storage') . '/' . $bh->foto }}" alt="bh-avatar"
-                                                        class="d-block rounded img-preview" height="100" width="100"
-                                                        id="uploadedAvatar" />
-                                                @else
-                                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                                        class="d-block rounded img-preview" height="100" width="100"
-                                                        id="uploadedAvatar" />
-                                                @endif
+                                            <td style="width:10%">{{ $loop->iteration }}</td>
+                                            <td>{{ $peminjaman->user->nama }}</td>
+                                            <td class="text-wrap">{{ $peminjaman->deskripsi }}</td>
+                                            <td class="text-wrap">{{ $peminjaman->kondisi }}</td>
+                                            <td class="text-wrap">{{ $peminjaman->jenis }} jurusan</td>
+                                            <td class="text-wrap">{{ $peminjaman->status }}</td>
+                                            <td>
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
+                                                    href="/peminjamanbahan/{{ $peminjaman->id }}">
+                                                    <i class="bx bx-info-circle"></i>
+                                                </a>
                                             </td>
-                                            <td>{{ $bh->kode }}</td>
-                                            <td class="text-wrap">{{ $bh->nama }}</td>
-                                            <td class="text-wrap">{{ $bh->laboratorium->nama }}</td>
-                                            <td class="text-wrap">{{ $bh->deskripsi }}</td>
-                                            <td class="text-wrap">{{ $bh->keterangan }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -160,7 +159,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         {{-- <div class="card mt-4">
             <div class="card-header">

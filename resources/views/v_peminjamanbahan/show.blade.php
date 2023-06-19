@@ -46,6 +46,12 @@
                             </p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="jumlah">jumlah</label>
+                            <p class="form-control">
+                                {{ $peminjamanbahan->jumlah }}
+                            </p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="tgl_pinjam">Tanggal peminjaman</label>
                             <p class="form-control">{{ $peminjamanbahan->tgl_pinjam }}</p>
                         </div>

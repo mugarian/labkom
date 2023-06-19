@@ -9,6 +9,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                {{ session('fail') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola pelaksanaan</h5>
@@ -67,7 +73,13 @@
                                     </td>
                                     <td class="text-wrap">{{ $pelaksanaan->dospem->user->nama }}</td>
                                     <td class="text-wrap">{{ $pelaksanaan->mulai }}</td>
-                                    <td class="text-wrap">{{ $pelaksanaan->selesai ?? '-' }}</td>
+                                    <td class="text-wrap">
+                                        {{ $pelaksanaan->selesai }}
+                                        @if ($pelaksanaan->status == 'berlangsung')
+                                            <br>
+                                            (Rencana)
+                                        @endif
+                                    </td>
                                     <td class="text-wrap">{{ $pelaksanaan->status }} </td>
                                     <td>
                                         <div class="d-flex justify-content-center">

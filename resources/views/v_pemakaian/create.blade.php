@@ -31,11 +31,11 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="alat_id">Kode Alat</label>
-                                <input type="text" class="form-control @error('alat_id') is-invalid @enderror"
-                                    id="alat_id" placeholder="kode alat" value="{{ old('alat_id') }}" name="alat_id"
-                                    required />
-                                @error('alat_id')
+                                <label class="form-label" for="barangpakai_id">Kode Barang Pakai</label>
+                                <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
+                                    id="barangpakai_id" placeholder="kode alat" value="{{ old('barangpakai_id') }}"
+                                    name="barangpakai_id" required />
+                                @error('barangpakai_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

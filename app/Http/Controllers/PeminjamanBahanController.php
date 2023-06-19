@@ -32,14 +32,6 @@ class PeminjamanBahanController extends Controller
 
                 // todo join peminjamanbahan == bahanjurusan == laboratorium
 
-                // SELECT peminjamanbahans.id as id, barang_habis.nama as namabarang, laboratorium.nama as namalab, kegiatans.nama as namakegiatan, users.nama as namauser, peminjamanbahans.tanggal as tanggal, peminjamanbahans.status as status
-                // FROM peminjamanbahans
-                // INNER JOIN kegiatans ON peminjamanbahans.kegiatan_id = kegiatans.id
-                // INNER JOIN users ON peminjamanbahans.user_id = users.id
-                // INNER JOIN barang_habis ON peminjamanbahans.alat_id = barang_habis.id
-                // INNER JOIN laboratorium ON barang_habis.laboratorium_id = laboratorium.id
-                // WHERE laboratorium.id = '00335b1f-420c-4610-bc8e-7069bb05ed47';
-
                 $peminjamanbahan = DB::table('peminjaman_bahans')
                     ->join('users', 'peminjaman_bahans.user_id', '=', 'users.id')
                     ->join('bahan_jurusans', 'peminjaman_bahans.bahanjurusan_id', '=', 'bahan_jurusans.id')
@@ -69,6 +61,17 @@ class PeminjamanBahanController extends Controller
             }
         } else {
             $selesai = 1;
+        }
+
+        $current_date = date('Y-m-d');
+
+        foreach ($peminjamanbahan as $pj) {
+            if ($current_date > $pj->tgl_pinjam && $pj->status == 'menunggu') {
+                DB::table('peminjaman_bahans')->where('id', $pj->id)->update([
+                    'keterangan' => 'Peminjaman Bahan Kadaluarsa',
+                    'status' => 'ditolak',
+                ]);
+            }
         }
 
         return view('v_peminjamanbahan.index', [
@@ -118,6 +121,7 @@ class PeminjamanBahanController extends Controller
             'bahanjurusan_id' => 'required',
             'deskripsi' => 'required',
             'jenis' => 'required',
+            'jumlah' => 'required',
         ]);
 
         $bahanjurusan = BahanJurusan::where('kode', $validatedData['bahanjurusan_id'])->first();
@@ -125,7 +129,11 @@ class PeminjamanBahanController extends Controller
 
         if ($bahanjurusan) {
             if ($peminjamanBahanTerakhir) {
-                return redirect('/peminjamanalat')->with('fail', 'Bahan Jurusan sedang dipinjam');
+                return redirect('/peminjamanbahan')->with('fail', 'Bahan Jurusan sedang dipinjam');
+            }
+
+            if ($validatedData['jumlah'] > $bahanjurusan->stok) {
+                return redirect('/peminjamanbahan')->with('fail', 'Jumlah Peminjaman melebihi stok bahan jurusan');
             }
 
             $validatedData['bahanjurusan_id'] = $bahanjurusan->id;
@@ -133,6 +141,9 @@ class PeminjamanBahanController extends Controller
 
             if ($bahanjurusan->laboratorium->user->id == auth()->user()->id) {
                 $validatedData['status'] = 'disetujui';
+                $bahanjurusan->update([
+                    'stok' => $bahanjurusan->stok - $request->jumlah
+                ]);
             }
 
             PeminjamanBahan::create($validatedData);
@@ -176,6 +187,17 @@ class PeminjamanBahanController extends Controller
      */
     public function update(Request $request, PeminjamanBahan $peminjamanbahan)
     {
+        $bahanjurusan = BahanJurusan::find($peminjamanbahan->bahanjurusan_id);
+        if ($request->status == 'disetujui') {
+            $bahanjurusan->update([
+                'stok' => $bahanjurusan->stok - $peminjamanbahan->jumlah
+            ]);
+        } elseif ($request->status == 'selesai') {
+            $bahanjurusan->update([
+                'stok' => $bahanjurusan->stok + $peminjamanbahan->jumlah
+            ]);
+        }
+
         $peminjamanbahan->update([
             'status' => $request->status,
             'tgl_kembali' => $request->tgl_kembali ?? null,

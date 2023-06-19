@@ -38,7 +38,6 @@
                                 <th>Kegiatan</th>
                                 <th>Oleh</th>
                                 <th>Tanggal</th>
-                                <th>Status</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </thead>
@@ -49,7 +48,6 @@
                                 <th>Kegiatan</th>
                                 <th>Oleh</th>
                                 <th>Tanggal</th>
-                                <th>Status</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
                         </tfoot>
@@ -64,30 +62,12 @@
                                         <td class="text-wrap">{{ $penggunaan->namakegiatan }}</td>
                                         <td class="text-wrap">{{ $penggunaan->namauser }}</td>
                                         <td>{{ $penggunaan->tanggal }}</td>
-                                        <td>{{ $penggunaan->status }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" data-bs-title="Lihat"
                                                     href="/penggunaan/{{ $penggunaan->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
-                                                @if ($penggunaan->status == 'menunggu')
-                                                    <form action="/penggunaan/{{ $penggunaan->id }}" method="post">
-                                                        @csrf
-                                                        @method('PUT')
-                                                        <input type="hidden" name="status" value="disetujui">
-                                                        <button type="submit" class="btn btn-outline-primary p-1"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Disetujui">
-                                                            <i class='bx bx-message-square-check'></i>
-                                                        </button>
-                                                    </form>
-                                                    <a class="btn btn-outline-danger p-1" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Ditolak"
-                                                        href="/penggunaan/{{ $penggunaan->id }}/ditolak">
-                                                        <i class="bx bx-message-square-x"></i>
-                                                    </a>
-                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -100,7 +80,6 @@
                                         <td class="text-wrap">{{ $penggunaan->kegiatan->nama }}</td>
                                         <td class="text-wrap">{{ $penggunaan->user->nama }}</td>
                                         <td>{{ $penggunaan->tanggal }}</td>
-                                        <td>{{ $penggunaan->status }}</td>
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <a class="btn btn-outline-success p-1"

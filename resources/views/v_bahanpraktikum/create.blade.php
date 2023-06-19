@@ -135,8 +135,19 @@
                                 <label class="form-label" for="stok">stok</label>
                                 <input type="number" class="form-control @error('stok') is-invalid @enderror"
                                     id="stok" placeholder="stok" name="stok" value="{{ old('stok') }}"
-                                    min="0" min="0" required />
+                                    min="0" required />
                                 @error('stok')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="tahun">tahun</label>
+                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
+                                    id="tahun" placeholder="tahun" name="tahun"
+                                    value="{{ old('tahun', date('Y')) }}" min="0" min="0" required />
+                                @error('tahun')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

@@ -115,12 +115,24 @@
                                     </div>
                                 @enderror
                             </div>
+
                             <div class="mb-4">
-                                <label class="form-label" for="mulai">Tanggal Mulai</label>
+                                <label class="form-label" for="mulai">Jadwal Tanggal Mulai</label>
                                 <input type="datetime-local" class="form-control @error('mulai') is-invalid @enderror"
                                     id="mulai" placeholder="mulai" name="mulai" value="{{ old('mulai') }}"
-                                    required />
+                                    min="{{ date('Y-m-d') . 'T' . date('H:i') }}" onchange="akhir()" required />
                                 @error('mulai')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="selesai">Jadwal Tanggal Selesai</label>
+                                <input type="datetime-local" class="form-control @error('selesai') is-invalid @enderror"
+                                    id="selesai" placeholder="selesai" name="selesai" value="{{ old('selesai') }}"
+                                    required />
+                                @error('selesai')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -170,8 +182,11 @@
     </div> --}}
     </div>
     <script>
-        let currentDate = new Date().toISOString().slice(0, -8);
-        console.log(currentDate);
-        document.querySelector("#mulai").min = currentDate;
+        const mulai = document.getElementById('mulai');
+        const selesai = document.getElementById('selesai');
+
+        function akhir() {
+            selesai.min = mulai.value;
+        }
     </script>
 @endsection

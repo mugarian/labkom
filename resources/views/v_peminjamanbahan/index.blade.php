@@ -117,7 +117,8 @@
                                 @else
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="text-wrap">{{ $peminjamanbahan->bahanjurusan->barangpakai->nama }} <br>
+                                        <td class="text-wrap">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}
+                                            <br>
                                             ({{ $peminjamanbahan->bahanjurusan->laboratorium->nama }})
                                         </td>
                                         <td class="text-wrap">{{ $peminjamanbahan->user->nama }}</td>

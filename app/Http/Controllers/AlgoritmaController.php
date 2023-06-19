@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Algorithm\C45;
 use App\Models\Algoritma;
+use Algorithm\C45\DataInput;
 use Illuminate\Http\Request;
 
 class AlgoritmaController extends Controller
@@ -14,10 +16,10 @@ class AlgoritmaController extends Controller
      */
     public function index()
     {
-        $algoritmas = Algoritma::all();
+        $trainings = Algoritma::latest()->get();
         return view('v_algoritma.index', [
-            'title' => 'Data Algoritma',
-            'algoritmas' => $algoritmas
+            'title' => 'Data Training',
+            'trainings' => $trainings
         ]);
     }
 
@@ -29,7 +31,7 @@ class AlgoritmaController extends Controller
     public function create()
     {
         return view('v_algoritma.create', [
-            'title' => 'Tambah Data algoritma',
+            'title' => 'Tambah Data training',
         ]);
     }
 
@@ -41,7 +43,17 @@ class AlgoritmaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nama' => 'required|max:255',
+            'pengadaan' => 'required',
+            'harga' => 'required',
+            'label' => 'required',
+        ]);
+
+        $validatedData['user_id'] = auth()->user()->id;
+
+        Algoritma::create($validatedData);
+        return redirect('/training')->with('success', 'Tambah Data Training Berhasil');
     }
 
     /**
@@ -50,9 +62,13 @@ class AlgoritmaController extends Controller
      * @param  \App\Models\Algoritma  $algoritma
      * @return \Illuminate\Http\Response
      */
-    public function show(Algoritma $algoritma)
+    public function show($id)
     {
-        //
+        $training = Algoritma::find($id);
+        return view('v_algoritma.show', [
+            'title' => 'Data Training ' . $training->nama,
+            'training' => $training
+        ]);
     }
 
     /**
@@ -61,9 +77,13 @@ class AlgoritmaController extends Controller
      * @param  \App\Models\Algoritma  $algoritma
      * @return \Illuminate\Http\Response
      */
-    public function edit(Algoritma $algoritma)
+    public function edit($id)
     {
-        //
+        $training = Algoritma::find($id);
+        return view('v_algoritma.edit', [
+            'title' => 'Data Training ' . $training->nama,
+            'training' => $training
+        ]);
     }
 
     /**
@@ -73,9 +93,20 @@ class AlgoritmaController extends Controller
      * @param  \App\Models\Algoritma  $algoritma
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Algoritma $algoritma)
+    public function update(Request $request, $id)
     {
-        //
+        $training = Algoritma::find($id);
+        $rules = [
+            'nama' => 'required|max:255',
+            'pengajuan' => 'required',
+            'harga' => 'required',
+            'label' => 'required'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        $training->update($validatedData);
+        return redirect('/training')->with('success', 'Data Training berhasil diubah');
     }
 
     /**
@@ -84,8 +115,52 @@ class AlgoritmaController extends Controller
      * @param  \App\Models\Algoritma  $algoritma
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Algoritma $algoritma)
+    public function destroy($id)
     {
-        //
+        Algoritma::destroy($id);
+
+        return redirect('/training')->with('success', 'Data training telah dihapus');
+    }
+
+    public function rule()
+    {
+        $c45 = new C45();
+        $input = new DataInput;
+        $trainings = Algoritma::all();
+        $atts = array();
+        $count = 0;
+        foreach ($trainings as $training) {
+            $atts[$count++] = array(
+                "pengajuan" => $training->pengajuan,
+                "harga" => $training->harga,
+                "label" => $training->label,
+            );
+        }
+
+        // Initialize Data
+        $input->setData($atts); // Set data from array
+        $input->setAttributes(array('harga', 'pengajuan', 'label')); // Set attributes of data
+
+        // Initialize C4.5
+        $c45->c45 = $input; // Set input data
+        $c45->setTargetAttribute('label'); // Set target attribute
+        $initialize = $c45->initialize(); // initialize
+
+        // Build Output
+        $buildTree = $initialize->buildTree(); // Build tree
+        $arrayTree = $buildTree->toArray(); // Set to array
+        $stringTree = $buildTree->toString(); // Set to string
+
+        $new_data = array(
+            'pengajuan' => 'lebih',
+            'harga' => 'mahal',
+        );
+
+        $rule = $c45->initialize()->buildTree()->toString();
+
+        return view('v_algoritma.rule', [
+            'title' => 'Hasil Rule',
+            'rule' => $rule
+        ]);
     }
 }

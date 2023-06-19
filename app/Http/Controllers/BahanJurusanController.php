@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\BahanJurusan;
 use App\Models\Laboratorium;
+use App\Models\PeminjamanBahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -62,11 +63,13 @@ class BahanJurusanController extends Controller
         $bahanjurusan = bahanjurusan::find($id);
         $qrcode = QrCode::size(200)->generate(route('scan', $bahanjurusan->kode));
         $user = User::find($bahanjurusan->laboratorium->user->id);
+        $peminjamans = PeminjamanBahan::where('bahanjurusan_id', $bahanjurusan->id)->orderBy('tgl_pinjam', 'desc')->get();
         return view('v_bahanjurusan.show', [
             'title' => $bahanjurusan->bahanpraktikum->nama,
             'bahanjurusan' => $bahanjurusan,
             'qrcode' => $qrcode,
-            'user' => $user
+            'user' => $user,
+            'peminjamans' => $peminjamans,
         ]);
     }
 

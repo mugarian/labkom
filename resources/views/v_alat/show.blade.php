@@ -32,6 +32,10 @@
                             <p class="form-control">{{ $alat->spesifikasi }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="spesifikasi">Tahun</label>
+                            <p class="form-control">{{ $alat->tahun }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="spesifikasi">Jumlah Harga</label>
                             <p class="form-control">Rp. {{ number_format($jumlahharga, 2, ',', '.') }}</p>
                         </div>
@@ -78,8 +82,13 @@
         <div class="row">
             <div class="col-xl">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tracking Barang Pakai (Alat)</h5>
+                        @if (auth()->user()->role == 'admin')
+                            <small class="text-muted float-end">
+                                <a href="/barangpakai/create"><button class="btn btn-primary">Tambah</button></a>
+                            </small>
+                        @endif
                     </div>
                     <div class="card-body pb-2">
                         <div class="table-responsive text-nowrap">
@@ -91,6 +100,8 @@
                                         <th>Nama</th>
                                         <th>Lokasi</th>
                                         <th>Harga</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                         {{-- <th style="width: 0">Aksi</th> --}}
                                     </tr>
                                 </thead>
@@ -101,6 +112,8 @@
                                         <th>Nama</th>
                                         <th>Lokasi</th>
                                         <th>Harga</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                         {{-- <th style="width: 0">Aksi</th> --}}
                                     </tr>
                                 </tfoot>
@@ -122,12 +135,32 @@
                                             <td class="text-wrap">{{ $bp->nama }}</td>
                                             <td class="text-wrap">{{ $bp->laboratorium->nama }}</td>
                                             <td class="text-wrap">Rp. {{ number_format($bp->harga, 2, ',', '.') }}</td>
-                                            {{-- <td>
+                                            <td class="text-wrap">
+                                                @foreach ($pemakaians as $pemakaian)
+                                                    @if ($pemakaian->idbp == $bp->id)
+                                                        @if ($pemakaian->statuspemakaian == 'mulai')
+                                                            Sedang Dipakai
+                                                        @endif
+                                                    @else
+                                                        @continue
+                                                    @endif
+                                                @endforeach
+                                                @foreach ($peminjamans as $peminjaman)
+                                                    @if ($peminjaman->idbp == $bp->id)
+                                                        @if ($peminjaman->statuspeminjaman == 'disetujui')
+                                                            Sedang Dipinjam
+                                                        @endif
+                                                    @else
+                                                        @continue
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a class="btn btn-outline-success p-1"
                                                         href="/barangpakai/{{ $bp->id }}"><i
                                                             class="bx bx-info-circle"></i></a>
-                                                    @if (auth()->user()->role == 'admin' || $bp->laboratorium->user->id == auth()->user()->id)
+                                                    @if (auth()->user()->role == 'admin')
                                                         <a class="btn btn-outline-warning p-1"
                                                             href="/barangpakai/{{ $bp->id }}/edit"><i
                                                                 class="bx bx-edit-alt"></i></a>
@@ -140,7 +173,7 @@
                                                         </form>
                                                     @endif
                                                 </div>
-                                            </td> --}}
+                                            </td>
                                         </tr>
                                         {{-- @empty
                                             <tr>

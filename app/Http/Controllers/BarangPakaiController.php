@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Alat;
 use App\Models\User;
 use App\Models\Dosen;
+use App\Models\Pemakaian;
 use App\Models\BarangPakai;
 use Illuminate\Support\Str;
 use App\Models\Laboratorium;
+use App\Models\PeminjamanAlat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -106,11 +109,17 @@ class BarangPakaiController extends Controller
         $barangpakai = BarangPakai::find($id);
         $qrcode = QrCode::size(200)->generate(route('scan', $barangpakai->kode));
         $user = User::find($barangpakai->laboratorium->user->id);
+        $pemakaians = Pemakaian::where('barangpakai_id', '=', $barangpakai->id)->orderBy('mulai', 'desc')->get();
+        $peminjamans = PeminjamanAlat::where('barangpakai_id', '=', $barangpakai->id)->orderBy('tgl_pinjam', 'desc')->get();
+        // $pemakaian = Pemakaian::where('barangpakai_id', $barangpakai->id)->orderBy('mulai', 'desc')->get();
+        // $peminjaman = Peminjaman::where('barangpakai_id', $barangpakai->id)->orderBy('mulai', 'desc')->get();
         return view('v_barangpakai.show', [
             'title' => $barangpakai->nama,
             'barangpakai' => $barangpakai,
             'qrcode' => $qrcode,
-            'user' => $user
+            'user' => $user,
+            'pemakaians' => $pemakaians,
+            'peminjamans' => $peminjamans,
         ]);
     }
 

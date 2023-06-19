@@ -64,6 +64,7 @@ class AlatController extends Controller
             'nama' => 'required|max:255',
             'spesifikasi' => 'required|max:255',
             'merk' => 'required',
+            'tahun' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
@@ -87,11 +88,26 @@ class AlatController extends Controller
     {
         $barangpakai = BarangPakai::where('alat_id', $alat->id)->get();
         $jumlahharga = BarangPakai::where('alat_id', $alat->id)->sum('harga');
+        $pemakaians = DB::table('pemakaians')
+            ->join('barang_pakais', 'pemakaians.barangpakai_id', '=', 'barang_pakais.id')
+            ->select('barang_pakais.id as idbp', 'pemakaians.status as statuspemakaian')
+            ->orderBy('pemakaians.mulai', 'desc')
+            ->get();
+
+        $peminjamans = DB::table('peminjaman_alats')
+            ->join('barang_pakais', 'peminjaman_alats.barangpakai_id', '=', 'barang_pakais.id')
+            ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
+            ->select('barang_pakais.id as idbp', 'peminjaman_alats.status as statuspeminjaman')
+            ->orderBy('peminjaman_alats.tgl_pinjam', 'desc')
+            ->get();
+
         return view('v_alat.show', [
             'title' => $alat->nama,
             'alat' => $alat,
             'barangpakai' => $barangpakai,
-            'jumlahharga' => $jumlahharga
+            'jumlahharga' => $jumlahharga,
+            'pemakaians' => $pemakaians,
+            'peminjamans' => $peminjamans,
         ]);
     }
 
@@ -123,6 +139,7 @@ class AlatController extends Controller
             'kategori' => 'required',
             'spesifikasi' => 'required|max:255',
             'merk' => 'required',
+            'tahun' => 'required',
             'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ];
 

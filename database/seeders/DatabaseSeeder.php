@@ -10,6 +10,7 @@ use App\Models\Kelas;
 use App\Models\Staff;
 use Ramsey\Uuid\Uuid;
 use App\Models\Kegiatan;
+use App\Models\Prediksi;
 use App\Models\Algoritma;
 use App\Models\Mahasiswa;
 use App\Models\Pemakaian;
@@ -25,6 +26,8 @@ use App\Models\PeminjamanAlat;
 use App\Models\PeminjamanBahan;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+
+use function PHPSTORM_META\map;
 
 class DatabaseSeeder extends Seeder
 {
@@ -76,8 +79,9 @@ class DatabaseSeeder extends Seeder
          */
 
         //  admins
+        $admin = (string) Uuid::uuid4();
         User::create([
-            'id' => (string) Uuid::uuid4(),
+            'id' => $admin,
             'nomor_induk' => '1010',
             'nama' => 'admin',
             'role' => 'admin',
@@ -408,6 +412,7 @@ class DatabaseSeeder extends Seeder
             'merk' => 'Dell PC High Ultra',
             'kategori' => 'pc',
             'spesifikasi' => 'i7 gen7',
+            'tahun' => '2023',
         ]);
 
         $pcUX = (string) Uuid::uuid4();
@@ -417,6 +422,7 @@ class DatabaseSeeder extends Seeder
             'merk' => 'HP PC Medium Spec',
             'kategori' => 'pc',
             'spesifikasi' => 'i5 gen3',
+            'tahun' => '2023',
         ]);
 
         $pcSI = (string) Uuid::uuid4();
@@ -426,6 +432,7 @@ class DatabaseSeeder extends Seeder
             'merk' => 'Asus PC Low Spec',
             'kategori' => 'pc',
             'spesifikasi' => 'i3 gen3',
+            'tahun' => '2023',
         ]);
 
         $pcRPL = (string) Uuid::uuid4();
@@ -435,6 +442,7 @@ class DatabaseSeeder extends Seeder
             'merk' => 'ROG PC High End',
             'kategori' => 'pc',
             'spesifikasi' => 'i9 gen7',
+            'tahun' => '2023',
         ]);
 
         $pcJaringan = (string) Uuid::uuid4();
@@ -444,6 +452,7 @@ class DatabaseSeeder extends Seeder
             'merk' => 'Apple PC Medium Middle',
             'kategori' => 'pc',
             'spesifikasi' => 'i5 gen5',
+            'tahun' => '2023',
         ]);
 
         $nonpcJaringan = (string) Uuid::uuid4();
@@ -453,6 +462,7 @@ class DatabaseSeeder extends Seeder
             'merk' => 'BenQ',
             'kategori' => 'non-pc',
             'spesifikasi' => 'Ultra HD Ink',
+            'tahun' => '2023',
         ]);
 
         /**
@@ -470,6 +480,7 @@ class DatabaseSeeder extends Seeder
             'spesifikasi' => '24 Core 6.0 Ghz',
             'harga' => 8000000,
             'stok' => 16,
+            'tahun' => '2023',
         ]);
 
         $baprakUX = (string) Uuid::uuid4();
@@ -483,6 +494,7 @@ class DatabaseSeeder extends Seeder
             'spesifikasi' => 'tebal dan halus',
             'harga' => 45000,
             'stok' => 500,
+            'tahun' => '2023',
         ]);
 
         $bajurJaringan = (string) Uuid::uuid4();
@@ -553,6 +565,7 @@ class DatabaseSeeder extends Seeder
             'kode' => Str::random(8),
             'deskripsi' => 'Penghubung internet',
             'keterangan' => 'Baik',
+            'tahun' => '2023',
         ]);
 
         $bhUX = (string) Uuid::uuid4();
@@ -564,6 +577,7 @@ class DatabaseSeeder extends Seeder
             'kode' => Str::random(8),
             'deskripsi' => 'Kertas Printeran',
             'keterangan' => 'Baik',
+            'tahun' => '2023',
         ]);
 
         /**
@@ -718,8 +732,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'kegiatan_id' => $pelaksanaanJaringan,
             'bahanpraktikum_id' => $baprakJaringan,
+            'deskripsi' => 'praktikum jaringan',
             'jumlah' => 2,
-            'status' => 'disetujui',
             'tanggal' => '2023-03-26 14:39:00',
         ]);
 
@@ -729,9 +743,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'kegiatan_id' => $pelaksanaanUX,
             'bahanpraktikum_id' => $baprakJaringan,
+            'deskripsi' => 'deskripsi penggunaan',
             'jumlah' => 2,
-            'status' => 'ditolak',
-            'keterangan' => 'Kondisi Rusak',
             'tanggal' => '2023-03-26 14:39:00',
         ]);
 
@@ -783,6 +796,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Pameran Difest',
             'kondisi' => 'Bagus',
             'keterangan' => null,
+            'jumlah' => 2,
             'jenis' => 'dalam',
             'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
@@ -796,6 +810,7 @@ class DatabaseSeeder extends Seeder
             'bahanjurusan_id' => $bajurJaringan,
             'deskripsi' => 'Kebutuhan jualan difest',
             'kondisi' => null,
+            'jumlah' => 1,
             'keterangan' => 'tidak diperjualbelikan',
             'jenis' => 'dalam',
             'status' => 'ditolak',
@@ -807,151 +822,167 @@ class DatabaseSeeder extends Seeder
         // ke1
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Sunny',
-            'temperature' => 'Hot',
-            'humidity' => 'High',
-            'windy' => 'False',
-            'play' => 'No'
+            'user_id' => $admin,
+            'nama' => 'AMP RJ45 Connector Cat 5E',
+            'pengajuan' => 'pas',
+            'harga' => 'murah',
+            'label' => 'layak',
         ]);
 
         // ke2
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Sunny',
-            'temperature' => 'Hot',
-            'humidity' => 'High',
-            'windy' => 'False',
-            'play' => 'No'
+            'user_id' => $admin,
+            'nama' => 'BELDEN UTP Cable Cat. 5e',
+            'pengajuan' => 'lebih',
+            'harga' => 'mahal',
+            'label' => 'tidak layak'
         ]);
 
         // ke3
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Sunny',
-            'temperature' => 'Hot',
-            'humidity' => 'High',
-            'windy' => 'True',
-            'play' => 'No'
+            'user_id' => $admin,
+            'nama' => 'TP-Link Switch Hub 48port TL-SF1048',
+            'pengajuan' => 'pas',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke4
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Cloudy',
-            'temperature' => 'Hot',
-            'humidity' => 'High',
-            'windy' => 'False',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'AC2300 Wireless MU-MIMO Gigabit Router',
+            'pengajuan' => 'pas',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke5
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Rainy',
-            'temperature' => 'Mild',
-            'humidity' => 'High',
-            'windy' => 'False',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'INTEL Processor Core i3-8100',
+            'pengajuan' => 'lebih',
+            'harga' => 'mahal',
+            'label' => 'tidak layak'
         ]);
 
         // ke6
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Rainy',
-            'temperature' => 'Cool',
-            'humidity' => 'Normal',
-            'windy' => 'False',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'GIGABYTE Motherboard Socket LGA1151 GA-H110M-S2PH',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke7
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Rainy',
-            'temperature' => 'Cool',
-            'humidity' => 'Normal',
-            'windy' => 'True',
-            'play' => 'No'
+            'user_id' => $admin,
+            'nama' => 'V-GEN Tsunami DDR4 16GB PC-2666 CL16 1.2V (8GBx2)',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke8
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Cloudy',
-            'temperature' => 'Cool',
-            'humidity' => 'Normal',
-            'windy' => 'True',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'Seagate Barracuda 1TB Chace 64MB SATA 6.0Gb/s 3.5',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke9
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Sunny',
-            'temperature' => 'Mild',
-            'humidity' => 'High',
-            'windy' => 'False',
-            'play' => 'No'
+            'user_id' => $admin,
+            'nama' => 'Asus GT 710 2GB DDR3',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke10
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Sunny',
-            'temperature' => 'Cool',
-            'humidity' => 'Normal',
-            'windy' => 'False',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'CORSAIR VS Series VS550',
+            'pengajuan' => 'lebih',
+            'harga' => 'mahal',
+            'label' => 'tidak layak'
         ]);
 
         // ke11
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Rainy',
-            'temperature' => 'Mild',
-            'humidity' => 'Normal',
-            'windy' => 'False',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'Corsair - Carbide Spec-01 [CC-9011050-WW]',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke12
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Sunny',
-            'temperature' => 'Mild',
-            'humidity' => 'Normal',
-            'windy' => 'True',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'LG Monitor TV LED 22TK420A VGA PC IPS FHD HDMI USB Movie',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke13
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Cloudy',
-            'temperature' => 'Mild',
-            'humidity' => 'High',
-            'windy' => 'True',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'LOGITECH Wireless Combo MK235',
+            'pengajuan' => 'lebih',
+            'harga' => 'murah',
+            'label' => 'layak'
         ]);
 
         // ke14
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Cloudy',
-            'temperature' => 'Hot',
-            'humidity' => 'Normal',
-            'windy' => 'False',
-            'play' => 'Yes'
+            'user_id' => $admin,
+            'nama' => 'ABC (Battery) Battery Alkaline AA LR06 21g',
+            'pengajuan' => 'lebih',
+            'harga' => 'mahal',
+            'label' => 'tidak layak'
         ]);
 
         // ke15
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
-            'outlook' => 'Rainy',
-            'temperature' => 'Mild',
-            'humidity' => 'High',
-            'windy' => 'True',
-            'play' => 'No'
+            'user_id' => $admin,
+            'nama' => 'Router Wireless RB962UiGS-5HacT2HnT (hAP-AC)',
+            'pengajuan' => 'kurang',
+            'harga' => 'murah',
+            'label' => 'tidak layak'
+        ]);
+
+        Prediksi::create([
+            'id' => (string) Uuid::uuid4(),
+            'user_id' => $admin,
+            'nama' => 'Data Uji',
+            'pengajuan' => 'lebih',
+            'harga' => 'mahal',
+            'label' => 'tidak layak',
+            'jml_pengajuan' => 2000,
+            'jml_matkul' => 2,
+            'jml_siswa' => 35,
+            'jml_kelas' => 2,
+            'harga_barang' => 70000,
+            'harga_termurah' => 10000,
+            'harga_termahal' => 100000,
         ]);
     }
 }

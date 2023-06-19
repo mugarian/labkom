@@ -50,6 +50,18 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah">Jumlah Bahan</label>
+                                <input type="number" class="form-control @error('jumlah') is-invalid @enderror"
+                                    id="jumlah" placeholder="Kode bahan" value="{{ old('jumlah') }}" min="0"
+                                    name="jumlah" required />
+                                @error('jumlah')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
                             <div class="mb-4">
                                 <label class="form-label" for="jenis">Jenis peminjaman bahan (jurusan MI)</label>
                                 <input type="text" class="form-control @error('jenis') is-invalid @enderror"

@@ -1,69 +1,24 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/alat" class="text-secondary">Data Alat</a> /
-            </span> Tambah Data Alat</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/prediksi" class="text-secondary">Data
+                    prediksi</a> /
+            </span> Tambah Data prediksi</h4>
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Alat</h5>
-                        <small class="text-muted float-end"><a href="/alat">
+                        <h5 class="mb-0">prediksi</h5>
+                        <small class="text-muted float-end"><a href="/prediksi">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/alat" method="POST" enctype="multipart/form-data">
+                        <form action="/prediksi" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="foto">Foto Alat</label>
-                                <div class="">
-                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                            class="d-block rounded img-preview" height="100" width="100"
-                                            id="uploadedAvatar" />
-                                        <div class="button-wrapper">
-                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                                                <span class="d-none d-sm-block">
-                                                    Unggah Foto
-                                                </span>
-                                                <i class="bx bx-upload d-block d-sm-none"></i>
-                                                <input type="file" id="upload" name="upload"
-                                                    class="account-file-input @error('upload') is-invalid @enderror" hidden
-                                                    accept="image/png, image/jpeg" onchange="previewImage()" />
-                                                @error('upload')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </label>
-
-                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="kategori">Kategori</label>
-                                <select id="organization"
-                                    class="select2 form-select @error('kategori') is-invalid @enderror" name="kategori">
-                                    <option value="">Pilih Alat</option>
-                                    <option value="pc" @selected(old('kategori') == 'pc')>
-                                        PC
-                                    </option>
-                                    <option value="non-pc" @selected(old('kategori') == 'non-pc')>
-                                        Non-PC
-                                    </option>
-                                </select>
-                                @error('kategori')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="nama">Nama</label>
+                                <label class="form-label" for="nama">Nama Barang</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" placeholder="Nama" value="{{ old('nama') }}" name="nama" required />
                                 @error('nama')
@@ -73,39 +28,84 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="merk">Merk</label>
-                                <input type="text" class="form-control @error('merk') is-invalid @enderror"
-                                    id="merk" placeholder="Merk" value="{{ old('merk') }}" name="merk" required />
-                                @error('merk')
+                                <label class="form-label" for="jml_pengajuan">Jumlah Pengajuan (satuan)</label>
+                                <input type="number" class="form-control @error('jml_pengajuan') is-invalid @enderror"
+                                    id="jml_pengajuan" placeholder="Jumlah Pengadaan" value="{{ old('jml_pengajuan') }}"
+                                    min="0" name="jml_pengajuan" required />
+                                @error('jml_pengajuan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="spesifikasi">Spesifikasi</label>
-                                <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" placeholder="Spesifikasi"
-                                    name="spesifikasi" required>{{ old('spesifikasi') }} </textarea>
-                                @error('spesifikasi')
+                                <label class="form-label" for="jml_matkul">Jumlah Matkul</label>
+                                <input type="number" class="form-control @error('jml_matkul') is-invalid @enderror"
+                                    id="jml_matkul" placeholder="Jumlah Matkul" value="{{ old('jml_matkul') }}"
+                                    min="0" name="jml_matkul" required />
+                                @error('jml_matkul')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="tahun">tahun</label>
-                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
-                                    id="tahun" placeholder="tahun" value="{{ old('tahun', date('Y')) }}" name="tahun"
-                                    min="0" required />
-                                @error('tahun')
+                                <label class="form-label" for="jml_siswa">Jumlah Siswa per kelas</label>
+                                <input type="number" class="form-control @error('jml_siswa') is-invalid @enderror"
+                                    id="jml_siswa" placeholder="Jumlah Matkul" value="{{ old('jml_siswa') }}" min="0"
+                                    name="jml_siswa" required />
+                                @error('jml_siswa')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <label class="form-label" for="jml_kelas">Jumlah kelas</label>
+                                <input type="number" class="form-control @error('jml_kelas') is-invalid @enderror"
+                                    id="jml_kelas" placeholder="Jumlah Matkul" value="{{ old('jml_kelas') }}" min="0"
+                                    name="jml_kelas" required />
+                                @error('jml_kelas')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="harga_barang">Harga Barang</label>
+                                <input type="number" class="form-control @error('harga_barang') is-invalid @enderror"
+                                    id="harga_barang" placeholder="harga_barang" name="harga_barang"
+                                    value="{{ old('harga_barang') }}" required />
+                                @error('harga_barang')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="harga_termurah">Harga Barang Termurah</label>
+                                <input type="number" class="form-control @error('harga_termurah') is-invalid @enderror"
+                                    id="harga_termurah" placeholder="hargatermurah" name="harga_termurah"
+                                    value="{{ old('harga_termurah') }}" required />
+                                @error('harga_termurah')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="harga_termahal">Harga Barang Termahal</label>
+                                <input type="number" class="form-control @error('harga_termahal') is-invalid @enderror"
+                                    id="harga_termahal" placeholder="harga termahal" name="harga_termahal"
+                                    value="{{ old('harga_termahal') }}" required />
+                                @error('harga_termahal')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Tambah</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
@@ -149,8 +149,8 @@
         <div class="card-body">
             <div class="mb-3 col-12 mb-0">
                 <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">Penambahan Data alat</h6>
-                    <p class="mb-0">Ketika Form Tambah Data alat ditambahkan,<br />
+                    <h6 class="alert-heading fw-bold mb-1">Penambahan Data prediksi</h6>
+                    <p class="mb-0">Ketika Form Tambah Data prediksi ditambahkan,<br />
                         Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
                         Dan Langsung Disambungkan sesuai kode qr yang tertera
                     </p>

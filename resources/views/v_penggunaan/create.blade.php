@@ -19,16 +19,6 @@
                         <form action="/penggunaan" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <div class="alert alert-primary">
-                                    <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
-                                        dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
-                                        disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
-                                        yang tertera pada barang untuk pengisian kode barang secara otomatis
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="bahanpraktikum_id">Kode Bahan</label>
                                 <input type="text" class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
@@ -46,6 +36,17 @@
                                     id="kegiatan_id" placeholder="Kode Kegiatan" value="{{ old('kegiatan_id') }}"
                                     name="kegiatan_id" required />
                                 @error('kegiatan_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="deskripsi">Deskripsi</label>
+                                <textarea id="deskripsi" class="form-control @error('deskripsi')
+                                is-invalid @enderror"
+                                    placeholder="deskripsi" name="deskripsi" required>{{ old('deskripsi') }}</textarea>
+                                @error('deskripsi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -78,9 +79,11 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="alert alert-primary">
-                            <h6 class="alert-heading fw-bold mb-1">Status Kegiatan</h6>
-                            <p class="mb-0">
-                                Penggunaan bahan bisa dilakukan ketika status sudah disetujui oleh Kepala Lab
+                            <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
+                            <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
+                                dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
+                                disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
+                                yang tertera pada barang untuk pengisian kode barang secara otomatis
                             </p>
                         </div>
                     </div>

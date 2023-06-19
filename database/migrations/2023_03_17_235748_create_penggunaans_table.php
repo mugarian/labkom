@@ -18,8 +18,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('kegiatan_id')->references('id')->on('kegiatans');
             $table->foreignUuid('bahanpraktikum_id')->references('id')->on('bahan_praktikums');
-            $table->text('keterangan')->nullable();
-            $table->enum('status', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
+            $table->text('deskripsi')->nullable();
             $table->integer('jumlah');
             $table->timestamp('tanggal')->nullable();
             $table->timestamps();

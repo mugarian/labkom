@@ -10,6 +10,7 @@ use App\Models\Mahasiswa;
 use App\Models\Permohonan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermohonanController extends Controller
 {
@@ -62,10 +63,27 @@ class PermohonanController extends Controller
             $dospem = 'false';
         }
 
+        $current_date = date('Y-m-d');
+        $current_datetime = date('Y-m-d H:i:s');
+
+        foreach ($kegiatan as $kg) {
+            if ($current_datetime > $kg->selesai && $kg->status == 'berlangsung') {
+                DB::table('kegiatans')->where('id', $kg->id)->update([
+                    'status' => 'selesai'
+                ]);
+            }
+            if ($current_date > $kg->mulai && $kg->status == 'menunggu') {
+                DB::table('kegiatans')->where('id', $kg->id)->update([
+                    'keterangan' => 'Permohonan Kadaluarsa',
+                    'status' => 'ditolak',
+                ]);
+            }
+        }
+
         $terakhir = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orderBy('mulai', 'desc')->first();
 
         if ($terakhir) {
-            if ($terakhir->status == 'selesai') {
+            if ($terakhir->status == 'selesai' || $terakhir->status == 'ditolak') {
                 $selesai = 1;
             } else {
                 $selesai = 0;
@@ -132,7 +150,16 @@ class PermohonanController extends Controller
             'deskripsi' => 'required',
             'tipe' => 'required',
             'mulai' => 'required',
+            'selesai' => 'required',
         ]);
+
+        $kegiatan = Kegiatan::where('laboratorium_id', $validatedData['laboratorium_id'])->orderBy('mulai', 'desc')->first();
+
+        if ($kegiatan) {
+            if ($kegiatan->status == 'berlangsung') {
+                return redirect('/permohonan')->with('fail', 'Laboratorium Sedang Dipakai');
+            }
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['jenis'] = 'permohonan';

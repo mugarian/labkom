@@ -13,13 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('algoritmas', function (Blueprint $table) {
+        Schema::create('prediksis', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->string('nama');
-            $table->enum('pengajuan', ['lebih', 'pas', 'kurang']);
-            $table->enum('harga', ['mahal', 'murah']);
-            $table->enum('label', ['layak', 'tidak layak']);
+            $table->string('pengajuan');
+            $table->string('harga');
+            $table->string('label');
+            $table->integer('jml_pengajuan');
+            $table->integer('jml_matkul');
+            $table->integer('jml_siswa');
+            $table->integer('jml_kelas');
+            $table->integer('harga_barang');
+            $table->integer('harga_termurah');
+            $table->integer('harga_termahal');
             $table->timestamps();
         });
     }
@@ -31,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('algoritmas');
+        Schema::dropIfExists('prediksis');
     }
 };

@@ -25,6 +25,10 @@
                             <p class="form-control">{{ $bahanpraktikum->kode }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="nama">Lokasi</label>
+                            <p class="form-control">{{ $bahanpraktikum->laboratorium->nama }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="nama">Nama</label>
                             <p class="form-control">{{ $bahanpraktikum->nama }}</p>
                         </div>
@@ -43,6 +47,10 @@
                         <div class="mb-3">
                             <label class="form-label" for="stok">stok</label>
                             <p class="form-control">{{ $bahanpraktikum->stok }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tahun">tahun</label>
+                            <p class="form-control">{{ $bahanpraktikum->tahun }}</p>
                         </div>
                         <div class="mb-3">
                             @if (auth()->user()->role == 'admin')
@@ -96,54 +104,56 @@
             </div>
         </div>
 
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-xl">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Tracking Barang Habis (bahanpraktikum)</h5>
+                        <h5 class="mb-0">Tracking Penggunaan</h5>
                     </div>
                     <div class="card-body pb-2">
                         <div class="table-responsive text-nowrap">
                             <table class="table table-bordered" id="myTable">
                                 <thead>
                                     <tr class="text-center">
-                                        <th>Foto</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Lokasi</th>
-                                        <th>Deskripsi</th>
+                                        <th>#</th>
+                                        <th>Oleh</th>
+                                        <th>Kegiatan</th>
+                                        <th>Jumlah</th>
                                         <th>Keterangan</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr class="text-center">
-                                        <th>Foto</th>
-                                        <th>Kode</th>
-                                        <th>Nama</th>
-                                        <th>Lokasi</th>
-                                        <th>Deskripsi</th>
+                                        <th>#</th>
+                                        <th>Oleh</th>
+                                        <th>Kegiatan</th>
+                                        <th>Jumlah</th>
                                         <th>Keterangan</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </tfoot>
                                 <tbody class="text-center">
-                                    @foreach ($baranghabis as $bh)
+                                    @foreach ($penggunaans as $penggunaan)
                                         <tr>
-                                            <td style="width:10%">
-                                                @if ($bh->foto)
-                                                    <img src="{{ asset('storage') . '/' . $bh->foto }}" alt="bh-avatar"
-                                                        class="d-block rounded img-preview" height="100" width="100"
-                                                        id="uploadedAvatar" />
-                                                @else
-                                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                                        class="d-block rounded img-preview" height="100" width="100"
-                                                        id="uploadedAvatar" />
-                                                @endif
+                                            <td style="width:10%">{{ $loop->iteration }}</td>
+                                            <td>{{ $penggunaan->user->nama }}</td>
+                                            <td class="text-wrap">{{ $penggunaan->kegiatan->nama }}</td>
+                                            <td class="text-wrap">{{ $penggunaan->jumlah }}</td>
+                                            <td class="text-wrap">{{ $penggunaan->keterangan }}</td>
+                                            <td class="text-wrap">{{ $penggunaan->tanggal }}</td>
+                                            <td class="text-wrap">{{ $penggunaan->status }}</td>
+                                            <td>
+                                                <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Lihat"
+                                                    href="/penggunaan/{{ $penggunaan->id }}">
+                                                    <i class="bx bx-info-circle"></i>
+                                                </a>
                                             </td>
-                                            <td>{{ $bh->kode }}</td>
-                                            <td class="text-wrap">{{ $bh->nama }}</td>
-                                            <td class="text-wrap">{{ $bh->laboratorium->nama }}</td>
-                                            <td class="text-wrap">{{ $bh->deskripsi }}</td>
-                                            <td class="text-wrap">{{ $bh->keterangan }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -152,7 +162,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         {{-- <div class="card mt-4">
             <div class="card-header">
