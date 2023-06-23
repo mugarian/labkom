@@ -189,12 +189,20 @@ class DosenController extends Controller
      */
     public function destroy(Dosen $dosen)
     {
-        if ($dosen->foto) {
-            Storage::delete($dosen->foto);
-        }
+        try {
+            if ($dosen->foto) {
+                Storage::delete($dosen->foto);
+            }
 
-        Dosen::destroy($dosen->id);
-        User::destroy($dosen->user->id);
-        return redirect('/dosen')->with('success', 'Data Dosen telah dihapus');
+            $user = User::destroy($dosen->user->id);
+
+            if ($user) {
+                Dosen::destroy($dosen->id);
+            }
+
+            return redirect('/dosen')->with('success', 'Data Dosen telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/dosen')->with('fail', 'Gagal Menghapus Data karena Data Terhubung dengan Data Lain');
+        }
     }
 }

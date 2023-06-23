@@ -1,10 +1,15 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
-            </span>Tambah Data penggunaan
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+            </span>
+            <span class="text-primary">
+                Pengunaan Bahan
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -18,6 +23,16 @@
                     <div class="card-body">
                         <form action="/penggunaan" method="POST">
                             @csrf
+                            <div class="mb-3">
+                                <div class="alert alert-primary">
+                                    <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
+                                    <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
+                                        dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
+                                        disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
+                                        yang tertera pada barang untuk pengisian kode barang secara otomatis
+                                    </p>
+                                </div>
+                            </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="bahanpraktikum_id">Kode Bahan</label>
@@ -64,28 +79,9 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Gunakan</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Perhatian</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="alert alert-primary">
-                            <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                            <p class="mb-0">Masukkan kode barang yang terdapat di laboratorium pada kegiatan yang
-                                dimaksud. Selanjutnya masukan kode kegiatan yang sedang berlangsung atau berstatus
-                                disetujui. Pemakaian Barang bisa dilakukan dengan cara memindai QR Kode
-                                yang tertera pada barang untuk pengisian kode barang secara otomatis
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>

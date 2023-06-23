@@ -1,16 +1,23 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/penggunaan" class="text-secondary">Data Penggunaan</a> /
-            </span> {{ $penggunaan->bahanpraktikum->nama }}</h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+                <a href="/penggunaan" class="text-secondary">Penggunaan Bahan /</a>
+            </span>
+            <span class="text-primary">
+                {{ $penggunaan->bahanpraktikum->nama }}
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Penggunaan</h5>
+                        <h5 class="mb-0">Detail Penggunaan Bahan</h5>
                         <small class="text-muted float-end"><a href="/penggunaan">
                                 < Kembali </a></small>
                     </div>
@@ -40,10 +47,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Barang</h5>
+                        <h5 class="mb-0">Informasi Bahan dan Kegiatan</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -69,9 +78,6 @@
                         <div class="mb-3">
                             <label class="form-label" for="stok">stok Barang</label>
                             <p class="form-control">{{ $penggunaan->bahanpraktikum->stok }}</p>
-                        </div>
-                        <div class="mt-5 mb-3">
-                            <h5 class="mb-0">Kegiatan</h5>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">kode kegiatan</label>

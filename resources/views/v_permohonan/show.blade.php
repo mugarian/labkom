@@ -1,9 +1,17 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/permohonan" class="text-secondary">Data
-                    Permohonan Kegiatan</a>
-                /</span> {{ $permohonan->nama }}</h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Kegiatan /
+                <a href="/permohonan" class="text-secondary">Permohonan Kegiatan /</a>
+            </span>
+            <span class="text-primary">
+                {{ $permohonan->nama }}
+            </span>
+        </h5>
+
 
         {{-- <div class="card mb-4">
             <div class="card-header">
@@ -91,23 +99,6 @@
                         <div class="mb-3">
                             <label class="form-label" for="selesai">Tanggal selesai</label>
                             <p class="form-control">{{ $permohonan->selesai ?? '-' }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Perhatian</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="alert alert-primary">
-                                <h6 class="alert-heading fw-bold mb-1">Status permohonan</h6>
-                                <p class="mb-0">
-                                    Ini Catatan
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>

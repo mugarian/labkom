@@ -2,9 +2,15 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            Data Pemakaian
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+            </span>
+            <span class="text-primary">
+                Pemakaian Alat
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -18,7 +24,7 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola pemakaian</h5>
+                <h5 class="mb-0">Kelola Pemakaian Alat</h5>
                 <div class="d-flex justify-content-end">
                     <small class="text-muted float-end">
                         @if (auth()->user()->role != 'admin')

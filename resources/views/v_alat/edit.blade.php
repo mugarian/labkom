@@ -1,19 +1,24 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">
-                <a href="/alat" class="text-secondary">Data Alat</a> /
-                <a href="/alat/{{ $alat->id }}" class="text-secondary">{{ $alat->nama }}</a> /
-            </span> Ubah Data Alat
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Invetori /
+                <a href="/alat" class="text-secondary">Alat /</a>
+                <a href="/alat/{{ $alat->id }}" class="text-secondary">{{ $alat->nama }} /</a>
+            </span>
+            <span class="text-primary">
+                Ubah
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Alat</h5>
+                        <h5 class="mb-0">Ubah Alat</h5>
                         <small class="text-muted float-end"><a href="/alat">
                                 < Kembali </a></small>
                     </div>
@@ -21,8 +26,7 @@
                         <form action="/alat/{{ $alat->id }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <div class="mb-3">
-                                <label class="form-label" for="foto">Foto Alat</label>
+                            <div class="mb-3 d-flex justify-content-center">
                                 <div class="">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">
                                         @if ($alat->foto)
@@ -125,8 +129,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl">
-            {{-- <div class="card mb-4">
+        {{-- <div class="col-xl">
+            <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Kode QR</h5>
                     </div>
@@ -150,8 +154,8 @@
                             </div>
                         </form>
                     </div>
-                </div> --}}
-        </div>
+                </div>
+        </div> --}}
     </div>
 
     {{-- <div class="card">

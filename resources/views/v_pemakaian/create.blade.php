@@ -1,17 +1,23 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/pemakaian" class="text-secondary">pemakaian</a> /
-            </span>Tambah Data Pemakaian
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+                <a href="/pemakaian" class="text-secondary">Pemakaian Alat /</a>
+            </span>
+            <span class="text-primary">
+                Tambah
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">pemakaian</h5>
+                        <h5 class="mb-0">Tambah Pemakaian Alat</h5>
                         <small class="text-muted float-end"><a href="/pemakaian">
                                 < Kembali </a></small>
                     </div>
@@ -53,14 +59,12 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Pakai</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl">
         </div>
     </div>
 

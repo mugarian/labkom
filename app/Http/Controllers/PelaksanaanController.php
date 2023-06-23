@@ -102,6 +102,11 @@ class PelaksanaanController extends Controller
     public function create()
     {
         $laboratorium = Laboratorium::where('user_id', auth()->user()->id)->first();
+
+        if (!$laboratorium) {
+            return redirect('pelaksanaan')->with('fail', 'Tambah Pelaksanaan Praktikum Hanya Diperuntukkan Bagi Kepala Lab');
+        }
+
         $kelas = Kelas::orderBy('angkatan', 'desc')->get();
         $dospem = Dosen::all();
         return view('v_pelaksanaan.create', [

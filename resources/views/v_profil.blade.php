@@ -1,7 +1,15 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Profil /</span> {{ $user->nama }}</h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Profil /
+            </span>
+            <span class="text-primary">
+                {{ $user->nama }}
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -26,17 +34,19 @@
                         <form action="/akun/{{ $user->id }}" method="POST" enctype="multipart/form-data">
                             @method('put')
                             @csrf
-                            <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                @if ($user->foto)
-                                    <input type="hidden" name="oldImage" value="{{ $user->foto }}">
-                                    <img src="{{ asset('storage') . '/' . $user->foto }}" alt="user-avatar"
-                                        class="d-block rounded img-preview" height="100" width="100"
-                                        id="uploadedAvatar" />
-                                @else
-                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                        class="d-block rounded img-preview" height="100" width="100"
-                                        id="uploadedAvatar" />
-                                @endif
+                            <div class="d-flex justify-content-between align-items-start align-items-sm-center gap-4">
+                                <div class="">
+                                    @if ($user->foto)
+                                        <input type="hidden" name="oldImage" value="{{ $user->foto }}">
+                                        <img src="{{ asset('storage') . '/' . $user->foto }}" alt="user-avatar"
+                                            class="d-block rounded img-preview" height="100" width="100"
+                                            id="uploadedAvatar" />
+                                    @else
+                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                            class="d-block rounded img-preview" height="100" width="100"
+                                            id="uploadedAvatar" />
+                                    @endif
+                                </div>
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                         <span class="d-none d-sm-block">
@@ -62,6 +72,10 @@
                             <div class="container">
                                 <div class="row align-items-start">
                                     <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <h5 class="mt-3">Informasi Profil</h5>
+                                            {{-- <small class="">&nbsp;</small> --}}
+                                        </div>
                                         <div class="mb-3">
                                             <label for="nama" class="form-label">Nama</label>
                                             <input class="form-control @error('nama') is-invalid @enderror" type="text"
@@ -154,10 +168,6 @@
                                                 @enderror
                                             </div>
                                         @endif
-
-                                    </div>
-
-                                    <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="password">Email</label>
                                             <input type="email"
@@ -170,7 +180,11 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <div class="mb-3 mt-5">
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
                                             <h5 class="mb-0">Ubah Password</h5>
                                             <small>(Kosongkan jika tidak mengubah password)</small>
                                         </div>

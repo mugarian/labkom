@@ -2,8 +2,15 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Data Peminjaman Alat
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+            </span>
+            <span class="text-primary">
+                Peminjaman Alat
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -80,10 +87,9 @@
                                                     href="/peminjamanalat/{{ $peminjamanalat->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
                                                 @if ($peminjamanalat->status == 'menunggu')
-                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}"
+                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status"
                                                         method="post">
                                                         @csrf
-                                                        @method('PUT')
                                                         <input type="hidden" name="status" value="disetujui">
                                                         <button type="submit" class="btn btn-outline-primary p-1"
                                                             data-bs-toggle="tooltip" data-bs-placement="top"
@@ -98,10 +104,9 @@
                                                     </a>
                                                 @endif
                                                 @if ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui')
-                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}"
+                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status"
                                                         method="post">
                                                         @csrf
-                                                        @method('PUT')
                                                         <input type="hidden" name="status" value="selesai">
                                                         <input type="hidden" name="tgl_kembali"
                                                             value="{{ Date('Y-m-d H:i:s') }}">
@@ -131,10 +136,9 @@
                                                     <i class="bx bx-info-circle"></i>
                                                 </a>
                                                 @if ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui')
-                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}"
+                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status"
                                                         method="post">
                                                         @csrf
-                                                        @method('PUT')
                                                         <input type="hidden" name="status" value="selesai">
                                                         <input type="hidden" name="tgl_kembali"
                                                             value="{{ Date('Y-m-d H:i:s') }}">

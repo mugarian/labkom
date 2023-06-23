@@ -36,7 +36,7 @@ class PermohonanController extends Controller
                     // ? sort by kelas wali dosen
 
                     $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
-                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->get();
+                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orderBy('mulai', 'desc')->get();
                     $jabatan = 'kalab';
                     $pengampu = Kegiatan::where('jenis', 'permohonan')->where('dospem_id', $dosen->id)->get();
                     if ($pengampu) {

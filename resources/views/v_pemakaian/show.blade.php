@@ -1,16 +1,23 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/pemakaian" class="text-secondary">Data Pemakaian</a> /
-            </span> {{ $pemakaian->barangpakai->nama }}</h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+                <a href="/pemakaian" class="text-secondary">Pemakaian Alat /</a>
+            </span>
+            <span class="text-primary">
+                {{ $pemakaian->barangpakai->nama }}
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">pemakaian</h5>
+                        <h5 class="mb-0">Detail Pemakaian Alat</h5>
                         <small class="text-muted float-end"><a href="/pemakaian">
                                 < Kembali </a></small>
                     </div>
@@ -48,10 +55,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Barang</h5>
+                        <h5 class="mb-0">Informasi Alat dan Kegiatan</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -73,9 +82,6 @@
                         <div class="mb-3">
                             <label class="form-label" for="nama">nama barangpakai</label>
                             <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
-                        </div>
-                        <div class="mt-5 mb-3">
-                            <h5 class="mb-0">Kegiatan</h5>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">kode kegiatan</label>

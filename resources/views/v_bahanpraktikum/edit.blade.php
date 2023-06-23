@@ -1,19 +1,24 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">
-                <a href="/bahanpraktikum" class="text-secondary">Bahan Praktikum</a> /
-                <a href="/bahanpraktikum/{{ $bahanpraktikum->id }}" class="text-secondary">{{ $bahanpraktikum->nama }}</a> /
-            </span> Ubah Data Bahan Praktikum
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Invetori /
+                <a href="/bahanpraktikum" class="text-secondary">Bahan Praktikum /</a>
+                <a href="/bahanpraktikum/{{ $bahanpraktikum->id }}" class="text-secondary">{{ $bahanpraktikum->nama }} /</a>
+            </span>
+            <span class="text-primary">
+                Ubah
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Bahan Praktikum</h5>
+                        <h5 class="mb-0">Ubah Bahan Praktikum</h5>
                         <small class="text-muted float-end"><a href="/bahanpraktikum">
                                 < Kembali </a></small>
                     </div>
@@ -23,8 +28,7 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label class="form-label" for="foto">Foto Bahan Praktikum</label>
-                                <div class="">
+                                <div class="d-flex justify-content-center">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">
                                         @if ($bahanpraktikum->foto)
                                             <input type="hidden" name="oldImage" value="{{ $bahanpraktikum->foto }}">
@@ -71,7 +75,18 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="laboratorium_id">Laboratorium</label>
+                                <label class="form-label" for="kode">kode barang</label>
+                                <input type="text" class="form-control @error('kode') is-invalid @enderror"
+                                    id="kode" placeholder="kode" value="{{ old('kode', $bahanpraktikum->kode) }}"
+                                    name="kode" required />
+                                @error('kode')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="laboratorium_id">Lokasi</label>
                                 <select id="organization"
                                     class="select2 form-select @error('laboratorium_id') is-invalid @enderror"
                                     name="laboratorium_id">
@@ -91,18 +106,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="kode">kode</label>
-                                <input type="text" class="form-control @error('kode') is-invalid @enderror"
-                                    id="kode" placeholder="kode" value="{{ old('kode', $bahanpraktikum->kode) }}"
-                                    name="kode" required />
-                                @error('kode')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="nama">Nama</label>
+                                <label class="form-label" for="nama">Nama barang</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" placeholder="Nama" value="{{ old('nama', $bahanpraktikum->nama) }}"
                                     name="nama" required />
@@ -175,8 +179,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl">
-            {{-- <div class="card mb-4">
+        {{-- <div class="col-xl">
+            <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Kode QR</h5>
                     </div>
@@ -200,8 +204,8 @@
                             </div>
                         </form>
                     </div>
-                </div> --}}
-        </div>
+                </div>
+        </div> --}}
     </div>
 
     {{-- <div class="card">

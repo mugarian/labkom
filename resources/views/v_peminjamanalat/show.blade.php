@@ -1,16 +1,22 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/peminjamanalat" class="text-secondary">Data Peminjaman Alat</a> /
-            </span> {{ $peminjamanalat->barangpakai->nama }}</h4>
-
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+                <a href="/peminjamanalat" class="text-secondary">Peminjaman Alat /</a>
+            </span>
+            <span class="text-primary">
+                {{ $peminjamanalat->barangpakai->nama }}
+            </span>
+        </h5>
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Peminjaman Alat</h5>
+                        <h5 class="mb-0">Detail Peminjaman Alat</h5>
                         <small class="text-muted float-end"><a href="/peminjamanalat">
                                 < Kembali </a></small>
                     </div>
@@ -53,6 +59,24 @@
                             <label class="form-label" for="tanggal">Tanggal Pengembalian</label>
                             <p class="form-control">{{ $peminjamanalat->tgl_kembali ?? '-' }}</p>
                         </div>
+                        @if ($peminjamanalat->barangpakai->alat->kategori == 'pc')
+                            <div class="mb-3">
+                                <label class="form-label" for="cpu">CPU</label>
+                                <p class="form-control">{{ $peminjamanalat->cpu ?? '-' }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="monitor">Monitor</label>
+                                <p class="form-control">{{ $peminjamanalat->monitor ?? '-' }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="keyboard">Keyboard</label>
+                                <p class="form-control">{{ $peminjamanalat->keyboard ?? '-' }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="mouse">Mouse</label>
+                                <p class="form-control">{{ $peminjamanalat->mouse ?? '-' }}</p>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label class="form-label" for="kondisi">kondisi</label>
                             <p class="form-control">
@@ -62,10 +86,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Barang Pakai</h5>
+                        <h5 class="mb-0">Informasi Barang Pakai</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">

@@ -79,11 +79,13 @@ Route::middleware('auth')->group(function () {
     Route::get('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'ditolak']);
     Route::post('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'updateDitolak']);
     Route::get('peminjamanalat/{id}/pinjam', [PeminjamanAlatController::class, 'pinjam']);
+    Route::post('peminjamanalat/{id}/status', [PeminjamanAlatController::class, 'status']);
     Route::resource('peminjamanalat', PeminjamanAlatController::class);
 
     Route::get('peminjamanbahan/{id}/ditolak', [PeminjamanBahanController::class, 'ditolak']);
     Route::post('peminjamanbahan/{id}/ditolak', [PeminjamanBahanController::class, 'updateDitolak']);
     Route::get('peminjamanbahan/{id}/pinjam', [PeminjamanBahanController::class, 'pinjam']);
+    Route::post('peminjamanbahan/{id}/status', [PeminjamanBahanController::class, 'status']);
     Route::resource('peminjamanbahan', PeminjamanBahanController::class);
 
     Route::get('/scan', [ScanController::class, 'index']);
@@ -92,7 +94,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::resource('/baranghabis', barangHabisController::class);
 
-    // Route::get('/barangpakai/create/{id}', [BarangPakaiController::class, 'tambah'])->middleware('dosen');
+    Route::get('/barangpakai/create/{id}', [BarangPakaiController::class, 'tambah']);
     // Route::resource('/barangpakai', BarangPakaiController::class);
     // Route::get('/baranghabis/create/{id}', [BarangHabisController::class, 'create'])->middleware('dosen');
     // Route::resource('/baranghabis', BarangHabisController::class);

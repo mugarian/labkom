@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignUuid('laboratorium_id')->references('id')->on('laboratorium');
             $table->foreignUuid('bahanpraktikum_id')->references('id')->on('bahan_praktikums');
             $table->string('kode')->unique();
+            $table->string('nama')->nullable();
+            $table->string('foto')->nullable();
             $table->integer('stok');
             $table->timestamps();
         });

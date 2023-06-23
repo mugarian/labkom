@@ -173,12 +173,16 @@ class BahanPraktikumController extends Controller
     public function destroy($id)
     {
         $bahanpraktikum = BahanPraktikum::find($id);
-        if ($bahanpraktikum->foto) {
-            Storage::delete($bahanpraktikum->foto);
+        try {
+            if ($bahanpraktikum->foto) {
+                Storage::delete($bahanpraktikum->foto);
+            }
+
+            BahanPraktikum::destroy($bahanpraktikum->id);
+
+            return redirect('/bahanpraktikum')->with('success', 'Data Bahan Praktikum Berhasil Dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/bahanpraktikum')->with('fail', 'Gagal Menghapus Data karena Data terhubung dengan Data Lain');
         }
-
-        BahanPraktikum::destroy($bahanpraktikum->id);
-
-        return redirect('/bahanpraktikum')->with('success', 'Data Bahan Praktikum Berhasil Dihapus');
     }
 }

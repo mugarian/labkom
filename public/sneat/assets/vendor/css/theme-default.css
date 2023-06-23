@@ -133,7 +133,7 @@ a.bg-primary:hover, a.bg-primary:focus {
 .pagination li.active > a:not(.page-link):hover,
 .pagination li.active > a:not(.page-link):focus {
   border-color: #696cff;
-  background-color: #696cff;
+  background-color: #00147A;
   color: #fff;
   box-shadow: 0 0.125rem 0.25rem rgba(105, 108, 255, 0.4);
 }
@@ -207,8 +207,8 @@ button.list-group-item-primary.active {
 
 .btn-primary {
   color: #fff;
-  background-color: #696cff;
-  border-color: #696cff;
+  background-color: #00147A;
+  border-color: #00147A;
   box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
 .btn-primary:hover {
@@ -748,8 +748,9 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item .menu-lin
   color: #696cff;
 }
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
-  color: #696cff;
-  background-color: rgba(105, 108, 255, 0.16) !important;
+  color: #ffffff;
+  /* background-color: rgba(105, 108, 255, 0.16) !important; */
+  background-color: rgba(0, 20, 122, 1) !important;
 }
 .bg-menu-theme .menu-inner > .menu-item.active:before {
   background: #696cff;

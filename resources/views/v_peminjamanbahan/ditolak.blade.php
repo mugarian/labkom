@@ -1,12 +1,17 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/peminjamanbahan" class="text-secondary">Data Peminjaman Bahan</a> /
-                <a href="/peminjamanbahan/{{ $peminjamanbahan->id }}"
-                    class="text-secondary">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}</a> /
-            </span> Menolak peminjaman bahan
-        </h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Akun /
+                <a href="/mahasiswa" class="text-secondary">Mahasiswa /</a>
+                <a href="/mahasiswa/{{ $mahasiwa->id }}" class="text-secondary">Mahasiswa /</a>
+            </span>
+            <span class="text-primary">
+                {{ $mahasiswa->user->nama }}
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">

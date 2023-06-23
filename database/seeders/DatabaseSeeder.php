@@ -502,11 +502,10 @@ class DatabaseSeeder extends Seeder
             'id' => $bajurJaringan,
             'laboratorium_id' => $labJaringan,
             'bahanpraktikum_id' => $baprakJaringan,
+            'nama' => 'Prosessor Intel i9',
             'kode' => Str::random(8),
             'stok' => 3,
         ]);
-
-
 
         /**
          * BarangPakaiSeeder
@@ -823,19 +822,21 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'AMP RJ45 Connector Cat 5E',
-            'pengajuan' => 'pas',
+            'nama' => 'RJ45 Connector',
+            'pengajuan' => 'sesuai',
             'harga' => 'murah',
-            'label' => 'layak',
+            'jenis_bahan' => 'habis',
+            'label' => 'layak'
         ]);
 
         // ke2
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'BELDEN UTP Cable Cat. 5e',
-            'pengajuan' => 'lebih',
+            'nama' => 'UTP Cable',
+            'pengajuan' => 'melebihi',
             'harga' => 'mahal',
+            'jenis_bahan' => 'habis',
             'label' => 'tidak layak'
         ]);
 
@@ -843,9 +844,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'TP-Link Switch Hub 48port TL-SF1048',
-            'pengajuan' => 'pas',
+            'nama' => 'Unmanaged Switch',
+            'pengajuan' => 'sesuai',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -853,9 +855,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'AC2300 Wireless MU-MIMO Gigabit Router',
-            'pengajuan' => 'pas',
+            'nama' => 'Access Point',
+            'pengajuan' => 'sesuai',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -863,9 +866,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'INTEL Processor Core i3-8100',
-            'pengajuan' => 'lebih',
+            'nama' => 'Processor',
+            'pengajuan' => 'melebihi',
             'harga' => 'mahal',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'tidak layak'
         ]);
 
@@ -873,9 +877,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'GIGABYTE Motherboard Socket LGA1151 GA-H110M-S2PH',
-            'pengajuan' => 'lebih',
+            'nama' => 'Motherboard',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -883,9 +888,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'V-GEN Tsunami DDR4 16GB PC-2666 CL16 1.2V (8GBx2)',
-            'pengajuan' => 'lebih',
+            'nama' => 'RAM',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -893,9 +899,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'Seagate Barracuda 1TB Chace 64MB SATA 6.0Gb/s 3.5',
-            'pengajuan' => 'lebih',
+            'nama' => 'HDD',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -903,9 +910,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'Asus GT 710 2GB DDR3',
-            'pengajuan' => 'lebih',
+            'nama' => 'VGA',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -913,9 +921,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'CORSAIR VS Series VS550',
-            'pengajuan' => 'lebih',
+            'nama' => 'Power Supply',
+            'pengajuan' => 'melebihi',
             'harga' => 'mahal',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'tidak layak'
         ]);
 
@@ -923,9 +932,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'Corsair - Carbide Spec-01 [CC-9011050-WW]',
-            'pengajuan' => 'lebih',
+            'nama' => 'Casing',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -933,9 +943,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'LG Monitor TV LED 22TK420A VGA PC IPS FHD HDMI USB Movie',
-            'pengajuan' => 'lebih',
+            'nama' => 'Monitor',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -943,9 +954,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'LOGITECH Wireless Combo MK235',
-            'pengajuan' => 'lebih',
+            'nama' => 'Mouse & Keyboard',
+            'pengajuan' => 'melebihi',
             'harga' => 'murah',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'layak'
         ]);
 
@@ -953,9 +965,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'ABC (Battery) Battery Alkaline AA LR06 21g',
-            'pengajuan' => 'lebih',
+            'nama' => 'Battery',
+            'pengajuan' => 'melebihi',
             'harga' => 'mahal',
+            'jenis_bahan' => 'habis',
             'label' => 'tidak layak'
         ]);
 
@@ -963,9 +976,10 @@ class DatabaseSeeder extends Seeder
         Algoritma::create([
             'id' => (string) Uuid::uuid4(),
             'user_id' => $admin,
-            'nama' => 'Router Wireless RB962UiGS-5HacT2HnT (hAP-AC)',
+            'nama' => 'Mikrotik',
             'pengajuan' => 'kurang',
             'harga' => 'murah',
+            'harga' => 'tidak habis',
             'label' => 'tidak layak'
         ]);
 

@@ -1,17 +1,22 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><a href="/bahanjurusan" class="text-secondary">Data
-                    Bahan jurusan</a>
-                /
-            </span> {{ $bahanjurusan->bahanpraktikum->nama }}</h4>
-
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Invetori /
+                <a href="/bahanjurusan" class="text-secondary">Bahan Jurusan /</a>
+            </span>
+            <span class="text-primary">
+                {{ $bahanjurusan->bahanpraktikum->nama }}
+            </span>
+        </h5>
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Bahan jurusan</h5>
+                        <h5 class="mb-0">Detail Bahan jurusan</h5>
                         <small class="text-muted float-end"><a href="/bahanjurusan">
                                 < Kembali </a></small>
                     </div>
@@ -26,9 +31,21 @@
                             </div>
                         </div>
                         <div class="mb-3">
+
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                                @if ($bahanjurusan->foto)
+                                    <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}" alt="bahanjurusan-avatar"
+                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                @else
+                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
+                                        height="200" width="200" id="uploadedAvatar" />
+                                @endif
                                 {{ $qrcode }}
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="nama">Nama Bahan Jurusan</label>
+                            <p class="form-control">{{ $bahanjurusan->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">kode</label>
@@ -47,14 +64,10 @@
                                 <div class="d-flex justify-content-start">
                                     <a href="/bahanjurusan/{{ $bahanjurusan->id }}/edit"
                                         class="btn btn-outline-warning me-3">Edit</a>
-                                    <form action="/bahanjurusan/{{ $bahanjurusan->id }}" method="post">
-                                        @method('delete')
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-danger"
-                                            onclick="if (confirm('Hapus Data')) return true; return false">
-                                            Delete
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal{{ $bahanjurusan->id }}">
+                                        Delete
+                                    </button>
                                 </div>
                             @endif
                             @if (auth()->user()->role != 'admin')
@@ -65,39 +78,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl">
-                <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Bahan Praktikum</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($bahanjurusan->foto)
-                                    <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}" alt="bahanjurusan-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
-                                @else
-                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
-                                        height="200" width="200" id="uploadedAvatar" />
-                                @endif
-                            </div>
+
+            <div class="modal fade" id="exampleModal{{ $bahanjurusan->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama">Nama</label>
-                            <p class="form-control">{{ $bahanjurusan->bahanpraktikum->nama }}</p>
+                        <div class="modal-body text-wrap">
+                            Apakah Anda Yakin Ingin Menghapus Data {{ $bahanjurusan->nama }}?
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="merk">Merk</label>
-                            <p class="form-control">{{ $bahanjurusan->bahanpraktikum->merk }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="spesifikasi">Spesifikasi</label>
-                            <p class="form-control">{{ $bahanjurusan->bahanpraktikum->spesifikasi }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="harga">Harga</label>
-                            <p class="form-control">Rp.
-                                {{ number_format($bahanjurusan->bahanpraktikum->harga, 2, ',', '.') }}</p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                            {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                            <form action="/bahanjurusan/{{ $bahanjurusan->id }}" method="post">
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    Ya
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

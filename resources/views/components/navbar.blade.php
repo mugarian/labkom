@@ -7,7 +7,27 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        <p>{{ auth()->user()->nama }}</p>
+        <b>
+            Selamat Datang
+            @php
+                $user = App\Models\User::find(auth()->user()->id);
+                if ($user->role == 'dosen') {
+                    $dosen = App\Models\Dosen::where('user_id', $user->id)->first();
+                    if ($dosen->kepalalab == 'true') {
+                        $lab = App\Models\Laboratorium::where('user_id', $user->id)->first();
+                        echo 'Kalab di ' . $lab->nama . ' !';
+                    } else {
+                        echo 'Dosen!';
+                    }
+                } elseif ($user->role == 'mahasiswa') {
+                    echo 'Mahasiswa!';
+                } else {
+                    echo 'Admin';
+                }
+            @endphp
+
+        </b>
+
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 

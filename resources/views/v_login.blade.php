@@ -36,14 +36,14 @@
     <script src="{{ asset('sneat') }}/assets/js/config.js"></script>
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-primary" style="background-color: #99A1CA">
     <!-- Content -->
 
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner">
                 <!-- Register -->
-                <div class="card" style="width:500px">
+                <div class="card">
                     <div class="card-body">
                         <h4 class="mb-2">Selamat Datang di Simalakom!</h4>
                         <p class="mb-2">Sistem Informasi Manajamen Laboratorium Komputer</p>

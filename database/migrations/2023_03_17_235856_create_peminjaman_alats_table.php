@@ -18,6 +18,10 @@ return new class extends Migration
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('barangpakai_id')->references('id')->on('barang_pakais');
             $table->text('deskripsi');
+            $table->text('cpu')->nullable();
+            $table->text('monitor')->nullable();
+            $table->text('keyboard')->nullable();
+            $table->text('mouse')->nullable();
             $table->text('kondisi')->nullable();
             $table->text('keterangan')->nullable();
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'selesai'])->default('menunggu');

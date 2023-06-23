@@ -102,6 +102,8 @@ class BahanJurusanController extends Controller
         $bahanjurusan = bahanjurusan::find($id);
         $rules = [
             'laboratorium_id' => 'required',
+            'upload' => 'required',
+            'nama' => 'required',
         ];
 
         if ($request->kode != $bahanjurusan->kode) {
@@ -110,8 +112,14 @@ class BahanJurusanController extends Controller
 
         $validatedData = $request->validate($rules);
 
+        if ($request->file('upload')) {
+            $validatedData['upload'] = $request->file('upload')->store('bahanjurusan-images');
+            $validatedData['foto'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+        }
+
         bahanjurusan::where('id', $bahanjurusan->id)->update($validatedData);
-        return redirect('/bahanjurusan')->with('success', 'Ubah Data Bahan Praktikum Berhasil');
+        return redirect('/bahanjurusan')->with('success', 'Ubah Data Bahan Jurusan Berhasil');
     }
 
     /**
@@ -120,8 +128,17 @@ class BahanJurusanController extends Controller
      * @param  \App\Models\BahanJurusan  $bahanJurusan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BahanJurusan $bahanJurusan)
+    public function destroy($id)
     {
-        //
+        $bahanjurusan = bahanjurusan::find($id);
+        if ($bahanjurusan->foto) {
+            Storage::delete($bahanjurusan->foto);
+        }
+        try {
+            bahanjurusan::destroy($bahanjurusan->id);
+            return redirect('/bahanjurusan')->with('success', 'Data Bahan Jurusan telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/bahanjurusan')->with('fail', 'Gagal Menghapus Data karena Data Terhubung dengan Data Lain');
+        }
     }
 }

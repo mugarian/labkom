@@ -169,11 +169,15 @@ class AlatController extends Controller
      */
     public function destroy(Alat $alat)
     {
-        if ($alat->foto) {
-            Storage::delete($alat->foto);
-        }
+        try {
+            if ($alat->foto) {
+                Storage::delete($alat->foto);
+            }
 
-        Alat::destroy($alat->id);
-        return redirect('/alat')->with('success', 'Data Alat telah dihapus');
+            Alat::destroy($alat->id);
+            return redirect('/alat')->with('success', 'Data Alat telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/alat')->with('fail', 'Gagal Menghapus Data Karena Data Terhubung Dengan Data Lain');
+        }
     }
 }

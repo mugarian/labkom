@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('monitor')->nullable();
             $table->text('keyboard')->nullable();
             $table->text('mouse')->nullable();
+            $table->text('kondisi')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();

@@ -1,10 +1,16 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/peminjamanbahan" class="text-secondary">Data Peminjaman bahan</a> /
-            </span> {{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}</h4>
-
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+                <a href="/peminjamanbahan" class="text-secondary">Peminjaman Bahan /</a>
+            </span>
+            <span class="text-primary">
+                {{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}
+            </span>
+        </h5>
         <!-- Basic Layout -->
         <div class="row">
             <div class="col-xl">
@@ -68,10 +74,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Bahan Jurusan</h5>
+                        <h5 class="mb-0">Informasi Bahan Jurusan</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">

@@ -131,6 +131,8 @@ class PenggunaanController extends Controller
                     BahanJurusan::create([
                         'laboratorium_id' => $bahanpraktikum->laboratorium_id,
                         'bahanpraktikum_id' => $bahanpraktikum->id,
+                        'foto' => $bahanpraktikum->foto,
+                        'nama' => $bahanpraktikum->nama,
                         'stok' => $request->jumlah,
                         'kode' => Str::random(8),
                     ]);

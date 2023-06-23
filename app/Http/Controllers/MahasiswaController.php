@@ -195,12 +195,19 @@ class MahasiswaController extends Controller
      */
     public function destroy(Mahasiswa $mahasiswa)
     {
-        if ($mahasiswa->foto) {
-            Storage::delete($mahasiswa->foto);
-        }
+        try {
+            if ($mahasiswa->foto) {
+                Storage::delete($mahasiswa->foto);
+            }
 
-        mahasiswa::destroy($mahasiswa->id);
-        User::destroy($mahasiswa->user->id);
-        return redirect('/mahasiswa')->with('success', 'Data mahasiswa telah dihapus');
+            $user = User::destroy($mahasiswa->user->id);
+            if ($user) {
+                mahasiswa::destroy($mahasiswa->id);
+            }
+
+            return redirect('/mahasiswa')->with('success', 'Data mahasiswa telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/mahasiswa')->with('fail', 'Gagal Menghapus Data Karena Data Terhubung dengan Data Lain');
+        }
     }
 }

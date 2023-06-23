@@ -128,8 +128,12 @@ class KelasController extends Controller
      */
     public function destroy($id)
     {
-        Kelas::destroy($id);
+        try {
+            Kelas::destroy($id);
 
-        return redirect('/kelas')->with('success', 'Data Kelas telah dihapus');
+            return redirect('/kelas')->with('success', 'Data Kelas telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/kelas')->with('fail', 'Gagal Menghapus Data Karena Data Terhubung dengan Data Lain');
+        }
     }
 }

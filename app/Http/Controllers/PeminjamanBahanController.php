@@ -188,15 +188,9 @@ class PeminjamanBahanController extends Controller
     public function update(Request $request, PeminjamanBahan $peminjamanbahan)
     {
         $bahanjurusan = BahanJurusan::find($peminjamanbahan->bahanjurusan_id);
-        if ($request->status == 'disetujui') {
-            $bahanjurusan->update([
-                'stok' => $bahanjurusan->stok - $peminjamanbahan->jumlah
-            ]);
-        } elseif ($request->status == 'selesai') {
-            $bahanjurusan->update([
-                'stok' => $bahanjurusan->stok + $peminjamanbahan->jumlah
-            ]);
-        }
+        $bahanjurusan->update([
+            'stok' => $bahanjurusan->stok + $peminjamanbahan->jumlah
+        ]);
 
         $peminjamanbahan->update([
             'status' => $request->status,
@@ -263,5 +257,21 @@ class PeminjamanBahanController extends Controller
             'bahanjurusan' => $bahanjurusan,
             'jenis' => $jenis
         ]);
+    }
+
+    public function status(Request $request, $id)
+    {
+        $peminjamanbahan = peminjamanbahan::find($id);
+        $bahanjurusan = BahanJurusan::find($peminjamanbahan->bahanjurusan_id);
+        $bahanjurusan->update([
+            'stok' => $bahanjurusan->stok - $peminjamanbahan->jumlah
+        ]);
+        $peminjamanbahan->update([
+            'status' => $request->status,
+            'tgl_kembali' => $request->tgl_kembali ?? null,
+            'updated_at' => Date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect('/peminjamanbahan')->with('success', 'Data peminjaman bahan telah ' . $request->status);
     }
 }

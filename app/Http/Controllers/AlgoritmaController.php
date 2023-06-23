@@ -117,9 +117,13 @@ class AlgoritmaController extends Controller
      */
     public function destroy($id)
     {
-        Algoritma::destroy($id);
+        try {
+            Algoritma::destroy($id);
 
-        return redirect('/training')->with('success', 'Data training telah dihapus');
+            return redirect('/training')->with('success', 'Data training telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/training')->with('fail', 'Gagal Menghapus Data Karena Data Terhubung dengan Data Lain');
+        }
     }
 
     public function rule()
@@ -133,13 +137,16 @@ class AlgoritmaController extends Controller
             $atts[$count++] = array(
                 "pengajuan" => $training->pengajuan,
                 "harga" => $training->harga,
+                "jenis_bahan" => $training->jenis_bahan,
                 "label" => $training->label,
             );
         }
 
+        return dd($atts);
+
         // Initialize Data
         $input->setData($atts); // Set data from array
-        $input->setAttributes(array('harga', 'pengajuan', 'label')); // Set attributes of data
+        $input->setAttributes(array('pengajuan', 'harga', 'jenis_bahan', 'label')); // Set attributes of data
 
         // Initialize C4.5
         $c45->c45 = $input; // Set input data
@@ -158,6 +165,7 @@ class AlgoritmaController extends Controller
 
         $rule = $c45->initialize()->buildTree()->toString();
 
+        return dd($rule);
         return view('v_algoritma.rule', [
             'title' => 'Hasil Rule',
             'rule' => $rule

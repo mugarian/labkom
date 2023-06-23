@@ -5,8 +5,9 @@
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
                 Logbook /
-                <a href="/pemakaian" class="text-secondary">Pemakaian Alat /</a>
-                <a href="/pemakaian/{{ $pemakaian->id }}" class="text-secondary">{{ $pemakaian->barangpakai->nama }} /</a>
+                <a href="/peminjamanalat" class="text-secondary">Peminjaman Alat /</a>
+                <a href="/peminjamanalat/{{ $peminjamanalat->id }}"
+                    class="text-secondary">{{ $peminjamanalat->barangpakai->nama }} /</a>
             </span>
             <span class="text-primary">
                 Cek Kondisi
@@ -18,19 +19,19 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Kondisi Pemakaian Alat</h5>
-                        <small class="text-muted float-end"><a href="/pemakaian">
+                        <h5 class="mb-0">Kondisi Peminjaman Alat</h5>
+                        <small class="text-muted float-end"><a href="/peminjamanalat">
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/pemakaian/{{ $pemakaian->id }}" method="POST">
+                        <form action="/peminjamanalat/{{ $peminjamanalat->id }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Untuk menyelesaikan peakaian barang laboratorium, silahkan isi kolom
-                                        kolom berikut untuk mengetahui kondisi layak pakai barangpakai
+                                    <p class="mb-0">Untuk menyelesaikan Peminjaman barang laboratorium, silahkan isi kolom
+                                        kolom berikut untuk mengetahui kondisi layak pakai barang pakai
                                     </p>
                                 </div>
                             </div>
@@ -38,8 +39,8 @@
                                 <label class="form-label" for="barangpakai_id">Kode barangpakai</label>
                                 <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
                                     id="barangpakai_id" placeholder="barangpakai_id"
-                                    value="{{ old('barangpakai_id', $pemakaian->barangpakai->kode) }}" name="barangpakai_id"
-                                    required readonly />
+                                    value="{{ old('barangpakai_id', $peminjamanalat->barangpakai->kode) }}"
+                                    name="barangpakai_id" required readonly />
                                 @error('barangpakai_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -47,40 +48,30 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
-                                <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
-                                    id="kegiatan_id" placeholder="kode kegiatan"
-                                    value="{{ old('kegiatan_id', $pemakaian->kegiatan->kode) }}" name="kegiatan_id" required
+                                <label class="form-label" for="deksripsi">Deskripsi</label>
+                                <input type="text" class="form-control @error('deksripsi') is-invalid @enderror"
+                                    id="deksripsi" placeholder="kode kegiatan"
+                                    value="{{ old('deksripsi', $peminjamanalat->deskripsi) }}" name="deksripsi" required
                                     readonly />
-                                @error('kegiatan_id')
+                                @error('deksripsi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="mulai">Mulai Kegiatan</label>
-                                <input type="text" class="form-control @error('mulai') is-invalid @enderror"
-                                    id="mulai" placeholder="kode kegiatan" value="{{ old('mulai', $pemakaian->mulai) }}"
-                                    name="mulai" required readonly />
-                                @error('mulai')
+                                <label class="form-label" for="tgl_pinjam">Tanggal peminjaman</label>
+                                <input type="text" class="form-control @error('tgl_pinjam') is-invalid @enderror"
+                                    id="tgl_pinjam" placeholder="kode kegiatan"
+                                    value="{{ old('tgl_pinjam', $peminjamanalat->tgl_pinjam) }}" name="tgl_pinjam" required
+                                    readonly />
+                                @error('tgl_pinjam')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="selesai">Selesai Kegiatan</label>
-                                <input type="text" class="form-control @error('selesai') is-invalid @enderror"
-                                    id="selesai" placeholder="kode kegiatan"
-                                    value="{{ old('selesai', $pemakaian->selesai) }}" name="selesai" required readonly />
-                                @error('selesai')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            @if ($pemakaian->barangpakai->alat->kategori == 'pc')
+                            @if ($peminjamanalat->barangpakai->alat->kategori == 'pc')
                                 <div class="mb-3">
                                     <label class="form-label" for="cpu">CPU</label>
                                     <select id="organization" class="select2 form-select @error('cpu') is-invalid @enderror"
@@ -155,12 +146,11 @@
                                 </div>
                             @endif
                             <div class="mb-4">
-                                <label class="form-label" for="keterangan">Keterangan</label>
-                                <textarea id="keterangan"
-                                    class="form-control @error('keterangan')
+                                <label class="form-label" for="kondisi">Kondisi Keterangan</label>
+                                <textarea id="kondisi" class="form-control @error('kondisi')
                                 is-invalid @enderror"
-                                    placeholder="keterangan" name="keterangan" required>{{ old('keterangan') }}</textarea>
-                                @error('keterangan')
+                                    placeholder="kondisi" name="kondisi" required>{{ old('kondisi') }}</textarea>
+                                @error('kondisi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -183,9 +173,10 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                                @if ($pemakaian->barangpakai->foto)
-                                    <img src="{{ asset('storage') . '/' . $pemakaian->foto }}" alt="pemakaian-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                @if ($peminjamanalat->barangpakai->foto)
+                                    <img src="{{ asset('storage') . '/' . $peminjamanalat->foto }}"
+                                        alt="peminjamanalat-avatar" class="d-block rounded" height="200"
+                                        width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />
@@ -194,35 +185,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kode">Kode barangpakai</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->kode }}</p>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->kode }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nama">nama barangpakai</label>
-                            <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="kode">kode kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->kode }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="jenis">jenis kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->jenis }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama">Oleh</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->user->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama">nama kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->nama }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="deskripsi">deskripsi kegiatan</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->deskripsi }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="tanggal">Tanggal Mulai</label>
-                            <p class="form-control">{{ $pemakaian->kegiatan->mulai }}</p>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->nama }}</p>
                         </div>
                     </div>
                 </div>
@@ -238,8 +205,8 @@
             <div class="card-body">
                 <div class="mb-3 col-12 mb-0">
                     <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">pemakaian Data pemakaian</h6>
-                        <p class="mb-0">Ketika Form Tambah Data pemakaian ditambahkan,<br />
+                        <h6 class="alert-heading fw-bold mb-1">peminjamanalat Data peminjamanalat</h6>
+                        <p class="mb-0">Ketika Form Tambah Data peminjamanalat ditambahkan,<br />
                             Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
                             Dan Langsung Disambungkan sesuai kode qr yang tertera
                         </p>

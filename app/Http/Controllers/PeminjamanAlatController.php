@@ -177,9 +177,13 @@ class PeminjamanAlatController extends Controller
      * @param  \App\Models\PeminjamanAlat  $peminjamanAlat
      * @return \Illuminate\Http\Response
      */
-    public function edit(PeminjamanAlat $peminjamanAlat)
+    public function edit($id)
     {
-        //
+        $peminjamanAlat = PeminjamanAlat::find($id);
+        return view('v_peminjamanalat.edit', [
+            'title' => 'Cek Kondisi Peminjaman Alat',
+            'peminjamanalat' => $peminjamanAlat,
+        ]);
     }
 
     /**
@@ -189,15 +193,24 @@ class PeminjamanAlatController extends Controller
      * @param  \App\Models\PeminjamanAlat  $peminjamanAlat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PeminjamanAlat $peminjamanalat)
+    public function update(Request $request, $id)
     {
-        $peminjamanalat->update([
-            'status' => $request->status,
-            'tgl_kembali' => $request->tgl_kembali ?? null,
-            'updated_at' => Date('Y-m-d H:i:s'),
-        ]);
+        $peminjamanalat = PeminjamanAlat::find($id);
+        $rules = [
+            'cpu' => 'nullable',
+            'monitor' => 'nullable',
+            'keyboard' => 'nullable',
+            'mouse' => 'nullable',
+            'kondisi' => 'nullable',
+        ];
 
-        return redirect('/peminjamanalat')->with('success', 'Data peminjaman alat telah ' . $request->status);
+        $validatedData = $request->validate($rules);
+        $validatedData['status'] = 'selesai';
+        $validatedData['tgl_kembali'] = Date('Y-m-d H:i:s');
+
+        PeminjamanAlat::where('id', $peminjamanalat->id)->update($validatedData);
+
+        return redirect('/peminjamanalat')->with('success', 'Data peminjaman alat berhasil dicek');
     }
 
     /**
@@ -255,5 +268,17 @@ class PeminjamanAlatController extends Controller
             'barangpakai' => $barangpakai,
             'jenis' => $jenis
         ]);
+    }
+
+    public function status(Request $request, $id)
+    {
+        $peminjamanalat = PeminjamanAlat::find($id);
+        $peminjamanalat->update([
+            'status' => $request->status,
+            'tgl_kembali' => $request->tgl_kembali ?? null,
+            'updated_at' => Date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect('/peminjamanalat')->with('success', 'Data peminjaman alat telah ' . $request->status);
     }
 }

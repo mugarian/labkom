@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Alat;
 use App\Models\Bahan;
+use App\Models\BahanJurusan;
 use App\Models\Dosen;
 use App\Models\Kegiatan;
 use App\Models\BarangPakai;
@@ -95,14 +96,17 @@ class LaboratoriumController extends Controller
     public function show(Laboratorium $laboratorium)
     {
         $barangpakais = BarangPakai::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
-        $bahanpraktikums = BahanPraktikum::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
+        $bahanpraktikums = BahanPraktikum::where('laboratorium_id', $laboratorium->id)->where('stok', '<>', 0)->orderBy('nama', 'asc')->get();
+        $bahanjurusan = BahanJurusan::where('laboratorium_id', $laboratorium->id)->get();
+
+        $trackings = $barangpakais->merge($bahanpraktikums)->merge($bahanjurusan)->sortBy('laboratorium_id');
+
         $kegiatan = Kegiatan::where('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->first();
         return view('v_laboratorium.show', [
             'title' => $laboratorium->nama,
             'laboratorium' => $laboratorium,
-            'barangpakais' => $barangpakais,
-            'bahanpraktikums' => $bahanpraktikums,
             'kegiatan' => $kegiatan,
+            'trackings' => $trackings,
         ]);
     }
 
@@ -171,13 +175,17 @@ class LaboratoriumController extends Controller
      */
     public function destroy(Laboratorium $laboratorium)
     {
-        if ($laboratorium->foto) {
-            Storage::delete($laboratorium->foto);
+        try {
+            if ($laboratorium->foto) {
+                Storage::delete($laboratorium->foto);
+            }
+
+            Dosen::where('user_id', $laboratorium->user_id)->update(['kepalalab' => 'false']);
+            laboratorium::destroy($laboratorium->id);
+
+            return redirect('/laboratorium')->with('success', 'Data laboratorium telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/laboratorium')->with('fail', 'Gagal Menghapus Data karena Data Terhubung dengan Data Lain');
         }
-
-        Dosen::where('user_id', $laboratorium->user_id)->update(['kepalalab' => 'false']);
-        laboratorium::destroy($laboratorium->id);
-
-        return redirect('/laboratorium')->with('success', 'Data laboratorium telah dihapus');
     }
 }

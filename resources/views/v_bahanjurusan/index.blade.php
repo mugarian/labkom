@@ -2,10 +2,24 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><a href="/bahanjurusan" class="text-secondary">Data Bahan Jurusan</a></h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Invetori /
+            </span>
+            <span class="text-primary">
+                Bahan Jurusan
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                {{ session('fail') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -43,8 +57,8 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="width:10%">
-                                        @if ($bahanjurusan->bahanpraktikum->foto)
-                                            <img src="{{ asset('storage') . '/' . $bahanjurusan->bahanpraktikum->foto }}"
+                                        @if ($bahanjurusan->foto)
+                                            <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}"
                                                 alt="bahanjurusan-avatar" class="d-block rounded img-preview" height="100"
                                                 width="100" id="uploadedAvatar" />
                                         @else
@@ -68,30 +82,44 @@
                                                     data-bs-placement="top" data-bs-title="Ubah"
                                                     href="/bahanjurusan/{{ $bahanjurusan->id }}/edit"><i
                                                         class="bx bx-edit-alt"></i></a>
-                                                <form action="/bahanjurusan/{{ $bahanjurusan->id }}" method="post">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-outline-danger p-1"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Hapus"
-                                                        onclick="if (confirm('Hapus Data')) return true; return false">
-                                                        <i class="bx bx-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <button type="button" class="btn btn-outline-danger p-1"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal{{ $bahanjurusan->id }}">
+                                                    <i class="bx bx-trash" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Hapus"></i>
+                                                </button>
                                             @endif
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- @empty
-                                    <tr>
-                                        <td colspan="100%">
-                                            <div class="my-5">
-                                                <h3 class="text-muted">
-                                                    Tidak Ada Data bahanjurusan
-                                                </h3>
+                                <div class="modal fade" id="exampleModal{{ $bahanjurusan->id }}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                        </td>
-                                    </tr> --}}
+                                            <div class="modal-body">
+                                                Apakah Anda yakin Ingin Menghapus Data
+                                                {{ $bahanjurusan->bahanpraktikum->nama }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Tidak</button>
+                                                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                                <form action="/bahanjurusan/{{ $bahanjurusan->id }}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Ya
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>

@@ -131,9 +131,13 @@ class PrediksiController extends Controller
      */
     public function destroy(Prediksi $prediksi)
     {
-        Prediksi::destroy($prediksi->id);
+        try {
+            Prediksi::destroy($prediksi->id);
 
-        return redirect('/prediksi')->with('success', 'Data Prediksi telah dihapus');
+            return redirect('/prediksi')->with('success', 'Data Prediksi telah dihapus');
+        } catch (\Throwable $th) {
+            return redirect('/prediksi')->with('fail', 'Gagal Menghapus Data karena Data Terhubung dengan Data Lain');
+        }
     }
 
     public function prediksi($pengajuan, $harga)

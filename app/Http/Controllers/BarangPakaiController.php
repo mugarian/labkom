@@ -54,15 +54,17 @@ class BarangPakaiController extends Controller
         ]);
     }
 
-    public function tambah($lab)
+    public function tambah($id)
     {
-        $laboratorium = Laboratorium::find($lab);
+        $laboratorium = Laboratorium::all();
         if (auth()->user()->role == 'admin' || $laboratorium->user->id == auth()->user()->id) {
-            $alat = Alat::all();
+            $alat = Alat::find($id);
+            $kode = Str::random(8);
             return view('v_barangpakai.create', [
                 'title' => 'Tambah Data Barang Pakai',
-                'laboratorium' => $laboratorium,
-                'alats' => $alat
+                'laboratoriums' => $laboratorium,
+                'alat' => $alat,
+                'kode' => $kode
             ]);
         } else {
             abort(403);
@@ -95,7 +97,7 @@ class BarangPakaiController extends Controller
 
         BarangPakai::create($validatedData);
 
-        return redirect('/barangpakai')->with('success', 'Tambah Data Barang Pakai Berhasil');
+        return redirect('/alat/' . $request->alat_id)->with('success', 'Tambah Data Barang Pakai Berhasil');
     }
 
     /**
@@ -195,7 +197,7 @@ class BarangPakaiController extends Controller
 
 
             BarangPakai::where('id', $barangpakai->id)->update($validatedData);
-            return redirect('/barangpakai/')->with('success', 'Ubah Data Barang Pakai Berhasil');
+            return redirect('/alat/' . $request->alat_id)->with('success', 'Ubah Data Barang Pakai Berhasil');
         } else {
             abort(403);
         }
@@ -209,14 +211,18 @@ class BarangPakaiController extends Controller
      */
     public function destroy(BarangPakai $barangpakai)
     {
+        $alat = $barangpakai->alat_id;
         if (auth()->user()->role == 'admin' || $barangpakai->laboratorium->user->id == auth()->user()->id) {
-            if ($barangpakai->foto) {
-                Storage::delete($barangpakai->foto);
+            try {
+                if ($barangpakai->foto) {
+                    Storage::delete($barangpakai->foto);
+                }
+
+                barangpakai::destroy($barangpakai->id);
+                return redirect('/alat/' . $alat)->with('success', 'Data Barang Pakai Berhasil Dihapus');
+            } catch (\Throwable $th) {
+                return redirect('/alat/' . $alat)->with('fail', 'Gagal Menghapus Data Karena Data Terhubung dengan Data Lain');
             }
-
-            barangpakai::destroy($barangpakai->id);
-
-            return redirect('/barangpakai')->with('success', 'Data Barang Pakai Berhasil Dihapus');
         } else {
             abort(403);
         }

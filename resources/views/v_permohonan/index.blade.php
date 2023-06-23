@@ -2,7 +2,15 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Data Permohonan Kegiatan</h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Kegiatan /
+            </span>
+            <span class="text-primary">
+                Permohonan Kegiatan
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -17,7 +25,7 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Permohonan</h5>
+                <h5 class="mb-0">Permohonan Kegiatan</h5>
                 <div class="d-flex justify-content-end">
                     @if (auth()->user()->role != 'admin' && $selesai)
                         <small class="text-muted float-end me-3">
@@ -37,9 +45,9 @@
                     <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
-                                <th style="width: 0">#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th style="width: 0">No</th>
+                                <th class="text-wrap">Kode Kegiatan</th>
+                                <th class="text-wrap">Nama Kegiatan</th>
                                 <th>Oleh</th>
                                 <th>Dospem</th>
                                 <th>Tanggal</th>
@@ -49,9 +57,9 @@
                         </thead>
                         <tfoot>
                             <tr class="text-center">
-                                <th style="width: 0">#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th style="width: 0">No</th>
+                                <th class="text-wrap">Kode Kegiatan</th>
+                                <th class="text-wrap">Nama Kegiatan</th>
                                 <th>Oleh</th>
                                 <th>Dospem</th>
                                 <th>Tanggal</th>
@@ -145,7 +153,7 @@
                                                     <a href="/permohonan/{{ $permohonan->id }}/ditolak"
                                                         class="btn btn-outline-danger p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Tolak">
-                                                        <i class='bx bx-message-square-error'></i>
+                                                        <i class='bx bx-message-square-x'></i>
                                                     </a>
                                                     {{-- <form action="/permohonan/{{ $permohonan->id }}" method="post">
                                                         @csrf
@@ -179,7 +187,7 @@
                                                     <a href="/permohonan/{{ $permohonan->id }}/ditolak"
                                                         class="btn btn-outline-danger p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Tolak">
-                                                        <i class='bx bx-message-square-error'></i>
+                                                        <i class='bx bx-message-square-x'></i>
                                                     </a>
                                                 @endif
                                             @endif

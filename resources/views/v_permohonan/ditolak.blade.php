@@ -1,13 +1,17 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">
-                <a href="/permohonan" class="text-secondary">Data Permohonan Kegiatan</a> /
-                <a href="/permohonan/{{ $permohonan->id }}" class="text-secondary">{{ $permohonan->nama }} /
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Kegiatan /
+                <a href="/permohonan" class="text-secondary">Permohonan Kegiatan /</a>
+                <a href="/permohonan/{{ $permohonan->id }}" class="text-secondary">{{ $permohonan->nama }} /</a>
             </span>
-            Menolak permohonan
-        </h4>
+            <span class="text-primary">
+                Menolak Permohonan
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -73,7 +77,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="kode">Kode</label>
+                                <label class="form-label" for="kode">Kode Kegiatan</label>
                                 <input type="text" class="form-control @error('kode') is-invalid @enderror"
                                     id="kode" placeholder="kode" value="{{ old('kode', $permohonan->kode) }}"
                                     name="kode" required readonly />
@@ -84,7 +88,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="nama">Nama</label>
+                                <label class="form-label" for="nama">Nama Kegiatan</label>
                                 <input type="text" class="form-control" id="user_id" placeholder="user_id"
                                     value="{{ auth()->user()->id }}" name="user_id" hidden />
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
@@ -185,24 +189,8 @@
                             </div>
                             <div class="mb-">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Perhatian</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3 col-12 mb-0">
-                        <div class="alert alert-primary">
-                            <h6 class="alert-heading fw-bold mb-1">Status Ditolak</h6>
-                            <p class="mb-0">
-                                Masukkan Komentar atau keterangan untuk memberitahukan alasan penolakan permohonan
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>

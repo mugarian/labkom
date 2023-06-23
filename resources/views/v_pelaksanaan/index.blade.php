@@ -2,7 +2,15 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Data pelaksanaan</h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Kegiatan /
+            </span>
+            <span class="text-primary">
+                Pelaksanaan Praktikum
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
@@ -17,7 +25,7 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola pelaksanaan</h5>
+                <h5 class="mb-0">Kelola Pelaksanaan Praktikum</h5>
                 <div class="d-flex justify-content-end">
                     @if ($selesai && $jabatan == 'kalab')
                         <small class="text-muted float-end me-3">
@@ -37,9 +45,9 @@
                     <table class="table table-bordered" id="myTable">
                         <thead>
                             <tr class="text-center">
-                                <th style="width: 0">#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th style="width: 0">No</th>
+                                <th class="text-wrap">Kode Kegiatan</th>
+                                <th class="text-wrap">Nama Kegiatan</th>
                                 <th>Dospem</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
@@ -49,11 +57,12 @@
                         </thead>
                         <tfoot>
                             <tr class="text-center">
-                                <th style="width: 0">#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
+                                <th style="width: 0">No</th>
+                                <th class="text-wrap">Kode Kegiatan</th>
+                                <th class="text-wrap">Nama Kegiatan</th>
                                 <th>Dospem</th>
                                 <th>Tanggal Mulai</th>
+                                <th>Tanggal Selesai</th>
                                 <th>Status</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>

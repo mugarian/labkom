@@ -2,16 +2,30 @@
 @section('container')
     <!-- Bordered Table -->
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><a href="/prediksi" class="text-secondary">Data Prediksi</a></h4>
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Pengajuan Bahan /
+            </span>
+            <span class="text-primary">
+                Prediksi Pengajuan
+            </span>
+        </h5>
         @if (session()->has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                {{ session('fail') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Riwayat Prediksi</h5>
+                <h5 class="mb-0">Kelola Prediksi Pengajuan</h5>
                 <small class="text-muted float-end">
                     <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
                 </small>
@@ -71,29 +85,43 @@
                                                 data-bs-placement="top" data-bs-title="Lihat"
                                                 href="/prediksi/{{ $prediksi->id }}"><i class="bx bx-info-circle"></i></a>
                                             @if (auth()->user()->id == $prediksi->user_id)
-                                                <form action="/prediksi/{{ $prediksi->id }}" method="post">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Hapus" class="btn btn-outline-danger p-1"
-                                                        onclick="if (confirm('Hapus Data')) return true; return false">
-                                                        <i class="bx bx-trash"></i>
-                                                    </button>
-                                                </form>
+                                                <button type="button" class="btn btn-outline-danger p-1"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal{{ $prediksi->id }}">
+                                                    <i class="bx bx-trash" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Hapus"></i>
+                                                </button>
                                             @endif
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- @empty
-                                    <tr>
-                                        <td colspan="100%">
-                                            <div class="my-5">
-                                                <h3 class="text-muted">
-                                                    Tidak Ada Data prediksi
-                                                </h3>
+                                <div class="modal fade" id="exampleModal{{ $prediksi->id }}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                        </td>
-                                    </tr> --}}
+                                            <div class="modal-body">
+                                                Apakah Anda Yakin Ingin Menghapus Data {{ $prediksi->nama }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Tidak</button>
+                                                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                                <form action="/prediksi/{{ $prediksi->id }}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Ya
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>
