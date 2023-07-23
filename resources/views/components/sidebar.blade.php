@@ -34,7 +34,7 @@
         <li class="menu-item {{ Request::is('scan*') ? 'active' : '' }}">
             <a href="/scan" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-scan"></i>
-                <div data-i18n="Layouts">Scan</div>
+                <div data-i18n="Layouts">Pindai</div>
             </a>
         </li>
 
