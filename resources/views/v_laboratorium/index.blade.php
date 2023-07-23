@@ -27,56 +27,10 @@
                 @if (auth()->user()->role == 'admin')
                     <h5 class="mb-0">Kelola Laboratorium</h5>
                     <small class="text-muted float-end">
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
-                            <i class="bx bx-archive-in"></i> Import
-                        </button>
                         <a href="/laboratorium/create">
                             <button class="btn btn-primary">Tambah</button>
                         </a>
                     </small>
-                    <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Import File Excel Data Laboratorium</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <form action="{{ route('importLaboratorium') }}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="modal-body text-wrap">
-                                        <div class="row mb-4">
-                                            <label for="Format" class="col-sm-2 form-label">Format File</label>
-                                            <div class="col-sm-10">
-                                                <a href="{{ asset('format/format-laboratorium.xlsx') }}"
-                                                    download="FormatImportLaboratorium" class="btn btn-primary">Download</a>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-4">
-                                            <label for="Importfile" class="col-sm-2 form-label">Import File</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control @error('upload') is-invalid @enderror"
-                                                    type="file" id="import" accept=".xls, .xlsx" required
-                                                    name="import">
-                                                @error('upload')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 @else
                     <h5 class="mb-0">Daftar Laboratorium</h5>
                 @endif
