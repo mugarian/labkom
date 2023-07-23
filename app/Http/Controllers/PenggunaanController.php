@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Kegiatan;
+use App\Models\Mahasiswa;
 use App\Models\Penggunaan;
 use Illuminate\Support\Str;
 use App\Models\BahanJurusan;
@@ -20,11 +21,19 @@ class PenggunaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['tanggaldari', 'tanggalsampai'])) {
+            $range_tanggal = [$request->tanggaldari, $request->tanggalsampai];
+        } else {
+            $tanggaldari = date('Y-m-d H:i:s', strtotime(Penggunaan::min('tanggal')));
+            $tanggalsampai = date('Y-m-d H:i:s', strtotime(Penggunaan::max('tanggal')));
+            $range_tanggal = [$tanggaldari, $tanggalsampai];
+        }
+
         $user = User::find(auth()->user()->id);
         if ($user->role == 'admin') {
-            $penggunaan = Penggunaan::orderBy('tanggal', 'desc')->get();
+            $penggunaan = Penggunaan::whereBetween('tanggal', $range_tanggal)->orderBy('tanggal', 'desc')->get();
             $kalab = false;
         } elseif ($user->role == 'dosen') {
             $dosen = Dosen::where('user_id', $user->id)->first();
@@ -48,6 +57,7 @@ class PenggunaanController extends Controller
                     ->join('bahan_praktikums', 'penggunaans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
                     ->join('laboratorium', 'bahan_praktikums.laboratorium_id', '=', 'laboratorium.id')
                     ->where('laboratorium.id', '=', $laboratorium->id)
+                    ->whereBetween('tanggal', $range_tanggal)
                     ->orWhere('users.id', '=', $user->id)
                     ->select('penggunaans.*', 'kegiatans.nama as namakegiatan', 'laboratorium.nama as namalab', 'bahan_praktikums.nama as namabahanpraktikum', 'users.nama as namauser', 'users.id as iduser')
                     ->orderBy('tanggal', 'desc')
@@ -55,15 +65,15 @@ class PenggunaanController extends Controller
 
                 // todo pemakaian->barangpakai->laboratorium->user->id == auth()->user()->id
             } else {
-                $penggunaan = penggunaan::where('user_id', $user->id)->orderBy('tanggal', 'desc')->get();
+                $penggunaan = penggunaan::where('user_id', $user->id)->whereBetween('tanggal', $range_tanggal)->orderBy('tanggal', 'desc')->get();
                 $kalab = false;
             }
         } else {
-            $penggunaan = penggunaan::where('user_id', $user->id)->orderBy('tanggal', 'desc')->get();
+            $penggunaan = penggunaan::where('user_id', $user->id)->whereBetween('tanggal', $range_tanggal)->orderBy('tanggal', 'desc')->get();
             $kalab = false;
         }
         return view('v_penggunaan.index', [
-            'title' => 'Data penggunaan',
+            'title' => 'Data Penggunaan Bahan',
             'penggunaans' => $penggunaan,
             'kalab' => $kalab
         ]);
@@ -76,8 +86,35 @@ class PenggunaanController extends Controller
      */
     public function create()
     {
+        $bahanpraktikum = BahanPraktikum::all();
+        $user = User::find(auth()->user()->id);
+        if ($user->role == 'dosen') {
+            $dosen = Dosen::where('user_id', $user->id)->first();
+            if ($dosen->jebatan == 'dosen pengampu') {
+                if ($dosen->kepalalab == 'true') {
+                    // kepala lab
+                    $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                } else {
+                    // dosen pengampu
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                }
+            } else {
+                // ketua jurusan
+                $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+            }
+        } elseif ($user->role == 'mahasiswa') {
+            // mahasiswa
+            $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_Id', $user->id)->orWhere('kelas_id', $mahasiswa->kelas_id)->get();
+        } else {
+            // admin
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        }
         return view('v_penggunaan.create', [
             'title' => 'Tambah Data penggunaan',
+            'bahanpraktikum' => $bahanpraktikum,
+            'kegiatan' => $kegiatan,
         ]);
     }
 
@@ -104,8 +141,11 @@ class PenggunaanController extends Controller
             if ($bahanpraktikum->laboratorium->id != $kegiatan->laboratorium->id) {
                 return redirect('/penggunaan')->with('fail', 'Bahan Praktikum tidak tersedia di kegiatan yang dimaksud');
             }
+            if ($bahanpraktikum->status == 'rusak') {
+                return redirect('/penggunaan')->with('fail', 'Bahan Praktikum sedang rusak');
+            }
             if ($kegiatan->status != 'berlangsung') {
-                return redirect('/pemakaian')->with('fail', 'Kegiatan yang dimaksud belum berlangsung atau sudah selesai');
+                return redirect('/penggunaan')->with('fail', 'Kegiatan yang dimaksud belum berlangsung atau sudah selesai');
             }
             if ($kegiatan->tipe != 'perkuliahan') {
                 return redirect('/penggunaan')->with('fail', 'Bahan Praktikum tidak bisa digunakan selain kegiatan perkuliahan atau praktikum');
@@ -131,10 +171,14 @@ class PenggunaanController extends Controller
                     BahanJurusan::create([
                         'laboratorium_id' => $bahanpraktikum->laboratorium_id,
                         'bahanpraktikum_id' => $bahanpraktikum->id,
-                        'foto' => $bahanpraktikum->foto,
-                        'nama' => $bahanpraktikum->nama,
-                        'stok' => $request->jumlah,
                         'kode' => Str::random(8),
+                        'nama' => $bahanpraktikum->nama,
+                        'merk' => $bahanpraktikum->merk,
+                        'spesifikasi' => $bahanpraktikum->spesifikasi,
+                        'harga' => $bahanpraktikum->harga,
+                        'tahun' => $bahanpraktikum->tahun,
+                        'foto' => $bahanpraktikum->foto,
+                        'stok' => $request->jumlah,
                     ]);
                 }
             }
@@ -264,9 +308,35 @@ class PenggunaanController extends Controller
     public function guna($id)
     {
         $bahanpraktikum = BahanPraktikum::find($id);
+        // $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        $user = User::find(auth()->user()->id);
+        if ($user->role == 'dosen') {
+            $dosen = Dosen::where('user_id', $user->id)->first();
+            if ($dosen->jebatan == 'dosen pengampu') {
+                if ($dosen->kepalalab == 'true') {
+                    // kepala lab
+                    $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                } else {
+                    // dosen pengampu
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                }
+            } else {
+                // ketua jurusan
+                $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+            }
+        } elseif ($user->role == 'mahasiswa') {
+            // mahasiswa
+            $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_Id', $user->id)->orWhere('kelas_id', $mahasiswa->kelas_id)->get();
+        } else {
+            // admin
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        }
         return view('v_penggunaan.guna', [
             'title' => 'Tambah Data Penggunaan',
-            'bahanpraktikum' => $bahanpraktikum
+            'bahanpraktikum' => $bahanpraktikum,
+            'kegiatan' => $kegiatan
         ]);
     }
 
@@ -292,5 +362,16 @@ class PenggunaanController extends Controller
         Penggunaan::where('id', $penggunaan->id)->update($validatedData);
 
         return redirect('/penggunaan')->with('success', 'Data penggunaan berhasil ditolak');
+    }
+
+    public function kegiatan($id)
+    {
+        $kegiatan = Kegiatan::find($id);
+        $bahanpraktikum = bahanpraktikum::all();
+        return view('v_penggunaan.kegiatan', [
+            'title' => 'Tambah Data Pemakaian',
+            'kegiatan' => $kegiatan,
+            'bahanpraktikum' => $bahanpraktikum
+        ]);
     }
 }

@@ -62,6 +62,7 @@ class UserController extends Controller
         if ($request->file('gambar')) {
             $validatedData['gambar'] = $request->file('gambar')->store('user-images');
         }
+
         $validatedData['password'] = bcrypt($validatedData['password']);
         User::create($validatedData);
 

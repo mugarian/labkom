@@ -4,12 +4,13 @@
         <h5 class="fw-bold py-3 mb-4">
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
-                Akun /
-                <a href="/mahasiswa" class="text-secondary">Mahasiswa /</a>
-                <a href="/mahasiswa/{{ $mahasiwa->id }}" class="text-secondary">Mahasiswa /</a>
+                Logbook /
+                <a href="/peminjamanbahan" class="text-secondary">Peminjaman Bahan /</a>
+                <a href="/peminjamanbahan/{{ $peminjamanbahan->id }}" class="text-secondary">{{ $peminjamanbahan->deskripsi }}
+                    /</a>
             </span>
             <span class="text-primary">
-                {{ $mahasiswa->user->nama }}
+                Menolak Peminjaman Bahan
             </span>
         </h5>
 
@@ -109,39 +110,41 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Bahan Jurusan</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                            @if ($peminjamanbahan->bahanjurusan->foto)
-                                <img src="{{ asset('storage') . '/' . $peminjamanbahan->bahanjurusan->bahanpraktikum->foto }}"
-                                    alt="peminjamanbahan-avatar" class="d-block rounded" height="200" width="200"
-                                    id="uploadedAvatar" />
-                            @else
-                                <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
-                                    height="200" width="200" id="uploadedAvatar" />
-                            @endif
+        <div class="row">
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Bahan Jurusan</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                                @if ($peminjamanbahan->bahanjurusan->foto)
+                                    <img src="{{ asset('storage') . '/' . $peminjamanbahan->bahanjurusan->bahanpraktikum->foto }}"
+                                        alt="peminjamanbahan-avatar" class="d-block rounded" height="200" width="200"
+                                        id="uploadedAvatar" />
+                                @else
+                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
+                                        height="200" width="200" id="uploadedAvatar" />
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="kode">Kode bahan jurusan</label>
-                        <p class="form-control">{{ $peminjamanbahan->bahanjurusan->kode }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="nama">nama bahan jurusan</label>
-                        <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="merk">Merk bahan jurusan</label>
-                        <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->merk }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="spesifikasi">spesifikasi bahan jurusan</label>
-                        <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->spesifikasi }}</p>
+                        <div class="mb-3">
+                            <label class="form-label" for="kode">Kode bahan jurusan</label>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->kode }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="nama">nama bahan jurusan</label>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="merk">Merk bahan jurusan</label>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->merk }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="spesifikasi">spesifikasi bahan jurusan</label>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->spesifikasi }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

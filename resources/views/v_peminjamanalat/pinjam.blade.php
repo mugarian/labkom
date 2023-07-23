@@ -38,7 +38,7 @@
                                 <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
                                     id="barangpakai_id" placeholder="Kode Alat"
                                     value="{{ old('barangpakai_id', $barangpakai->kode) }}" name="barangpakai_id" required
-                                    readonly />
+                                    readonly autocomplete="off" />
                                 @error('barangpakai_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -105,10 +105,6 @@
                             <div class="mb-3">
                                 <label class="form-label" for="nama">Lokasi barang pakai</label>
                                 <p class="form-control">{{ $barangpakai->laboratorium->nama }}</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="nama">Harga barang pakai</label>
-                                <p class="form-control">{{ $barangpakai->harga }}</p>
                             </div>
                         </div>
                     </div>

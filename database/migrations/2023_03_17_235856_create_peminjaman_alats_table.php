@@ -26,6 +26,7 @@ return new class extends Migration
             $table->text('keterangan')->nullable();
             $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'selesai'])->default('menunggu');
             $table->enum('jenis', ['luar', 'dalam']);
+            $table->string('bukti')->nullable();
             $table->timestamp('tgl_pinjam')->nullable();
             $table->timestamp('tgl_kembali')->nullable();
             $table->timestamps();

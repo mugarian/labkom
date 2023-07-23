@@ -63,7 +63,7 @@ class BahanJurusanController extends Controller
         $bahanjurusan = bahanjurusan::find($id);
         $qrcode = QrCode::size(200)->generate(route('scan', $bahanjurusan->kode));
         $user = User::find($bahanjurusan->laboratorium->user->id);
-        $peminjamans = PeminjamanBahan::where('bahanjurusan_id', $bahanjurusan->id)->orderBy('tgl_pinjam', 'desc')->get();
+        $peminjamans = PeminjamanBahan::where('bahanjurusan_id', $bahanjurusan->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->get();
         return view('v_bahanjurusan.show', [
             'title' => $bahanjurusan->bahanpraktikum->nama,
             'bahanjurusan' => $bahanjurusan,
@@ -84,7 +84,7 @@ class BahanJurusanController extends Controller
         $bahanjurusan = BahanJurusan::find($id);
         $laboratoriums = Laboratorium::orderBy('nama')->get()->except([$bahanjurusan->laboratorium_id]);
         return view('v_bahanjurusan.edit', [
-            'title' => $bahanjurusan->bahanpraktikum->nama,
+            'title' => $bahanjurusan->nama,
             'bahanjurusan' => $bahanjurusan,
             'laboratoriums' => $laboratoriums,
         ]);
@@ -104,10 +104,12 @@ class BahanJurusanController extends Controller
             'laboratorium_id' => 'required',
             'upload' => 'required',
             'nama' => 'required',
+            'tahun' => 'required',
+            'status' => 'required',
         ];
 
         if ($request->kode != $bahanjurusan->kode) {
-            $rules['kode'] = 'required|unique:bahan_jurusans,kode';
+            $rules['kode'] = 'required|unique:bahan_jurusans';
         }
 
         $validatedData = $request->validate($rules);

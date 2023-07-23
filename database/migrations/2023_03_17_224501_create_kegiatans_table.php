@@ -27,7 +27,7 @@ return new class extends Migration
             $table->enum('tipe', ['perkuliahan', 'non perkuliahan']);
             $table->enum('verif_dospem', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
             $table->enum('verif_kalab', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
-            $table->enum('status', ['menunggu', 'disetujui', 'berlangsung', 'selesai', 'ditolak'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'terjadwal', 'disetujui', 'berlangsung', 'selesai', 'ditolak', 'digagalkan'])->default('menunggu');
             $table->timestamp('mulai')->nullable();
             $table->timestamp('selesai')->nullable();
             $table->timestamps();

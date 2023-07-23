@@ -44,6 +44,10 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="status">status Bahan Jurusan</label>
+                            <p class="form-control">{{ $bahanjurusan->status }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="nama">Nama Bahan Jurusan</label>
                             <p class="form-control">{{ $bahanjurusan->nama }}</p>
                         </div>
@@ -56,8 +60,12 @@
                             <p class="form-control">{{ $bahanjurusan->stok }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="stok">Laboratorium</label>
+                            <label class="form-label" for="laboratorium">Laboratorium</label>
                             <p class="form-control">{{ $bahanjurusan->laboratorium->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tahun">Tahun</label>
+                            <p class="form-control">{{ $bahanjurusan->tahun }}</p>
                         </div>
                         <div class="mb-3">
                             @if (auth()->user()->role == 'admin')

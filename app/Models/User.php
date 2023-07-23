@@ -122,4 +122,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Prediksi::class);
     }
+
+    public function datamentah()
+    {
+        return $this->hasMany(DataMentah::class);
+    }
 }

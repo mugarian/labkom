@@ -5,9 +5,10 @@
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
                 Logbook /
+                <a href="/penggunaan" class="text-secondary">Penggunaan Bahan Praktikum /</a>
             </span>
             <span class="text-primary">
-                Pengunaan Bahan
+                Tambah
             </span>
         </h5>
 
@@ -36,9 +37,17 @@
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="bahanpraktikum_id">Kode Bahan</label>
-                                <input type="text" class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
+                                <input list="bahanpraktikum"
+                                    class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
                                     id="bahanpraktikum_id" placeholder="Kode Bahan" value="{{ old('bahanpraktikum_id') }}"
-                                    name="bahanpraktikum_id" required />
+                                    name="bahanpraktikum_id" required autocomplete="off" onkeyup="namabp()" />
+                                <datalist id="bahanpraktikum">
+                                    @foreach ($bahanpraktikum as $bp)
+                                        <option value="{{ $bp->kode }}">{{ $bp->nama }}
+                                            ({{ $bp->laboratorium->nama }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
                                 @error('bahanpraktikum_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -46,15 +55,50 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">Nama Bahan Praktikum</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummybp"
+                                        placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata" readonly />
+                                    <div id="divbp" style="display:none">
+                                        @foreach ($bahanpraktikum as $bp)
+                                            <input class="form-control mb-3" style="display:none" id="{{ $bp->kode }}"
+                                                placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata"
+                                                value="{{ $bp->nama }}" readonly />
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
-                                <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
-                                    id="kegiatan_id" placeholder="Kode Kegiatan" value="{{ old('kegiatan_id') }}"
-                                    name="kegiatan_id" required />
+                                <input list="kegiatan" class="form-control @error('kegiatan_id') is-invalid @enderror"
+                                    id="kegiatan_id" placeholder="kode kegiatan" value="{{ old('kegiatan_id') }}"
+                                    name="kegiatan_id" required autocomplete="off" onkeyup="namakeg()" />
+                                <datalist id="kegiatan">
+                                    @foreach ($kegiatan as $keg)
+                                        <option value="{{ $keg->kode }}">{{ $keg->nama }} ({{ $keg->status }})
+                                            ({{ $keg->laboratorium->nama }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
                                 @error('kegiatan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Nama Kegiatan</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummykeg"
+                                        placeholder="nama Kegiatan terisi otomatis sesuai kode yang terdata" readonly />
+                                    <div id="divkeg" style="display:none">
+                                        @foreach ($kegiatan as $keg)
+                                            <input class="form-control mb-3" style="display:none" id="{{ $keg->kode }}"
+                                                placeholder="nama kegiatan terisi otomatis sesuai kode yang terdata"
+                                                value="{{ $keg->nama }}" readonly />
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
@@ -87,28 +131,46 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="card">
-        <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">penggunaan Data penggunaan</h6>
-                    <p class="mb-0">Ketika Form Tambah Data penggunaan ditambahkan,<br />
-                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                        Dan Langsung Disambungkan sesuai kode qr yang tertera
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    </div>
     <script>
-        let currentDate = new Date().toISOString().slice(0, -8);
-        console.log(currentDate);
-        document.querySelector("#mulai").min = currentDate;
+        const bahanpraktikum = document.getElementById('bahanpraktikum_id');
+        const kegiatan = document.getElementById('kegiatan_id');
+
+        const kodebp = [];
+
+        <?php
+        foreach ($bahanpraktikum as $bp) {
+            echo "kodebp.push('$bp->kode');\n";
+        }
+        ?>
+
+        function namabp() {
+            if (kodebp.includes(bahanpraktikum.value)) {
+                document.getElementById('divbp').style.display = 'block';
+                document.getElementById(bahanpraktikum.value).style.display = 'block';
+                document.getElementById('dummybp').style.display = 'none';
+            } else {
+                document.getElementById('divbp').style.display = 'none';
+                document.getElementById('dummybp').style.display = 'block';
+            }
+        }
+
+        const kodekeg = [];
+
+        <?php
+        foreach ($kegiatan as $keg) {
+            echo "kodekeg.push('$keg->kode');\n";
+        }
+        ?>
+
+        function namakeg() {
+            if (kodekeg.includes(kegiatan.value)) {
+                document.getElementById('divkeg').style.display = 'block';
+                document.getElementById(kegiatan.value).style.display = 'block';
+                document.getElementById('dummykeg').style.display = 'none';
+            } else {
+                document.getElementById('divkeg').style.display = 'none';
+                document.getElementById('dummykeg').style.display = 'block';
+            }
+        }
     </script>
 @endsection

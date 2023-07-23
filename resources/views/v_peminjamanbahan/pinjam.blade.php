@@ -40,7 +40,7 @@
                                 <input type="text" class="form-control @error('bahanjurusan_id') is-invalid @enderror"
                                     id="bahanjurusan_id" placeholder="Kode bahan"
                                     value="{{ old('bahanjurusan_id', $bahanjurusan->kode) }}" name="bahanjurusan_id"
-                                    required readonly />
+                                    required readonly autocomplete="off" />
                                 @error('bahanjurusan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -88,25 +88,42 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    {{-- <div class="card">
-        <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">peminjamanbahan Data peminjamanbahan</h6>
-                    <p class="mb-0">Ketika Form Tambah Data peminjamanbahan ditambahkan,<br />
-                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                        Dan Langsung Disambungkan sesuai kode qr yang tertera
-                    </p>
-                </div>
+        <div class="row">
+            <div class="col-xl">
+                @if ($bahanjurusan)
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Informasi Bahan Jurusan</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                                    @if ($bahanjurusan->foto)
+                                        <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}" alt="pemakaian-avatar"
+                                            class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                    @else
+                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                            class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="kode">Kode bahan jurusan</label>
+                                <p class="form-control">{{ $bahanjurusan->kode }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="nama">nama bahan jurusan</label>
+                                <p class="form-control">{{ $bahanjurusan->nama }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="nama">Lokasi bahan jurusan</label>
+                                <p class="form-control">{{ $bahanjurusan->laboratorium->nama }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
-    </div> --}}
     </div>
     <script>
         let currentDate = new Date().toISOString().slice(0, -8);

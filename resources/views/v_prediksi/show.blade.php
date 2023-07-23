@@ -8,7 +8,7 @@
                 <a href="/prediksi" class="text-secondary">Prediksi Pengajuan /</a>
             </span>
             <span class="text-primary">
-                {{ $prediksi->nama }}
+                {{ $prediksi->datamentah->nama }}
             </span>
         </h5>
 
@@ -31,39 +31,71 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="nama">Nama Bahan</label>
-                            <p class="form-control">{{ $prediksi->nama }}</p>
+                            <label class="form-label" for="nama">nama</label>
+                            <p class="form-control">{{ $prediksi->datamentah->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="jml_pengajuan">Jumlah Pengajuan</label>
-                            <p class="form-control">{{ $prediksi->jml_pengajuan }}</p>
+                            <label class="form-label" for="kategori">kategori</label>
+                            <p class="form-control">{{ $prediksi->datamentah->kategori }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="jml_matkul">Jumlah Matkul</label>
-                            <p class="form-control">{{ $prediksi->jml_matkul }}</p>
+                            <label class="form-label" for="satuan">satuan</label>
+                            <p class="form-control">{{ $prediksi->datamentah->satuan }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="jml_siswa">Jumlah Siswa</label>
-                            <p class="form-control">{{ $prediksi->jml_siswa }}</p>
+                            <label class="form-label" for="tahun_pengadaan">tahun pengadaan</label>
+                            <p class="form-control">{{ $prediksi->datamentah->tahun_pengadaan }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="jml_kelas">Jumlah Kelas</label>
-                            <p class="form-control">{{ $prediksi->jml_kelas }}</p>
+                            <label class="form-label" for="jumlah_pengadaan">jumlah pengadaan</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_pengadaan }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="harga_barang">Harga Barang</label>
-                            <p class="form-control">{{ $prediksi->harga_barang }}</p>
+                            <label class="form-label" for="isi_barang_persatuan">Isi barang persatuan</label>
+                            <p class="form-control">{{ $prediksi->datamentah->isi_barang_persatuan }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="harga_termurah">Harga Termurah</label>
-                            <p class="form-control">{{ $prediksi->harga_termurah }}</p>
+                            <label class="form-label" for="jumlah_barang_perpcs">Jumlah Barang Per PCS</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_barang_perpcs }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="harga_termahal">Harga Termahal</label>
-                            <p class="form-control">{{ $prediksi->harga_termahal }}</p>
+                            <label class="form-label" for="jumlah_matkul">Jumlah Matkul</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_matkul }}</p>
                         </div>
                         <div class="mb-3">
-                            @if (auth()->user()->id == $prediksi->user_id)
+                            <label class="form-label" for="jumlah_siswa_perkelas">Jumlah Siswa Per Kelas</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_siswa_perkelas }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_kelas">Jumlah Kelas</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_kelas }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_pemegang_barang">Jenis Pemegang Barang</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jenis_pemegang_barang }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_pemegang_barang">Jumlah Pemegang Barang</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_pemegang_barang }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_kebutuhan_total">Jumlah Kebutuhan Total</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jumlah_kebutuhan_total }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="harga_barang_beli">Harga Barang Beli</label>
+                            <p class="form-control">{{ $prediksi->datamentah->harga_barang_beli }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="stok_barang">Stok Barang</label>
+                            <p class="form-control">{{ $prediksi->datamentah->stok_barang }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_bahan">Jenis Bahan</label>
+                            <p class="form-control">{{ $prediksi->datamentah->jenis_bahan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            @if (auth()->user()->id == $prediksi->datamentah->user_id)
                                 <div class="d-flex justify-content-start">
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal{{ $prediksi->id }}">
@@ -82,10 +114,11 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body text-wrap">
-                            Apakah Anda Yakin Ingin Menghapus Data {{ $prediksi->nama }}?
+                            Apakah Anda Yakin Ingin Menghapus Data {{ $prediksi->datamentah->nama }}?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
@@ -110,24 +143,20 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="pengajuan">Kategori Pengajuan</label>
-                            <p class="form-control">
-                                @if ($prediksi->pengajuan == 'lebih')
-                                    Melebihi Kuota
-                                @elseif ($prediksi->pengajuan == 'pas')
-                                    Sesuai Kuota
-                                @else
-                                    Kurang dari Kuota
-                                @endif
-                            </p>
+                            <label class="form-label" for="jenis_pengadaan">Jenis Pengadaan</label>
+                            <p class="form-control">{{ $prediksi->jenis_pengadaan }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="harga">Kategori Harga</label>
-                            <p class="form-control">{{ $prediksi->harga }}</p>
+                            <label class="form-label" for="jenis_harga">Jenis Harga</label>
+                            <p class="form-control">{{ $prediksi->jenis_harga }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_stok">Jenis Stok</label>
+                            <p class="form-control">{{ $prediksi->jenis_stok }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="label">Label</label>
-                            <p class="form-control">{{ $prediksi->label }}</p>
+                            <p class="form-control">{{ $prediksi->datamentah->label }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="Riwayat">Riwayat Prediksi</label>
@@ -135,7 +164,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="Riwayat">Oleh</label>
-                            <p class="form-control">{{ $prediksi->user->nama }}</p>
+                            <p class="form-control">{{ $prediksi->datamentah->user->nama }}</p>
                         </div>
                     </div>
                 </div>

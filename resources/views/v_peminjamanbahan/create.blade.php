@@ -37,14 +37,36 @@
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="bahanjurusan_id">Kode Bahan Jurusan</label>
-                                <input type="text" class="form-control @error('bahanjurusan_id') is-invalid @enderror"
-                                    id="bahanjurusan_id" placeholder="Kode bahan" value="{{ old('bahanjurusan_id') }}"
-                                    name="bahanjurusan_id" required />
+                                <input list="bahanjurusan"
+                                    class="form-control @error('bahanjurusan_id') is-invalid @enderror" id="bahanjurusan_id"
+                                    placeholder="Kode Bahan" value="{{ old('bahanjurusan_id') }}" name="bahanjurusan_id"
+                                    required autocomplete="off" onkeyup="namabj()" />
+                                <datalist id="bahanjurusan">
+                                    @foreach ($bahanjurusan as $bj)
+                                        <option value="{{ $bj->kode }}">{{ $bj->nama }}
+                                            ({{ $bj->laboratorium->nama }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
                                 @error('bahanjurusan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nama Bahan Jurusan</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummybj"
+                                        placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata" readonly />
+                                    <div id="divbj" style="display:none">
+                                        @foreach ($bahanjurusan as $bj)
+                                            <input class="form-control mb-3" style="display:none" id="{{ $bj->kode }}"
+                                                placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata"
+                                                value="{{ $bj->nama }}" readonly />
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
@@ -88,28 +110,26 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="card">
-        <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">peminjamanbahan Data peminjamanbahan</h6>
-                    <p class="mb-0">Ketika Form Tambah Data peminjamanbahan ditambahkan,<br />
-                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                        Dan Langsung Disambungkan sesuai kode qr yang tertera
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    </div>
     <script>
-        let currentDate = new Date().toISOString().slice(0, -8);
-        console.log(currentDate);
-        document.querySelector("#mulai").min = currentDate;
+        const bahanjurusan = document.getElementById('bahanjurusan_id');
+
+        const kodebj = [];
+
+        <?php
+        foreach ($bahanjurusan as $bj) {
+            echo "kodebj.push('$bj->kode');\n";
+        }
+        ?>
+
+        function namabj() {
+            if (kodebj.includes(bahanjurusan.value)) {
+                document.getElementById('divbj').style.display = 'block';
+                document.getElementById(bahanjurusan.value).style.display = 'block';
+                document.getElementById('dummybj').style.display = 'none';
+            } else {
+                document.getElementById('divbj').style.display = 'none';
+                document.getElementById('dummybj').style.display = 'block';
+            }
+        }
     </script>
 @endsection

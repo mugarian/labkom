@@ -40,21 +40,10 @@ class DashboardController extends Controller
 
         if ($user->role == 'admin') {
             $role = 'admin';
-            $kegiatan = Kegiatan::all()->count();
 
-            $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->count();
-            $plmenunggu = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'menunggu')->count();
-            $pldisetujui = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'disetujui')->count();
-            $plberlangsung = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'berlangsung')->count();
-            $plselesai = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'selesai')->count();
-            $plditolak = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'ditolak')->count();
+            $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('updated_at', 'desc')->limit(5)->get();
 
-            $permohonan = Kegiatan::where('jenis', 'permohonan')->count();
-            $prmenunggu = Kegiatan::where('jenis', 'permohonan')->where('status', 'menunggu')->count();
-            $prdisetujui = Kegiatan::where('jenis', 'permohonan')->where('status', 'disetujui')->count();
-            $prberlangsung = Kegiatan::where('jenis', 'permohonan')->where('status', 'berlangsung')->count();
-            $prselesai = Kegiatan::where('jenis', 'permohonan')->where('status', 'selesai')->count();
-            $prditolak = Kegiatan::where('jenis', 'permohonan')->where('status', 'ditolak')->count();
+            $permohonan = Kegiatan::where('jenis', 'permohonan')->orderBy('updated_at', 'desc')->limit(5)->get();
 
             $palat = PeminjamanAlat::orderBy('updated_at', 'desc')->limit(5)->get();
 
@@ -69,20 +58,9 @@ class DashboardController extends Controller
                 $role = 'kalab';
                 $laboratorium = Laboratorium::where('user_id', $user->id)->first();
                 $lab = $laboratorium->nama;
+                $pelaksanaan = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
-                $pelaksanaan = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $plmenunggu = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'menunggu')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $pldisetujui = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'disetujui')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $plberlangsung = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'berlangsung')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $plselesai = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'selesai')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $plditolak = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'ditolak')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-
-                $permohonan = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $prmenunggu = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'menunggu')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $prdisetujui = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'disetujui')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $prberlangsung = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'berlangsung')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $prselesai = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'selesai')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
-                $prditolak = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'ditolak')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->count();
+                $permohonan = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
                 $palat = DB::table('peminjaman_alats')
                     ->join('barang_pakais', 'peminjaman_alats.barangpakai_id', '=', 'barang_pakais.id')
@@ -129,19 +107,9 @@ class DashboardController extends Controller
                     ->get();
             } elseif ($dosen->jabatan == 'dosen pengampu') {
                 $role = 'dosen';
-                $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $plmenunggu = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'menunggu')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $pldisetujui = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'disetujui')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $plberlangsung = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'berlangsung')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $plselesai = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'selesai')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $plditolak = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'ditolak')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
+                $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
-                $permohonan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $prmenunggu = Kegiatan::where('jenis', 'permohonan')->where('status', 'menunggu')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $prdisetujui = Kegiatan::where('jenis', 'permohonan')->where('status', 'disetujui')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $prberlangsung = Kegiatan::where('jenis', 'permohonan')->where('status', 'berlangsung')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $prselesai = Kegiatan::where('jenis', 'permohonan')->where('status', 'selesai')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
-                $prditolak = Kegiatan::where('jenis', 'permohonan')->where('status', 'ditolak')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->count();
+                $permohonan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->orWhere('dospem_id', $dosen->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
                 $palat = DB::table('peminjaman_alats')
                     ->join('barang_pakais', 'peminjaman_alats.barangpakai_id', '=', 'barang_pakais.id')
@@ -158,7 +126,7 @@ class DashboardController extends Controller
                     ->join('users', 'peminjaman_bahans.user_id', '=', 'users.id')
                     ->join('laboratorium', 'bahan_jurusans.laboratorium_id', '=', 'laboratorium.id')
                     ->where('peminjaman_bahans.user_id', '=', $user->id)
-                    ->select('users.nama as namauser', 'peminjaman_bahans.updated_at as updated_at', 'bahan_jurusans.nama as namabarang', 'peminjaman_bahans.status as status', 'peminjaman_bahans.id as id', 'barang_pakais.foto as foto', 'peminjaman_bahans.deskripsi as deskripsi')
+                    ->select('users.nama as namauser', 'peminjaman_bahans.updated_at as updated_at', 'bahan_jurusans.nama as namabarang', 'peminjaman_bahans.status as status', 'peminjaman_bahans.id as id', 'bahan_jurusans.foto as foto', 'peminjaman_bahans.deskripsi as deskripsi')
                     ->orderBy('peminjaman_bahans.updated_at', 'desc')
                     ->limit(5)
                     ->get();
@@ -167,21 +135,12 @@ class DashboardController extends Controller
 
                 $penggunaan = Penggunaan::where('user_id', $user->id)->orderBy('updated_at', 'desc')->limit(5)->get();
             } else {
+                // ADMIN DAN KAJUR
                 $role = 'admin';
 
-                $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->count();
-                $plmenunggu = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'menunggu')->count();
-                $pldisetujui = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'disetujui')->count();
-                $plberlangsung = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'berlangsung')->count();
-                $plselesai = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'selesai')->count();
-                $plditolak = Kegiatan::where('jenis', 'pelaksanaan')->where('status', 'ditolak')->count();
+                $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('updated_at', 'desc')->limit(5)->get();
 
-                $permohonan = Kegiatan::where('jenis', 'permohonan')->count();
-                $prmenunggu = Kegiatan::where('jenis', 'permohonan')->where('status', 'menunggu')->count();
-                $prdisetujui = Kegiatan::where('jenis', 'permohonan')->where('status', 'disetujui')->count();
-                $prberlangsung = Kegiatan::where('jenis', 'permohonan')->where('status', 'berlangsung')->count();
-                $prselesai = Kegiatan::where('jenis', 'permohonan')->where('status', 'selesai')->count();
-                $prditolak = Kegiatan::where('jenis', 'permohonan')->where('status', 'ditolak')->count();
+                $permohonan = Kegiatan::where('jenis', 'permohonan')->orderBy('updated_at', 'desc')->limit(5)->get();
 
                 $palat = PeminjamanAlat::orderBy('updated_at', 'desc')->limit(5)->get();
 
@@ -192,19 +151,10 @@ class DashboardController extends Controller
             }
         } else {
             $role = 'mahasiswa';
-            $pelaksanaan = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->count();
-            $plmenunggu = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'menunggu')->count();
-            $pldisetujui = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'disetujui')->count();
-            $plberlangsung = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'berlangsung')->count();
-            $plselesai = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'selesai')->count();
-            $plditolak = Kegiatan::where('user_id', $user->id)->where('jenis', 'pelaksanaan')->where('status', 'ditolak')->count();
+            $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+            $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->where('kelas_id', $mahasiswa->kelas_id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
-            $permohonan = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->count();
-            $prmenunggu = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'menunggu')->count();
-            $prdisetujui = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'disetujui')->count();
-            $prberlangsung = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'berlangsung')->count();
-            $prselesai = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'selesai')->count();
-            $prditolak = Kegiatan::where('user_id', $user->id)->where('jenis', 'permohonan')->where('status', 'ditolak')->count();
+            $permohonan = Kegiatan::where('jenis', 'permohonan')->orWhere('user_id', $user->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
             $palat = PeminjamanAlat::where('user_id', $user->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
@@ -230,18 +180,8 @@ class DashboardController extends Controller
             'kelas' => $kelas,
             'palat' => $palat,
             'pbahan' => $pbahan,
-            'pelaksanaan' => $pelaksanaan,
-            'plmenunggu' => $plmenunggu,
-            'pldisetujui' => $pldisetujui,
-            'plberlangsung' => $plberlangsung,
-            'plselesai' => $plselesai,
-            'plditolak' => $plditolak,
-            'permohonan' => $permohonan,
-            'prmenunggu' => $prmenunggu,
-            'prdisetujui' => $prdisetujui,
-            'prberlangsung' => $prberlangsung,
-            'prselesai' => $prselesai,
-            'prditolak' => $prditolak,
+            'pelaksanaans' => $pelaksanaan,
+            'permohonans' => $permohonan,
             'pemakaian' => $pemakaian,
             'penggunaan' => $penggunaan,
             'role' => $role,

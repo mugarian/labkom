@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 use App\Models\Penggunaan;
 use Illuminate\Support\Str;
 use App\Models\Laboratorium;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\BahanPraktikum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BahanPraktikumController extends Controller
@@ -141,6 +143,7 @@ class BahanPraktikumController extends Controller
             'spesifikasi' => 'required',
             'harga' => 'required',
             'stok' => 'required',
+            'status' => 'required',
             'tahun' => 'required',
             'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
         ];

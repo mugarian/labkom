@@ -483,6 +483,20 @@ class DatabaseSeeder extends Seeder
             'tahun' => '2023',
         ]);
 
+        $baprakMDI = (string) Uuid::uuid4();
+        BahanPraktikum::create([
+            'id' => $baprakMDI,
+            'laboratorium_id' => $labMDI,
+            'kode' => Str::random(8),
+            'nama' => 'Pipet Tetes',
+            'merk' => 'PHTC',
+            'jenis' => 'tidak habis',
+            'spesifikasi' => 'Anti pecah dan bocor',
+            'harga' => 500,
+            'stok' => 20,
+            'tahun' => '2021',
+        ]);
+
         $baprakUX = (string) Uuid::uuid4();
         BahanPraktikum::create([
             'id' => $baprakUX,
@@ -502,23 +516,61 @@ class DatabaseSeeder extends Seeder
             'id' => $bajurJaringan,
             'laboratorium_id' => $labJaringan,
             'bahanpraktikum_id' => $baprakJaringan,
-            'nama' => 'Prosessor Intel i9',
             'kode' => Str::random(8),
-            'stok' => 3,
+            'nama' => 'Prosessor Intel i9 JMI',
+            'merk' => 'Intel',
+            'spesifikasi' => '24 Core 6.0 Ghz',
+            'harga' => 8000000,
+            'stok' => 16,
+            'tahun' => '2023',
+        ]);
+
+        $bajurMDI = (string) Uuid::uuid4();
+        BahanJurusan::create([
+            'id' => $bajurMDI,
+            'laboratorium_id' => $labMDI,
+            'bahanpraktikum_id' => $baprakMDI,
+            'kode' => Str::random(8),
+            'nama' => 'Pipet Praktikum Nanas JMI',
+            'merk' => 'PHTC',
+            'spesifikasi' => 'Anti Pecah',
+            'harga' => 500,
+            'stok' => 5,
+            'tahun' => '2021',
         ]);
 
         /**
          * BarangPakaiSeeder
          */
 
+        $bpMDI = (string) Uuid::uuid4();
+        BarangPakai::create([
+            'id' => $bpMDI,
+            'alat_id' => $pcMDI,
+            'laboratorium_id' => $labMDI,
+            'nama' => 'PC No 4 MDI',
+            'kode' => Str::random(8),
+            'harga' => 3500000,
+        ]);
+
         $bpUX = (string) Uuid::uuid4();
         BarangPakai::create([
             'id' => $bpUX,
             'alat_id' => $pcUX,
             'laboratorium_id' => $labUX,
-            'nama' => 'PC No 1',
+            'nama' => 'PC No 1 UX',
             'kode' => Str::random(8),
             'harga' => 4000000,
+        ]);
+
+        $bpSI = (string) Uuid::uuid4();
+        BarangPakai::create([
+            'id' => $bpSI,
+            'alat_id' => $pcSI,
+            'laboratorium_id' => $labSI,
+            'nama' => 'PC No 7 SI',
+            'kode' => Str::random(8),
+            'harga' => 6000000,
         ]);
 
         $bpJaringan = (string) Uuid::uuid4();
@@ -526,7 +578,7 @@ class DatabaseSeeder extends Seeder
             'id' => $bpJaringan,
             'alat_id' => $pcJaringan,
             'laboratorium_id' => $labJaringan,
-            'nama' => 'PC No 5',
+            'nama' => 'PC No 5 Jaringan',
             'kode' => Str::random(8),
             'harga' => 8000000,
         ]);
@@ -536,7 +588,7 @@ class DatabaseSeeder extends Seeder
             'id' => $bpRPL,
             'alat_id' => $pcRPL,
             'laboratorium_id' => $labRPL,
-            'nama' => 'PC No 2',
+            'nama' => 'PC No 2 RPL',
             'kode' => Str::random(8),
             'harga' => 12000000,
         ]);
@@ -616,8 +668,9 @@ class DatabaseSeeder extends Seeder
             'tipe' => 'perkuliahan',
             'verif_dospem' => 'disetujui',
             'verif_kalab' => 'disetujui',
-            'status' => 'berlangsung',
+            'status' => 'selesai',
             'mulai' => '2023-06-01 08:10:00',
+            'selesai' => '2023-06-02 12:10:00',
         ]);
 
         /**
@@ -660,14 +713,12 @@ class DatabaseSeeder extends Seeder
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',
             'verif_dospem' => 'disetujui',
-            'verif_kalab' => 'ditolak',
-            'status' => 'ditolak',
+            'verif_kalab' => 'disetujui',
+            'status' => 'selesai',
             'keterangan' => 'lab sedang dipakai',
             'mulai' => '2023-03-25 14:39:00',
-            'selesai' => null,
+            'selesai' => '2023-03-26 16:39:00',
         ]);
-
-        // PermohonanDiverifikasi
 
         // PermohonanMenunggu
         $permohonanTunggu = (string) Uuid::uuid4();
@@ -682,11 +733,11 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Kerja Kelompok APSI',
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',
-            'verif_dospem' => 'ditolak',
-            'verif_kalab' => 'menunggu',
-            'status' => 'ditolak',
-            'mulai' => '2023-03-25 14:39:00',
-            'selesai' => null,
+            'verif_dospem' => 'disetujui',
+            'verif_kalab' => 'disetujui',
+            'status' => 'selesai',
+            'mulai' => '2023-04-15 14:39:00',
+            'selesai' => '2023-04-17 16:39:00',
         ]);
 
         /**
@@ -701,7 +752,11 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'kegiatan_id' => $pelaksanaanJaringan,
             'barangpakai_id' => $bpJaringan,
-            'keterangan' => 'PC Lambat',
+            'cpu' => 'berfungsi',
+            'monitor' => 'tidak berfungsi',
+            'keyboard' => 'berfungsi',
+            'mouse' => 'berfungsi',
+            'keterangan' => 'PC Monitor tidak menyala Lambat',
             'status' => 'selesai',
             'mulai' => '2023-03-26 14:39:00',
             'selesai' => '2023-03-27 14:39:00',
@@ -713,6 +768,10 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'kegiatan_id' => $permohonanSetuju,
             'barangpakai_id' => $bpUX,
+            'cpu' => 'berfungsi',
+            'monitor' => 'berfungsi',
+            'keyboard' => 'berfungsi',
+            'mouse' => 'berfungsi',
             'keterangan' => 'PC Biasa',
             'status' => 'selesai',
             'mulai' => '2023-03-26 14:39:00',
@@ -773,10 +832,13 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'barangpakai_id' => $bpRPL,
             'deskripsi' => 'Kebutuhan jasa Pengetikan',
-            'kondisi' => null,
-            'keterangan' => 'Sedang dipakai praktikum',
+            'cpu' => 'bergungsi',
+            'monitor' => 'bergungsi',
+            'keyboard' => 'bergungsi',
+            'mouse' => 'bergungsi',
+            'keterangan' => null,
             'jenis' => 'dalam',
-            'status' => 'ditolak',
+            'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
         ]);
@@ -808,11 +870,11 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'bahanjurusan_id' => $bajurJaringan,
             'deskripsi' => 'Kebutuhan jualan difest',
-            'kondisi' => null,
+            'kondisi' => 'baik',
             'jumlah' => 1,
-            'keterangan' => 'tidak diperjualbelikan',
+            'keterangan' => null,
             'jenis' => 'dalam',
-            'status' => 'ditolak',
+            'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
         ]);
@@ -979,7 +1041,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Mikrotik',
             'pengajuan' => 'kurang',
             'harga' => 'murah',
-            'harga' => 'tidak habis',
+            'jenis_bahan' => 'tidak habis',
             'label' => 'tidak layak'
         ]);
 

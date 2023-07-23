@@ -49,7 +49,7 @@
                             <p class="form-control">{{ $pelaksanaan->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="Dosen Pembimbing">Dosen Pembimbing</label>
+                            <label class="form-label" for="Dosen Pengampu">Dosen Pengampu</label>
                             <p class="form-control">{{ $pelaksanaan->dospem->user->nama }}</p>
                             {{-- <p class="form-control">{{ $dospem->user->nama }}</p> --}}
                         </div>
@@ -58,13 +58,28 @@
                             <p class="form-control">{{ $pelaksanaan->deskripsi }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="kelas">kelas</label>
+                            <p class="form-control">{{ $pelaksanaan->kelas->nama }} ({{ $pelaksanaan->kelas->angkatan }})
+                            </p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="mulai">Tanggal Mulai</label>
                             <p class="form-control">{{ $pelaksanaan->mulai }}</p>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label" for="selesai">Tanggal selesai</label>
                             <p class="form-control">{{ $pelaksanaan->selesai ?? '-' }}</p>
                         </div>
+                        @if ($pelaksanaan->status == 'berlangsung')
+                            <div class="mb-3">
+                                <a href="/pemakaian/{{ $pelaksanaan->id }}/kegiatan"
+                                    class="btn btn-outline-primary">Pemakaian
+                                    Alat</a>
+                                <a href="/penggunaan/{{ $pelaksanaan->id }}/kegiatan"
+                                    class="btn btn-outline-warning">Penggunaan
+                                    Bahan Praktikum</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

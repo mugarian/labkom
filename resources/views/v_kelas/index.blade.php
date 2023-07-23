@@ -24,10 +24,12 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Kelas</h5>
                 @if (auth()->user()->role == 'admin')
+                    <h5 class="mb-0">Kelola Kelas</h5>
                     <small class="text-muted float-end"><a href="/kelas/create"><button
                                 class="btn btn-primary">Tambah</button></a></small>
+                @else
+                    <h5 class="mb-0">Daftar Kelas</h5>
                 @endif
             </div>
             <div class="card-body pb-2">

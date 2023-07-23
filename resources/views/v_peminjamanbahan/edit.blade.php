@@ -24,13 +24,14 @@
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/peminjamanbahan/{{ $peminjamanbahan->id }}" method="POST">
+                        <form action="/peminjamanbahan/{{ $peminjamanbahan->id }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Untuk menyelesaikan Peminjaman barang laboratorium, silahkan isi kolom
+                                    <p class="mb-0">Untuk menyelesaikan Peminjaman bahan laboratorium, silahkan isi kolom
                                         kolom berikut untuk mengetahui kondisi layak pakai bahan jurusan
                                     </p>
                                 </div>
@@ -51,7 +52,7 @@
                                 <label class="form-label" for="deksripsi">Deskripsi</label>
                                 <input type="text" class="form-control @error('deksripsi') is-invalid @enderror"
                                     id="deksripsi" placeholder="kode kegiatan"
-                                    value="{{ old('deksripsi', $peminjamanbahan->deksripsi) }}" name="deksripsi" required
+                                    value="{{ old('deksripsi', $peminjamanbahan->deskripsi) }}" name="deksripsi" required
                                     readonly />
                                 @error('deksripsi')
                                     <div class="invalid-feedback">
@@ -70,6 +71,34 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="bukti">Bukti Pengembalian</label>
+                                <div class="">
+                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                            class="d-block rounded img-preview" height="100" width="100"
+                                            id="uploadedAvatar" />
+                                        <div class="button-wrapper">
+                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                                <span class="d-none d-sm-block">
+                                                    Unggah Foto
+                                                </span>
+                                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                                <input type="file" id="upload" name="upload"
+                                                    class="account-file-input @error('upload') is-invalid @enderror" hidden
+                                                    accept="image/png, image/jpeg" onchange="previewImage()" />
+                                                @error('upload')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </label>
+
+                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" for="kondisi">Kondisi Keterangan</label>
@@ -101,8 +130,8 @@
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($peminjamanbahan->bahanjurusan->foto)
                                     <img src="{{ asset('storage') . '/' . $peminjamanbahan->foto }}"
-                                        alt="peminjamanbahan-avatar" class="d-block rounded" height="200" width="200"
-                                        id="uploadedAvatar" />
+                                        alt="peminjamanbahan-avatar" class="d-block rounded" height="200"
+                                        width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />
@@ -146,29 +175,18 @@
         </div> --}}
     </div>
     <script>
-        function padTo2Digits(num) {
-            return num.toString().padStart(2, '0');
-        }
+        function previewImage() {
+            const upload = document.querySelector('#upload');
+            const imgPreview = document.querySelector('.img-preview');
 
-        function formatDate(date) {
-            return (
-                [
-                    date.getFullYear(),
-                    padTo2Digits(date.getMonth() + 1),
-                    padTo2Digits(date.getDate()),
-                ].join('-') +
-                ' ' + [
-                    padTo2Digits(date.getHours()),
-                    padTo2Digits(date.getMinutes()),
-                    padTo2Digits(date.getSeconds()),
-                ].join(':')
-            );
-        }
+            imgPreview.style.display = 'block';
 
-        function showDate() {
-            document.getElementById("selesai").value = formatDate(new Date());
-        }
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(upload.files[0]);
 
-        setInterval(showDate, 1000);
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
     </script>
 @endsection

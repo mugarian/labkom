@@ -8,7 +8,7 @@
                 Logbook /
             </span>
             <span class="text-primary">
-                Pengunaan Bahan
+                Pengunaan Bahan Praktikum
             </span>
         </h5>
         @if (session()->has('success'))
@@ -24,15 +24,62 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Penggunaan Bahan</h5>
+                @if (auth()->user()->role == 'admin')
+                    <h5 class="mb-0">Kelola Penggunaan Bahan Praktikum</h5>
+                @else
+                    <h5 class="mb-0">Penggunaan Bahan Praktikum</h5>
+                @endif
                 <div class="d-flex justify-content-end ">
-                    @if (auth()->user()->role != 'admin')
-                        <small class="text-muted float-end">
+                    <small class="text-muted float-end">
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
+                            <i class="bx bx-filter-alt"></i> Filter
+                        </button>
+                        @if (auth()->user()->role != 'admin')
                             <a href="/penggunaan/create">
                                 <button class="btn btn-primary">Tambah</button>
                             </a>
-                        </small>
-                    @endif
+                        @endif
+                    </small>
+                </div>
+                <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Filter Tanggal Penggunaan Bahan Praktikum
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('penggunaan.index') }}" method="GET">
+                                <div class="modal-body text-wrap">
+                                    <div class="mb-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="tanggaldari" class="form-label">Dari</label>
+                                                <input type="datetime-local" class="form-control" id="tanggaldari"
+                                                    name="tanggaldari"
+                                                    value="{{ $_GET['tanggaldari'] ?? old('tanggaldari') }}"
+                                                    onchange="tanggalawal()" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="tanggalsampai" class="form-label">Sampai</label>
+                                                <input type="datetime-local" class="form-control" id="tanggalsampai"
+                                                    name="tanggalsampai"
+                                                    value="{{ $_GET['tanggalsampai'] ?? old('tanggalsampai') }}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <a href="{{ route('penggunaan.index') }}" class="btn btn-secondary">
+                                        Reset
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body pb-2">
@@ -115,6 +162,30 @@
                 </div> --}}
             </div>
         </div>
+        <div class="card mt-4">
+            <h5 class="card-header">Perhatian</h5>
+            <div class="card-body">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-primary">
+                        <h6 class="alert-heading fw-bold mb-1">Penggunaan Bahan Praktikum</h6>
+                        <p class="mb-0">
+                            Penggunaan bahan digunakan ketika praktikum berlangsung. Setelah mahasiswa melaksanakan
+                            praktikum dan menggunakan barang jenis bahan (perangkat yang tidak bisa berdiri sendiri) seperti
+                            kabel rj45, kertas, baterai dan sebagainya, <b class="fw-bold">WAJIB</b> untuk mengisi form
+                            penggunaan bahan tersebut.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--/ Bordered Table -->
     </div>
+    <script>
+        const tanggaldari = document.getElementById('tanggaldari');
+        const tanggalsampai = document.getElementById('tanggalsampai');
+
+        function tanggalawal() {
+            tanggalsampai.min = tanggaldari.value;
+        }
+    </script>
 @endsection

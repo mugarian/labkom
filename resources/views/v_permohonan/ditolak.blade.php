@@ -25,28 +25,6 @@
                     <div class="card-body">
                         <form action="/permohonan/{{ $permohonan->id }}/ditolak" method="POST">
                             @csrf
-                            {{-- <div class="mb-3">
-                                <label class="form-label" for="verif_dospem">Verifikasi Dospem</label>
-                                <input type="text" class="form-control @error('verif_dospem') is-invalid @enderror"
-                                    id="verif_dospem" placeholder="verif_dospem"
-                                    value="" name="verif_dospem" required readonly />
-                                @error('verif_dospem')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="verif_kalab">Verifikasi Kalab</label>
-                                <input type="text" class="form-control @error('verif_kalab') is-invalid @enderror"
-                                    id="verif_kalab" placeholder="verif_kalab" value="menunggu" name="verif_kalab" required
-                                    readonly />
-                                @error('verif_kalab')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div> --}}
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Status Ditolak</h6>
@@ -54,6 +32,41 @@
                                         Masukkan Komentar atau keterangan untuk memberitahukan alasan penolakan kegiatan
                                     </p>
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="verif_dospem">Verifikasi Dospem</label>
+                                @if ($permohonan->dospem->user->id == auth()->user()->id)
+                                    <input type="text" class="form-control @error('verif_dospem') is-invalid @enderror"
+                                        id="verif_dospem" placeholder="verif_dospem" value="ditolak" name="verif_dospem"
+                                        required readonly />
+                                @else
+                                    <input type="text" class="form-control @error('verif_dospem') is-invalid @enderror"
+                                        id="verif_dospem" placeholder="verif_dospem" value="{{ $permohonan->verif_dospem }}"
+                                        name="verif_dospem" required readonly />
+                                @endif
+                                @error('verif_dospem')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="verif_kalab">Verifikasi Kalab</label>
+                                @if ($permohonan->laboratorium->user_id == auth()->user()->id)
+                                    <input type="text" class="form-control @error('verif_kalab') is-invalid @enderror"
+                                        id="verif_kalab" placeholder="verif_kalab" value="ditolak" name="verif_kalab"
+                                        required readonly />
+                                @else
+                                    <input type="text" class="form-control @error('verif_kalab') is-invalid @enderror"
+                                        id="verif_kalab" placeholder="verif_kalab" value="menunggu" name="verif_kalab"
+                                        required readonly />
+                                @endif
+                                @error('verif_kalab')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="status">Status permohonan</label>
@@ -137,7 +150,8 @@
                                     <label class="form-label" for="dospem_id">Dosen Pengampu</label>
                                     <input type="text" class="form-control @error('dospem_id') is-invalid @enderror"
                                         id="dospem_id" placeholder="dospem_id"
-                                        value="{{ $permohonan->dospem->user->nama }}" name="dospem_id" required readonly />
+                                        value="{{ $permohonan->dospem->user->nama }}" name="dospem_id" required
+                                        readonly />
                                     {{-- <select id="organization"
                                         class="select2 form-select @error('dospem_id') is-invalid @enderror"
                                         name="dospem_id">
@@ -156,7 +170,8 @@
                             @endif
                             <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
-                                <textarea id="deskripsi" class="form-control @error('deskripsi')
+                                <textarea id="deskripsi"
+                                    class="form-control @error('deskripsi')
                                 is-invalid @enderror"
                                     placeholder="deskripsi" name="deskripsi" required readonly>{{ old('deskripsi', $permohonan->deskripsi) }}</textarea>
                                 @error('deskripsi')

@@ -51,7 +51,7 @@ class ScanController extends Controller
         } else if ($bahanjurusan) {
             return redirect('/bahanjurusan/' . $bahanjurusan->id)->with('success', 'Kode QR ditemukan');
         } else {
-            return redirect('/scan')->with('fail', 'Kode tidak ditemukan');
+            return redirect('/scan')->with('fail', 'Kode QR tidak ditemukan');
         }
     }
 

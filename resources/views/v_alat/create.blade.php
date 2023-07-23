@@ -70,7 +70,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="nama">Nama</label>
+                                <label class="form-label" for="nama">Nama Alat</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" placeholder="Nama" value="{{ old('nama') }}" name="nama" required />
                                 @error('nama')

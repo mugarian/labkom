@@ -186,24 +186,7 @@
                                                 </td>
                                             @endif
                                             <td class="text-wrap">
-                                                @foreach ($pemakaians as $pemakaian)
-                                                    @if ($pemakaian->idbp == $bp->id)
-                                                        @if ($pemakaian->statuspemakaian == 'mulai')
-                                                            Sedang Dipakai
-                                                        @endif
-                                                    @else
-                                                        @continue
-                                                    @endif
-                                                @endforeach
-                                                @foreach ($peminjamans as $peminjaman)
-                                                    @if ($peminjaman->idbp == $bp->id)
-                                                        @if ($peminjaman->statuspeminjaman == 'disetujui')
-                                                            Sedang Dipinjam
-                                                        @endif
-                                                    @else
-                                                        @continue
-                                                    @endif
-                                                @endforeach
+                                                {{ $bp->status }}
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center">

@@ -60,6 +60,19 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="status">Status</label>
+                                <select id="organization" class="select2 form-select @error('status') is-invalid @enderror"
+                                    name="status">
+                                    <option value="tersedia" @selected(old('status', $bahanjurusan->status) == 'tersedia')>tersedia</option>
+                                    <option value="rusak" @selected(old('status', $bahanjurusan->status) == 'rusak')>Rusak</option>
+                                </select>
+                                @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="nama">Nama Bahan Jurusan</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     id="nama" placeholder="nama" value="{{ old('nama', $bahanjurusan->nama) }}"
@@ -102,6 +115,17 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="tahun">tahun</label>
+                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
+                                    id="tahun" placeholder="tahun" value="{{ old('tahun', $bahanjurusan->tahun) }}"
+                                    name="tahun" required min="1" />
+                                @error('tahun')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                         </form>
@@ -119,8 +143,9 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($bahanjurusan->foto)
-                                    <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}" alt="bahanjurusan-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                    <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}"
+                                        alt="bahanjurusan-avatar" class="d-block rounded" height="200" width="200"
+                                        id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />
@@ -139,12 +164,14 @@
                             <label class="form-label" for="spesifikasi">Spesifikasi</label>
                             <p class="form-control">{{ $bahanjurusan->bahanpraktikum->spesifikasi }}</p>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="harga">Harga</label>
-                            <p class="form-control">Rp.
-                                {{ number_format($bahanjurusan->bahanpraktikum->harga, 2, ',', '.') }}
-                            </p>
-                        </div>
+                        @if (auth()->user()->role == 'admin')
+                            <div class="mb-3">
+                                <label class="form-label" for="harga">Harga</label>
+                                <p class="form-control">Rp.
+                                    {{ number_format($bahanjurusan->bahanpraktikum->harga, 2, ',', '.') }}
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

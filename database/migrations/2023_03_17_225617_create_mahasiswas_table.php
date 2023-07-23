@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->references('id')->on('users');
-            $table->foreignUuid('kelas_id')->references('id')->on('kelas');
+            $table->foreignUuid('kelas_id')->nullable()->references('id')->on('kelas');
             $table->string('angkatan');
             $table->string('jurusan');
             $table->timestamps();

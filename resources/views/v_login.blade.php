@@ -45,13 +45,19 @@
                 <!-- Register -->
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="mb-2">Selamat Datang di Simalakom!</h4>
-                        <p class="mb-2">Sistem Informasi Manajamen Laboratorium Komputer</p>
+                        <div class="text-center">
+                            <h4 class="mb-2">Selamat Datang di Simalakom!</h4>
+                            <p class="mb-4">
+                                <small>
+                                    Sistem Informasi Manajamen Laboratorium Komputer
+                                </small>
+                            </p>
+                        </div>
 
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-2 pb-0">
                             <a href="index.html" class="app-brand-link gap-2">
-                                <span class="app-brand-logo demo">
+                                <span class="app-brand-logo demo mb-2">
                                     <img src="{{ asset('img/logo.png') }}" width="150" alt="logo sistem">
                                 </span>
                                 {{-- <span class="app-brand-text demo text-body fw-bolder">SIMALAKOM</span> --}}
@@ -110,8 +116,12 @@
                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                   </div>
                 </div> --}}
-                            <div class="my-4">
+                            <div class="mt-4">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                            </div>
+                            <div class="my-2">
+                                <a href="{{ route('sso.login') }}" class="btn btn-outline-primary d-grid w-100">Login
+                                    dengan SSO</a>
                             </div>
                         </form>
 

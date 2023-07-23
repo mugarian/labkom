@@ -24,17 +24,85 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Peminjaman Alat</h5>
+                @if (auth()->user()->role == 'admin')
+                    <h5 class="mb-0">Peminjaman Alat</h5>
+                @else
+                    <h5 class="mb-0">Kelola Peminjaman Alat</h5>
+                @endif
                 <div class="d-flex justify-content-end ">
-                    @if (auth()->user()->role != 'admin')
-                        {{-- @if ($selesai) --}}
-                        <small class="text-muted float-end">
+                    <small class="text-muted float-end">
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
+                            <i class="bx bx-filter-alt"></i> Filter
+                        </button>
+                        @if (auth()->user()->role != 'admin')
+                            {{-- @if ($selesai) --}}
                             <a href="/peminjamanalat/create">
                                 <button class="btn btn-primary">Tambah</button>
                             </a>
-                        </small>
-                        {{-- @endif --}}
-                    @endif
+                            {{-- @endif --}}
+                        @endif
+                    </small>
+                </div>
+                <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Filter Tanggal Peminjaman Alat</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('peminjamanalat.index') }}" method="GET">
+                                <div class="modal-body text-wrap">
+                                    <div class="mb-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="tgl_pinjam_dari" class="form-label">Tanggal Pinjam Dari</label>
+                                                <input type="datetime-local" class="form-control" id="tgl_pinjam_dari"
+                                                    name="tgl_pinjam_dari"
+                                                    value="{{ $_GET['tgl_pinjam_dari'] ?? old('tgl_pinjam_dari') }}"
+                                                    onchange="tanggalpinjamawal()" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="tgl_pinjam_sampai" class="form-label">Tanggal Pinjam
+                                                    Sampai</label>
+                                                <input type="datetime-local" class="form-control" id="tgl_pinjam_sampai"
+                                                    name="tgl_pinjam_sampai"
+                                                    value="{{ $_GET['tgl_pinjam_sampai'] ?? old('tgl_pinjam_sampai') }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="tgl_kembali_dari" class="form-label">Tanggal Kembali
+                                                    Dari</label>
+                                                <input type="datetime-local" class="form-control" id="tgl_kembali_dari"
+                                                    name="tgl_kembali_dari"
+                                                    value="{{ $_GET['tgl_kembali_dari'] ?? old('tgl_kembali_dari') }}"
+                                                    onchange="tanggalkembaliawal()" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="tgl_kembali_sampai" class="form-label">Tanggal Kembali
+                                                    Sampai</label>
+                                                <input type="datetime-local" class="form-control" id="tgl_kembali_sampai"
+                                                    name="tgl_kembali_sampai"
+                                                    value="{{ $_GET['tgl_kembali_sampai'] ?? old('tgl_kembali_sampai') }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <a href="{{ route('peminjamanalat.index') }}" class="btn btn-secondary">
+                                        Reset
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-body pb-2">
@@ -104,17 +172,11 @@
                                                     </a>
                                                 @endif
                                                 @if ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui')
-                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status"
-                                                        method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="status" value="selesai">
-                                                        <input type="hidden" name="tgl_kembali"
-                                                            value="{{ Date('Y-m-d H:i:s') }}">
-                                                        <button type="submit" class="btn btn-outline-primary p-1"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Kembalikan">
-                                                            <i class='bx bx-arrow-to-left'></i> </button>
-                                                    </form>
+                                                    <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Kembalikan"
+                                                        href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">
+                                                        <i class="bx bx-arrow-to-left"></i>
+                                                    </a>
                                                 @endif
                                             </div>
                                         </td>
@@ -136,32 +198,16 @@
                                                     <i class="bx bx-info-circle"></i>
                                                 </a>
                                                 @if ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui')
-                                                    <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status"
-                                                        method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="status" value="selesai">
-                                                        <input type="hidden" name="tgl_kembali"
-                                                            value="{{ Date('Y-m-d H:i:s') }}">
-                                                        <button type="submit" class="btn btn-outline-primary p-1"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Kembalikan">
-                                                            <i class='bx bx-arrow-to-left'></i> </button>
-                                                    </form>
+                                                    <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Kembalikan"
+                                                        href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">
+                                                        <i class="bx bx-arrow-to-left"></i>
+                                                    </a>
                                                 @endif
                                             </div>
                                         </td>
                                     </tr>
                                 @endif
-                                {{-- @empty
-                                    <tr>
-                                        <td colspan="100%">
-                                            <div class="my-5">
-                                                <h3 class="text-muted">
-                                                    Tidak Ada Data peminjamanalat
-                                                </h3>
-                                            </div>
-                                        </td>
-                                    </tr> --}}
                             @endforeach
                         </tbody>
                     </table>
@@ -171,6 +217,37 @@
                 </div> --}}
             </div>
         </div>
+        <div class="card mt-4">
+            <h5 class="card-header">Perhatian</h5>
+            <div class="card-body">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-primary">
+                        <h6 class="alert-heading fw-bold mb-1">Peminjaman Alat</h6>
+                        <p class="mb-0">
+                            Peminjaman alat dilakukan ketika user akan melakukan peminjaman berupa barang alat seperti
+                            perangkat PC dan sebagainya. Setelah user selesai meminjam alat, <b class="fw-bold">WAJIB</b>
+                            untuk mengisi kondisi alat dan memberikan
+                            bukti pengembalian berupa foto barang yang dipinjam telah dikembalikan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--/ Bordered Table -->
     </div>
+    <script>
+        const tgl_pinjam_dari = document.getElementById('tgl_pinjam_dari');
+        const tgl_pinjam_sampai = document.getElementById('tgl_pinjam_sampai');
+        const tgl_kembali_dari = document.getElementById('tgl_kembali_dari');
+        const tgl_kembali_sampai = document.getElementById('tgl_kembali_sampai');
+
+        function tanggalpinjamawal() {
+            tgl_pinjam_sampai.min = tgl_pinjam_dari.value;
+            tgl_kembali_dari.min = tgl_pinjam_dari.value;
+        }
+
+        function tanggalkembaliawal() {
+            tgl_kembali_sampai.min = tgl_kembali_dari.value;
+        }
+    </script>
 @endsection

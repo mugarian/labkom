@@ -25,14 +25,23 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Bahan Praktikum</h5>
+                @if (auth()->user()->role == 'admin')
+                    <h5 class="mb-0">Kelola Bahan Praktikum</h5>
+                @else
+                    <h5 class="mb-0">Daftar Bahan Praktikum</h5>
+                @endif
                 @if (auth()->user()->role == 'admin')
                     <p class="mb-0">Total Harga: {{ $total }}</p>
                 @endif
-                @if (auth()->user()->role == 'admin')
-                    <small class="text-muted float-end"><a href="/bahanpraktikum/create"><button
-                                class="btn btn-primary">Tambah</button></a></small>
-                @endif
+                <div class="d-flex justify-content-end">
+                    <small class="text-muted float-end">
+                        @if (auth()->user()->role == 'admin')
+                            <a href="/bahanpraktikum/create">
+                                <button class="btn btn-primary">Tambah</button>
+                            </a>
+                        @endif
+                    </small>
+                </div>
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
@@ -44,6 +53,7 @@
                                 <th>Kode Barang</th>
                                 <th>Nama Barang</th>
                                 <th>stok</th>
+                                <th>tahun</th>
                                 @if (auth()->user()->role == 'admin')
                                     <th>Harga</th>
                                 @endif
@@ -58,6 +68,7 @@
                                 <th>Kode Barang</th>
                                 <th>Nama Barang</th>
                                 <th>stok</th>
+                                <th>tahun</th>
                                 @if (auth()->user()->role == 'admin')
                                     <th>Harga</th>
                                 @endif
@@ -83,6 +94,7 @@
                                     <td class="text-wrap">{{ $bahanpraktikum->kode }}</td>
                                     <td class="text-wrap">{{ $bahanpraktikum->nama }}</td>
                                     <td class="text-wrap">{{ $bahanpraktikum->stok }}</td>
+                                    <td class="text-wrap">{{ $bahanpraktikum->tahun }}</td>
                                     @if (auth()->user()->role == 'admin')
                                         <td class="text-wrap">Rp. {{ number_format($bahanpraktikum->harga, 2, ',', '.') }}
                                         </td>

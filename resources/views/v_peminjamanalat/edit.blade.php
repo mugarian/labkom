@@ -24,13 +24,14 @@
                                 < Kembali </a></small>
                     </div>
                     <div class="card-body">
-                        <form action="/peminjamanalat/{{ $peminjamanalat->id }}" method="POST">
+                        <form action="/peminjamanalat/{{ $peminjamanalat->id }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
                                 <div class="alert alert-primary">
                                     <h6 class="alert-heading fw-bold mb-1">Pemberitahuan</h6>
-                                    <p class="mb-0">Untuk menyelesaikan Peminjaman barang laboratorium, silahkan isi kolom
+                                    <p class="mb-0">Untuk menyelesaikan Peminjaman Alat Laboratorium, silahkan isi kolom
                                         kolom berikut untuk mengetahui kondisi layak pakai barang pakai
                                     </p>
                                 </div>
@@ -70,6 +71,34 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="bukti">Bukti Pengembalian</label>
+                                <div class="">
+                                    <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                            class="d-block rounded img-preview" height="100" width="100"
+                                            id="uploadedAvatar" />
+                                        <div class="button-wrapper">
+                                            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                                <span class="d-none d-sm-block">
+                                                    Unggah Foto
+                                                </span>
+                                                <i class="bx bx-upload d-block d-sm-none"></i>
+                                                <input type="file" id="upload" name="upload"
+                                                    class="account-file-input @error('upload') is-invalid @enderror" hidden
+                                                    accept="image/png, image/jpeg" onchange="previewImage()" />
+                                                @error('upload')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </label>
+
+                                            <p class="text-muted mb-0">Hanya JPG atau PNG. Maksimal ukuran of 8MB</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             @if ($peminjamanalat->barangpakai->alat->kategori == 'pc')
                                 <div class="mb-3">
@@ -111,7 +140,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="keyboard">keyboard</label>
                                     <select id="organization"
-                                        class="select2 form-select @error('keyboard') is-invalid @enderror" name="keyboard">
+                                        class="select2 form-select @error('keyboard') is-invalid @enderror"
+                                        name="keyboard">
                                         <option value="">Pilih Kondisi</option>
                                         <option value="berfungsi" @selected(old('keyboard') == 'berfungsi')>
                                             Berfungsi
@@ -168,7 +198,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Informais Alat dan Kegiatan</h5>
+                        <h5 class="mb-0">Informasi Alat</h5>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
@@ -196,49 +226,19 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="card">
-            <div class="card-header">
-                <button type="submit" class="btn btn-primary">Selesai</button>
-                </form>
-            </div>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-primary">
-                        <h6 class="alert-heading fw-bold mb-1">peminjamanalat Data peminjamanalat</h6>
-                        <p class="mb-0">Ketika Form Tambah Data peminjamanalat ditambahkan,<br />
-                            Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                            Dan Langsung Disambungkan sesuai kode qr yang tertera
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-    </div>
     <script>
-        function padTo2Digits(num) {
-            return num.toString().padStart(2, '0');
-        }
+        function previewImage() {
+            const upload = document.querySelector('#upload');
+            const imgPreview = document.querySelector('.img-preview');
 
-        function formatDate(date) {
-            return (
-                [
-                    date.getFullYear(),
-                    padTo2Digits(date.getMonth() + 1),
-                    padTo2Digits(date.getDate()),
-                ].join('-') +
-                ' ' + [
-                    padTo2Digits(date.getHours()),
-                    padTo2Digits(date.getMinutes()),
-                    padTo2Digits(date.getSeconds()),
-                ].join(':')
-            );
-        }
+            imgPreview.style.display = 'block';
 
-        function showDate() {
-            document.getElementById("selesai").value = formatDate(new Date());
-        }
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(upload.files[0]);
 
-        setInterval(showDate, 1000);
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
     </script>
 @endsection

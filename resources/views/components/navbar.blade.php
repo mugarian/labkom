@@ -16,6 +16,8 @@
                     if ($dosen->kepalalab == 'true') {
                         $lab = App\Models\Laboratorium::where('user_id', $user->id)->first();
                         echo 'Kalab di ' . $lab->nama . ' !';
+                    } elseif ($dosen->jabatan == 'ketua jurusan') {
+                        echo 'Ketua Jurusan!';
                     } else {
                         echo 'Dosen!';
                     }

@@ -8,7 +8,7 @@
                 <a href="/training" class="text-secondary">Data Training /</a>
             </span>
             <span class="text-primary">
-                {{ $training->nama }}
+                {{ $training->datamentah->nama }}
             </span>
         </h5>
 
@@ -23,28 +23,84 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="nama">nama bahan</label>
-                            <p class="form-control">{{ $training->nama }}</p>
+                            <label class="form-label" for="nama">nama</label>
+                            <p class="form-control">{{ $training->datamentah->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="pengajuan">Kategori Pengajuan</label>
-                            <p class="form-control">
-                                @if ($training->pengajuan == 'lebih')
-                                    Melebihi Kuota
-                                @elseif ($training->pengajuan == 'pas')
-                                    Sesuai Kuota
-                                @else
-                                    Kurang dari Kuota
-                                @endif
-                            </p>
+                            <label class="form-label" for="kategori">kategori</label>
+                            <p class="form-control">{{ $training->datamentah->kategori }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="Harga">Kategori Harga</label>
-                            <p class="form-control">{{ $training->harga }}</p>
+                            <label class="form-label" for="satuan">satuan</label>
+                            <p class="form-control">{{ $training->datamentah->satuan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tahun_pengadaan">tahun pengadaan</label>
+                            <p class="form-control">{{ $training->datamentah->tahun_pengadaan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_pengadaan">jumlah pengadaan</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_pengadaan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="isi_barang_persatuan">Isi barang persatuan</label>
+                            <p class="form-control">{{ $training->datamentah->isi_barang_persatuan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_barang_perpcs">Jumlah Barang Per PCS</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_barang_perpcs }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_matkul">Jumlah Matkul</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_matkul }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_siswa_perkelas">Jumlah Siswa Per Kelas</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_siswa_perkelas }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_kelas">Jumlah Kelas</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_kelas }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_pemegang_barang">Jenis Pemegang Barang</label>
+                            <p class="form-control">{{ $training->datamentah->jenis_pemegang_barang }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_pemegang_barang">Jumlah Pemegang Barang</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_pemegang_barang }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jumlah_kebutuhan_total">Jumlah Kebutuhan Total</label>
+                            <p class="form-control">{{ $training->datamentah->jumlah_kebutuhan_total }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="harga_barang_beli">Harga Barang Beli</label>
+                            <p class="form-control">{{ $training->datamentah->harga_barang_beli }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="stok_barang">Stok Barang</label>
+                            <p class="form-control">{{ $training->datamentah->stok_barang }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_bahan">Jenis Bahan</label>
+                            <p class="form-control">{{ $training->datamentah->jenis_bahan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_pengadaan">Jenis Pengadaan</label>
+                            <p class="form-control">{{ $training->jenis_pengadaan }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_harga">Jenis Harga</label>
+                            <p class="form-control">{{ $training->jenis_harga }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="jenis_stok">Jenis Stok</label>
+                            <p class="form-control">{{ $training->jenis_stok }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="label">Label</label>
-                            <p class="form-control">{{ $training->label }}</p>
+                            <p class="form-control">{{ $training->datamentah->label }}</p>
                         </div>
                         <div class="mb-3">
                             @if (auth()->user()->role == 'admin')
@@ -72,12 +128,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-wrap">
-                        Apakah Anda Yakin Ingin Menghapus Data {{ $training->nama }}?
+                        Apakah Anda Yakin Ingin Menghapus Data {{ $training->datamentah->nama }}?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
                         {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                        <form action="/training/{{ $training->id }}" method="post">
+                        <form action="/training/{{ $training->datamentah->id }}" method="post">
                             @method('delete')
                             @csrf
                             <button type="submit" class="btn btn-primary">

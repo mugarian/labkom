@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alat;
+use App\Models\User;
 use App\Models\Bahan;
-use App\Models\BahanJurusan;
 use App\Models\Dosen;
+use Ramsey\Uuid\Uuid;
 use App\Models\Kegiatan;
 use App\Models\BarangPakai;
+use App\Models\BahanJurusan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use App\Models\BahanPraktikum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class LaboratoriumController extends Controller
 {
@@ -186,6 +189,55 @@ class LaboratoriumController extends Controller
             return redirect('/laboratorium')->with('success', 'Data laboratorium telah dihapus');
         } catch (\Throwable $th) {
             return redirect('/laboratorium')->with('fail', 'Gagal Menghapus Data karena Data Terhubung dengan Data Lain');
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $validatedData = $request->validate([
+            'import' => 'required|file|mimes:xls,xlsx|max:8000'
+        ]);
+
+        $excelFile = $request->file('import');
+        try {
+            $spreadsheet = IOFactory::load($excelFile->getRealPath());
+            $sheet        = $spreadsheet->getActiveSheet();
+            $row_limit    = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range    = range(2, $row_limit);
+            $column_range = range('D', $column_limit);
+            $startcount = 2;
+
+            $data = array();
+
+            foreach ($row_range as $row) {
+                $kalab = User::where('nomor_induk', $sheet->getCell('B' . $row)->getValue())->first();
+                try {
+                    $dosen = Dosen::where('user_id', $kalab->id)->where('kepalalab', 'false')->first();
+                    if ($dosen) {
+                        $dosen->update(['kepalalab' => 'true']);
+                    } else {
+                        return redirect('laboratorium')->with('fail', 'Import Data Laboratorium Gagal');
+                    }
+                } catch (\Throwable $th) {
+                    return redirect('laboratorium')->with('fail', 'Import Data Laboratorium Gagal');
+                }
+
+                $data[] = [
+                    'id' => (string) Uuid::uuid4(),
+                    'nama' => $sheet->getCell('A' . $row)->getValue(),
+                    'user_id' => $kalab->id,
+                    'deskripsi' => $sheet->getCell('C' . $row)->getValue(),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
+
+                $startcount++;
+            }
+            Laboratorium::insert($data);
+            return redirect('/laboratorium')->with('success', 'Import Data Laboratorium Berhasil');
+        } catch (\Throwable $th) {
+            return redirect('/laboratorium')->with('fail', 'Import Data Laboratorium Gagal');
         }
     }
 }

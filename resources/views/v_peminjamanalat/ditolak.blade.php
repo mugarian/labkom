@@ -1,12 +1,19 @@
 @extends('layout.main')
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">
-                <a href="/peminjamanalat" class="text-secondary">Data peminjaman alat</a> /
+        <h5 class="fw-bold py-3 mb-4">
+            <span class="text-secondary fw-light">
+                <a href="/dashboard" class="text-secondary">Home /</a>
+                Logbook /
+                <a href="/peminjamanalat" class="text-secondary">Peminjaman Alat /</a>
                 <a href="/peminjamanalat/{{ $peminjamanalat->id }}"
-                    class="text-secondary">{{ $peminjamanalat->barangpakai->nama }}</a> /
-            </span> Menolak peminjaman alat
-        </h4>
+                    class="text-secondary">{{ $peminjamanalat->barangpakai->nama }}
+                    /</a>
+            </span>
+            <span class="text-primary">
+                Menolak Peminjaman Bahan
+            </span>
+        </h5>
 
         <!-- Basic Layout -->
         <div class="row">
@@ -104,39 +111,41 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl">
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">alat</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
-                            @if ($peminjamanalat->barangpakai->foto)
-                                <img src="{{ asset('storage') . '/' . $peminjamanalat->barangpakai->foto }}"
-                                    alt="peminjamanalat-avatar" class="d-block rounded" height="200" width="200"
-                                    id="uploadedAvatar" />
-                            @else
-                                <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
-                                    height="200" width="200" id="uploadedAvatar" />
-                            @endif
+        <div class="row">
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">alat</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
+                                @if ($peminjamanalat->barangpakai->foto)
+                                    <img src="{{ asset('storage') . '/' . $peminjamanalat->barangpakai->foto }}"
+                                        alt="peminjamanalat-avatar" class="d-block rounded" height="200" width="200"
+                                        id="uploadedAvatar" />
+                                @else
+                                    <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
+                                        height="200" width="200" id="uploadedAvatar" />
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="kode">Kode alat</label>
-                        <p class="form-control">{{ $peminjamanalat->barangpakai->kode }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="nama">nama alat</label>
-                        <p class="form-control">{{ $peminjamanalat->barangpakai->nama }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="merk">Merk alat</label>
-                        <p class="form-control">{{ $peminjamanalat->barangpakai->merk }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="spesifikasi">spesifikasi alat</label>
-                        <p class="form-control">{{ $peminjamanalat->barangpakai->spesifikasi }}</p>
+                        <div class="mb-3">
+                            <label class="form-label" for="kode">Kode alat</label>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->kode }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="nama">nama alat</label>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="merk">Merk alat</label>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->merk }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="spesifikasi">spesifikasi alat</label>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->spesifikasi }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 
 class DosenController extends Controller
 {
@@ -51,7 +52,7 @@ class DosenController extends Controller
             'jabatan' => 'required',
             'jurusan' => 'required',
             'email' => 'required|email:dns|unique:users',
-            'password' => 'required|confirmed',
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()],
             'password_confirmation' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
@@ -144,7 +145,7 @@ class DosenController extends Controller
             if (!Hash::check($request->password, $dosen->user->password)) {
                 return back()->with('password', 'The password field is incorrect');
             }
-            $validatedData['new_password'] = $request->validate(['new_password' => 'required']);
+            $validatedData['new_password'] = $request->validate(['new_password' => ['required', Password::min(8)->mixedCase()->letters()->numbers()->symbols()]]);
             $validatedData['new_password_confirmation'] = $request->validate(['new_password_confirmation' => 'required|same:new_password']);
             $password = Hash::make($request->new_password);
         } else {

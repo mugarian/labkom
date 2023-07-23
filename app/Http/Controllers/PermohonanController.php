@@ -19,13 +19,31 @@ class PermohonanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['mulaidari', 'mulaisampai', 'selesaidari', 'selesaisampai'])) {
+            $range_mulai = [$request->mulaidari, $request->mulaisampai];
+            $range_selesai = [$request->selesaidari, $request->selesaisampai];
+        } else {
+            $mulaimin = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'permohonan')->min('mulai')));
+            $mulaimax = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'permohonan')->max('mulai')));
+            $selesaimin = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'permohonan')->min('selesai')));
+            $selesaimax = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'permohonan')->max('selesai')));
+            $range_mulai = [$mulaimin, $mulaimax];
+            $range_selesai = [$selesaimin, $selesaimax];
+        }
+
+        $permohonan = Kegiatan::where('jenis', 'permohonan')->orderBy('mulai', 'desc')->get();
+
         $user = User::find(auth()->user()->id);
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
         if ($user->role == 'mahasiswa' || $user->role == 'staff') {
-            $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('kelas_id', $mahasiswa->kelas_id)->orderBy('mulai', 'desc')->get();
+            if ($permohonan->contains('selesai', NULL)) {
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('kelas_id', $mahasiswa->kelas_id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+            } else {
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('kelas_id', $mahasiswa->kelas_id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+            }
             $jabatan = 'ms';
             $dospem = 'false';
         } elseif ($user->role == 'dosen') {
@@ -36,9 +54,16 @@ class PermohonanController extends Controller
                     // ? sort by kelas wali dosen
 
                     $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
-                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orderBy('mulai', 'desc')->get();
+
+                    if ($permohonan->contains('selesai', NULL)) {
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                        $pengampu = Kegiatan::where('jenis', 'permohonan')->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->get();
+                    } else {
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                        $pengampu = Kegiatan::where('jenis', 'permohonan')->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->get();
+                    }
+
                     $jabatan = 'kalab';
-                    $pengampu = Kegiatan::where('jenis', 'permohonan')->where('dospem_id', $dosen->id)->get();
                     if ($pengampu) {
                         $dospem = 'true';
                     } else {
@@ -46,19 +71,34 @@ class PermohonanController extends Controller
                     }
                 } else {
                     // dosen pengampu
-                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orderBy('mulai', 'desc')->get();
+                    if ($permohonan->contains('selesai', NULL)) {
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                    } else {
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                    }
+
                     $jabatan = 'dospem';
                     $dospem = 'true';
                 }
             } else {
                 // ketua jurusan + prodi
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->orderBy('mulai', 'desc')->get();
+                if ($permohonan->contains('selesai', NULL)) {
+                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                } else {
+                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                }
+
                 $jabatan = 'kajurpro';
                 $dospem = 'false';
             }
         } else {
             //admin
-            $kegiatan = Kegiatan::where('jenis', 'permohonan')->orderBy('mulai', 'desc')->get();
+            if ($permohonan->contains('selesai', NULL)) {
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+            } else {
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+            }
+
             $jabatan = 'admin';
             $dospem = 'false';
         }
@@ -260,18 +300,13 @@ class PermohonanController extends Controller
     {
         $permohonan = Kegiatan::find($id);
         $rules = [
+            'verif_dospem' => 'nullable',
+            'verif_kalab' => 'nullable',
             'keterangan' => 'required',
             'status' => 'required',
         ];
 
         $validatedData = $request->validate($rules);
-
-        $dosen = Dosen::where('user_id', auth()->user()->id)->first();
-        if ($dosen->kepalalab == 'true') {
-            $validatedData['verif_kalab'] = 'ditolak';
-        } else {
-            $validatedData['verif_dospem'] = 'ditolak';
-        }
 
         Kegiatan::where('id', $permohonan->id)->update($validatedData);
 

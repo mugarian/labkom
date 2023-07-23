@@ -5,7 +5,7 @@
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
                 Logbook /
-                <a href="/penggunaan" class="text-secondary">Penggunaan Bahan /</a>
+                <a href="/penggunaan" class="text-secondary">Penggunaan Bahan Praktikum/</a>
             </span>
             <span class="text-primary">
                 {{ $penggunaan->bahanpraktikum->nama }}
@@ -17,7 +17,7 @@
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Penggunaan Bahan</h5>
+                        <h5 class="mb-0">Detail Penggunaan Bahan Praktikum</h5>
                         <small class="text-muted float-end"><a href="/penggunaan">
                                 < Kembali </a></small>
                     </div>

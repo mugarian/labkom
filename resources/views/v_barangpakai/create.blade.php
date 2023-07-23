@@ -4,7 +4,7 @@
         <h5 class="fw-bold py-3 mb-4">
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
-                Logbook /
+                Inventory /
                 <a href="/alat" class="text-secondary">Alat /</a>
                 <a href="/alat/{{ $alat->id }}" class="text-secondary">{{ $alat->nama }} /</a>
             </span>
@@ -81,6 +81,17 @@
                                     id="harga" placeholder="harga" value="{{ old('harga') }}" name="harga"
                                     min="0" required />
                                 @error('harga')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="tahun">tahun</label>
+                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
+                                    id="tahun" placeholder="tahun" value="{{ old('tahun') }}" name="tahun"
+                                    min="1" required />
+                                @error('tahun')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

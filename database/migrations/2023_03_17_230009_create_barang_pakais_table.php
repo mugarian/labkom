@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('kode')->unique();
             $table->string('foto')->nullable();
             $table->integer('harga');
+            $table->string('tahun')->default(2020);
+            $table->enum('status', ['tersedia', 'dipakai', 'dipinjam', 'rusak'])->default('tersedia');
             $table->timestamps();
         });
     }

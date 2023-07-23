@@ -44,6 +44,10 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="status">Status Bahan Praktikum</label>
+                            <p class="form-control">{{ $bahanpraktikum->status }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="jenis">Jenis Bahan Praktikum</label>
                             <p class="form-control">Bahan {{ $bahanpraktikum->jenis }}</p>
                         </div>
@@ -67,10 +71,12 @@
                             <label class="form-label" for="spesifikasi">Spesifikasi</label>
                             <p class="form-control">{{ $bahanpraktikum->spesifikasi }}</p>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="harga">Harga</label>
-                            <p class="form-control">Rp. {{ number_format($bahanpraktikum->harga, 2, ',', '.') }}</p>
-                        </div>
+                        @if (!auth()->user()->role == 'mahasiswa')
+                            <div class="mb-3">
+                                <label class="form-label" for="harga">Harga</label>
+                                <p class="form-control">Rp. {{ number_format($bahanpraktikum->harga, 2, ',', '.') }}</p>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label class="form-label" for="stok">stok</label>
                             <p class="form-control">{{ $bahanpraktikum->stok }}</p>
@@ -172,7 +178,6 @@
                                         <th>Jumlah</th>
                                         <th>Keterangan</th>
                                         <th>Tanggal</th>
-                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -184,7 +189,6 @@
                                         <th>Jumlah</th>
                                         <th>Keterangan</th>
                                         <th>Tanggal</th>
-                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </tfoot>
@@ -197,7 +201,6 @@
                                             <td class="text-wrap">{{ $penggunaan->jumlah }}</td>
                                             <td class="text-wrap">{{ $penggunaan->keterangan }}</td>
                                             <td class="text-wrap">{{ $penggunaan->tanggal }}</td>
-                                            <td class="text-wrap">{{ $penggunaan->status }}</td>
                                             <td>
                                                 <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" data-bs-title="Lihat"

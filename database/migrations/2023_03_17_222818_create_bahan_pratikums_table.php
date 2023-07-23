@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('stok');
             $table->string('tahun');
             $table->string('foto')->nullable();
+            $table->enum('status', ['tersedia', 'digunakan', 'rusak'])->default('tersedia');
             $table->timestamps();
         });
     }

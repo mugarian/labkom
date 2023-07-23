@@ -26,9 +26,56 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Prediksi Pengajuan</h5>
-                <small class="text-muted float-end">
-                    <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
-                </small>
+                @if (auth()->user()->role == 'admin')
+                    <small class="text-muted float-end">
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
+                            <i class="bx bx-archive-in"></i> Import
+                        </button>
+                        <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
+                    </small>
+                @elseif ($dosen->kepalalab == 'true')
+                    <small class="text-muted float-end">
+                        <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
+                    </small>
+                @endif
+            </div>
+            <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Import File Excel Data Prediksi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('importPrediksi') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body text-wrap">
+                                <div class="row mb-4">
+                                    <label for="Format" class="col-sm-2 form-label">Format File</label>
+                                    <div class="col-sm-10">
+                                        <a href="{{ asset('format/format-prediksi.xlsx') }}" download="FormatImportPrediksi"
+                                            class="btn btn-primary">Download</a>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="Importfile" class="col-sm-2 form-label">Import File</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control @error('upload') is-invalid @enderror" type="file"
+                                            id="import" accept=".xls, .xlsx" required name="import">
+                                        @error('upload')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
@@ -37,8 +84,10 @@
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
                                 <th>Nama Bahan</th>
-                                <th class="text-wrap">Pengajuan</th>
-                                <th class="text-wrap">Harga</th>
+                                <th>Oleh</th>
+                                <th>Jenis Pengadaan</th>
+                                <th>Jenis Harga</th>
+                                <th>Jenis Stok</th>
                                 <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -47,8 +96,10 @@
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
                                 <th>Nama Bahan</th>
-                                <th class="text-wrap">Pengajuan</th>
-                                <th class="text-wrap">Harga</th>
+                                <th>Oleh</th>
+                                <th>Jenis Pengadaan</th>
+                                <th>Jenis Harga</th>
+                                <th>Jenis Stok</th>
                                 <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -57,28 +108,12 @@
                             @foreach ($prediksis as $prediksi)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td class="text-wrap">{{ $prediksi->nama }}</td>
-                                    <td class="text-wrap">
-                                        @if ($prediksi->pengajuan == 'lebih')
-                                            Melebihi Kuota
-                                        @elseif ($prediksi->pengajuan == 'pas')
-                                            Sesuai Kuota
-                                        @else
-                                            Kurang dari Kuota
-                                        @endif
-                                        <br>
-                                        <b>Jumlah Pengajuan</b>: {{ $prediksi->jml_pengajuan }} <br>
-                                        <b>Jumlah Matkul</b>: {{ $prediksi->jml_matkul }} <br>
-                                        <b>Jumlah Siswa</b>: {{ $prediksi->jml_siswa }} <br>
-                                        <b>Jumlah Kelas</b>: {{ $prediksi->jml_kelas }} <br>
-                                    </td>
-                                    <td class="text-wrap">
-                                        {{ $prediksi->harga }} <br>
-                                        <b>Harga Barang</b>: {{ $prediksi->harga_barang }} <br>
-                                        <b>Harga Termurah</b>: {{ $prediksi->harga_termurah }} <br>
-                                        <b>Harga Termahal</b>: {{ $prediksi->harga_termahal }} <br>
-                                    </td>
-                                    <td class="text-wrap">{{ $prediksi->label }}</td>
+                                    <td class="text-wrap">{{ $prediksi->datamentah->nama }}</td>
+                                    <td class="text-wrap">{{ $prediksi->datamentah->user->nama }}</td>
+                                    <td class="text-wrap">{{ $prediksi->jenis_pengadaan }}</td>
+                                    <td class="text-wrap">{{ $prediksi->jenis_harga }}</td>
+                                    <td class="text-wrap">{{ $prediksi->jenis_stok }}</td>
+                                    <td class="text-wrap">{{ $prediksi->datamentah->label }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
@@ -88,8 +123,8 @@
                                                 <button type="button" class="btn btn-outline-danger p-1"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal{{ $prediksi->id }}">
-                                                    <i class="bx bx-trash" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Hapus"></i>
+                                                    <i class="bx bx-trash" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Hapus"></i>
                                                 </button>
                                             @endif
                                         </div>

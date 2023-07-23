@@ -11,6 +11,7 @@ use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AlatController extends Controller
@@ -178,6 +179,49 @@ class AlatController extends Controller
             return redirect('/alat')->with('success', 'Data Alat telah dihapus');
         } catch (\Throwable $th) {
             return redirect('/alat')->with('fail', 'Gagal Menghapus Data Karena Data Terhubung Dengan Data Lain');
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $validatedData = $request->validate([
+            'import' => 'required|file|mimes:xls,xlsx|max:8000'
+        ]);
+
+        $excelFile = $request->file('import');
+        try {
+            $spreadsheet = IOFactory::load($excelFile->getRealPath());
+            $sheet        = $spreadsheet->getActiveSheet();
+            $row_limit    = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range    = range(2, $row_limit);
+            $column_range = range('E', $column_limit);
+            $startcount = 2;
+
+            $data = array();
+
+            foreach ($row_range as $row) {
+                $kategori = strtolower($sheet->getCell('C' . $row)->getValue());
+                if ($kategori != 'pc' || $kategori != 'non-pc') {
+                    return redirect('/alat')->with('fail', 'Import Data Alat Gagal');
+                }
+
+                $data[] = [
+                    'id' => (string) Uuid::uuid4(),
+                    'nama' => $sheet->getCell('A' . $row)->getValue(),
+                    'merk' => $sheet->getCell('B' . $row)->getValue(),
+                    'kategori' => $kategori,
+                    'spesifikasi' => $sheet->getCell('D' . $row)->getValue(),
+                    'tahun' => $sheet->getCell('E' . $row)->getValue(),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
+                $startcount++;
+            }
+            Alat::insert($data);
+            return redirect('/alat')->with('success', 'Import Data Alat Berhasil');
+        } catch (\Throwable $th) {
+            return redirect('/alat')->with('fail', 'Import Data Alat Gagal');
         }
     }
 }

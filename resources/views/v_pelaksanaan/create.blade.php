@@ -155,24 +155,6 @@
         </div>
     </div>
 
-    {{-- <div class="card">
-        <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">Penampelaksanaan Data pelaksanaan</h6>
-                    <p class="mb-0">Ketika Form Tambah Data pelaksanaan ditambahkan,<br />
-                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                        Dan Langsung Disambungkan sesuai kode qr yang tertera
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    </div>
     <script>
         const mulai = document.getElementById('mulai');
         const selesai = document.getElementById('selesai');

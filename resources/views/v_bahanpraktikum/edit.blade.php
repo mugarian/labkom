@@ -62,6 +62,19 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="status">Status</label>
+                                <select id="organization" class="select2 form-select @error('status') is-invalid @enderror"
+                                    name="status">
+                                    <option value="tersedia" @selected(old('status', $bahanpraktikum->status) == 'tersedia')>tersedia</option>
+                                    <option value="rusak" @selected(old('status', $bahanpraktikum->status) == 'rusak')>Rusak</option>
+                                </select>
+                                @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="jenis">Jenis Bahan Praktikum</label>
                                 <select id="organization" class="select2 form-select @error('jenis') is-invalid @enderror"
                                     name="jenis">

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('harga_barang');
             $table->integer('harga_termurah');
             $table->integer('harga_termahal');
+            $table->string('jenis_bahan');
             $table->timestamps();
         });
     }

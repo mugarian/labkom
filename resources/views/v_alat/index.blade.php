@@ -25,12 +25,18 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Alat</h5>
                 @if (auth()->user()->role == 'admin')
-                    <small class="text-muted float-end">
-                        <a href="/alat/create"><button class="btn btn-primary">Tambah</button></a>
-                    </small>
+                    <h5 class="mb-0">Kelola Alat</h5>
+                @else
+                    <h5 class="mb-0">Daftar Alat</h5>
                 @endif
+                <div class="d-flex justify-content-end">
+                    <small class="text-muted float-end">
+                        @if (auth()->user()->role == 'admin')
+                            <a href="/alat/create"><button class="btn btn-primary">Tambah</button></a>
+                        @endif
+                    </small>
+                </div>
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
@@ -41,6 +47,7 @@
                                 <th>Foto</th>
                                 <th>Nama Barang</th>
                                 <th>Merk</th>
+                                <th>Tahun</th>
                                 @if (auth()->user()->role == 'admin')
                                     <th>Jumlah Harga</th>
                                 @endif
@@ -53,6 +60,7 @@
                                 <th>Foto</th>
                                 <th>Nama Barang</th>
                                 <th>Merk</th>
+                                <th>Tahun</th>
                                 @if (auth()->user()->role == 'admin')
                                     <th>Jumlah Harga</th>
                                 @endif
@@ -76,6 +84,7 @@
                                     </td>
                                     <td class="text-wrap">{{ $alat->nama }}</td>
                                     <td class="text-wrap">{{ $alat->merk }}</td>
+                                    <td class="text-wrap">{{ $alat->tahun }}</td>
                                     @if (auth()->user()->role == 'admin')
                                         <td class="text-wrap">Rp.
                                             @foreach ($jumlahharga as $jh)

@@ -4,7 +4,7 @@
         <h5 class="fw-bold py-3 mb-4">
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
-                Logbook /
+                Inventory /
                 <a href="/alat" class="text-secondary">Alat /</a>
                 <a href="/alat/{{ $barangpakai->alat->id }}" class="text-secondary">{{ $barangpakai->alat->nama }} /</a>
             </span>
@@ -61,6 +61,19 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="status">Status</label>
+                                <select id="organization" class="select2 form-select @error('status') is-invalid @enderror"
+                                    name="status">
+                                    <option value="tersedia" @selected(old('status', $barangpakai->status) == 'tersedia')>tersedia</option>
+                                    <option value="rusak" @selected(old('status', $barangpakai->status) == 'rusak')>Rusak</option>
+                                </select>
+                                @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="kode">kode</label>
                                 <input type="text" class="form-control @error('kode') is-invalid @enderror"
                                     id="kode" placeholder="kode" value="{{ old('kode', $barangpakai->kode) }}"
@@ -94,9 +107,20 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="tahun">tahun</label>
+                                <input type="number" class="form-control @error('tahun') is-invalid @enderror"
+                                    id="tahun" placeholder="tahun" value="{{ old('tahun', $barangpakai->tahun) }}"
+                                    min="1" name="tahun" required />
+                                @error('tahun')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="alat_id">alat</label>
-                                <select id="organization" class="select2 form-select @error('alat_id') is-invalid @enderror"
-                                    name="alat_id">
+                                <select id="organization"
+                                    class="select2 form-select @error('alat_id') is-invalid @enderror" name="alat_id">
                                     <option value="{{ $barangpakai->alat_id }}">{{ $barangpakai->alat->nama }}</option>
                                     @foreach ($alats as $alat)
                                         <option value="{{ $alat->id }}" @selected(old('alat_id') == $alat->id)>

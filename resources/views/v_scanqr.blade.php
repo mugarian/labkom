@@ -85,8 +85,7 @@
                         <div class="mb-3 col-12 mb-0">
                             <div class="alert alert-danger">
                                 <h6 class="alert-heading fw-bold mb-1">Kendala Pemindaian</h6>
-                                <p class="mb-0">Jika Terdapat Kendala Ketika Melakukan Pemindaian Kode QR, <br />
-                                    Silahkan
+                                <p class="mb-0">Jika Terdapat Kendala Ketika Melakukan Pemindaian Kode QR, Silahkan
                                     Hubungi Admin atau Dosen Pengampu yang sedang mengajar</p>
                             </div>
                         </div>

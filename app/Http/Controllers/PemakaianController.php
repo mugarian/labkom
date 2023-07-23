@@ -6,9 +6,11 @@ use App\Models\Alat;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Kegiatan;
+use App\Models\Mahasiswa;
 use App\Models\Pemakaian;
 use App\Models\Peminjaman;
 use App\Models\BarangPakai;
+use App\Models\Pelaksanaan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use App\Models\PeminjamanAlat;
@@ -22,46 +24,84 @@ class PemakaianController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['mulaidari', 'mulaisampai', 'selesaidari', 'selesaisampai'])) {
+            $range_mulai = [$request->mulaidari, $request->mulaisampai];
+            $range_selesai = [$request->selesaidari, $request->selesaisampai];
+        } else {
+            $mulaimin = date('Y-m-d H:i:s', strtotime(Pemakaian::min('mulai')));
+            $mulaimax = date('Y-m-d H:i:s', strtotime(Pemakaian::max('mulai')));
+            $selesaimin = date('Y-m-d H:i:s', strtotime(Pemakaian::min('selesai')));
+            $selesaimax = date('Y-m-d H:i:s', strtotime(Pemakaian::max('selesai')));
+            $range_mulai = [$mulaimin, $mulaimax];
+            $range_selesai = [$selesaimin, $selesaimax];
+        }
+
         $user = User::find(auth()->user()->id);
         if ($user->role == 'admin') {
+            // ADMIN
             $pemakaian = Pemakaian::orderBy('mulai', 'desc')->get();
+            if ($pemakaian->contains('selesai', NULL)) {
+                $pemakaian = Pemakaian::whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+            } else {
+                $pemakaian = Pemakaian::whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+            }
             $kalab = false;
         } elseif ($user->role == 'dosen') {
             $dosen = Dosen::where('user_id', $user->id)->first();
             if ($dosen->kepalalab == 'true') {
+                // KEPALA LAB
                 $laboratorium = Laboratorium::where('user_id', $user->id)->first();
                 $pemakaian = Pemakaian::orderBy('mulai', 'desc')->get();
                 $kalab = true;
 
-                // todo join pemakaian == barangpakai == laboratorium
-                // SELECT pemakaians.id as id, barang_pakais.nama as namabarang, laboratorium.nama as namalab, kegiatans.nama as namakegiatan, users.nama as namauser, pemakaians.mulai as mulai, pemakaians.selesai as selesai
-                // FROM pemakaians
-                // INNER JOIN kegiatans ON pemakaians.kegiatan_id = kegiatans.id
-                // INNER JOIN users ON pemakaians.user_id = users.id
-                // INNER JOIN barang_pakais ON pemakaians.barangpakai_id = barang_pakais.id
-                // INNER JOIN laboratorium ON barang_pakais.laboratorium_id = laboratorium.id
-                // WHERE laboratorium.id = '00335b1f-420c-4610-bc8e-7069bb05ed47';
-
-                $pemakaian = DB::table('pemakaians')
-                    ->join('kegiatans', 'pemakaians.kegiatan_id', '=', 'kegiatans.id')
-                    ->join('users', 'pemakaians.user_id', '=', 'users.id')
-                    ->join('barang_pakais', 'pemakaians.barangpakai_id', '=', 'barang_pakais.id')
-                    ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
-                    ->where('laboratorium.id', '=', $laboratorium->id)
-                    ->orWhere('users.id', '=', $user->id)
-                    ->select('pemakaians.*', 'kegiatans.nama as namakegiatan', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
-                    ->orderBy('pemakaians.mulai', 'desc')
-                    ->get();
+                if ($pemakaian->contains('selesai', NULL)) {
+                    $pemakaian = DB::table('pemakaians')
+                        ->join('kegiatans', 'pemakaians.kegiatan_id', '=', 'kegiatans.id')
+                        ->join('users', 'pemakaians.user_id', '=', 'users.id')
+                        ->join('barang_pakais', 'pemakaians.barangpakai_id', '=', 'barang_pakais.id')
+                        ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
+                        ->where('laboratorium.id', '=', $laboratorium->id)
+                        ->whereBetween('pemakaians.mulai', $range_mulai)
+                        ->orWhere('users.id', '=', $user->id)
+                        ->select('pemakaians.*', 'kegiatans.nama as namakegiatan', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
+                        ->orderBy('pemakaians.mulai', 'desc')
+                        ->get();
+                } else {
+                    $pemakaian = DB::table('pemakaians')
+                        ->join('kegiatans', 'pemakaians.kegiatan_id', '=', 'kegiatans.id')
+                        ->join('users', 'pemakaians.user_id', '=', 'users.id')
+                        ->join('barang_pakais', 'pemakaians.barangpakai_id', '=', 'barang_pakais.id')
+                        ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
+                        ->where('laboratorium.id', '=', $laboratorium->id)
+                        ->whereBetween('pemakaians.mulai', $range_mulai)
+                        ->whereBetween('pemakaians.selesai', $range_selesai)
+                        ->orWhere('users.id', '=', $user->id)
+                        ->select('pemakaians.*', 'kegiatans.nama as namakegiatan', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
+                        ->orderBy('pemakaians.mulai', 'desc')
+                        ->get();
+                }
 
                 // todo pemakaian->barangpakai->laboratorium->user->id == auth()->user()->id
             } else {
+                // DOSEN PENGAMPU
                 $pemakaian = Pemakaian::where('user_id', $user->id)->orderBy('mulai', 'desc')->get();
+                if ($pemakaian->contains('selesai', NULL)) {
+                    $pemakaian = Pemakaian::where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                } else {
+                    $pemakaian = Pemakaian::where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                }
                 $kalab = false;
             }
         } else {
+            // MAHASISWA
             $pemakaian = Pemakaian::where('user_id', $user->id)->orderBy('mulai', 'desc')->get();
+            if ($pemakaian->contains('selesai', NULL)) {
+                $pemakaian = Pemakaian::where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+            } else {
+                $pemakaian = Pemakaian::where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+            }
             $kalab = false;
         }
 
@@ -91,8 +131,36 @@ class PemakaianController extends Controller
      */
     public function create()
     {
+        $barangpakai = BarangPakai::all();
+        // $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        $user = User::find(auth()->user()->id);
+        if ($user->role == 'dosen') {
+            $dosen = Dosen::where('user_id', $user->id)->first();
+            if ($dosen->jebatan == 'dosen pengampu') {
+                if ($dosen->kepalalab == 'true') {
+                    // kepala lab
+                    $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                } else {
+                    // dosen pengampu
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                }
+            } else {
+                // ketua jurusan
+                $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+            }
+        } elseif ($user->role == 'mahasiswa') {
+            // mahasiswa
+            $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_Id', $user->id)->orWhere('kelas_id', $mahasiswa->kelas_id)->get();
+        } else {
+            // admin
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        }
         return view('v_pemakaian.create', [
             'title' => 'Tambah Data Pemakaian',
+            'barangpakai' => $barangpakai,
+            'kegiatan' => $kegiatan
         ]);
     }
 
@@ -119,6 +187,9 @@ class PemakaianController extends Controller
             if ($barangpakai->laboratorium->id != $kegiatan->laboratorium->id) {
                 return redirect('/pemakaian')->with('fail', 'barangpakai tidak tersedia di kegiatan yang dimaksud');
             }
+            if ($barangpakai->status == 'rusak') {
+                return redirect('/pemakaian')->with('fail', 'barangpakai sedang rusak');
+            }
             if ($pemakaianTerakhir) {
                 return redirect('/pemakaian')->with('fail', 'barangpakai sedang dipakai');
             }
@@ -131,7 +202,7 @@ class PemakaianController extends Controller
             $validatedData['barangpakai_id'] = $barangpakai->id;
             $validatedData['kegiatan_id'] = $kegiatan->id;
             $validatedData['mulai'] = date("Y-m-d H:i:s");
-
+            BarangPakai::find($barangpakai->id)->update(['status' => 'dipakai']);
             Pemakaian::create($validatedData);
             return redirect('/pemakaian')->with('success', 'Tambah data Pemakaian berhasil');
         } else {
@@ -195,6 +266,7 @@ class PemakaianController extends Controller
         $validatedData = $request->validate($rules);
         $validatedData['status'] = 'selesai';
 
+        BarangPakai::find($pemakaian->barangpakai->id)->update(['status' => 'tersedia']);
         pemakaian::where('id', $pemakaian->id)->update($validatedData);
 
         return redirect('/pemakaian')->with('success', 'Data pemakaian berhasil diselesaikan');
@@ -214,8 +286,45 @@ class PemakaianController extends Controller
     public function pakai($id)
     {
         $barangpakai = BarangPakai::find($id);
+        // $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        $user = User::find(auth()->user()->id);
+        if ($user->role == 'dosen') {
+            $dosen = Dosen::where('user_id', $user->id)->first();
+            if ($dosen->jebatan == 'dosen pengampu') {
+                if ($dosen->kepalalab == 'true') {
+                    // kepala lab
+                    $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                } else {
+                    // dosen pengampu
+                    $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->get();
+                }
+            } else {
+                // ketua jurusan
+                $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+            }
+        } elseif ($user->role == 'mahasiswa') {
+            // mahasiswa
+            $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->where('user_Id', $user->id)->orWhere('kelas_id', $mahasiswa->kelas_id)->get();
+        } else {
+            // admin
+            $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
+        }
         return view('v_pemakaian.pakai', [
             'title' => 'Tambah Data Pemakaian',
+            'barangpakai' => $barangpakai,
+            'kegiatan' => $kegiatan
+        ]);
+    }
+
+    public function kegiatan($id)
+    {
+        $kegiatan = Kegiatan::find($id);
+        $barangpakai = BarangPakai::all();
+        return view('v_pemakaian.kegiatan', [
+            'title' => 'Tambah Data Pemakaian',
+            'kegiatan' => $kegiatan,
             'barangpakai' => $barangpakai
         ]);
     }

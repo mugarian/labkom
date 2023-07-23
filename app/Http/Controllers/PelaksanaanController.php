@@ -19,13 +19,30 @@ class PelaksanaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['mulaidari', 'mulaisampai', 'selesaidari', 'selesaisampai'])) {
+            $range_mulai = [$request->mulaidari, $request->mulaisampai];
+            $range_selesai = [$request->selesaidari, $request->selesaisampai];
+        } else {
+            $mulaimin = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'pelaksanaan')->min('mulai')));
+            $mulaimax = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'pelaksanaan')->max('mulai')));
+            $selesaimin = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'pelaksanaan')->min('selesai')));
+            $selesaimax = date('Y-m-d H:i:s', strtotime(Kegiatan::where('jenis', 'pelaksanaan')->max('selesai')));
+            $range_mulai = [$mulaimin, $mulaimax];
+            $range_selesai = [$selesaimin, $selesaimax];
+        }
+
+        $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->get();
+
         $user = User::find(auth()->user()->id);
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-
         if ($user->role == 'mahasiswa' || $user->role == 'staff') {
-            $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('kelas_id', $mahasiswa->kelas_id)->orderBy('mulai', 'desc')->get();
+            if ($pelaksanaan->contains('selesai', NULL)) {
+                $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('kelas_id', $mahasiswa->kelas_id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+            } else {
+                $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('kelas_id', $mahasiswa->kelas_id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+            }
             $jabatan = 'ms';
             $dospem = 'false';
         } elseif ($user->role == 'dosen') {
@@ -36,9 +53,16 @@ class PelaksanaanController extends Controller
                     // ? sort by kelas wali dosen
 
                     $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
-                    $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->get();
+
+                    if ($pelaksanaan->contains('selesai', NULL)) {
+                        $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                        $pengampu = Kegiatan::where('jenis', 'pelaksanaan')->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->get();
+                    } else {
+                        $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orWhere('laboratorium_id', $laboratorium->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                        $pengampu = Kegiatan::where('jenis', 'pelaksanaan')->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->get();
+                    }
+
                     $jabatan = 'kalab';
-                    $pengampu = Kegiatan::where('jenis', 'pelaksanaan')->where('dospem_id', $dosen->id)->get();
                     if ($pengampu) {
                         $dospem = 'true';
                     } else {
@@ -46,19 +70,31 @@ class PelaksanaanController extends Controller
                     }
                 } else {
                     // dosen pengampu
-                    $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->orderBy('mulai', 'desc')->get();
+                    if ($pelaksanaan->contains('selesai', NULL)) {
+                        $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                    } else {
+                        $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                    }
                     $jabatan = 'dospem';
                     $dospem = 'true';
                 }
             } else {
                 // ketua jurusan + prodi
-                $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->get();
+                if ($pelaksanaan->contains('selesai', NULL)) {
+                    $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->whereBetween('mulai', $range_mulai)->get();
+                } else {
+                    $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->get();
+                }
                 $jabatan = 'kajurpro';
                 $dospem = 'false';
             }
         } else {
             //admin
-            $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->get();
+            if ($pelaksanaan->contains('selesai', NULL)) {
+                $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->whereBetween('mulai', $range_mulai)->get();
+            } else {
+                $kegiatan = Kegiatan::where('jenis', 'pelaksanaan')->orderBy('mulai', 'desc')->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->get();
+            }
             $jabatan = 'admin';
             $dospem = 'false';
         }
@@ -66,7 +102,7 @@ class PelaksanaanController extends Controller
         $current_date = date('Y-m-d H:i:s');
 
         foreach ($kegiatan as $kg) {
-            if ($current_date > $kg->selesai && $kg->status == 'berlangsung') {
+            if ($current_date > $kg->selesai) {
                 DB::table('kegiatans')->where('id', $kg->id)->update([
                     'status' => 'selesai'
                 ]);
@@ -148,7 +184,7 @@ class PelaksanaanController extends Controller
         $validatedData['status'] = 'disetujui';
         $validatedData['verif_dospem'] = 'disetujui';
         $validatedData['verif_kalab'] = 'disetujui';
-        $validatedData['status'] = 'berlangsung';
+        $validatedData['status'] = 'terjadwal';
 
         Kegiatan::create($validatedData);
         return redirect('/pelaksanaan')->with('success', 'Tambah Data Pelaksanaan Praktium Berhasil');
@@ -190,11 +226,18 @@ class PelaksanaanController extends Controller
     public function update(Request $request, $id)
     {
         $kegiatan = Kegiatan::find($id);
-        $kegiatan->update([
-            'status' => $request->status,
-            'selesai' => Date('Y-m-d H:i:s'),
-            'updated_at' => Date('Y-m-d H:i:s'),
-        ]);
+        if ($request->status == 'berlangsung') {
+            $kegiatan->update([
+                'status' => $request->status,
+                'updated_at' => Date('Y-m-d H:i:s'),
+            ]);
+        } else {
+            $kegiatan->update([
+                'status' => $request->status,
+                'selesai' => Date('Y-m-d H:i:s'),
+                'updated_at' => Date('Y-m-d H:i:s'),
+            ]);
+        }
 
         return redirect('/pelaksanaan')->with('success', 'Data Pelaksanaan telah ' . $request->status);
     }
@@ -206,6 +249,10 @@ class PelaksanaanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Pelaksanaan $pelaksanaan)
+    {
+    }
+
+    public function pemakaian($id)
     {
     }
 }

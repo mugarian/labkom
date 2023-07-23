@@ -83,6 +83,16 @@
                                 {{ $peminjamanalat->kondisi ?? '-' }}
                             </p>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="bukti">Bukti Pengembalian</label>
+                            @if ($peminjamanalat->bukti)
+                                <img src="{{ asset('storage') . '/' . $peminjamanalat->bukti }}" alt="barangpakai-avatar"
+                                    class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                            @else
+                                <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
+                                    height="200" width="200" id="uploadedAvatar" />
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

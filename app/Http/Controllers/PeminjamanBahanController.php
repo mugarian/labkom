@@ -18,11 +18,29 @@ class PeminjamanBahanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['tgl_pinjam_dari', 'tgl_pinjam_sampai', 'tgl_kembali_dari', 'tgl_kembali_sampai'])) {
+            $range_tgl_pinjam = [$request->tgl_pinjam_dari, $request->tgl_pinjam_sampai];
+            $range_tgl_kembali = [$request->tgl_kembali_dari, $request->tgl_kembali_sampai];
+        } else {
+            $tgl_pinjam_min = date('Y-m-d H:i:s', strtotime(PeminjamanBahan::min('tgl_pinjam')));
+            $tgl_pinjam_max = date('Y-m-d H:i:s', strtotime(PeminjamanBahan::max('tgl_pinjam')));
+            $tgl_kembali_min = date('Y-m-d H:i:s', strtotime(PeminjamanBahan::min('tgl_kembali')));
+            $tgl_kembali_mx = date('Y-m-d H:i:s', strtotime(PeminjamanBahan::max('tgl_kembali')));
+            $range_tgl_pinjam = [$tgl_pinjam_min, $tgl_pinjam_max];
+            $range_tgl_kembali = [$tgl_kembali_min, $tgl_kembali_mx];
+        }
+
         $user = User::find(auth()->user()->id);
+        $peminjamanbahan = PeminjamanBahan::orderBy('tgl_pinjam', 'desc')->get();
         if ($user->role == 'admin') {
-            $peminjamanbahan = peminjamanbahan::orderBy('tgl_pinjam', 'desc')->get();
+            if ($peminjamanbahan->contains('tgl_kembali', NULL)) {
+                $peminjamanbahan = peminjamanbahan::whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+            } else {
+                $peminjamanbahan = peminjamanbahan::whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+            }
+
             $kalab = false;
         } elseif ($user->role == 'dosen') {
             $dosen = Dosen::where('user_id', $user->id)->first();
@@ -31,24 +49,49 @@ class PeminjamanBahanController extends Controller
                 $kalab = true;
 
                 // todo join peminjamanbahan == bahanjurusan == laboratorium
+                if ($peminjamanbahan->contains('tgl_kembali', NULL)) {
+                    $peminjamanbahan = DB::table('peminjaman_bahans')
+                        ->join('users', 'peminjaman_bahans.user_id', '=', 'users.id')
+                        ->join('bahan_jurusans', 'peminjaman_bahans.bahanjurusan_id', '=', 'bahan_jurusans.id')
+                        ->join('bahan_praktikums', 'bahan_jurusans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
+                        ->join('laboratorium', 'bahan_jurusans.laboratorium_id', '=', 'laboratorium.id')
+                        ->where('laboratorium.id', '=', $laboratorium->id)
+                        ->whereBetween('peminjaman_bahans.tgl_pinjam', $range_tgl_pinjam)
+                        ->select('peminjaman_bahans.*', 'laboratorium.nama as namalab', 'bahan_praktikums.nama as namabahanjurusan', 'users.nama as namauser', 'users.id as iduser')
+                        ->orderBy('tgl_pinjam', 'desc')
+                        ->get();
+                } else {
+                    $peminjamanbahan = DB::table('peminjaman_bahans')
+                        ->join('users', 'peminjaman_bahans.user_id', '=', 'users.id')
+                        ->join('bahan_jurusans', 'peminjaman_bahans.bahanjurusan_id', '=', 'bahan_jurusans.id')
+                        ->join('bahan_praktikums', 'bahan_jurusans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
+                        ->join('laboratorium', 'bahan_jurusans.laboratorium_id', '=', 'laboratorium.id')
+                        ->where('laboratorium.id', '=', $laboratorium->id)
+                        ->whereBetween('peminjaman_bahans.tgl_pinjam', $range_tgl_pinjam)
+                        ->whereBetween('peminjaman_bahans.tgl_kembali', $range_tgl_kembali)
+                        ->select('peminjaman_bahans.*', 'laboratorium.nama as namalab', 'bahan_praktikums.nama as namabahanjurusan', 'users.nama as namauser', 'users.id as iduser')
+                        ->orderBy('tgl_pinjam', 'desc')
+                        ->get();
+                }
 
-                $peminjamanbahan = DB::table('peminjaman_bahans')
-                    ->join('users', 'peminjaman_bahans.user_id', '=', 'users.id')
-                    ->join('bahan_jurusans', 'peminjaman_bahans.bahanjurusan_id', '=', 'bahan_jurusans.id')
-                    ->join('bahan_praktikums', 'bahan_jurusans.bahanpraktikum_id', '=', 'bahan_praktikums.id')
-                    ->join('laboratorium', 'bahan_jurusans.laboratorium_id', '=', 'laboratorium.id')
-                    ->where('laboratorium.id', '=', $laboratorium->id)
-                    ->select('peminjaman_bahans.*', 'laboratorium.nama as namalab', 'bahan_praktikums.nama as namabahanjurusan', 'users.nama as namauser', 'users.id as iduser')
-                    ->orderBy('tgl_pinjam', 'desc')
-                    ->get();
 
                 // todo pemakaian->bahanjurusan->laboratorium->user->id == auth()->user()->id
             } else {
-                $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->orderBy('tgl_pinjam', 'desc')->get();
+                if ($peminjamanbahan->contains('tgl_kembali', NULL)) {
+                    $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+                } else {
+                    $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+                }
+
                 $kalab = false;
             }
         } else {
-            $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->orderBy('tgl_pinjam', 'desc')->get();
+            if ($peminjamanbahan->contains('tgl_kembali', NULL)) {
+                $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+            } else {
+                $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+            }
+
             $kalab = false;
         }
 
@@ -102,9 +145,11 @@ class PeminjamanBahanController extends Controller
             $jenis = 'luar';
         }
 
+        $bahanjurusan = BahanJurusan::all();
         return view('v_peminjamanbahan.create', [
             'title' => 'Tambah Data peminjaman bahan',
-            'jenis' => $jenis
+            'jenis' => $jenis,
+            'bahanjurusan' => $bahanjurusan
         ]);
     }
 
@@ -128,10 +173,12 @@ class PeminjamanBahanController extends Controller
         $peminjamanBahanTerakhir = PeminjamanBahan::where('bahanjurusan_id', $bahanjurusan->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
 
         if ($bahanjurusan) {
+            if ($bahanjurusan->status == 'rusak') {
+                return redirect('/peminjamanbahan')->with('fail', 'Bahan Jurusan sedang rusak');
+            }
             if ($peminjamanBahanTerakhir) {
                 return redirect('/peminjamanbahan')->with('fail', 'Bahan Jurusan sedang dipinjam');
             }
-
             if ($validatedData['jumlah'] > $bahanjurusan->stok) {
                 return redirect('/peminjamanbahan')->with('fail', 'Jumlah Peminjaman melebihi stok bahan jurusan');
             }
@@ -140,6 +187,7 @@ class PeminjamanBahanController extends Controller
             $validatedData['tgl_pinjam'] = date("Y-m-d H:i:s");
 
             if ($bahanjurusan->laboratorium->user->id == auth()->user()->id) {
+                BahanJurusan::find($bahanjurusan->id)->update(['status' => 'dipinjam']);
                 $validatedData['status'] = 'disetujui';
                 $bahanjurusan->update([
                     'stok' => $bahanjurusan->stok - $request->jumlah
@@ -173,9 +221,13 @@ class PeminjamanBahanController extends Controller
      * @param  \App\Models\PeminjamanBahan  $peminjamanBahan
      * @return \Illuminate\Http\Response
      */
-    public function edit(PeminjamanBahan $peminjamanBahan)
+    public function edit($id)
     {
-        //
+        $peminjamanBahan = PeminjamanBahan::find($id);
+        return view('v_peminjamanbahan.edit', [
+            'title' => 'Cek Kondisi Peminjaman Bahan',
+            'peminjamanbahan' => $peminjamanBahan,
+        ]);
     }
 
     /**
@@ -187,18 +239,31 @@ class PeminjamanBahanController extends Controller
      */
     public function update(Request $request, PeminjamanBahan $peminjamanbahan)
     {
+        $rules = [
+            'kondisi' => 'required',
+            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000',
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        if ($request->file('upload')) {
+            $validatedData['upload'] = $request->file('upload')->store('peminjamanalat-images');
+            $validatedData['bukti'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+        }
+
+        BahanJurusan::find($peminjamanbahan->bahanjurusan->id)->update(['status' => 'tersedia']);
+        $validatedData['status'] = 'selesai';
+        $validatedData['tgl_kembali'] = Date('Y-m-d H:i:s');
+
         $bahanjurusan = BahanJurusan::find($peminjamanbahan->bahanjurusan_id);
         $bahanjurusan->update([
             'stok' => $bahanjurusan->stok + $peminjamanbahan->jumlah
         ]);
 
-        $peminjamanbahan->update([
-            'status' => $request->status,
-            'tgl_kembali' => $request->tgl_kembali ?? null,
-            'updated_at' => Date('Y-m-d H:i:s'),
-        ]);
+        PeminjamanBahan::where('id', $peminjamanbahan->id)->update($validatedData);
 
-        return redirect('/peminjamanbahan')->with('success', 'Data peminjaman bahan telah ' . $request->status);
+        return redirect('/peminjamanbahan')->with('success', 'Data peminjaman bahan berhasil diselesaikan');
     }
 
     /**
@@ -226,6 +291,8 @@ class PeminjamanBahanController extends Controller
     {
         $peminjamanbahan = peminjamanbahan::find($id);
         $rules = [
+            'verif_dospem' => 'nullable',
+            'verif_kalab' => 'nullable',
             'keterangan' => 'required',
             'status' => 'required',
         ];

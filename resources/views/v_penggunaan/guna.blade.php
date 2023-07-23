@@ -5,7 +5,7 @@
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Home /</a>
                 Logbook /
-                <a href="/penggunaan" class="text-secondary">Penggunaan Bahan /</a>
+                <a href="/penggunaan" class="text-secondary">Penggunaan Bahan Praktikum /</a>
             </span>
             <span class="text-primary">
                 Tambah
@@ -42,7 +42,7 @@
                                 <input type="text" class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
                                     id="bahanpraktikum_id" placeholder="bahanpraktikum_id"
                                     value="{{ old('bahanpraktikum_id', $bahanpraktikum->kode) }}" name="bahanpraktikum_id"
-                                    required readonly />
+                                    required readonly autocomplete="off" />
                                 @error('bahanpraktikum_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -50,15 +50,44 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">Nama Bahan Praktikum</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummybp"
+                                        placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata"
+                                        value="{{ $bahanpraktikum->nama }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
-                                <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
+                                <input list="kegiatan" class="form-control @error('kegiatan_id') is-invalid @enderror"
                                     id="kegiatan_id" placeholder="kode kegiatan" value="{{ old('kegiatan_id') }}"
-                                    name="kegiatan_id" required />
+                                    name="kegiatan_id" required autocomplete="off" onkeyup="namakeg()" />
+                                <datalist id="kegiatan">
+                                    @foreach ($kegiatan as $keg)
+                                        <option value="{{ $keg->kode }}">{{ $keg->nama }} ({{ $keg->status }})
+                                            ({{ $keg->laboratorium->nama }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
                                 @error('kegiatan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Nama Kegiatan</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummykeg"
+                                        placeholder="nama Kegiatan terisi otomatis sesuai kode yang terdata" readonly />
+                                    <div id="divkeg" style="display:none">
+                                        @foreach ($kegiatan as $keg)
+                                            <input class="form-control mb-3" style="display:none" id="{{ $keg->kode }}"
+                                                placeholder="nama kegiatan terisi otomatis sesuai kode yang terdata"
+                                                value="{{ $keg->nama }}" readonly />
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
@@ -101,8 +130,9 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($bahanpraktikum->foto)
-                                    <img src="{{ asset('storage') . '/' . $bahanpraktikum->foto }}" alt="pemakaian-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                    <img src="{{ asset('storage') . '/' . $bahanpraktikum->foto }}"
+                                        alt="pemakaian-avatar" class="d-block rounded" height="200" width="200"
+                                        id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />
@@ -134,27 +164,26 @@
             @endif
         </div>
     </div>
-    {{-- <div class="card">
-        <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">penggunaan Data penggunaan</h6>
-                    <p class="mb-0">Ketika Form Tambah Data penggunaan ditambahkan,<br />
-                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                        Dan Langsung Disambungkan sesuai kode qr yang tertera
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    </div>
     <script>
-        let currentDate = new Date().toISOString().slice(0, -8);
-        console.log(currentDate);
-        document.querySelector("#mulai").min = currentDate;
+        const kegiatan = document.getElementById('kegiatan_id');
+
+        const kodekeg = [];
+
+        <?php
+        foreach ($kegiatan as $keg) {
+            echo "kodekeg.push('$keg->kode');\n";
+        }
+        ?>
+
+        function namakeg() {
+            if (kodekeg.includes(kegiatan.value)) {
+                document.getElementById('divkeg').style.display = 'block';
+                document.getElementById(kegiatan.value).style.display = 'block';
+                document.getElementById('dummykeg').style.display = 'none';
+            } else {
+                document.getElementById('divkeg').style.display = 'none';
+                document.getElementById('dummykeg').style.display = 'block';
+            }
+        }
     </script>
 @endsection

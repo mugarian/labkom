@@ -55,6 +55,10 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="status">Status Barang</label>
+                            <p class="form-control">{{ $barangpakai->status }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="kode">Kode Barang</label>
                             <p class="form-control">{{ $barangpakai->kode }}</p>
                         </div>
@@ -62,10 +66,12 @@
                             <label class="form-label" for="nama">Nama Barang</label>
                             <p class="form-control">{{ $barangpakai->nama }}</p>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="harga">harga</label>
-                            <p class="form-control">Rp. {{ number_format($barangpakai->harga, 2, ',', '.') }}</p>
-                        </div>
+                        @if (!auth()->user()->role == 'mahasiswa')
+                            <div class="mb-3">
+                                <label class="form-label" for="harga">harga</label>
+                                <p class="form-control">Rp. {{ number_format($barangpakai->harga, 2, ',', '.') }}</p>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label class="form-label" for="merk">Alat</label>
                             <p class="form-control">{{ $barangpakai->alat->nama }}</p>
@@ -73,6 +79,10 @@
                         <div class="mb-3">
                             <label class="form-label" for="merk">Laboratorium</label>
                             <p class="form-control">{{ $barangpakai->laboratorium->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="merk">Tahun</label>
+                            <p class="form-control">{{ $barangpakai->tahun }}</p>
                         </div>
                         <div class="mb-3">
                             <div class="d-flex justify-content-start">

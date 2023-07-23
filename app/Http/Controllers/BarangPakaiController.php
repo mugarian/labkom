@@ -85,6 +85,7 @@ class BarangPakaiController extends Controller
             'harga' => 'required',
             'laboratorium_id' => 'required',
             'alat_id' => 'required',
+            'tahun' => 'required',
             'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ]);
 
@@ -111,8 +112,8 @@ class BarangPakaiController extends Controller
         $barangpakai = BarangPakai::find($id);
         $qrcode = QrCode::size(200)->generate(route('scan', $barangpakai->kode));
         $user = User::find($barangpakai->laboratorium->user->id);
-        $pemakaians = Pemakaian::where('barangpakai_id', '=', $barangpakai->id)->orderBy('mulai', 'desc')->get();
-        $peminjamans = PeminjamanAlat::where('barangpakai_id', '=', $barangpakai->id)->orderBy('tgl_pinjam', 'desc')->get();
+        $pemakaians = Pemakaian::where('barangpakai_id', '=', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->get();
+        $peminjamans = PeminjamanAlat::where('barangpakai_id', '=', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->get();
         // $pemakaian = Pemakaian::where('barangpakai_id', $barangpakai->id)->orderBy('mulai', 'desc')->get();
         // $peminjaman = Peminjaman::where('barangpakai_id', $barangpakai->id)->orderBy('mulai', 'desc')->get();
         return view('v_barangpakai.show', [
@@ -175,6 +176,8 @@ class BarangPakaiController extends Controller
             $rules = [
                 'nama' => 'required|max:255',
                 'alat_id' => 'required',
+                'status' => 'required',
+                'tahun' => 'required',
                 'harga' => 'required',
                 'laboratorium_id' => 'required',
                 'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'

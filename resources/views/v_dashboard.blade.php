@@ -2,369 +2,6 @@
 @section('container')
     <div class="container-xxl flex-grow-1 container-p-y">
 
-        {{-- FASILITAS --}}
-        {{-- <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                <a href="/laboratorium">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-door-open'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Laboratorium</span>
-                                <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                <a href="/kelas">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-chalkboard'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Kelas</span>
-                                <h3 class="card-title mb-2">{{ $kelas->count() }}</h3>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-        </div> --}}
-
-        {{-- INVENTORI --}}
-        {{-- <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-3">
-                <a href="/alat">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-wrench'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Alat</span>
-                                <h3 class="card-title mb-2">{{ $alat->count() }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-3">
-                <a href="#">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-desktop'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Barang Pakai</span>
-                                <h3 class="card-title mb-2">{{ $barangpakai->count() }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                <a href="/bahanpraktikum">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-archive'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Bahan Praktikum</span>
-                                <h3 class="card-title mb-2">
-                                    {{ $bahanpraktikum->count() }}
-                                </h3>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                <a href="/bahanjurusan">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-package'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Bahan Jurusan</span>
-                                <h3 class="card-title mb-2">
-                                    {{ $bahanjurusan->count() }}
-                                </h3>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-        </div> --}}
-
-        {{-- KEGIATAN --}}
-        {{-- <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                <a href="/pelaksanaan">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-week'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Pelaksanaan Kegiatan</span>
-                                <h3 class="card-title mb-2">{{ $pelaksanaan }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Selesai">
-                                        <i class="bx bx-check-double"></i> {{ $plselesai }}
-                                    </small>
-                                    <small class="text-warning fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Berlangsung">
-                                        <i class="bx bx-time"></i> {{ $plberlangsung }}
-                                    </small>
-                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Disetujui">
-                                        <i class="bx bx-check"></i> {{ $pldisetujui }}
-                                    </small>
-                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Ditolak">
-                                        <i class="bx bx-x"></i> {{ $plditolak }}
-                                    </small>
-                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Menunggu">
-                                        <i class="bx bx-question-mark"></i> {{ $plmenunggu }}
-                                    </small>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                <a href="/permohonan">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-event'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Permohonan Kegiatan</span>
-                                <h3 class="card-title mb-2">{{ $permohonan }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Selesai">
-                                        <i class="bx bx-check-double"></i> {{ $prselesai }}
-                                    </small>
-                                    <small class="text-warning fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Berlangsung">
-                                        <i class="bx bx-time"></i> {{ $prberlangsung }}
-                                    </small>
-
-                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Disetujui">
-                                        <i class="bx bx-check"></i> {{ $prdisetujui }}
-                                    </small>
-                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Ditolak">
-                                        <i class="bx bx-x"></i> {{ $prditolak }}
-                                    </small>
-                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Menunggu">
-                                        <i class="bx bx-question-mark"></i> {{ $prmenunggu }}
-                                    </small>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-        </div> --}}
-        {{-- LOGBOOK --}}
-        {{-- <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                <a href="/pemakaian">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Pemakaian Alat</span>
-                                <h3 class="card-title mb-2">{{ $pemakaian }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Selesai">
-                                        <i class="bx bx-check-circle"></i> {{ $pkselesai }}
-                                    </small>
-                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Dimulai">
-                                        <i class="bx bx-check"></i> {{ $pkmulai }}
-                                    </small>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                <a href="/peminjamanalat">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Peminjaman Alat</span>
-                                <h3 class="card-title mb-2">{{ $pakailat }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Selesai">
-                                        <i class="bx bx-check-double"></i> {{ $pakaiselesai }}
-                                    </small>
-                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Disetujui">
-                                        <i class="bx bx-check"></i> {{ $pakaidisetujui }}
-                                    </small>
-                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Ditolak">
-                                        <i class="bx bx-x"></i> {{ $pakaiditolak }}
-                                    </small>
-                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Menunggu">
-                                        <i class="bx bx-question-mark"></i> {{ $pakaimenunggu }}
-                                    </small>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                <a href="/penggunaan">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Penggunaan Bahan</span>
-                                <h3 class="card-title mb-2">
-                                    {{ $penggunaan }}
-                                </h3>
-                                <div class="d-flex justify-content-evenly">
-                                    &nbsp;
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-                <a href="/peminjamanbahan">
-                    <div class="card">
-                        <center>
-                            <div class="card-body">
-                                <div class="card-title d-flex align-items-center justify-content-center">
-                                    <div class="avatar flex-shrink-0">
-                                        <i class='fs-1 text-primary bx bx-calendar-minus'></i>
-                                    </div>
-                                </div>
-                                <span class="fw-semibold d-block text-black mb-1">Peminjaman Bahan</span>
-                                <h3 class="card-title mb-2">{{ $pbahan }}</h3>
-                                <div class="d-flex justify-content-evenly">
-                                    <small class="text-success fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Selesai">
-                                        <i class="bx bx-check-double"></i> {{ $pbselesai }}
-                                    </small>
-                                    <small class="text-primary fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Disetujui">
-                                        <i class="bx bx-check"></i> {{ $pbdisetujui }}
-                                    </small>
-                                    <small class="text-danger fw-semibold" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        data-bs-title="Ditolak">
-                                        <i class="bx bx-x"></i> {{ $pbditolak }}
-                                    </small>
-                                    <small class="text-secondary fw-semibold" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" data-bs-title="Menunggu">
-                                        <i class="bx bx-question-mark"></i> {{ $pbmenunggu }}
-                                    </small>
-                                </div>
-                            </div>
-                        </center>
-                    </div>
-                </a>
-            </div>
-        </div> --}}
-
-        {{-- AKUN --}}
-        {{-- @if (auth()->user()->role == 'admin')
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                    <a href="/dosen">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-group'></i>
-                                        </div>
-                                    </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Dosen</span>
-                                    <h3 class="card-title mb-2">{{ $dosen->count() }}</h3>
-                                </div>
-                            </center>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-                    <a href="/mahasiswa">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-group'></i>
-                                        </div>
-                                    </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Mahasiswa</span>
-                                    <h3 class="card-title mb-2">{{ $mahasiswa->count() }}</h3>
-                                </div>
-                            </center>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        @endif --}}
-
         {{-- BANNER --}}
         <div class="row">
             <div class="col-lg-12 mb-4 order-0">
@@ -403,113 +40,344 @@
             {{-- LABORATORIUM --}}
             <div class="col-lg-2 col-md-3 order-1">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-12 mb-4">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-door-open'></i>
+                    <a href="/laboratorium">
+                        <div class="col-lg-12 col-md-12 col-12 mb-4">
+                            <div class="card">
+                                <center>
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-center justify-content-center">
+                                            <div class="avatar flex-shrink-0">
+                                                <i class='fs-1 text-primary bx bx-door-open'></i>
+                                            </div>
                                         </div>
+                                        <span class="fw-semibold d-block text-black mb-1">Laboratorium</span>
+                                        <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
                                     </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Laboratorium</span>
-                                    <h3 class="card-title mb-2">{{ $laboratorium->count() }}</h3>
-                                </div>
-                            </center>
+                                </center>
+                            </div>
                         </div>
-                    </div>
-
+                    </a>
                 </div>
             </div>
             {{-- KELAS --}}
             <div class="col-lg-2 col-md-3 order-2">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-12 mb-4">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-chalkboard'></i>
+                    <a href="/kelas">
+                        <div class="col-lg-12 col-md-12 col-12 mb-4">
+                            <div class="card">
+                                <center>
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-center justify-content-center">
+                                            <div class="avatar flex-shrink-0">
+                                                <i class='fs-1 text-primary bx bx-chalkboard'></i>
+                                            </div>
                                         </div>
+                                        <span class="fw-semibold d-block text-black mb-1">Kelas</span>
+                                        <h3 class="card-title mb-2">{{ $kelas->count() }}</h3>
                                     </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Kelas</span>
-                                    <h3 class="card-title mb-2">{{ $kelas->count() }}</h3>
-                                </div>
-                            </center>
+                                </center>
+                            </div>
                         </div>
-                    </div>
-
+                    </a>
                 </div>
             </div>
             {{-- ALAT --}}
             <div class="col-lg-2 col-md-2 order-3">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-12 mb-4">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-wrench'></i>
+                    <a href="/alat">
+                        <div class="col-lg-12 col-md-12 col-12 mb-4">
+                            <div class="card">
+                                <center>
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-center justify-content-center">
+                                            <div class="avatar flex-shrink-0">
+                                                <i class='fs-1 text-primary bx bx-wrench'></i>
+                                            </div>
                                         </div>
+                                        <span class="fw-semibold d-block text-black mb-1">Alat</span>
+                                        <h3 class="card-title mb-2">{{ $barangpakai->count() }}</h3>
                                     </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Alat</span>
-                                    <h3 class="card-title mb-2">{{ $barangpakai->count() }}</h3>
-                                </div>
-                            </center>
+                                </center>
+                            </div>
                         </div>
-                    </div>
-
+                    </a>
                 </div>
             </div>
             {{-- BAHAN PRAKTIKUM --}}
             <div class="col-lg-3 col-md-2 order-4">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-12 mb-4">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-package'></i>
+                    <a href="/bahanpraktikum">
+                        <div class="col-lg-12 col-md-12 col-12 mb-4">
+                            <div class="card">
+                                <center>
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-center justify-content-center">
+                                            <div class="avatar flex-shrink-0">
+                                                <i class='fs-1 text-primary bx bx-package'></i>
+                                            </div>
                                         </div>
+                                        <span class="fw-semibold d-block text-black mb-1">Bahan Praktikum</span>
+                                        <h3 class="card-title mb-2">{{ $bahanpraktikum->count() }}</h3>
                                     </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Bahan Praktikum</span>
-                                    <h3 class="card-title mb-2">{{ $bahanpraktikum->count() }}</h3>
-                                </div>
-                            </center>
+                                </center>
+                            </div>
                         </div>
-                    </div>
-
+                    </a>
                 </div>
             </div>
             {{-- BAHAN JURUSAN --}}
             <div class="col-lg-3 col-md-2 order-5">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-12 mb-4">
-                        <div class="card">
-                            <center>
-                                <div class="card-body">
-                                    <div class="card-title d-flex align-items-center justify-content-center">
-                                        <div class="avatar flex-shrink-0">
-                                            <i class='fs-1 text-primary bx bx-box'></i>
+                    <a href="/bahanjurusan">
+                        <div class="col-lg-12 col-md-12 col-12 mb-4">
+                            <div class="card">
+                                <center>
+                                    <div class="card-body">
+                                        <div class="card-title d-flex align-items-center justify-content-center">
+                                            <div class="avatar flex-shrink-0">
+                                                <i class='fs-1 text-primary bx bx-box'></i>
+                                            </div>
                                         </div>
+                                        <span class="fw-semibold d-block text-black mb-1">Bahan Jurusan</span>
+                                        <h3 class="card-title mb-2">{{ $bahanjurusan->count() }}</h3>
                                     </div>
-                                    <span class="fw-semibold d-block text-black mb-1">Bahan Jurusan</span>
-                                    <h3 class="card-title mb-2">{{ $bahanjurusan->count() }}</h3>
-                                </div>
-                            </center>
+                                </center>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
 
+        {{-- KEGIATAN TERBARU --}}
+        <div class="row">
+            {{-- PELAKSANAAN KEGIATAN --}}
+            <div class="col-lg-6 col-sm order-1 order-md-1 order-lg-1 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-center">
+                        <h5 class="card-title m-0 me-2">Pelaksanaan Kegiatan</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="p-0 m-0">
+                            @foreach ($pelaksanaans as $pelaksanaan)
+                                @if ($pelaksanaan->jenis == 'permohonan')
+                                    @continue
+                                @endif
+                                <a href="/pelaksanaan/{{ $pelaksanaan->id }}">
+                                    <li class="d-flex mb-4 pb-1">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="avatar flex-shrink-0 me-3">
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    <i class="bx bx-calendar-week"></i>
+                                                </span>
+                                            </div>
+                                            <div class="w-100 gap-2">
+                                                <div class="me-2">
+                                                    <small
+                                                        class="text-muted d-block mb-1">{{ $pelaksanaan->user->nama ?? $pelaksanaan->namauser }}
+                                                        <i
+                                                            class="fw-lighter">({{ \Carbon\Carbon::parse($pelaksanaan->created_at)->diffForHumans() }})</i>
+                                                    </small>
+                                                    <h6 class="mb-0">
+                                                        <a href="/pelaksanaan/{{ $pelaksanaan->id }}" class="text-wrap">
+                                                            {{ $pelaksanaan->nama ?? $pelaksanaan->namakegiatan }} di
+                                                            {{ $pelaksanaan->laboratorium->nama ?? $pelaksanaan->namalab }}
+                                                            -
+                                                            {{ $pelaksanaan->kelas->nama }}
+                                                            ({{ $pelaksanaan->status }})
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                                <div class="user-progress mt-2 d-flex justify-content-start">
+                                                    @if ($pelaksanaan->user_id == auth()->user()->id || $pelaksanaan->dospem->user_id == auth()->user()->id)
+                                                        @if ($pelaksanaan->status == 'berlangsung')
+                                                            <form action="/pelaksanaan/{{ $pelaksanaan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="status" value="selesai">
+                                                                <button type="submit" class="btn btn-outline-primary p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Selesai">
+                                                                    <i class='bx bx-message-square-check'></i>
+                                                                </button>
+                                                            </form>
+                                                        @elseif ($pelaksanaan->status == 'terjadwal')
+                                                            <form action="/pelaksanaan/{{ $pelaksanaan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="status" value="berlangsung">
+                                                                <button type="submit" class="btn btn-outline-primary p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Jadi">
+                                                                    <i class='bx bx-calendar-check'></i>
+                                                                </button>
+                                                            </form>
+                                                            <form action="/pelaksanaan/{{ $pelaksanaan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="status" value="ditolak">
+                                                                <button type="submit" class="btn btn-outline-danger p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Tidak Jadi">
+                                                                    <i class='bx bx-calendar-x'></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </a>
+                            @endforeach
+                            <li class="d-flex justify-content-center">
+                                <a href="/pelaksanaan" class="btn btn-sm btn-outline-primary">Pelaksanaan Kegiatan
+                                    Lainnya</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PERMOHONAN KEGIATAN --}}
+            <div class="col-lg-6 col-sm order-1 order-md-1 order-lg-1 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center justify-content-center">
+                        <h5 class="card-title m-0 me-2">Permohonan Kegiatan</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="p-0 m-0">
+                            @foreach ($permohonans as $permohonan)
+                                @if ($permohonan->jenis == 'pelaksanaan')
+                                    @continue
+                                @endif
+                                <a href="/permohonan/{{ $permohonan->id }}">
+                                    <li class="d-flex mb-4 pb-1">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="avatar flex-shrink-0 me-3">
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    <i class="bx bx-calendar-week"></i>
+                                                </span>
+                                            </div>
+                                            <div class="w-100 gap-2">
+                                                <div class="me-2">
+                                                    <small
+                                                        class="text-muted d-block mb-1">{{ $permohonan->user->nama ?? $permohonan->namauser }}
+                                                        <i
+                                                            class="fw-lighter">({{ \Carbon\Carbon::parse($permohonan->created_at)->diffForHumans() }})</i>
+                                                    </small>
+                                                    <h6 class="mb-0">
+                                                        <a href="/permohonan/{{ $permohonan->id }}" class="text-wrap">
+                                                            {{ $permohonan->nama ?? $permohonan->namakegiatan }} di
+                                                            {{ $permohonan->laboratorium->nama ?? $permohonan->namalab }}
+                                                            -
+                                                            {{ $permohonan->kelas->nama }}
+                                                            ({{ $permohonan->status }})
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                                <div class="user-progress mt-2 d-flex justify-content-start">
+                                                    @if ($permohonan->user_id == auth()->user()->id)
+                                                        @if ($permohonan->status == 'disetujui')
+                                                            <form action="/permohonan/{{ $permohonan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="status" value="berlangsung">
+                                                                <input type="hidden" name="mulai"
+                                                                    value="{{ Date('Y-m-d H:i:s') }}">
+                                                                <button type="submit" class="btn btn-outline-primary p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Mulai">
+                                                                    <i class='bx bx-message-square-check'></i> </button>
+                                                            </form>
+                                                        @elseif ($permohonan->status == 'berlangsung')
+                                                            <form action="/permohonan/{{ $permohonan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="status" value="selesai">
+                                                                <input type="hidden" name="selesai"
+                                                                    value="{{ Date('Y-m-d H:i:s') }}">
+                                                                <button type="submit" class="btn btn-primary p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Selesai">
+                                                                    <i class='bx bx-message-square-check'></i> </button>
+                                                            </form>
+                                                        @endif
+                                                        {{-- Dospem --}}
+                                                    @elseif ($permohonan->dospem->user_id == auth()->user()->id)
+                                                        @if ($permohonan->verif_dospem == 'menunggu')
+                                                            <form action="/permohonan/{{ $permohonan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="verif_dospem"
+                                                                    value="disetujui">
+                                                                <input type="hidden" name="verif_kalab"
+                                                                    value="menunggu">
+                                                                <input type="hidden" name="status" value="menunggu">
+                                                                <button type="submit" class="btn btn-outline-primary p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Setuju">
+                                                                    <i class='bx bx-message-square-check'></i>
+                                                                </button>
+                                                            </form>
+                                                            <a href="/permohonan/{{ $permohonan->id }}/ditolak"
+                                                                class="btn btn-outline-danger p-1"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-title="Tolak">
+                                                                <i class='bx bx-message-square-x'></i>
+                                                            </a>
+                                                        @endif
+                                                        {{-- Kalab --}}
+                                                    @elseif ($permohonan->laboratorium->user_id == auth()->user()->id)
+                                                        @if ($permohonan->verif_dospem == 'disetujui' && $permohonan->verif_kalab == 'menunggu')
+                                                            <form action="/permohonan/{{ $permohonan->id }}"
+                                                                method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" name="verif_dospem"
+                                                                    value="disetujui">
+                                                                <input type="hidden" name="verif_kalab"
+                                                                    value="disetujui">
+                                                                <input type="hidden" name="status" value="disetujui">
+                                                                <button type="submit" class="btn btn-outline-primary p-1"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                    data-bs-title="Setuju">
+                                                                    <i class='bx bx-message-square-check'></i>
+                                                                </button>
+                                                            </form>
+                                                            <a href="/permohonan/{{ $permohonan->id }}/ditolak"
+                                                                class="btn btn-outline-danger p-1"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-title="Tolak">
+                                                                <i class='bx bx-message-square-x'></i>
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </a>
+                            @endforeach
+                            <li class="d-flex justify-content-center">
+                                <a href="/permohonan" class="btn btn-sm btn-outline-primary">permohonan Kegiatan
+                                    Lainnya</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
         {{-- LOGBOOK TERBARU --}}
         <div class="row">
-            <div class="col-6 col-lg-6 order-1 order-md-1 order-lg-1 mb-4">
+            <div class="col-lg-6 col-sm order-1 order-md-1 order-lg-1 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
                         <h5 class="card-title m-0 me-2">Pemakaian Alat</h5>
@@ -521,17 +389,23 @@
                                     <li class="d-flex mb-4 pb-1">
                                         <div class="d-flex justify-content-between">
                                             <div class="avatar flex-shrink-0 me-3">
-                                                <span class="avatar-initial rounded bg-label-danger">
-                                                    {{-- <i class="bx bx-door-open"></i> --}}
-                                                    @if ($pakai->barangpakai->foto ?? $pakai->foto)
-                                                        <img src="{{ asset('storage') . '/' . $pakai->barangpakai->foto ?? $pakai->foto }}"
-                                                            alt="">
-                                                    @elseif ($pakai->foto)
-                                                        <img src="{{ asset('storage') . '/' . $pakai->foto }}"
-                                                            alt="">
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    <i class="bx bx-wrench"></i>
+                                                    {{-- @if ($role == 'kalab')
+                                                        @if ($pakai->foto)
+                                                            <img src="{{ asset('storage') . '/' .  $pakai->foto }}"
+                                                                alt="">
+                                                        @else
+                                                            <img src="{{ asset('img') }}/unknown.png" alt="">
+                                                        @endif
                                                     @else
-                                                        <img src="{{ asset('img') }}/unknown.png" alt="">
-                                                    @endif
+                                                        @if ($pakai->barangpakai->foto)
+                                                            <img src="{{ asset('storage') . '/' . $pakai->barangpakai->foto}}"
+                                                                alt="">
+                                                        @else
+                                                            <img src="{{ asset('img') }}/unknown.png" alt="">
+                                                        @endif
+                                                    @endif --}}
                                                 </span>
                                             </div>
                                             <div
@@ -563,7 +437,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-lg-6 order-2 order-md-2 order-lg-2 mb-4">
+            <div class="col-lg-6 col-sm order-2 order-md-2 order-lg-2 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
                         <h5 class="card-title m-0 me-2">Penggunaan Bahan</h5>
@@ -575,17 +449,17 @@
                                     <li class="d-flex mb-4 pb-1">
                                         <div class="d-flex justify-content-between">
                                             <div class="avatar flex-shrink-0 me-3">
-                                                <span class="avatar-initial rounded bg-label-danger">
-                                                    {{-- <i class="bx bx-door-open"></i> --}}
-                                                    @if ($guna->bahanpraktikum->foto ?? $guna->foto)
-                                                        <img src="{{ asset('storage') . '/' . $guna->bahanpraktikum->foto ?? $guna->foto }}"
-                                                            alt="">
-                                                    @elseif ($guna->foto)
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    <i class="bx bx-package"></i>
+                                                    {{-- @if ($guna->foto)
                                                         <img src="{{ asset('storage') . '/' . $guna->foto }}"
+                                                            alt="">
+                                                    @elseif ($guna->bahanpraktikum->foto)
+                                                        <img src="{{ asset('storage') . '/' . $guna->bahanpraktikum->foto }}"
                                                             alt="">
                                                     @else
                                                         <img src="{{ asset('img') }}/unknown.png" alt="">
-                                                    @endif
+                                                    @endif --}}
                                                 </span>
                                             </div>
                                             <div
@@ -598,8 +472,8 @@
                                                     </small>
                                                     <h6 class="mb-0">
                                                         <a href="/pemakaian/{{ $guna->id }}" class="text-wrap">
-                                                            {{ $guna->bahanpraktikum->nama ?? $guna->namabahan }} &nbsp; -
-                                                            &nbsp;
+                                                            {{ $guna->bahanpraktikum->nama ?? $guna->namabahan }}
+                                                            &nbsp; - &nbsp;
                                                             {{ $guna->kegiatan->nama ?? $guna->namakegiatan }}
                                                         </a>
                                                     </h6>
@@ -618,8 +492,9 @@
             </div>
         </div>
 
+        {{-- PEMINJAMAN TERBARU --}}
         <div class="row">
-            <div class="col-6 col-lg-6 order-1 order-md-1 order-lg-1 mb-4">
+            <div class="col-lg-6 col-sm order-1 order-md-1 order-lg-1 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
                         <h5 class="card-title m-0 me-2">Peminjaman Alat</h5>
@@ -631,9 +506,9 @@
                                     <li class="d-flex mb-4 pb-1">
                                         <div class="d-flex justify-content-between">
                                             <div class="avatar flex-shrink-0 me-3">
-                                                <span class="avatar-initial rounded bg-label-danger">
-                                                    {{-- <i class="bx bx-door-open"></i> --}}
-                                                    @if ($pal->barangpakai->foto ?? $pal->foto)
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    <i class="bx bx-calendar-minus"></i>
+                                                    {{-- @if ($pal->barangpakai->foto ?? $pal->foto)
                                                         <img src="{{ asset('storage') . '/' . $pal->barangpakai->foto ?? $pal->foto }}"
                                                             alt="">
                                                     @elseif ($pal->foto)
@@ -641,7 +516,7 @@
                                                             alt="">
                                                     @else
                                                         <img src="{{ asset('img') }}/unknown.png" alt="">
-                                                    @endif
+                                                    @endif --}}
                                                 </span>
                                             </div>
                                             <div class="w-100 gap-2">
@@ -704,7 +579,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-lg-6 order-2 order-md-2 order-lg-2 mb-4">
+            <div class="col-lg-6 col-sm order-2 order-md-2 order-lg-2 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
                         <h5 class="card-title m-0 me-2">Peminjaman Bahan</h5>
@@ -716,9 +591,9 @@
                                     <li class="d-flex mb-4 pb-1">
                                         <div class="d-flex justify-content-between">
                                             <div class="avatar flex-shrink-0 me-3">
-                                                <span class="avatar-initial rounded bg-label-danger">
-                                                    {{-- <i class="bx bx-door-open"></i> --}}
-                                                    @if ($pab->bahanjurusan->foto ?? $pab->foto)
+                                                <span class="avatar-initial rounded bg-label-primary">
+                                                    <i class="bx bx-calendar-minus"></i>
+                                                    {{-- @if ($pab->bahanjurusan->foto ?? $pab->foto)
                                                         <img src="{{ asset('storage') . '/' . $pab->bahanjurusan->foto ?? $pab->foto }}"
                                                             alt="">
                                                     @elseif ($pab->foto)
@@ -726,7 +601,7 @@
                                                             alt="">
                                                     @else
                                                         <img src="{{ asset('img') }}/unknown.png" alt="">
-                                                    @endif
+                                                    @endif --}}
                                                 </span>
                                             </div>
                                             <div class="w-100 gap-2">

@@ -19,11 +19,28 @@ class PeminjamanAlatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['tgl_pinjam_dari', 'tgl_pinjam_sampai', 'tgl_kembali_dari', 'tgl_kembali_sampai'])) {
+            $range_tgl_pinjam = [$request->tgl_pinjam_dari, $request->tgl_pinjam_sampai];
+            $range_tgl_kembali = [$request->tgl_kembali_dari, $request->tgl_kembali_sampai];
+        } else {
+            $tgl_pinjam_min = date('Y-m-d H:i:s', strtotime(PeminjamanAlat::min('tgl_pinjam')));
+            $tgl_pinjam_max = date('Y-m-d H:i:s', strtotime(PeminjamanAlat::max('tgl_pinjam')));
+            $tgl_kembali_min = date('Y-m-d H:i:s', strtotime(PeminjamanAlat::min('tgl_kembali')));
+            $tgl_kembali_mx = date('Y-m-d H:i:s', strtotime(PeminjamanAlat::max('tgl_kembali')));
+            $range_tgl_pinjam = [$tgl_pinjam_min, $tgl_pinjam_max];
+            $range_tgl_kembali = [$tgl_kembali_min, $tgl_kembali_mx];
+        }
+
         $user = User::find(auth()->user()->id);
+        $peminjamanalat = peminjamanalat::orderBy('tgl_pinjam', 'desc')->get();
         if ($user->role == 'admin') {
-            $peminjamanalat = peminjamanalat::orderBy('tgl_pinjam', 'desc')->get();
+            if ($peminjamanalat->contains('tgl_kembali', NULL)) {
+                $peminjamanalat = peminjamanalat::whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+            } else {
+                $peminjamanalat = peminjamanalat::whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+            }
             $kalab = false;
         } elseif ($user->role == 'dosen') {
             $dosen = Dosen::where('user_id', $user->id)->first();
@@ -31,32 +48,46 @@ class PeminjamanAlatController extends Controller
                 $laboratorium = Laboratorium::where('user_id', $user->id)->first();
                 $kalab = true;
 
+
                 // todo join peminjamanalat == alat == laboratorium
-
-                // SELECT peminjamanalats.id as id, barang_habis.nama as namabarang, laboratorium.nama as namalab, kegiatans.nama as namakegiatan, users.nama as namauser, peminjamanalats.tanggal as tanggal, peminjamanalats.status as status
-                // FROM peminjamanalats
-                // INNER JOIN kegiatans ON peminjamanalats.kegiatan_id = kegiatans.id
-                // INNER JOIN users ON peminjamanalats.user_id = users.id
-                // INNER JOIN barang_habis ON peminjamanalats.alat_id = barang_habis.id
-                // INNER JOIN laboratorium ON barang_habis.laboratorium_id = laboratorium.id
-                // WHERE laboratorium.id = '00335b1f-420c-4610-bc8e-7069bb05ed47';
-
-                $peminjamanalat = DB::table('peminjaman_alats')
-                    ->join('users', 'peminjaman_alats.user_id', '=', 'users.id')
-                    ->join('barang_pakais', 'peminjaman_alats.barangpakai_id', '=', 'barang_pakais.id')
-                    ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
-                    ->where('laboratorium.id', '=', $laboratorium->id)
-                    ->select('peminjaman_alats.*', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
-                    ->orderBy('tgl_pinjam', 'desc')
-                    ->get();
+                if ($peminjamanalat->contains('tgl_kembali', NULL)) {
+                    $peminjamanalat = DB::table('peminjaman_alats')
+                        ->join('users', 'peminjaman_alats.user_id', '=', 'users.id')
+                        ->join('barang_pakais', 'peminjaman_alats.barangpakai_id', '=', 'barang_pakais.id')
+                        ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
+                        ->where('laboratorium.id', '=', $laboratorium->id)
+                        ->whereBetween('peminjaman_alats.tgl_pinjam', $range_tgl_pinjam)
+                        ->select('peminjaman_alats.*', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
+                        ->orderBy('tgl_pinjam', 'desc')
+                        ->get();
+                } else {
+                    $peminjamanalat = DB::table('peminjaman_alats')
+                        ->join('users', 'peminjaman_alats.user_id', '=', 'users.id')
+                        ->join('barang_pakais', 'peminjaman_alats.barangpakai_id', '=', 'barang_pakais.id')
+                        ->join('laboratorium', 'barang_pakais.laboratorium_id', '=', 'laboratorium.id')
+                        ->where('laboratorium.id', '=', $laboratorium->id)
+                        ->whereBetween('peminjaman_alats.tgl_pinjam', $range_tgl_pinjam)
+                        ->whereBetween('peminjaman_alats.tgl_kembali', $range_tgl_kembali)
+                        ->select('peminjaman_alats.*', 'laboratorium.nama as namalab', 'barang_pakais.nama as namabarangpakai', 'users.nama as namauser', 'users.id as iduser')
+                        ->orderBy('tgl_pinjam', 'desc')
+                        ->get();
+                }
 
                 // todo pemakaian->barangpakai->laboratorium->user->id == auth()->user()->id
             } else {
-                $peminjamanalat = peminjamanalat::where('user_id', $user->id)->orderBy('tgl_pinjam', 'desc')->get();
+                if ($peminjamanalat->contains('tgl_kembali', NULL)) {
+                    $peminjamanalat = peminjamanalat::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+                } else {
+                    $peminjamanalat = peminjamanalat::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+                }
                 $kalab = false;
             }
         } else {
-            $peminjamanalat = peminjamanalat::where('user_id', $user->id)->orderBy('tgl_pinjam', 'desc')->get();
+            if ($peminjamanalat->contains('tgl_kembali', NULL)) {
+                $peminjamanalat = peminjamanalat::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+            } else {
+                $peminjamanalat = peminjamanalat::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+            }
             $kalab = false;
         }
 
@@ -110,9 +141,11 @@ class PeminjamanAlatController extends Controller
             $jenis = 'luar';
         }
 
+        $barangpakai = BarangPakai::all();
         return view('v_peminjamanalat.create', [
             'title' => 'Tambah Data peminjaman Alat',
-            'jenis' => $jenis
+            'jenis' => $jenis,
+            'barangpakai' => $barangpakai
         ]);
     }
 
@@ -136,6 +169,9 @@ class PeminjamanAlatController extends Controller
         $peminjamanAlatTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
 
         if ($barangpakai) {
+            if ($barangpakai->status == 'rusak') {
+                return redirect('/peminjamanalat')->with('fail', 'Barang Pakai Alat sedang rusak');
+            }
             if ($pemakaianTerakhir) {
                 return redirect('/peminjamanalat')->with('fail', 'Barang Pakai Alat sedang dipakai');
             }
@@ -147,6 +183,7 @@ class PeminjamanAlatController extends Controller
             $validatedData['tgl_pinjam'] = date("Y-m-d H:i:s");
 
             if ($barangpakai->laboratorium->user->id == auth()->user()->id) {
+                BarangPakai::find($barangpakai->id)->update(['status' => 'dipinjam']);
                 $validatedData['status'] = 'disetujui';
             }
 
@@ -201,10 +238,19 @@ class PeminjamanAlatController extends Controller
             'monitor' => 'nullable',
             'keyboard' => 'nullable',
             'mouse' => 'nullable',
-            'kondisi' => 'nullable',
+            'kondisi' => 'required',
+            'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
         ];
 
         $validatedData = $request->validate($rules);
+
+        if ($request->file('upload')) {
+            $validatedData['upload'] = $request->file('upload')->store('peminjamanalat-images');
+            $validatedData['bukti'] = $validatedData['upload'];
+            unset($validatedData['upload']);
+        }
+
+        BarangPakai::find($peminjamanalat->barangpakai->id)->update(['status' => 'tersedia']);
         $validatedData['status'] = 'selesai';
         $validatedData['tgl_kembali'] = Date('Y-m-d H:i:s');
 
@@ -273,6 +319,7 @@ class PeminjamanAlatController extends Controller
     public function status(Request $request, $id)
     {
         $peminjamanalat = PeminjamanAlat::find($id);
+        BarangPakai::find($peminjamanalat->barangpakai->id)->update(['status' => 'dipinjam']);
         $peminjamanalat->update([
             'status' => $request->status,
             'tgl_kembali' => $request->tgl_kembali ?? null,

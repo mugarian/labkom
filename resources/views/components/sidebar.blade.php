@@ -114,7 +114,7 @@
                 <li class="menu-item {{ Request::is('penggunaan*') ? 'active' : '' }}">
                     <a href="/penggunaan" class="menu-link">
                         {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                        <div data-i18n="Misc">Penggunaan Bahan</div>
+                        <div data-i18n="Misc">Penggunaan Bahan Praktikum</div>
                     </a>
                 </li>
                 <li class="menu-item {{ Request::is('peminjamanalat*') ? 'active' : '' }}">
@@ -126,7 +126,7 @@
                 <li class="menu-item {{ Request::is('peminjamanbahan*') ? 'active' : '' }}">
                     <a href="/peminjamanbahan" class="menu-link">
                         {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                        <div data-i18n="Misc">Peminjaman Bahan</div>
+                        <div data-i18n="Misc">Peminjaman Bahan Jurusan</div>
                     </a>
                 </li>
             </ul>
@@ -147,36 +147,74 @@
 
 
         @if (auth()->user()->role != 'mahasiswa')
-            <li class="menu-header small text-uppercase my-0">
-                <span class="menu-header-text">Rekomendasi Pengajuan</span>
-            </li>
-            <li class="menu-item {{ Request::is('training*', 'rule*', 'prediksi*') ? 'active' : '' }}">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class='menu-icon tf-icons bx bx-sitemap'></i>
-                    <div data-i18n="kegiatan">Pengajuan</div>
-                </a>
-
-                <ul class="menu-sub">
-                    <li class="menu-item {{ Request::is('training*') ? 'active' : '' }}">
-                        <a href="/training" class="menu-link">
-                            {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                            <div data-i18n="Misc">Data Training</div>
-                        </a>
+            @php
+                $user = App\Models\User::find(auth()->user()->id);
+                $dosen = App\Models\Dosen::where('user_id', $user->id)->first();
+            @endphp
+            @if ($user->role == 'dosen')
+                @if ($dosen->kepalalab == 'true')
+                    <li class="menu-header small text-uppercase my-0">
+                        <span class="menu-header-text">Rekomendasi Pengajuan</span>
                     </li>
-                    <li class="menu-item {{ Request::is('rule*') ? 'active' : '' }}">
-                        <a href="/rule" class="menu-link">
-                            {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                            <div data-i18n="Misc">Hasil Rule</div>
+                    <li class="menu-item {{ Request::is('training*', 'rule*', 'prediksi*') ? 'active' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class='menu-icon tf-icons bx bx-sitemap'></i>
+                            <div data-i18n="kegiatan">Pengajuan</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ Request::is('training*') ? 'active' : '' }}">
+                                <a href="/training" class="menu-link">
+                                    {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                                    <div data-i18n="Misc">Data Training</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ Request::is('rule*') ? 'active' : '' }}">
+                                <a href="/rule" class="menu-link">
+                                    {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                                    <div data-i18n="Misc">Hasil Rule</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ Request::is('prediksi*') ? 'active' : '' }}">
+                                <a href="/prediksi" class="menu-link">
+                                    {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                                    <div data-i18n="Misc">Prediksi</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="menu-item {{ Request::is('prediksi*') ? 'active' : '' }}">
-                        <a href="/prediksi" class="menu-link">
-                            {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                            <div data-i18n="Misc">Prediksi</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+                @endif
+            @endif
+            @if (auth()->user()->role == 'admin')
+                <li class="menu-header small text-uppercase my-0">
+                    <span class="menu-header-text">Rekomendasi Pengajuan</span>
+                </li>
+                <li class="menu-item {{ Request::is('training*', 'rule*', 'prediksi*') ? 'active' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class='menu-icon tf-icons bx bx-sitemap'></i>
+                        <div data-i18n="kegiatan">Pengajuan</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ Request::is('training*') ? 'active' : '' }}">
+                            <a href="/training" class="menu-link">
+                                {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                                <div data-i18n="Misc">Data Training</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ Request::is('rule*') ? 'active' : '' }}">
+                            <a href="/rule" class="menu-link">
+                                {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                                <div data-i18n="Misc">Hasil Rule</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ Request::is('prediksi*') ? 'active' : '' }}">
+                            <a href="/prediksi" class="menu-link">
+                                {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
+                                <div data-i18n="Misc">Prediksi</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
         @endif
 
 

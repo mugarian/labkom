@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\BarangPakai;
+use App\Models\BahanPraktikum;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlatController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DosenController;
@@ -38,7 +41,10 @@ use App\Http\Controllers\PeminjamanBahanController;
 */
 
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/', [loginController::class, 'login']);
+Route::post('/', [LoginController::class, 'login']);
+Route::get('/sso/login', [AuthController::class, 'getLogin'])->name('sso.login');
+Route::get('/callback', [AuthController::class, 'getCallback'])->name('sso.callback');
+Route::get('/sso/connect', [AuthController::class, 'connectUser'])->name('sso.connect');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [loginController::class, 'logout']);
@@ -58,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/bahanjurusan', BahanJurusanController::class);
     Route::resource('/laboratorium', LaboratoriumController::class);
     Route::resource('/kelas', KelasController::class);
+
     Route::resource('pelaksanaan', PelaksanaanController::class);
 
     Route::resource('training', AlgoritmaController::class);
@@ -68,12 +75,14 @@ Route::middleware('auth')->group(function () {
     Route::post('permohonan/{id}/ditolak', [PermohonanController::class, 'updateDitolak']);
     Route::resource('permohonan', PermohonanController::class);
 
+    Route::get('/pemakaian/{id}/kegiatan', [PemakaianController::class, 'kegiatan']);
     Route::get('/pemakaian/{id}/pakai', [PemakaianController::class, 'pakai']);
     Route::resource('pemakaian', PemakaianController::class);
 
     Route::get('penggunaan/{id}/ditolak', [PenggunaanController::class, 'ditolak']);
     Route::post('penggunaan/{id}/ditolak', [PenggunaanController::class, 'updateDitolak']);
     Route::get('/penggunaan/{id}/guna', [PenggunaanController::class, 'guna']);
+    Route::get('/penggunaan/{id}/kegiatan', [PenggunaanController::class, 'kegiatan']);
     Route::resource('penggunaan', PenggunaanController::class);
 
     Route::get('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'ditolak']);
@@ -92,22 +101,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/scan', [ScanController::class, 'search']);
     Route::get('/scan/{kode}', [ScanController::class, 'scan'])->name('scan');
 
-    // Route::resource('/baranghabis', barangHabisController::class);
-
     Route::get('/barangpakai/create/{id}', [BarangPakaiController::class, 'tambah']);
-    // Route::resource('/barangpakai', BarangPakaiController::class);
-    // Route::get('/baranghabis/create/{id}', [BarangHabisController::class, 'create'])->middleware('dosen');
-    // Route::resource('/baranghabis', BarangHabisController::class);
 
-    // Route::get('/kegiatan/pelaksanaan', [KegiatanController::class, 'pelaksanaan'])->middleware('dosen');
-    // Route::post('/pelaksanaan', [KegiatanController::class, 'storePelaksanaan']);
-    // Route::get('/kegiatan/permohonan', [KegiatanController::class, 'permohonan']);
-    // Route::post('/permohonan', [KegiatanController::class, 'storePermohonan']);
-    // Route::post('/kegiatan/{id}/status', [KegiatanController::class, 'status'])->middleware('dosen');
-    // Route::resource('/kegiatan', KegiatanController::class);
-
-    // Route::resource('/pemakaian', PemakaianController::class);
-    // Route::post('/penggunaan/{id}/status', [PenggunaanController::class, 'status'])->middleware('dosen');
-    // Route::resource('/penggunaan', PenggunaanController::class);
-
+    Route::post('/import/training', [AlgoritmaController::class, 'import'])->name('importTraining');
+    Route::post('/import/prediksi', [PrediksiController::class, 'import'])->name('importPrediksi');
 });

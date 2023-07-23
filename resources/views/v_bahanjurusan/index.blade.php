@@ -25,7 +25,11 @@
         @endif
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Kelola Bahan Jurusan</h5>
+                @if (auth()->user()->role == 'admin')
+                    <h5 class="mb-0">Kelola Bahan Jurusan</h5>
+                @else
+                    <h5 class="mb-0">Daftar Bahan Jurusan</h5>
+                @endif
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive text-nowrap">
@@ -37,6 +41,7 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>stok</th>
+                                <th>tahun</th>
                                 <th>Laboratorium</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -48,6 +53,7 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>stok</th>
+                                <th>tahun</th>
                                 <th>Laboratorium</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -70,6 +76,7 @@
                                     <td class="text-wrap">{{ $bahanjurusan->kode }}</td>
                                     <td class="text-wrap">{{ $bahanjurusan->bahanpraktikum->nama }}</td>
                                     <td class="text-wrap">{{ $bahanjurusan->stok }}</td>
+                                    <td class="text-wrap">{{ $bahanjurusan->tahun }}</td>
                                     <td class="text-wrap">{{ $bahanjurusan->laboratorium->nama }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">

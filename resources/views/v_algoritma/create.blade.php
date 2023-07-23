@@ -35,29 +35,173 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="pengadaan">Kategori pengadaan</label>
+                                <label class="form-label" for="kategori">Kategori Barang</label>
                                 <select id="organization"
-                                    class="select2 form-select @error('pengadaan') is-invalid @enderror" name="pengadaan">
-                                    <option value="">Pilih Kategori pengadaan</option>
-                                    <option value="lebih" @selected(old('pengadaan') == 'murah')>Melebihi Kuota</option>
-                                    <option value="pas" @selected(old('pengadaan') == 'mahal')>Sesuai Kuota</option>
-                                    <option value="kurang" @selected(old('pengadaan') == 'mahal')>Tidak Memenuhi Kuota</option>
+                                    class="select2 form-select @error('kategori') is-invalid @enderror" name="kategori">
+                                    <option value="">Pilih Kategori Barang</option>
+                                    <option value="hardware cpu" @selected(old('kategori') == 'hardware cpu')>hardware cpu</option>
+                                    <option value="komponen cpu" @selected(old('kategori') == 'komponen cpu')>komponen cpu</option>
+                                    <option value="komponen elektronik" @selected(old('kategori') == 'komponen elektronik')>komponen elektronik
+                                    </option>
+                                    <option value="komponen internet" @selected(old('kategori') == 'komponen internet')>komponen internet
+                                    </option>
+                                    <option value="komponen kabel" @selected(old('kategori') == 'komponen kabel')>komponen kabel
+                                    </option>
+                                    <option value="komponen material" @selected(old('kategori') == 'komponen material')>komponen material
+                                    </option>
                                 </select>
-                                @error('pengadaan')
+                                @error('kategori')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="harga">Kategori Harga</label>
-                                <select id="organization" class="select2 form-select @error('harga') is-invalid @enderror"
-                                    name="harga">
-                                    <option value="">Pilih Kategori Harga</option>
-                                    <option value="murah" @selected(old('harga') == 'murah')> Murah</option>
-                                    <option value="mahal" @selected(old('harga') == 'mahal')>Mahal</option>
+                                <label class="form-label" for="satuan">Satuan Pengajuan</label>
+                                <select id="organization" class="select2 form-select @error('satuan') is-invalid @enderror"
+                                    name="satuan">
+                                    <option value="">Pilih satuan pengajuan</option>
+                                    <option value="non pcs" @selected(old('satuan') == 'non pcs')>NON PCS</option>
+                                    <option value="pcs" @selected(old('satuan') == 'pcs')>PCS</option>
                                 </select>
-                                @error('harga')
+                                @error('satuan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="tahun_pengadaan">Tahun Pengajuan</label>
+                                <input type="number" class="form-control @error('tahun_pengadaan') is-invalid @enderror"
+                                    id="tahun_pengadaan" placeholder="tahun_pengadaan" value="{{ old('tahun_pengadaan') }}"
+                                    name="tahun_pengadaan" required min="1" />
+                                @error('tahun_pengadaan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah_pengadaan">Jumlah Pengajuan</label>
+                                <input type="number" class="form-control @error('jumlah_pengadaan') is-invalid @enderror"
+                                    id="jumlah_pengadaan" placeholder="jumlah_pengadaan"
+                                    value="{{ old('jumlah_pengadaan') }}" name="jumlah_pengadaan" required min="0" />
+                                @error('jumlah_pengadaan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="isi_barang_persatuan">Isi Barang Persatuan</label>
+                                <input type="number"
+                                    class="form-control @error('isi_barang_persatuan') is-invalid @enderror"
+                                    id="isi_barang_persatuan" placeholder="isi_barang_persatuan"
+                                    value="{{ old('isi_barang_persatuan') }}" name="isi_barang_persatuan" required
+                                    min="0" />
+                                @error('isi_barang_persatuan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah_matkul">Jumlah Matkul</label>
+                                <input type="number" class="form-control @error('jumlah_matkul') is-invalid @enderror"
+                                    id="jumlah_matkul" placeholder="jumlah_matkul" value="{{ old('jumlah_matkul') }}"
+                                    name="jumlah_matkul" required min="0" />
+                                @error('jumlah_matkul')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah_siswa_perkelas">Jumlah Siswa Per Kelas</label>
+                                <input type="number"
+                                    class="form-control @error('jumlah_siswa_perkelas') is-invalid @enderror"
+                                    id="jumlah_siswa_perkelas" placeholder="jumlah_siswa_perkelas"
+                                    value="{{ old('jumlah_siswa_perkelas') }}" name="jumlah_siswa_perkelas" required
+                                    min="0" />
+                                @error('jumlah_siswa_perkelas')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah_kelas">Jumlah Kelas</label>
+                                <input type="number" class="form-control @error('jumlah_kelas') is-invalid @enderror"
+                                    id="jumlah_kelas" placeholder="jumlah_kelas" value="{{ old('jumlah_kelas') }}"
+                                    name="jumlah_kelas" required min="0" />
+                                @error('jumlah_kelas')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jenis_pemegang_barang">Jenis Pemegang Barang</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('jenis_pemegang_barang') is-invalid @enderror"
+                                    name="jenis_pemegang_barang">
+                                    <option value="">Pilih Jenis Pemegang Barang</option>
+                                    <option value="orang" @selected(old('jenis_pemegang_barang') == 'orang')> Orang</option>
+                                    <option value="kelas" @selected(old('jenis_pemegang_barang') == 'kelas')>Kelas</option>
+                                </select>
+                                @error('jenis_pemegang_barang')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jumlah_pemegang_barang">Jumlah Pemegang Barang</label>
+                                <input type="number"
+                                    class="form-control @error('jumlah_pemegang_barang') is-invalid @enderror"
+                                    id="jumlah_pemegang_barang" placeholder="jumlah_pemegang_barang"
+                                    value="{{ old('jumlah_pemegang_barang') }}" name="jumlah_pemegang_barang" required
+                                    min="0" />
+                                @error('jumlah_pemegang_barang')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="harga_barang_beli">Harga Barang Beli</label>
+                                <input type="number"
+                                    class="form-control @error('harga_barang_beli') is-invalid @enderror"
+                                    id="harga_barang_beli" placeholder="harga_barang_beli"
+                                    value="{{ old('harga_barang_beli') }}" name="harga_barang_beli" required
+                                    min="0" />
+                                @error('harga_barang_beli')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="stok_barang">Stok Barang</label>
+                                <input type="number" class="form-control @error('stok_barang') is-invalid @enderror"
+                                    id="stok_barang" placeholder="stok_barang" value="{{ old('stok_barang') }}"
+                                    name="stok_barang" required min="0" />
+                                @error('stok_barang')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jenis_bahan">Jenis Bahan</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('jenis_bahan') is-invalid @enderror"
+                                    name="jenis_bahan">
+                                    <option value="">Pilih Jenis Bahan</option>
+                                    <option value="habis" @selected(old('jenis_bahan') == 'habis')>Habis</option>
+                                    <option value="tidak habis" @selected(old('jenis_bahan') == 'tidak habis')>Tidak Habis</option>
+                                </select>
+                                @error('jenis_bahan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -65,8 +209,8 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="label">Label</label>
-                                <select id="organization" class="select2 form-select @error('label') is-invalid @enderror"
-                                    name="label">
+                                <select id="organization"
+                                    class="select2 form-select @error('label') is-invalid @enderror" name="label">
                                     <option value="">Pilih Label Pengdaan</option>
                                     <option value="layak" @selected(old('label') == 'layak')>Layak</option>
                                     <option value="tidak layak" @selected(old('label') == 'tidak layak')> Tidak Layak</option>

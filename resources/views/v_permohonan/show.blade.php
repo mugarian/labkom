@@ -84,7 +84,7 @@
                             <p class="form-control">{{ $permohonan->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="Dosen Pembimbing">Dosen Pembimbing</label>
+                            <label class="form-label" for="Dosen Pengampu">Dosen Pengampu</label>
                             <p class="form-control">{{ $permohonan->dospem->user->nama }}</p>
                             {{-- <p class="form-control">{{ $dospem->user->nama }}</p> --}}
                         </div>

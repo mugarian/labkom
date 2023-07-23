@@ -19,8 +19,13 @@ return new class extends Migration
             $table->foreignUuid('bahanpraktikum_id')->references('id')->on('bahan_praktikums');
             $table->string('kode')->unique();
             $table->string('nama')->nullable();
-            $table->string('foto')->nullable();
+            $table->string('merk')->nullable();
+            $table->text('spesifikasi')->nullable();
+            $table->integer('harga');
             $table->integer('stok');
+            $table->string('tahun')->nullable();
+            $table->string('foto')->nullable();
+            $table->enum('status', ['tersedia', 'dipinjam', 'rusak'])->default('tersedia');
             $table->timestamps();
         });
     }

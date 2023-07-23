@@ -38,25 +38,67 @@
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="barangpakai_id">Kode Barang Pakai</label>
-                                <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
-                                    id="barangpakai_id" placeholder="kode alat" value="{{ old('barangpakai_id') }}"
-                                    name="barangpakai_id" required />
+                                <input list="barangpakai" class="form-control @error('barangpakai_id') is-invalid @enderror"
+                                    id="barangpakai_id" placeholder="kode barang pakai" value="{{ old('barangpakai_id') }}"
+                                    name="barangpakai_id" required autocomplete="off" onkeyup="namabp()" />
+                                <datalist id="barangpakai">
+                                    @foreach ($barangpakai as $bp)
+                                        <option value="{{ $bp->kode }}">{{ $bp->nama }}
+                                            ({{ $bp->laboratorium->nama }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
                                 @error('barangpakai_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Barang Pakai</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummybp"
+                                        placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata" readonly />
+                                    <div id="divbp" style="display:none">
+                                        @foreach ($barangpakai as $bp)
+                                            <input class="form-control mb-3" style="display:none" id="{{ $bp->kode }}"
+                                                placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata"
+                                                value="{{ $bp->nama }}" readonly />
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
-                                <input type="text" class="form-control @error('kegiatan_id') is-invalid @enderror"
+                                <input list="kegiatan" class="form-control @error('kegiatan_id') is-invalid @enderror"
                                     id="kegiatan_id" placeholder="kode kegiatan" value="{{ old('kegiatan_id') }}"
-                                    name="kegiatan_id" required />
+                                    name="kegiatan_id" required autocomplete="off" onkeyup="namakeg()" />
+                                <datalist id="kegiatan">
+                                    @foreach ($kegiatan as $keg)
+                                        <option value="{{ $keg->kode }}">{{ $keg->nama }} ({{ $keg->status }})
+                                            ({{ $keg->laboratorium->nama }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
                                 @error('kegiatan_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Nama Kegiatan</label>
+                                <div>
+                                    <input class="form-control mb-3" style="display:block" id="dummykeg"
+                                        placeholder="nama Kegiatan terisi otomatis sesuai kode yang terdata" readonly />
+                                    <div id="divkeg" style="display:none">
+                                        @foreach ($kegiatan as $keg)
+                                            <input class="form-control mb-3" style="display:none" id="{{ $keg->kode }}"
+                                                placeholder="nama kegiatan terisi otomatis sesuai kode yang terdata"
+                                                value="{{ $keg->nama }}" readonly />
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -67,28 +109,46 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="card">
-        <div class="card-header">
-            <button type="submit" class="btn btn-primary">Tambah</button>
-            </form>
-        </div>
-        <div class="card-body">
-            <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-primary">
-                    <h6 class="alert-heading fw-bold mb-1">pemakaian Data pemakaian</h6>
-                    <p class="mb-0">Ketika Form Tambah Data pemakaian ditambahkan,<br />
-                        Maka Secara Otomatis Kode QR akan menambahkan data Kode QR baru, <br />
-                        Dan Langsung Disambungkan sesuai kode qr yang tertera
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    </div>
     <script>
-        let currentDate = new Date().toISOString().slice(0, -8);
-        console.log(currentDate);
-        document.querySelector("#mulai").min = currentDate;
+        const barangpakai = document.getElementById('barangpakai_id');
+        const kegiatan = document.getElementById('kegiatan_id');
+
+        const kodebp = [];
+
+        <?php
+        foreach ($barangpakai as $bp) {
+            echo "kodebp.push('$bp->kode');\n";
+        }
+        ?>
+
+        function namabp() {
+            if (kodebp.includes(barangpakai.value)) {
+                document.getElementById('divbp').style.display = 'block';
+                document.getElementById(barangpakai.value).style.display = 'block';
+                document.getElementById('dummybp').style.display = 'none';
+            } else {
+                document.getElementById('divbp').style.display = 'none';
+                document.getElementById('dummybp').style.display = 'block';
+            }
+        }
+
+        const kodekeg = [];
+
+        <?php
+        foreach ($kegiatan as $keg) {
+            echo "kodekeg.push('$keg->kode');\n";
+        }
+        ?>
+
+        function namakeg() {
+            if (kodekeg.includes(kegiatan.value)) {
+                document.getElementById('divkeg').style.display = 'block';
+                document.getElementById(kegiatan.value).style.display = 'block';
+                document.getElementById('dummykeg').style.display = 'none';
+            } else {
+                document.getElementById('divkeg').style.display = 'none';
+                document.getElementById('dummykeg').style.display = 'block';
+            }
+        }
     </script>
 @endsection
