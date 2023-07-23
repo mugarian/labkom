@@ -3,7 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="fw-bold py-3 mb-4">
             <span class="text-secondary fw-light">
-                <a href="/dashboard" class="text-secondary">Home /</a>
+                <a href="/dashboard" class="text-secondary">Beranda /</a>
                 Invetori /
                 <a href="/alat" class="text-secondary">Alat /</a>
                 <a href="/alat/{{ $alat->id }}" class="text-secondary">{{ $alat->nama }} /</a>

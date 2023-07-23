@@ -20,7 +20,7 @@
         <li class="menu-item {{ Request::is('dashboard') ? 'active' : '' }}">
             <a href="/dashboard" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
+                <div data-i18n="Analytics">Beranda</div>
             </a>
         </li>
 
@@ -34,7 +34,7 @@
         <li class="menu-item {{ Request::is('scan*') ? 'active' : '' }}">
             <a href="/scan" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-scan"></i>
-                <div data-i18n="Layouts">Pindai</div>
+                <div data-i18n="Layouts">Scan</div>
             </a>
         </li>
 

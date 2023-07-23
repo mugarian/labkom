@@ -4,7 +4,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="fw-bold py-3 mb-4">
             <span class="text-secondary fw-light">
-                <a href="/dashboard" class="text-secondary">Home /</a>
+                <a href="/dashboard" class="text-secondary">Beranda /</a>
                 Logbook /
             </span>
             <span class="text-primary">

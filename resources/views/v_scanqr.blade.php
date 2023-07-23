@@ -3,7 +3,7 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="fw-bold py-3 mb-4">
             <span class="text-secondary fw-light">
-                <a href="/dashboard" class="text-secondary">Home /</a>
+                <a href="/dashboard" class="text-secondary">Beranda /</a>
             </span>
             <span class="text-primary">
                 ScanQR
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="tab-content p-0">
-                                        <div class="tab-pane fade show active" id="list-home">
+                                        <div class="tab-pane fade show active" id="list-Beranda">
                                             <img src="{{ asset('img') }}/1.png" alt="" style="max-width:200px">
                                         </div>
                                         <div class="tab-pane fade" id="list-profile">
