@@ -189,7 +189,7 @@
                                                             value="{{ Date('Y-m-d H:i:s') }}">
                                                         <button type="submit" class="btn btn-primary p-1"
                                                             data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-title="Mulai">
+                                                            data-bs-title="Selesai">
                                                             <i class='bx bx-message-square-check'></i> </button>
                                                     </form>
                                                 @endif

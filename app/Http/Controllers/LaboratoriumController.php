@@ -100,16 +100,16 @@ class LaboratoriumController extends Controller
     {
         $barangpakais = BarangPakai::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
         $bahanpraktikums = BahanPraktikum::where('laboratorium_id', $laboratorium->id)->where('stok', '<>', 0)->orderBy('nama', 'asc')->get();
-        $bahanjurusan = BahanJurusan::where('laboratorium_id', $laboratorium->id)->get();
-
-        $trackings = $barangpakais->merge($bahanpraktikums)->merge($bahanjurusan)->sortBy('laboratorium_id');
+        $bahanjurusans = BahanJurusan::where('laboratorium_id', $laboratorium->id)->get();
 
         $kegiatan = Kegiatan::where('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->first();
         return view('v_laboratorium.show', [
             'title' => $laboratorium->nama,
             'laboratorium' => $laboratorium,
             'kegiatan' => $kegiatan,
-            'trackings' => $trackings,
+            'barangpakais' => $barangpakais,
+            'bahanpraktikums' => $bahanpraktikums,
+            'bahanjurusans' => $bahanjurusans,
         ]);
     }
 

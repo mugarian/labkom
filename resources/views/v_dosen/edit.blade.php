@@ -93,7 +93,7 @@
                                 <label class="form-label" for="jabatan">Jabatan</label>
                                 <select id="organization" class="select2 form-select @error('jabatan') is-invalid @enderror"
                                     name="jabatan">
-                                    <option value="ketua jurusan" @selected(old('jabatan', $dosen->jabatan) == 'Ketua Jurusan')>Ketua Jurusan</option>
+                                    <option value="ketua jurusan" @selected(old('jabatan', $dosen->jabatan) == 'ketua jurusan')>Ketua Jurusan</option>
                                     <option value="ketua prodi" @selected(old('jabatan', $dosen->jabatan) == 'ketua prodi')>Ketua Prodi</option>
                                     <option value="dosen pengampu" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen Pengampu</option>
                                 </select>

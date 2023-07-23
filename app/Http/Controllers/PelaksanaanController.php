@@ -173,9 +173,9 @@ class PelaksanaanController extends Controller
             'selesai' => 'required',
         ]);
 
-        $kegiatan = Kegiatan::where('laboratorium_id', $validatedData['laboratorium_id'])->orderBy('mulai', 'desc')->first();
+        $kegiatan = Kegiatan::where('laboratorium_id', $validatedData['laboratorium_id'])->where('status', 'berlangsung')->orderBy('mulai', 'desc')->first();
 
-        if ($kegiatan->status == 'berlangsung') {
+        if ($kegiatan) {
             return redirect('/pelaksanaan')->with('fail', 'Laboratorium Sedang Dipakai');
         }
 
