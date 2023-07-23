@@ -99,8 +99,8 @@ class LaboratoriumController extends Controller
     public function show(Laboratorium $laboratorium)
     {
         $barangpakais = BarangPakai::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
-        $bahanpraktikums = BahanPraktikum::where('laboratorium_id', $laboratorium->id)->where('stok', '<>', 0)->orderBy('nama', 'asc')->get();
-        $bahanjurusans = BahanJurusan::where('laboratorium_id', $laboratorium->id)->get();
+        $bahanpraktikums = BahanPraktikum::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
+        $bahanjurusans = BahanJurusan::where('laboratorium_id', $laboratorium->id)->orderBy('nama', 'asc')->get();
 
         $kegiatan = Kegiatan::where('laboratorium_id', $laboratorium->id)->orderBy('mulai', 'desc')->first();
         return view('v_laboratorium.show', [
