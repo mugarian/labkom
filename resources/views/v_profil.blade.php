@@ -97,82 +97,10 @@
                                                 </div>
                                             @enderror
                                         </div>
-
-                                        @if ($user->role == 'dosen')
-                                            <div class="mb-3">
-                                                <label class="form-label" for="jabatan">Jabatan</label>
-                                                <select id="organization"
-                                                    class="select2 form-select @error('jabatan') is-invalid @enderror"
-                                                    name="jabatan">
-                                                    <option value="ketua jurusan" @selected(old('jabatan', $dosen->jabatan) == 'Ketua Jurusan')>Ketua Jurusan
-                                                    </option>
-                                                    <option value="ketua prodi" @selected(old('jabatan', $dosen->jabatan) == 'ketua prodi')>Ketua Prodi
-                                                    </option>
-                                                    <option value="dosen" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen</option>
-                                                </select>
-                                                @error('jabatan')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label" for="jurusan">jurusan</label>
-                                                <select id="organization"
-                                                    class="select2 form-select @error('jurusan') is-invalid @enderror"
-                                                    name="jurusan">
-                                                    <option value="mi" @selected(old('jurusan', $dosen->jurusan) == 'mi')>MI</option>
-                                                    <option value="ai" @selected(old('jurusan', $dosen->jurusan) == 'ai')>AI</option>
-                                                    <option value="tppm" @selected(old('jurusan', $dosen->jurusan) == 'tppm')>TPPM</option>
-                                                    <option value="kesehatan" @selected(old('jurusan', $dosen->jurusan) == 'kesehatan')>Kesehatan
-                                                    </option>
-                                                </select>
-                                                @error('jurusan')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="kepalalab" class="form-label">Kepala Lab</label>
-                                                <p class="">
-                                                    @if ($dosen->kepalalab == 'true')
-                                                        {{ $laboratorium->nama }}
-                                                    @else
-                                                        ###
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        @elseif ($user->role == 'mahasiswa')
-                                            <div class="mb-3">
-                                                <label for="angkatan" class="form-label">angkatan</label>
-                                                <input class="form-control @error('angkatan') is-invalid @enderror"
-                                                    type="text" id="angkatan" name="angkatan"
-                                                    value="{{ old('angkatan', $mahasiswa->angkatan) }}" required />
-                                                @error('angkatan')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        @elseif ($user->role == 'staff')
-                                            <div class="mb-3">
-                                                <label for="bidang" class="form-label">bidang</label>
-                                                <input class="form-control @error('bidang') is-invalid @enderror"
-                                                    type="text" id="bidang" name="bidang"
-                                                    value="{{ old('bidang', $staff->bidang) }}" required />
-                                                @error('bidang')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        @endif
                                         <div class="mb-3">
                                             <label class="form-label" for="password">Email</label>
-                                            <input type="email"
-                                                class="form-control @error('email') is-invalid @enderror" id="email"
-                                                placeholder="email" name="email"
+                                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                                id="email" placeholder="email" name="email"
                                                 value="{{ old('email', $user->email) }}" required />
                                             @error('email')
                                                 <div class="invalid-feedback">

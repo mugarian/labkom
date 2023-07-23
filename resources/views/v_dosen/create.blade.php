@@ -85,7 +85,7 @@
                                     <option value="">Pilih Jabatan</option>
                                     <option value="ketua jurusan" @selected(old('jabatan') == 'ketua jurusan')>Ketua Jurusan</option>
                                     <option value="ketua prodi" @selected(old('jabatan') == 'ketua prodi')>Ketua Prodi</option>
-                                    <option value="dosen pengampu" @selected(old('jabatan') == 'dosen pengampu')>Dosen</option>
+                                    <option value="dosen pengampu" @selected(old('jabatan') == 'dosen pengampu')>Dosen Pengampu</option>
                                 </select>
                                 @error('jabatan')
                                     <div class="invalid-feedback">

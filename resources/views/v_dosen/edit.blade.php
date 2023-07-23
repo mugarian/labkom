@@ -95,7 +95,7 @@
                                     name="jabatan">
                                     <option value="ketua jurusan" @selected(old('jabatan', $dosen->jabatan) == 'Ketua Jurusan')>Ketua Jurusan</option>
                                     <option value="ketua prodi" @selected(old('jabatan', $dosen->jabatan) == 'ketua prodi')>Ketua Prodi</option>
-                                    <option value="dosen pengampu" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen</option>
+                                    <option value="dosen pengampu" @selected(old('jabatan', $dosen->jabatan) == 'dosen pengampu')>Dosen Pengampu</option>
                                 </select>
                                 @error('jabatan')
                                     <div class="invalid-feedback">

@@ -72,6 +72,8 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="user_id">Kepala Lab</label>
+                                <input type="hidden" name="olduser_id" value="{{ $laboratorium->user_id }}"
+                                    id="olduser_id">
                                 <select id="organization" class="select2 form-select @error('user_id') is-invalid @enderror"
                                     name="user_id">
                                     <option value="{{ $laboratorium->user_id }}">{{ $laboratorium->user->nama }}

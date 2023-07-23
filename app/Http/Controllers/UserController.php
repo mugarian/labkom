@@ -160,17 +160,11 @@ class UserController extends Controller
         ]);
 
         if ($user->role == 'dosen') {
-            $validatedData['jabatan'] = $request->validate(['jabatan' => 'required']);
-            $validatedData['jurusan'] = $request->validate(['jurusan' => 'required']);
             Dosen::find($dosen->id)->update([
-                'jabatan' => $request->jabatan,
-                'jurusan' => $request->jurusan,
                 'foto' => $validatedData['foto'],
             ]);
         } elseif ($user->role == 'mahasiswa') {
-            $validatedData['angkatan'] = $request->validate(['angkatan' => 'required']);
             Mahasiswa::find($mahasiswa->id)->update([
-                'angkatan' => $request->angkatan,
                 'foto' => $validatedData['foto'],
             ]);
         } elseif ($user->role == 'staff') {

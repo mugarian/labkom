@@ -147,7 +147,7 @@ class LaboratoriumController extends Controller
                 'nama' => 'required|max:255',
                 'user_id' => 'required',
                 'deskripsi' => 'required',
-                'upload' => 'required|image|mimes:jpg,jpeg,png|max:8000'
+                'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
             ];
 
             $validatedData = $request->validate($rules);
@@ -161,9 +161,14 @@ class LaboratoriumController extends Controller
                 unset($validatedData['upload']);
             }
 
+            if ($request->olduser_id != $request->user_id) {
+                Dosen::where('user_id', $request->olduser_id)->update(['kepalalab' => 'false']);
+                Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);
+            } else {
+                Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);
+            }
 
             laboratorium::where('id', $laboratorium->id)->update($validatedData);
-            Dosen::where('user_id', $request->user_id)->update(['kepalalab' => 'true']);
             return redirect('/laboratorium')->with('success', 'Data laboratorium berhasil diubah');
         } else {
             abort(403);
