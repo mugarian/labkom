@@ -210,15 +210,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // staffs
-        $staff = (string) Uuid::uuid4();
-        User::create([
-            'id' => $staff,
-            'nomor_induk' => '210300082',
-            'nama' => 'Syifa Rizkita Ananda, A.md.Kom',
-            'role' => 'staff',
-            'email' => 'syifa@gmail.com',
-            'password' => Hash::make('syifa'),
-        ]);
+        // $staff = (string) Uuid::uuid4();
+        // User::create([
+        //     'id' => $staff,
+        //     'nomor_induk' => '210300082',
+        //     'nama' => 'Syifa Rizkita Ananda, A.md.Kom',
+        //     'role' => 'staff',
+        //     'email' => 'syifa@gmail.com',
+        //     'password' => Hash::make('syifa'),
+        // ]);
 
         /**
          * DosenSeeder
@@ -351,11 +351,11 @@ class DatabaseSeeder extends Seeder
          * StaffSeeder
          */
 
-        Staff::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $staff,
-            'bidang' => 'administrasi',
-        ]);
+        // Staff::create([
+        //     'id' => (string) Uuid::uuid4(),
+        //     'user_id' => $staff,
+        //     'bidang' => 'administrasi',
+        // ]);
 
         /**
          * LaboratoriumSeeder
@@ -607,29 +607,29 @@ class DatabaseSeeder extends Seeder
          * BarangHabisSeeder
          */
 
-        $bhJaringan = (string) Uuid::uuid4();
-        BarangHabis::create([
-            'id' => $bhJaringan,
-            'bahanpraktikum_id' => $baprakJaringan,
-            'laboratorium_id' => $labJaringan,
-            'nama' => 'RJ45 No 1 Jarkom',
-            'kode' => Str::random(8),
-            'deskripsi' => 'Penghubung internet',
-            'keterangan' => 'Baik',
-            'tahun' => '2023',
-        ]);
+        // $bhJaringan = (string) Uuid::uuid4();
+        // BarangHabis::create([
+        //     'id' => $bhJaringan,
+        //     'bahanpraktikum_id' => $baprakJaringan,
+        //     'laboratorium_id' => $labJaringan,
+        //     'nama' => 'RJ45 No 1 Jarkom',
+        //     'kode' => Str::random(8),
+        //     'deskripsi' => 'Penghubung internet',
+        //     'keterangan' => 'Baik',
+        //     'tahun' => '2023',
+        // ]);
 
-        $bhUX = (string) Uuid::uuid4();
-        BarangHabis::create([
-            'id' => $bhUX,
-            'bahanpraktikum_id' => $baprakUX,
-            'laboratorium_id' => $labUX,
-            'nama' => 'Kertas A4 UX',
-            'kode' => Str::random(8),
-            'deskripsi' => 'Kertas Printeran',
-            'keterangan' => 'Baik',
-            'tahun' => '2023',
-        ]);
+        // $bhUX = (string) Uuid::uuid4();
+        // BarangHabis::create([
+        //     'id' => $bhUX,
+        //     'bahanpraktikum_id' => $baprakUX,
+        //     'laboratorium_id' => $labUX,
+        //     'nama' => 'Kertas A4 UX',
+        //     'kode' => Str::random(8),
+        //     'deskripsi' => 'Kertas Printeran',
+        //     'keterangan' => 'Baik',
+        //     'tahun' => '2023',
+        // ]);
 
         /**
          * PelaksanaanSeeder
@@ -877,188 +877,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
-        ]);
-
-        // AlgoritmaSeeder
-        // ke1
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'RJ45 Connector',
-            'pengajuan' => 'sesuai',
-            'harga' => 'murah',
-            'jenis_bahan' => 'habis',
-            'label' => 'layak'
-        ]);
-
-        // ke2
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'UTP Cable',
-            'pengajuan' => 'melebihi',
-            'harga' => 'mahal',
-            'jenis_bahan' => 'habis',
-            'label' => 'tidak layak'
-        ]);
-
-        // ke3
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Unmanaged Switch',
-            'pengajuan' => 'sesuai',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke4
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Access Point',
-            'pengajuan' => 'sesuai',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke5
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Processor',
-            'pengajuan' => 'melebihi',
-            'harga' => 'mahal',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'tidak layak'
-        ]);
-
-        // ke6
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Motherboard',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke7
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'RAM',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke8
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'HDD',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke9
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'VGA',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke10
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Power Supply',
-            'pengajuan' => 'melebihi',
-            'harga' => 'mahal',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'tidak layak'
-        ]);
-
-        // ke11
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Casing',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke12
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Monitor',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke13
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Mouse & Keyboard',
-            'pengajuan' => 'melebihi',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'layak'
-        ]);
-
-        // ke14
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Battery',
-            'pengajuan' => 'melebihi',
-            'harga' => 'mahal',
-            'jenis_bahan' => 'habis',
-            'label' => 'tidak layak'
-        ]);
-
-        // ke15
-        Algoritma::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Mikrotik',
-            'pengajuan' => 'kurang',
-            'harga' => 'murah',
-            'jenis_bahan' => 'tidak habis',
-            'label' => 'tidak layak'
-        ]);
-
-        Prediksi::create([
-            'id' => (string) Uuid::uuid4(),
-            'user_id' => $admin,
-            'nama' => 'Data Uji',
-            'pengajuan' => 'lebih',
-            'harga' => 'mahal',
-            'label' => 'tidak layak',
-            'jml_pengajuan' => 2000,
-            'jml_matkul' => 2,
-            'jml_siswa' => 35,
-            'jml_kelas' => 2,
-            'harga_barang' => 70000,
-            'harga_termurah' => 10000,
-            'harga_termahal' => 100000,
         ]);
     }
 }
