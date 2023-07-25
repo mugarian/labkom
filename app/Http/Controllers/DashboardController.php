@@ -28,7 +28,6 @@ class DashboardController extends Controller
         $user = User::find(auth()->user()->id);
         $dosen = Dosen::all();
         $mahasiswa = Mahasiswa::all();
-        $staff = Staff::all();
         $alat = Alat::all();
         $barangpakai = BarangPakai::all();
         $bahanpraktikum = BahanPraktikum::all();
@@ -171,7 +170,6 @@ class DashboardController extends Controller
             'title' => 'Sistem Informasi Manajemen Administrasi Laboratorium Komputer',
             'dosen' => $dosen,
             'mahasiswa' => $mahasiswa,
-            'staff' => $staff,
             'alat' => $alat,
             'barangpakai' => $barangpakai,
             'bahanpraktikum' => $bahanpraktikum,

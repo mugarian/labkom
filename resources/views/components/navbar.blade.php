@@ -72,9 +72,17 @@
                     <li>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/profil">
                             <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">Profile</span>
+                            <span class="align-middle">Profil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="https://wa.me/6285814381705?text=Assalamualaikum,%20mau%20minta%20bantuan%20SIMALAKOM">
+                            <i class="bx bxl-whatsapp me-2"></i>
+                            <span class="align-middle">Hubungi
+                            </span>
                         </a>
                     </li>
                     <li>

@@ -93,7 +93,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="mb-3 form-password-toggle">
+                            <div class="form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
                                 </div>
@@ -110,12 +110,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            {{-- <div class="mb-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                  </div>
-                </div> --}}
+                            <div class="mb-3">
+                                <a href="https://wa.me/6285814381705?text=Assalamualaikum,%20mau%20minta%20bantuan%20SIMALAKOM"
+                                    class="text-muted">
+                                    {{-- <small> --}}
+                                    Lupa Password?
+                                    {{-- </small> --}}
+                                </a>
+                            </div>
                             <div class="mt-4">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                             </div>
