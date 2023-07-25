@@ -22,7 +22,7 @@
                 <h5 class="mb-0">Hasil Rule</h5>
             </div>
             <div class="card-body pb-2">
-                <pre>{{ $rule }}</pre>
+                <pre>{{ $rule ?? 'Rule Tidak ada atau Data Training Masih Kosong' }}</pre>
             </div>
         </div>
         <!--/ Bordered Table -->

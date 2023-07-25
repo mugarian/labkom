@@ -25,12 +25,7 @@ class PrediksiController extends Controller
     {
         $user = User::find(auth()->user()->id);
         $dosen = Dosen::where('user_Id', $user->id)->first();
-
-        if ($user->role == 'admin') {
-            $prediksis = DataTraining::where('isPrediksi', 1)->latest()->get();
-        } else {
-            $prediksis = DataTraining::where('isPrediksi', 1)->where('user_id', $user->id)->latest()->get();
-        }
+        $prediksis = DataTraining::where('isPrediksi', 1)->latest()->get();
 
         return view('v_prediksi.index', [
             'title' => 'Data prediksi',

@@ -26,18 +26,12 @@
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
                 <h5 class="mb-0">Kelola Prediksi Pengajuan</h5>
-                @if (auth()->user()->role == 'admin')
-                    <small class="text-muted float-end">
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
-                            <i class="bx bx-archive-in"></i> Import
-                        </button>
-                        <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
-                    </small>
-                @elseif ($dosen->kepalalab == 'true')
-                    <small class="text-muted float-end">
-                        <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
-                    </small>
-                @endif
+                <small class="text-muted float-end">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
+                        <i class="bx bx-archive-in"></i> Import
+                    </button>
+                    <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
+                </small>
             </div>
             <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -106,6 +100,11 @@
                         </tfoot>
                         <tbody class="text-center">
                             @foreach ($prediksis as $prediksi)
+                                @if (auth()->user()->role != 'admin')
+                                    @if ($prediksi->datamentah->user_id != auth()->user()->id)
+                                        @continue
+                                    @endif
+                                @endif
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td class="text-wrap">{{ $prediksi->datamentah->nama }}</td>
@@ -123,8 +122,8 @@
                                                 <button type="button" class="btn btn-outline-danger p-1"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal{{ $prediksi->id }}">
-                                                    <i class="bx bx-trash" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Hapus"></i>
+                                                    <i class="bx bx-trash" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-title="Hapus"></i>
                                                 </button>
                                             @endif
                                         </div>

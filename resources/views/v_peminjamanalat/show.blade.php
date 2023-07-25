@@ -125,6 +125,10 @@
                             <p class="form-control">{{ $peminjamanalat->barangpakai->nama }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="lokasi">Lokasi Alat</label>
+                            <p class="form-control">{{ $peminjamanalat->barangpakai->laboratorium->nama }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="merk">Merk Alat</label>
                             <p class="form-control">{{ $peminjamanalat->barangpakai->alat->merk }}</p>
                         </div>

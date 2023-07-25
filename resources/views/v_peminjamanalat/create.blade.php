@@ -78,7 +78,7 @@
                                 @enderror
                             </div>
                             <div class="mb-4">
-                                <label class="form-label" for="jenis">Jenis peminjamanalat (jurusan MI)</label>
+                                <label class="form-label" for="jenis">Jenis peminjaman alat (jurusan MI)</label>
                                 <input type="text" class="form-control @error('jenis') is-invalid @enderror"
                                     id="jenis" placeholder="jenis" value="{{ old('jenis', $jenis) }}" name="jenis"
                                     required readonly />

@@ -162,12 +162,6 @@
                             <div data-i18n="kegiatan">Pengajuan</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item {{ Request::is('training*') ? 'active' : '' }}">
-                                <a href="/training" class="menu-link">
-                                    {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}
-                                    <div data-i18n="Misc">Data Training</div>
-                                </a>
-                            </li>
                             <li class="menu-item {{ Request::is('rule*') ? 'active' : '' }}">
                                 <a href="/rule" class="menu-link">
                                     {{-- <i class="menu-icon tf-icons bx bx-calendar"></i> --}}

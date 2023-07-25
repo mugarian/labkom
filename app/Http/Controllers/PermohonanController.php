@@ -40,9 +40,9 @@ class PermohonanController extends Controller
 
         if ($user->role == 'mahasiswa' || $user->role == 'staff') {
             if ($permohonan->contains('selesai', NULL)) {
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('kelas_id', $mahasiswa->kelas_id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
             } else {
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('kelas_id', $mahasiswa->kelas_id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
             }
             $jabatan = 'ms';
             $dospem = 'false';

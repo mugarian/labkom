@@ -231,6 +231,12 @@ class AlgoritmaController extends Controller
         $c45 = new C45();
         $input = new DataInput;
         $trainings = DataTraining::where('isPrediksi', 0)->get();
+        if ($trainings->isEmpty()) {
+            return view('v_algoritma.rule', [
+                'title' => 'Hasil Rule',
+                'rule' => 'Rule Tidak Ada atau Data Training Masih Kosong'
+            ]);
+        }
         $atts = array();
         $count = 0;
         foreach ($trainings as $training) {

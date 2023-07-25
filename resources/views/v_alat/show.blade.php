@@ -125,7 +125,7 @@
             <div class="col-xl">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Tracking Barang Pakai (Alat)</h5>
+                        <h5 class="mb-0">Daftar Alat</h5>
                         @if (auth()->user()->role == 'admin')
                             <small class="text-muted float-end">
                                 <a href="/barangpakai/create/{{ $alat->id }}"><button

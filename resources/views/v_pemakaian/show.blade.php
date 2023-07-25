@@ -84,6 +84,10 @@
                             <p class="form-control">{{ $pemakaian->barangpakai->nama }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="lokasi">lokasi barangpakai</label>
+                            <p class="form-control">{{ $pemakaian->barangpakai->laboratorium->nama }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="kode">kode kegiatan</label>
                             <p class="form-control">{{ $pemakaian->kegiatan->kode }}</p>
                         </div>

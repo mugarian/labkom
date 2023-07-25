@@ -110,15 +110,19 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="nama">Nama bahan</label>
-                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}</p>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->nama }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="lokasi">Lokasi bahan</label>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->laboratorium->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="merk">Merk bahan</label>
-                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->merk }}</p>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->merk }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="spesifikasi">Spesifikasi bahan</label>
-                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->bahanpraktikum->spesifikasi }}</p>
+                            <p class="form-control">{{ $peminjamanbahan->bahanjurusan->spesifikasi }}</p>
                         </div>
                     </div>
                 </div>

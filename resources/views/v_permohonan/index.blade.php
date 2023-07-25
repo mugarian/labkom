@@ -126,12 +126,13 @@
                             </tr>
                         </tfoot>
                         <tbody class="text-center">
+                            <?php $i = 1; ?>
                             @foreach ($permohonans as $permohonan)
                                 @if ($permohonan->jenis == 'pelaksanaan')
                                     @continue
                                 @endif
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $i++ }}</td>
                                     <td class="text-wrap">
                                         {{ $permohonan->kode }}
                                     </td>
