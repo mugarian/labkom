@@ -153,7 +153,7 @@ class DashboardController extends Controller
             $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
             $pelaksanaan = Kegiatan::where('jenis', 'pelaksanaan')->where('kelas_id', $mahasiswa->kelas_id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
-            $permohonan = Kegiatan::where('jenis', 'permohonan')->orWhere('user_id', $user->id)->orderBy('updated_at', 'desc')->limit(5)->get();
+            $permohonan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
             $palat = PeminjamanAlat::where('user_id', $user->id)->orderBy('updated_at', 'desc')->limit(5)->get();
 
