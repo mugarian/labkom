@@ -155,7 +155,7 @@
             <div class="col-lg-6 col-sm order-1 order-md-1 order-lg-1 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
-                        <h5 class="card-title m-0 me-2">Pelaksanaan Kegiatan</h5>
+                        <h5 class="card-title m-0 me-2">Pelaksanaan Praktikum</h5>
                     </div>
                     <div class="card-body">
                         <ul class="p-0 m-0">
