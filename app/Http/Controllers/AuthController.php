@@ -18,7 +18,7 @@ class AuthController extends Controller
         $request->session()->put('state', $state = Str::random(40));
 
         $query = http_build_query([
-            'client_id' => '99baefd0-ed0e-4b3e-bf92-3b65e2071990',
+            'client_id' => '99bb78db-c176-4314-8122-08f35fdb5c34',
             'redirect_uri' => 'https://simalakom.elearningpolsub.com/callback',
             'response_type' => 'code',
             'scope' => 'view-user',
@@ -42,8 +42,8 @@ class AuthController extends Controller
             'https://sso.elearningpolsub.com/oauth/token',
             [
                 'grant_type' => 'authorization_code',
-                'client_id' => '99baefd0-ed0e-4b3e-bf92-3b65e2071990',
-                'client_secret' => '7VUF82e8aj3AceadUbA8VCoh7lWZvmpgs4Ies7H0',
+                'client_id' => '99bb78db-c176-4314-8122-08f35fdb5c34',
+                'client_secret' => 'CtNR6V3DlM1xQT6lgsKDWv7jiFgZWcJ5whpf2PBO',
                 'redirect_uri' => 'https://simalakom.elearningpolsub.com/callback',
                 'code' => $request->code,
             ]
