@@ -202,14 +202,12 @@ class UserController extends Controller
         $dosen = Dosen::where('user_id', $user->id)->first();
         $laboratorium = Laboratorium::where('user_id', $user->id)->first();
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-        $staff = Staff::where('user_id', $user->id)->first();
         return view('v_profil', [
             'title' => 'Profil',
             'user' => $user,
             'dosen' => $dosen,
             'laboratorium' => $laboratorium,
             'mahasiswa' => $mahasiswa,
-            'staff' => $staff
         ]);
     }
 }
