@@ -356,7 +356,10 @@ class AlgoritmaController extends Controller
                 } elseif ($hcpu->harga_barang_beli <= $hardwarecpu_q4) {
                     $jenis_hargacpu = 'sangat mahal';
                 }
-                DataTraining::where('datamentah_id', $hcpu->id)->first()->update(['jenis_harga' => $jenis_hargacpu]);
+                $dtcpu = DataTraining::where('datamentah_id', $hcpu->id)->first();
+                if ($dtcpu) {
+                    $dtcpu->update(['jenis_harga' => $jenis_hargacpu]);
+                }
             }
         }
 
@@ -378,7 +381,11 @@ class AlgoritmaController extends Controller
                 } elseif ($kcpu->harga_barang_beli <= $komponencpu_q4) {
                     $jenis_hargakcpu = 'sangat mahal';
                 }
-                DataTraining::where('datamentah_id', $kcpu->id)->first()->update(['jenis_harga' => $jenis_hargakcpu]);
+                // DataTraining::where('datamentah_id', $kcpu->id)->first()->update(['jenis_harga' => $jenis_hargakcpu]);
+                $dtkcpu = DataTraining::where('datamentah_id', $kcpu->id)->first();
+                if ($dtkcpu) {
+                    $dtkcpu->update(['jenis_harga' => $jenis_hargakcpu]);
+                }
             }
         }
 
@@ -400,7 +407,11 @@ class AlgoritmaController extends Controller
                 } elseif ($ke->harga_barang_beli <= $komponenelektronik_q4) {
                     $jenis_hargake = 'sangat mahal';
                 }
-                DataTraining::where('datamentah_id', $ke->id)->first()->update(['jenis_harga' => $jenis_hargake]);
+                // DataTraining::where('datamentah_id', $ke->id)->first()->update(['jenis_harga' => $jenis_hargake]);
+                $dtke = DataTraining::where('datamentah_id', $ke->id)->first();
+                if ($dtke) {
+                    $dtke->update(['jenis_harga' => $jenis_hargake]);
+                }
             }
         }
 
@@ -422,7 +433,11 @@ class AlgoritmaController extends Controller
                 } elseif ($ki->harga_barang_beli <= $komponeninternet_q4) {
                     $jenis_hargaki = 'sangat mahal';
                 }
-                DataTraining::where('datamentah_id', $ki->id)->first()->update(['jenis_harga' => $jenis_hargaki]);
+                // DataTraining::where('datamentah_id', $ki->id)->first()->update(['jenis_harga' => $jenis_hargaki]);
+                $dtki = DataTraining::where('datamentah_id', $ki->id)->first();
+                if ($dtki) {
+                    $dtki->update(['jenis_harga' => $jenis_hargaki]);
+                }
             }
         }
 
@@ -444,7 +459,11 @@ class AlgoritmaController extends Controller
                 } elseif ($kk->harga_barang_beli <= $komponenkabel_q4) {
                     $jenis_hargakk = 'sangat mahal';
                 }
-                DataTraining::where('datamentah_id', $kk->id)->first()->update(['jenis_harga' => $jenis_hargakk]);
+                // DataTraining::where('datamentah_id', $kk->id)->first()->update(['jenis_harga' => $jenis_hargakk]);
+                $dtkk = DataTraining::where('datamentah_id', $kk->id)->first();
+                if ($dtkk) {
+                    $dtkk->update(['jenis_harga' => $jenis_hargakk]);
+                }
             }
         }
 
@@ -466,7 +485,11 @@ class AlgoritmaController extends Controller
                 } elseif ($km->harga_barang_beli <= $komponenmaterial_q4) {
                     $jenis_hargakm = 'sangat mahal';
                 }
-                DataTraining::where('datamentah_id', $km->id)->first()->update(['jenis_harga' => $jenis_hargakm]);
+                // DataTraining::where('datamentah_id', $km->id)->first()->update(['jenis_harga' => $jenis_hargakm]);
+                $dtkm = DataTraining::where('datamentah_id', $km->id)->first();
+                if ($dtkm) {
+                    $dtkm->update(['jenis_harga' => $jenis_hargakm]);
+                }
             }
         }
     }
