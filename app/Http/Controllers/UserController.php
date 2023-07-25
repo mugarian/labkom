@@ -111,7 +111,6 @@ class UserController extends Controller
         $user = User::find($id);
         $dosen = Dosen::where('user_id', $user->id)->first();
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-        $staff = Staff::where('user_id', $user->id)->first();
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
             'upload' => 'nullable|image|mimes:jpg,jpeg,png|max:8000'
@@ -165,12 +164,6 @@ class UserController extends Controller
             ]);
         } elseif ($user->role == 'mahasiswa') {
             Mahasiswa::find($mahasiswa->id)->update([
-                'foto' => $validatedData['foto'],
-            ]);
-        } elseif ($user->role == 'staff') {
-            $validatedData['bidang'] = $request->validate(['bidang' => 'required']);
-            Staff::find($staff->id)->update([
-                'bidang' => $request->bidang,
                 'foto' => $validatedData['foto'],
             ]);
         }

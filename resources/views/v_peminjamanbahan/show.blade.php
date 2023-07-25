@@ -5,7 +5,7 @@
             <span class="text-secondary fw-light">
                 <a href="/dashboard" class="text-secondary">Beranda /</a>
                 Logbook /
-                <a href="/peminjamanbahan" class="text-secondary">Peminjaman Bahan /</a>
+                <a href="/peminjamanbahan" class="text-secondary">Peminjaman Bahan Jurusan /</a>
             </span>
             <span class="text-primary">
                 {{ $peminjamanbahan->bahanjurusan->bahanpraktikum->nama }}

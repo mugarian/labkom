@@ -440,7 +440,7 @@
             <div class="col-lg-6 col-sm order-2 order-md-2 order-lg-2 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
-                        <h5 class="card-title m-0 me-2">Penggunaan Bahan</h5>
+                        <h5 class="card-title m-0 me-2">Penggunaan Bahan Praktikum</h5>
                     </div>
                     <div class="card-body">
                         <ul class="p-0 m-0">
@@ -471,7 +471,7 @@
                                                             class="fw-lighter">({{ \Carbon\Carbon::parse($guna->created_at)->diffForHumans() }})</i>
                                                     </small>
                                                     <h6 class="mb-0">
-                                                        <a href="/pemakaian/{{ $guna->id }}" class="text-wrap">
+                                                        <a href="/penggunaan/{{ $guna->id }}" class="text-wrap">
                                                             {{ $guna->bahanpraktikum->nama ?? $guna->namabahan }}
                                                             &nbsp; - &nbsp;
                                                             {{ $guna->kegiatan->nama ?? $guna->namakegiatan }}
@@ -582,7 +582,7 @@
             <div class="col-lg-6 col-sm order-2 order-md-2 order-lg-2 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-center">
-                        <h5 class="card-title m-0 me-2">Peminjaman Bahan</h5>
+                        <h5 class="card-title m-0 me-2">Peminjaman Bahan Jurusan</h5>
                     </div>
                     <div class="card-body">
                         <ul class="p-0 m-0">
@@ -612,7 +612,7 @@
                                                             class="fw-lighter">({{ \Carbon\Carbon::parse($pab->updated_at)->diffForHumans() }})</i>
                                                     </small>
                                                     <h6 class="mb-0">
-                                                        <a href="/peminjamanalat/{{ $pab->id }}" class="text-wrap">
+                                                        <a href="/peminjamanbahan/{{ $pab->id }}" class="text-wrap">
                                                             {{ $pab->bahanjurusan->nama ?? $pab->namabarang }}
                                                             &nbsp; -
                                                             &nbsp;
