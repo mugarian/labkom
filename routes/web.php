@@ -9,7 +9,7 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\KelasController;
-use App\Http\Controllers\loginController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\PrediksiController;
