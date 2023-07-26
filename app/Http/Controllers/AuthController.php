@@ -79,26 +79,37 @@ class AuthController extends Controller
 
         $user = User::where('email', $email)->first();
 
-        switch ($user->role) {
-            case 'dosen':
-                Dosen::upsert([
-                    'user_id' => $user->id,
-                    'jabatan' => 'dosen pengampu',
-                    'kepalalab' => 'false',
-                    'jurusan' => $userArray['major'],
-                ], ['user_id']);
-                break;
-            case 'mahasiswa':
-                Mahasiswa::upsert([
-                    'user_id' => $user->id,
-                    'kelas_id' => null,
-                    'angkatan' => '2020',
-                    'jurusan' => $userArray['major'],
-                ], ['user_id']);
-                break;
-            default:
-                # code...
-                break;
+        if ($user->isEmpty()) {
+            $user_id = (string) Uuid::uuid4();
+            User::create([
+                'id' => $user_id,
+                'nomor_induk' => $userArray['no_induk'],
+                'nama' => $userArray['name'],
+                'role' => $userArray['role'],
+                'email' => $userArray['email'],
+                'password' => Hash::make($userArray['no_induk']),
+            ]);
+            switch ($user->role) {
+                case 'dosen':
+                    Dosen::create([
+                        'user_id' => $user->id,
+                        'jabatan' => 'dosen pengampu',
+                        'kepalalab' => 'false',
+                        'jurusan' => $userArray['major'],
+                    ]);
+                    break;
+                case 'mahasiswa':
+                    Mahasiswa::create([
+                        'user_id' => $user->id,
+                        'kelas_id' => null,
+                        'angkatan' => '2020',
+                        'jurusan' => $userArray['major'],
+                    ]);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
         }
 
         Auth::login($user);
