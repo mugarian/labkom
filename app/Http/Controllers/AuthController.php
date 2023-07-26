@@ -68,14 +68,6 @@ class AuthController extends Controller
         } catch (\Throwable $th) {
             return redirect('login')->withErrors('Failed to get login information! Try Again!');
         }
-        User::upsert([
-            'id' => (string) Uuid::uuid4(),
-            'nomor_induk' => $userArray['no_induk'],
-            'nama' => $userArray['name'],
-            'role' => $userArray['role'],
-            'email' => $userArray['email'],
-            'password' => Hash::make($userArray['no_induk']),
-        ], ['email', 'nomor_induk']);
 
         $user = User::where('email', $email)->first();
 
