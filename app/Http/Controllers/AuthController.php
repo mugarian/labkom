@@ -71,7 +71,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $email)->first();
 
-        if ($user->isEmpty()) {
+        if (!$user) {
             $user_id = (string) Uuid::uuid4();
             User::create([
                 'id' => $user_id,
