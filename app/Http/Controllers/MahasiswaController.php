@@ -201,10 +201,10 @@ class MahasiswaController extends Controller
                 Storage::delete($mahasiswa->foto);
             }
 
-            $user = User::destroy($mahasiswa->user->id);
-            if ($user) {
-                mahasiswa::destroy($mahasiswa->id);
-            }
+            $user = $mahasiswa->user->id;
+
+            Mahasiswa::destroy($mahasiswa->id);
+            User::destroy($user);
 
             return redirect('/mahasiswa')->with('success', 'Data mahasiswa telah dihapus');
         } catch (\Throwable $th) {

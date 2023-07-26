@@ -195,11 +195,11 @@ class DosenController extends Controller
                 Storage::delete($dosen->foto);
             }
 
-            $user = User::destroy($dosen->user->id);
+            $user = $dosen->user->id;
 
-            if ($user) {
-                Dosen::destroy($dosen->id);
-            }
+            Dosen::destroy($dosen->id);
+            User::destroy($user);
+
 
             return redirect('/dosen')->with('success', 'Data Dosen telah dihapus');
         } catch (\Throwable $th) {
