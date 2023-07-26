@@ -73,7 +73,7 @@ class AuthController extends Controller
 
         if (!$user) {
             $user_id = (string) Uuid::uuid4();
-            User::create([
+            $user = User::create([
                 'id' => $user_id,
                 'nomor_induk' => $userArray['no_induk'],
                 'nama' => $userArray['name'],
@@ -81,6 +81,31 @@ class AuthController extends Controller
                 'email' => $userArray['email'],
                 'password' => Hash::make($userArray['no_induk']),
             ]);
+            switch ($userArray['role']) {
+                case 'dosen':
+                    $dosen_id = (string) Uuid::uuid4();
+                    Dosen::create([
+                        'id' => $dosen_id,
+                        'user_id' => $user->id,
+                        'jabatan' => 'dosen pengampu',
+                        'kepalalab' => 'false',
+                        'jurusan' => $userArray['major'],
+                    ]);
+                    break;
+                case 'mahasiswa':
+                    $mahasiswa_id = (string) Uuid::uuid4();
+                    Mahasiswa::create([
+                        'id' => $mahasiswa_id,
+                        'user_id' => $user->id,
+                        'kelas_id' => null,
+                        'angkatan' => '2020',
+                        'jurusan' => $userArray['major'],
+                    ]);
+                    break;
+                default:
+                    # code...
+                    break;
+            }
         }
 
         Auth::login($user);
