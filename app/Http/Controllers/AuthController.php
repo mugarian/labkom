@@ -88,7 +88,7 @@ class AuthController extends Controller
                         'user_id' => $user_id,
                         'jabatan' => 'dosen pengampu',
                         'kepalalab' => 'false',
-                        'jurusan' => $userArray['major'],
+                        'jurusan' => 'mi',
                     ]);
                     break;
                 case 'mahasiswa':
@@ -97,7 +97,7 @@ class AuthController extends Controller
                         'user_id' => $user_id,
                         'kelas_id' => null,
                         'angkatan' => '2020',
-                        'jurusan' => $userArray['major'],
+                        'jurusan' => 'mi',
                     ]);
                     break;
                 default:
