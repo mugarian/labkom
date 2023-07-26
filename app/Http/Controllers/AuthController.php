@@ -81,7 +81,7 @@ class AuthController extends Controller
                 'email' => $userArray['email'],
                 'password' => Hash::make($userArray['no_induk']),
             ]);
-            switch ($user->role) {
+            switch ($userArray['role']) {
                 case 'dosen':
                     Dosen::create([
                         'id' => (string) Uuid::uuid4(),
