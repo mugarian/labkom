@@ -85,7 +85,7 @@ class AuthController extends Controller
                 case 'dosen':
                     Dosen::create([
                         'id' => (string) Uuid::uuid4(),
-                        'user_id' => $user->id,
+                        'user_id' => $user_id,
                         'jabatan' => 'dosen pengampu',
                         'kepalalab' => 'false',
                         'jurusan' => $userArray['major'],
@@ -94,7 +94,7 @@ class AuthController extends Controller
                 case 'mahasiswa':
                     Mahasiswa::create([
                         'id' => (string) Uuid::uuid4(),
-                        'user_id' => $user->id,
+                        'user_id' => $user_id,
                         'kelas_id' => null,
                         'angkatan' => '2020',
                         'jurusan' => $userArray['major'],
