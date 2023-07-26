@@ -184,8 +184,9 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($pemakaian->barangpakai->foto)
-                                    <img src="{{ asset('storage') . '/' . $pemakaian->foto }}" alt="pemakaian-avatar"
-                                        class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                    <img src="{{ asset('storage') . '/' . $pemakaian->barangpakai->foto }}"
+                                        alt="pemakaian-avatar" class="d-block rounded" height="200" width="200"
+                                        id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />

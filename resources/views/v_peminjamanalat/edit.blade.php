@@ -204,7 +204,7 @@
                         <div class="mb-3">
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($peminjamanalat->barangpakai->foto)
-                                    <img src="{{ asset('storage') . '/' . $peminjamanalat->foto }}"
+                                    <img src="{{ asset('storage') . '/' . $peminjamanalat->barangpakai->foto }}"
                                         alt="peminjamanalat-avatar" class="d-block rounded" height="200"
                                         width="200" id="uploadedAvatar" />
                                 @else

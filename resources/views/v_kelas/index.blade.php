@@ -38,7 +38,6 @@
                         <thead>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
-                                <th>Foto</th>
                                 <th>Nama Kelas</th>
                                 <th>Wali Dosen</th>
                                 <th>Jurusan</th>
@@ -49,7 +48,6 @@
                         <tfoot>
                             <tr class="text-center">
                                 <th style="width: 0">#</th>
-                                <th>Foto</th>
                                 <th>Nama Kelas</th>
                                 <th>Wali Dosen</th>
                                 <th>Jurusan</th>
@@ -61,17 +59,6 @@
                             @foreach ($kelass as $kelas)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td style="width:10%">
-                                        @if ($kelas->foto)
-                                            <img src="{{ asset('storage') . '/' . $kelas->foto }}" alt="kelas-avatar"
-                                                class="d-block rounded img-preview" height="100" width="100"
-                                                id="uploadedAvatar" />
-                                        @else
-                                            <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
-                                                class="d-block rounded img-preview" height="100" width="100"
-                                                id="uploadedAvatar" />
-                                        @endif
-                                    </td>
                                     <td class="text-wrap">{{ $kelas->nama }}</td>
                                     <td class="text-wrap">{{ $kelas->dosen->user->nama }}</td>
                                     <td class="text-wrap">{{ $kelas->jurusan }}</td>

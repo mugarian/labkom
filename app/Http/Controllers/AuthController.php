@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Dosen;
+use Ramsey\Uuid\Uuid;
 use App\Models\Mahasiswa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class AuthController extends Controller
             return redirect('login')->withErrors('Failed to get login information! Try Again!');
         }
         User::upsert([
+            'id' => (string) Uuid::uuid4(),
             'nomor_induk' => $userArray['no_induk'],
             'nama' => $userArray['name'],
             'role' => $userArray['role'],
@@ -100,6 +102,6 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
-        return redirect('/dashboard');
+        return redirect('/profil');
     }
 }

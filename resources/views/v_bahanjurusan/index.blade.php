@@ -74,7 +74,7 @@
                                         @endif
                                     </td>
                                     <td class="text-wrap">{{ $bahanjurusan->kode }}</td>
-                                    <td class="text-wrap">{{ $bahanjurusan->bahanpraktikum->nama }}</td>
+                                    <td class="text-wrap">{{ $bahanjurusan->nama }}</td>
                                     <td class="text-wrap">{{ $bahanjurusan->stok }}</td>
                                     <td class="text-wrap">{{ $bahanjurusan->tahun }}</td>
                                     <td class="text-wrap">{{ $bahanjurusan->laboratorium->nama }}</td>
