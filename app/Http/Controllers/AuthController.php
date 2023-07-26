@@ -83,12 +83,13 @@ class AuthController extends Controller
             ]);
             switch ($userArray['role']) {
                 case 'dosen':
+                    $dosen_id = (string) Uuid::uuid4();
                     Dosen::create([
-                        'id' => (string) Uuid::uuid4(),
+                        'id' => $dosen_id,
                         'user_id' => $user_id,
                         'jabatan' => 'dosen pengampu',
                         'kepalalab' => 'false',
-                        'jurusan' => 'mi',
+                        'jurusan' => $userArray['major'],
                     ]);
                     break;
                 case 'mahasiswa':
@@ -97,7 +98,7 @@ class AuthController extends Controller
                         'user_id' => $user_id,
                         'kelas_id' => null,
                         'angkatan' => '2020',
-                        'jurusan' => 'mi',
+                        'jurusan' => $userArray['major'],
                     ]);
                     break;
                 default:
