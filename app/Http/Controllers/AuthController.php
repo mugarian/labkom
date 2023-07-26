@@ -84,6 +84,7 @@ class AuthController extends Controller
             switch ($user->role) {
                 case 'dosen':
                     Dosen::create([
+                        'id' => (string) Uuid::uuid4(),
                         'user_id' => $user->id,
                         'jabatan' => 'dosen pengampu',
                         'kepalalab' => 'false',
@@ -92,6 +93,7 @@ class AuthController extends Controller
                     break;
                 case 'mahasiswa':
                     Mahasiswa::create([
+                        'id' => (string) Uuid::uuid4(),
                         'user_id' => $user->id,
                         'kelas_id' => null,
                         'angkatan' => '2020',
