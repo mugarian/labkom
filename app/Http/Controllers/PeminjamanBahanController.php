@@ -106,13 +106,18 @@ class PeminjamanBahanController extends Controller
             $selesai = 1;
         }
 
-        $current_date = date('Y-m-d');
+        $current_datetime = date('Y-m-d H:i:s');
 
         foreach ($peminjamanbahan as $pj) {
-            if ($current_date > $pj->tgl_pinjam && $pj->status == 'menunggu') {
+            if ($current_datetime > $pj->rencana_tgl_kembali && $pj->status == 'menunggu') {
                 DB::table('peminjaman_bahans')->where('id', $pj->id)->update([
                     'keterangan' => 'Peminjaman Bahan Kadaluarsa',
                     'status' => 'ditolak',
+                ]);
+            } else if ($current_datetime > $pj->rencana_tgl_kembali && $pj->status == 'disetujui') {
+                DB::table('peminjaman_bahans')->where('id', $pj->id)->update([
+                    'keterangan' => 'Pengembalian Bahan Telat',
+                    'status' => 'telat',
                 ]);
             }
         }
@@ -139,11 +144,7 @@ class PeminjamanBahanController extends Controller
             $jurusan = Mahasiswa::where('user_id', $user->id)->first()->jurusan;
         }
 
-        if ($jurusan == 'mi') {
-            $jenis = 'dalam';
-        } else {
-            $jenis = 'luar';
-        }
+        $jenis = $jurusan;
 
         $bahanjurusan = BahanJurusan::all();
         return view('v_peminjamanbahan.create', [
@@ -167,10 +168,18 @@ class PeminjamanBahanController extends Controller
             'deskripsi' => 'required',
             'jenis' => 'required',
             'jumlah' => 'required',
+            'rencana_tgl_kembali' => 'required',
         ]);
 
-        $bahanjurusan = BahanJurusan::where('kode', $validatedData['bahanjurusan_id'])->first();
-        $peminjamanBahanTerakhir = PeminjamanBahan::where('bahanjurusan_id', $bahanjurusan->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        $kode = explode(' ## ', $request->bahanjurusan_id);
+        $validatedData['bahanjurusan_id'] = end($kode);
+
+        try {
+            $bahanjurusan = BahanJurusan::where('kode', $validatedData['bahanjurusan_id'])->first();
+            $peminjamanBahanTerakhir = PeminjamanBahan::where('bahanjurusan_id', $bahanjurusan->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        } catch (\Throwable $th) {
+            return redirect('/peminjamanbahan')->with('fail', 'Peminjaman Bahan Gagal');
+        }
 
         if ($bahanjurusan) {
             if ($bahanjurusan->status == 'rusak') {

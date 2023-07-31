@@ -37,6 +37,10 @@
                             <p class="form-control">{{ $pelaksanaan->nama }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="matakuliah">Mata Kuliah</label>
+                            <p class="form-control">{{ $pelaksanaan->matakuliah }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="jenis">jenis pelasanaan</label>
                             <p class="form-control">{{ $pelaksanaan->jenis }}</p>
                         </div>
@@ -56,6 +60,14 @@
                         <div class="mb-3">
                             <label class="form-label" for="deskripsi">deskripsi</label>
                             <p class="form-control">{{ $pelaksanaan->deskripsi }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="semester">semester</label>
+                            <p class="form-control">{{ $pelaksanaan->semester }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tahun_ajaran">tahun ajaran</label>
+                            <p class="form-control">{{ $pelaksanaan->tahun_ajaran }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="kelas">kelas</label>

@@ -35,6 +35,25 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <label class="form-label" for="barangpakai_id">Nama Barang Pakai</label>
+                                <input list="barangpakai" class="form-control @error('barangpakai_id') is-invalid @enderror"
+                                    id="barangpakai_id" placeholder="Nama barang pakai" value="{{ old('barangpakai_id') }}"
+                                    name="barangpakai_id" required autocomplete="off" />
+                                <datalist id="barangpakai">
+                                    @foreach ($barangpakai as $bp)
+                                        <option value="{{ $bp->nama . ' ## ' . $bp->kode }}">
+                                            {{ $bp->laboratorium->nama }}
+                                        </option>
+                                    @endforeach
+                                </datalist>
+                                @error('barangpakai_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            {{-- <div class="mb-3">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                 <label class="form-label" for="barangpakai_id">Kode Barang Pakai</label>
                                 <input list="barangpakai" class="form-control @error('barangpakai_id') is-invalid @enderror"
                                     id="barangpakai_id" placeholder="kode barang pakai" value="{{ old('barangpakai_id') }}"
@@ -51,8 +70,8 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
-                            <div class="mb-3">
+                            </div> --}}
+                            {{-- <div class="mb-3">
                                 <label class="form-label">Nama Barang Pakai</label>
                                 <div>
                                     <input class="form-control mb-3" style="display:block" id="dummybp"
@@ -65,7 +84,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
                                 <textarea id="deskripsi" class="form-control @error('deskripsi')
@@ -78,7 +97,20 @@
                                 @enderror
                             </div>
                             <div class="mb-4">
-                                <label class="form-label" for="jenis">Jenis peminjaman alat (jurusan MI)</label>
+                                <label class="form-label" for="rencana_tgl_kembali">Rencana Tanggal Pengembalian</label>
+                                <input type="datetime-local"
+                                    class="form-control @error('rencana_tgl_kembali') is-invalid @enderror"
+                                    id="rencana_tgl_kembali" placeholder="rencana_tgl_kembali" name="rencana_tgl_kembali"
+                                    value="{{ old('rencana_tgl_kembali') }}" min="{{ date('Y-m-d') . 'T' . date('H:i') }}"
+                                    onchange="akhir()" required />
+                                @error('rencana_tgl_kembali')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="jenis">Jurusan Peminjam</label>
                                 <input type="text" class="form-control @error('jenis') is-invalid @enderror"
                                     id="jenis" placeholder="jenis" value="{{ old('jenis', $jenis) }}" name="jenis"
                                     required readonly />
@@ -97,7 +129,7 @@
             </div>
         </div>
     </div>
-    <script>
+    {{-- <script>
         const barangpakai = document.getElementById('barangpakai_id');
 
         const kodebp = [];
@@ -118,5 +150,5 @@
                 document.getElementById('dummybp').style.display = 'block';
             }
         }
-    </script>
+    </script> --}}
 @endsection

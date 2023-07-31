@@ -70,6 +70,19 @@
                                 @enderror
                             </div>
                             <div class="mb-4">
+                                <label class="form-label" for="rencana_tgl_kembali">Rencana Tanggal Pengembalian</label>
+                                <input type="datetime-local"
+                                    class="form-control @error('rencana_tgl_kembali') is-invalid @enderror"
+                                    id="rencana_tgl_kembali" placeholder="rencana_tgl_kembali" name="rencana_tgl_kembali"
+                                    value="{{ old('rencana_tgl_kembali') }}" min="{{ date('Y-m-d') . 'T' . date('H:i') }}"
+                                    onchange="akhir()" required />
+                                @error('rencana_tgl_kembali')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
                                 <label class="form-label" for="jenis">Jenis peminjaman bahan (jurusan MI)</label>
                                 <input type="text" class="form-control @error('jenis') is-invalid @enderror"
                                     id="jenis" placeholder="jenis" value="{{ old('jenis', $jenis) }}" name="jenis"
@@ -99,8 +112,9 @@
                             <div class="mb-3">
                                 <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                     @if ($bahanjurusan->foto)
-                                        <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}" alt="pemakaian-avatar"
-                                            class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
+                                        <img src="{{ asset('storage') . '/' . $bahanjurusan->foto }}"
+                                            alt="pemakaian-avatar" class="d-block rounded" height="200" width="200"
+                                            id="uploadedAvatar" />
                                     @else
                                         <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
                                             class="d-block rounded" height="200" width="200" id="uploadedAvatar" />

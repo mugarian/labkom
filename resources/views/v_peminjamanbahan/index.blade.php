@@ -35,11 +35,11 @@
                             <i class="bx bx-filter-alt"></i> Filter
                         </button>
                         @if (auth()->user()->role != 'admin')
-                            {{-- @if ($selesai) --}}
-                            <a href="/peminjamanbahan/create">
-                                <button class="btn btn-primary">Tambah</button>
-                            </a>
-                            {{-- @endif --}}
+                            @if ($selesai)
+                                <a href="/peminjamanbahan/create">
+                                    <button class="btn btn-primary">Tambah</button>
+                                </a>
+                            @endif
                         @endif
                     </small>
                 </div>

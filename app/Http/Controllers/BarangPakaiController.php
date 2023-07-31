@@ -114,8 +114,8 @@ class BarangPakaiController extends Controller
         $user = User::find($barangpakai->laboratorium->user->id);
         $pemakaians = Pemakaian::where('barangpakai_id', '=', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->get();
         $peminjamans = PeminjamanAlat::where('barangpakai_id', '=', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->get();
-        // $pemakaian = Pemakaian::where('barangpakai_id', $barangpakai->id)->orderBy('mulai', 'desc')->get();
-        // $peminjaman = Peminjaman::where('barangpakai_id', $barangpakai->id)->orderBy('mulai', 'desc')->get();
+        $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
+        $peminjamanAlatTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
         return view('v_barangpakai.show', [
             'title' => $barangpakai->nama,
             'barangpakai' => $barangpakai,
@@ -123,6 +123,8 @@ class BarangPakaiController extends Controller
             'user' => $user,
             'pemakaians' => $pemakaians,
             'peminjamans' => $peminjamans,
+            'pemakaianTerakhir' => $pemakaianTerakhir,
+            'peminjamanAlatTerakhir' => $peminjamanAlatTerakhir,
         ]);
     }
 

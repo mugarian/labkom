@@ -73,6 +73,19 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="rencana_tgl_kembali">Rencana Tanggal Pengembalian</label>
+                                <input type="text"
+                                    class="form-control @error('rencana_tgl_kembali') is-invalid @enderror"
+                                    id="rencana_tgl_kembali" placeholder="kode kegiatan"
+                                    value="{{ old('rencana_tgl_kembali', $peminjamanalat->rencana_tgl_kembali) }}"
+                                    name="rencana_tgl_kembali" required readonly />
+                                @error('rencana_tgl_kembali')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="bukti">Bukti Pengembalian</label>
                                 <div class="">
                                     <div class="d-flex align-items-start align-items-sm-center gap-4">

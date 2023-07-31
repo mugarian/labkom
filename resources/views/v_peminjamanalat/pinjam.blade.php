@@ -34,11 +34,11 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="barangpakai_id">Kode Barang Pakai</label>
+                                <label class="form-label" for="barangpakai_id">Nama Barang Pakai</label>
                                 <input type="text" class="form-control @error('barangpakai_id') is-invalid @enderror"
                                     id="barangpakai_id" placeholder="Kode Alat"
-                                    value="{{ old('barangpakai_id', $barangpakai->kode) }}" name="barangpakai_id" required
-                                    readonly autocomplete="off" />
+                                    value="{{ old('barangpakai_id', $barangpakai->nama . ' ## ' . $barangpakai->kode) }}"
+                                    name="barangpakai_id" required readonly autocomplete="off" />
                                 @error('barangpakai_id')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -57,7 +57,20 @@
                                 @enderror
                             </div>
                             <div class="mb-4">
-                                <label class="form-label" for="jenis">Jenis peminjaman alat (jurusan MI)</label>
+                                <label class="form-label" for="rencana_tgl_kembali">Rencana Tanggal Pengembalian</label>
+                                <input type="datetime-local"
+                                    class="form-control @error('rencana_tgl_kembali') is-invalid @enderror"
+                                    id="rencana_tgl_kembali" placeholder="rencana_tgl_kembali" name="rencana_tgl_kembali"
+                                    value="{{ old('rencana_tgl_kembali') }}" min="{{ date('Y-m-d') . 'T' . date('H:i') }}"
+                                    onchange="akhir()" required />
+                                @error('rencana_tgl_kembali')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="jenis">Jurusan Peminjam</label>
                                 <input type="text" class="form-control @error('jenis') is-invalid @enderror"
                                     id="jenis" placeholder="jenis" value="{{ old('jenis', $jenis) }}" name="jenis"
                                     required readonly />
@@ -89,8 +102,8 @@
                                         <img src="{{ asset('storage') . '/' . $barangpakai->foto }}" alt="pemakaian-avatar"
                                             class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                     @else
-                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
-                                            height="200" width="200" id="uploadedAvatar" />
+                                        <img src="{{ asset('img') }}/unknown.png" alt="user-avatar"
+                                            class="d-block rounded" height="200" width="200" id="uploadedAvatar" />
                                     @endif
                                 </div>
                             </div>

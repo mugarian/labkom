@@ -95,10 +95,14 @@
                                     </button>
                                 @endif
                                 @if (auth()->user()->role != 'admin')
-                                    <a href="/pemakaian/{{ $barangpakai->id }}/pakai"
-                                        class="btn btn-outline-primary mx-1">Pakai</a>
-                                    <a href="/peminjamanalat/{{ $barangpakai->id }}/pinjam"
-                                        class="btn btn-outline-warning mx-1">Pinjam</a>
+                                    @if (!$pemakaianTerakhir)
+                                        <a href="/pemakaian/{{ $barangpakai->id }}/pakai"
+                                            class="btn btn-outline-primary mx-1">Pakai</a>
+                                    @endif
+                                    @if (!$peminjamanAlatTerakhir)
+                                        <a href="/peminjamanalat/{{ $barangpakai->id }}/pinjam"
+                                            class="btn btn-outline-warning mx-1">Pinjam</a>
+                                    @endif
                                 @endif
                             </div>
                         </div>

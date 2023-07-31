@@ -46,6 +46,24 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="matakuliah">Mata Kuliah</label>
+                                <input list="matakuliah-list" class="form-control @error('matakuliah') is-invalid @enderror"
+                                    id="matakuliah" placeholder="Mata Kuliah" value="{{ old('matakuliah') }}"
+                                    name="matakuliah" required autocomplete="off" />
+                                <datalist id="matakuliah-list">
+                                    @foreach ($matkuls as $matkul)
+                                        <option value="{{ $matkul }}">
+                                            {{ $matkul }}
+                                        </option>
+                                    @endforeach
+                                </datalist>
+                                @error('matakuliah')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="tipe">Tipe Pelaksanaan</label>
                                 <select id="organization" class="select2 form-select @error('tipe') is-invalid @enderror"
                                     name="tipe">
@@ -122,7 +140,32 @@
                                     </div>
                                 @enderror
                             </div>
-
+                            <div class="mb-3">
+                                <label class="form-label" for="semester">Semester</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('semester') is-invalid @enderror" name="semester">
+                                    <option value="ganjil" @selected(old('semester') == 'ganjil')>
+                                        Ganjil</option>
+                                    <option value="genap" @selected(old('semester') == 'genap')>
+                                        Genap</option>
+                                </select>
+                                @error('semester')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="tahun_ajaran">Tahun Ajaran</label>
+                                <input type="number" class="form-control @error('tahun_ajaran') is-invalid @enderror"
+                                    id="tahun_ajaran" placeholder="2023" value="{{ old('tahun_ajaran', date('Y')) }}"
+                                    name="tahun_ajaran" required />
+                                @error('tahun_ajaran')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-4">
                                 <label class="form-label" for="mulai">Jadwal Tanggal Mulai</label>
                                 <input type="datetime-local" class="form-control @error('mulai') is-invalid @enderror"

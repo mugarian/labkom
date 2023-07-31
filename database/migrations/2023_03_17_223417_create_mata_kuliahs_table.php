@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dosens', function (Blueprint $table) {
+        Schema::create('mata_kuliahs', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->references('id')->on('users');
-            $table->string('jabatan');
-            $table->enum('kepalalab', ['true', 'false'])->default('false');
-            $table->enum('jurusan', ['mi', 'ai', 'tppm', 'kesehatan']);
+            $table->foreignUuid('dosen_id')->references('id')->on('dosens');
+            $table->string('nama');
+            $table->enum('jurusan', ['mi', 'tppm', 'agro', 'kesehatan']);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dosens');
+        Schema::dropIfExists('mata_kuliahs');
     }
 };

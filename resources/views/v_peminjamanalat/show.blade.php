@@ -56,6 +56,10 @@
                             <p class="form-control">{{ $peminjamanalat->tgl_pinjam }}</p>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="tgl_pinjam">Rencana Tanggal pengembalian</label>
+                            <p class="form-control">{{ $peminjamanalat->rencana_tgl_kembali }}</p>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="tanggal">Tanggal Pengembalian</label>
                             <p class="form-control">{{ $peminjamanalat->tgl_kembali ?? '-' }}</p>
                         </div>

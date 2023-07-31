@@ -24,10 +24,11 @@ return new class extends Migration
             $table->text('mouse')->nullable();
             $table->text('kondisi')->nullable();
             $table->text('keterangan')->nullable();
-            $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'selesai'])->default('menunggu');
-            $table->enum('jenis', ['luar', 'dalam']);
+            $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'selesai', 'telat'])->default('menunggu');
+            $table->enum('jenis', ['mi', 'ai', 'tppm', 'kesehatan']);
             $table->string('bukti')->nullable();
             $table->timestamp('tgl_pinjam')->nullable();
+            $table->timestamp('rencana_tgl_kembali')->nullable();
             $table->timestamp('tgl_kembali')->nullable();
             $table->timestamps();
         });

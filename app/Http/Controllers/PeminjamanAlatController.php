@@ -102,13 +102,18 @@ class PeminjamanAlatController extends Controller
             $selesai = 1;
         }
 
-        $current_date = date('Y-m-d');
+        $current_datetime = date('Y-m-d H:i:s');
 
         foreach ($peminjamanalat as $pj) {
-            if ($current_date > $pj->tgl_pinjam && $pj->status == 'menunggu') {
+            if ($current_datetime > $pj->rencana_tgl_kembali && $pj->status == 'menunggu') {
                 DB::table('peminjaman_alats')->where('id', $pj->id)->update([
                     'keterangan' => 'Peminjaman Alat Kadaluarsa',
                     'status' => 'ditolak',
+                ]);
+            } else if ($current_datetime > $pj->rencana_tgl_kembali && $pj->status == 'disetujui') {
+                DB::table('peminjaman_alats')->where('id', $pj->id)->update([
+                    'keterangan' => 'Pengembalian Alat Telat',
+                    'status' => 'telat',
                 ]);
             }
         }
@@ -135,11 +140,7 @@ class PeminjamanAlatController extends Controller
             $jurusan = Mahasiswa::where('user_id', $user->id)->first()->jurusan;
         }
 
-        if ($jurusan == 'mi') {
-            $jenis = 'dalam';
-        } else {
-            $jenis = 'luar';
-        }
+        $jenis = $jurusan;
 
         $barangpakai = BarangPakai::all();
         return view('v_peminjamanalat.create', [
@@ -162,11 +163,20 @@ class PeminjamanAlatController extends Controller
             'barangpakai_id' => 'required',
             'deskripsi' => 'required',
             'jenis' => 'required',
+            'rencana_tgl_kembali' => 'required',
         ]);
 
-        $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
-        $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
-        $peminjamanAlatTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        $kode = explode(' ## ', $request->barangpakai_id);
+        $validatedData['barangpakai_id'] = end($kode);
+
+        try {
+            $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
+            $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
+            $peminjamanAlatTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        } catch (\Throwable $th) {
+            return redirect('/peminjamanalat')->with('fail', 'Peminjaman Alat Gagal');
+        }
+
 
         if ($barangpakai) {
             if ($barangpakai->status == 'rusak') {
@@ -304,11 +314,8 @@ class PeminjamanAlatController extends Controller
             $jurusan = Mahasiswa::where('user_id', $user->id)->first()->jurusan;
         }
 
-        if ($jurusan == 'mi') {
-            $jenis = 'dalam';
-        } else {
-            $jenis = 'luar';
-        }
+        $jenis = $jurusan;
+
         return view('v_peminjamanalat.pinjam', [
             'title' => 'Tambah Data Peminjaman Alat',
             'barangpakai' => $barangpakai,

@@ -33,6 +33,11 @@ class PermohonanController extends Controller
             $range_selesai = [$selesaimin, $selesaimax];
         }
 
+        $month = date('m');
+        $year = date('Y');
+
+        $semester = ($month > 6) ? 'genap' : 'ganjil';
+
         $permohonan = Kegiatan::where('jenis', 'permohonan')->orderBy('mulai', 'desc')->get();
 
         $user = User::find(auth()->user()->id);
@@ -40,9 +45,9 @@ class PermohonanController extends Controller
 
         if ($user->role == 'mahasiswa' || $user->role == 'staff') {
             if ($permohonan->contains('selesai', NULL)) {
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
             } else {
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('user_id', $user->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
             }
             $jabatan = 'ms';
             $dospem = 'false';
@@ -56,11 +61,11 @@ class PermohonanController extends Controller
                     $laboratorium = Laboratorium::where('user_id', $dosen->user->id)->first();
 
                     if ($permohonan->contains('selesai', NULL)) {
-                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
-                        $pengampu = Kegiatan::where('jenis', 'permohonan')->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->get();
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                        $pengampu = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->get();
                     } else {
-                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
-                        $pengampu = Kegiatan::where('jenis', 'permohonan')->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->get();
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('laboratorium_id', $laboratorium->id)->orWhere('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                        $pengampu = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->get();
                     }
 
                     $jabatan = 'kalab';
@@ -72,9 +77,9 @@ class PermohonanController extends Controller
                 } else {
                     // dosen pengampu
                     if ($permohonan->contains('selesai', NULL)) {
-                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
                     } else {
-                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                        $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->where('user_id', auth()->user()->id)->orWhere('dospem_id', $dosen->id)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
                     }
 
                     $jabatan = 'dospem';
@@ -83,9 +88,9 @@ class PermohonanController extends Controller
             } else {
                 // ketua jurusan + prodi
                 if ($permohonan->contains('selesai', NULL)) {
-                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
                 } else {
-                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                    $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
                 }
 
                 $jabatan = 'kajurpro';
@@ -94,9 +99,9 @@ class PermohonanController extends Controller
         } else {
             //admin
             if ($permohonan->contains('selesai', NULL)) {
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->whereBetween('mulai', $range_mulai)->orderBy('mulai', 'desc')->get();
             } else {
-                $kegiatan = Kegiatan::where('jenis', 'permohonan')->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
+                $kegiatan = Kegiatan::where('jenis', 'permohonan')->where('semester', $semester)->where('tahun_ajaran', $year)->whereBetween('mulai', $range_mulai)->whereBetween('selesai', $range_selesai)->orderBy('mulai', 'desc')->get();
             }
 
             $jabatan = 'admin';
@@ -165,11 +170,14 @@ class PermohonanController extends Controller
             $kelas = Kelas::orderBy('angkatan', 'desc')->get();
         }
 
+        $matkuls = $this->matakuliah();
+
         return view('v_permohonan.create', [
             'title' => 'Tambah Permohonan Kegiatan',
             'laboratoriums' => $laboratorium,
             'kelas' => $kelas,
-            'dospems' => $dospem
+            'dospems' => $dospem,
+            'matkuls' => $matkuls
         ]);
     }
 
@@ -187,10 +195,13 @@ class PermohonanController extends Controller
             'dospem_id' => 'nullable',
             'kode' => 'required|unique:kegiatans,kode',
             'nama' => 'required|max:255',
+            'matakuliah' => 'required',
             'deskripsi' => 'required',
             'tipe' => 'required',
             'mulai' => 'required',
             'selesai' => 'required',
+            'semester' => 'required',
+            'tahun_ajaran' => 'required',
         ]);
 
         $kegiatan = Kegiatan::where('laboratorium_id', $validatedData['laboratorium_id'])->orderBy('mulai', 'desc')->first();
@@ -311,5 +322,17 @@ class PermohonanController extends Controller
         Kegiatan::where('id', $permohonan->id)->update($validatedData);
 
         return redirect('/permohonan')->with('success', 'Data permohonan berhasil ditolak');
+    }
+
+    public function matakuliah()
+    {
+        $matkuls = [
+            'Pemrograman Dasar 1', 'Pengolahan Data & Informasi', 'Bahasa Inggris', 'Pendidikan Pancasila', 'Pendidikan Agama', 'Matematika Diskrit', 'Pengantar Teknologi Informasi dan Komunikasi', 'Sistem Informasi Manajemen', 'Pemrograman Berbasis Objek', 'Bahasa Inggris Teknis 1', 'Basis Data 1', 'Komunikasi Data dan Jaringan', 'Statistik dan Probabilitas', 'Sistem Informasi Akuntansi', 'Sistem Pengambil Keputusan', 'Data Mining', 'Bahasa Indonesia', 'Analisis dan Perancangan Sistem Informasi 2',
+            'Pemrograman Dasar 2', 'Matematika Terapan', 'Manajemen', 'Sistem Operasi', 'Pendidikan Kewarganegaraan', 'Komunikasi Teknis', 'Pengatar Akuntansi', 'Project 1', 'Analisis dan Perancangan Sistem Informasi 1', 'Basis Data 2', 'Pemrograman Web', 'Etika Profesi', 'Data Warehouse', 'Project 2', 'Bahasa Inggris Teknis 2', 'E-Commerce', 'Manajemen Proyek', 'Perancangan Antar Muka', 'Kewirausahaan',
+        ];
+
+        sort($matkuls);
+
+        return $matkuls;
     }
 }

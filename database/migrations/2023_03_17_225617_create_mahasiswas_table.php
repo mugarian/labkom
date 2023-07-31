@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('kelas_id')->nullable()->references('id')->on('kelas');
             $table->string('angkatan');
-            $table->string('jurusan');
+            $table->enum('jurusan', ['mi', 'ai', 'tppm', 'kesehatan']);
             $table->timestamps();
         });
     }

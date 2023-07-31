@@ -97,8 +97,10 @@
                                 </div>
                             @endif
                             @if (auth()->user()->role != 'admin')
-                                <a href="/penggunaan/{{ $bahanpraktikum->id }}/guna"
-                                    class="btn btn-outline-primary mx-1">Gunakan</a>
+                                @if ($bahanpraktikum->stok)
+                                    <a href="/penggunaan/{{ $bahanpraktikum->id }}/guna"
+                                        class="btn btn-outline-primary mx-1">Gunakan</a>
+                                @endif
                             @endif
                         </div>
                     </div>
