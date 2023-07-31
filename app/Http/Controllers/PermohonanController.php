@@ -11,6 +11,8 @@ use App\Models\Permohonan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NotifPermohonan;
+use Illuminate\Support\Facades\Notification;
 
 class PermohonanController extends Controller
 {
@@ -216,13 +218,28 @@ class PermohonanController extends Controller
         $validatedData['jenis'] = 'permohonan';
         if (auth()->user()->role == 'dosen' || auth()->user()->role == 'staff') {
             $validatedData['verif_dospem'] = 'disetujui';
+            $laboratorium = Laboratorium::find($validatedData['laboratorium_id']);
+            $user = User::find($laboratorium->user->id);
         } else {
             $validatedData['verif_dospem'] = 'menunggu';
+            $dosen = Dosen::find($validatedData['dospem_id']);
+            $user = User::find($dosen->user->id);
         }
         $validatedData['verif_kalab'] = 'menunggu';
         $validatedData['status'] = 'menunggu';
 
-        Kegiatan::create($validatedData);
+        $pm = Kegiatan::create($validatedData);
+
+        $pemohon = User::find($validatedData['user_id']);
+
+        $title = 'Permohonan Kegiatan';
+        $description = 'Verifikasi Permohonan ' . $pm->nama . ', Oleh ' . $pemohon->nama;
+        $icon = 'bx bx-calendar';
+        $uri = 'permohonan/' . $pm->id;
+
+
+        Notification::send($user, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/permohonan')->with('success', 'Tambah Data Permohonan Kegiatan Berhasil');
     }
 
@@ -284,6 +301,23 @@ class PermohonanController extends Controller
             'updated_at' => Date('Y-m-d H:i:s'),
         ]);
 
+        if ($kegiatan->verif_kalab == 'menunggu') {
+            $user = User::find($kegiatan->laboratorium->user_id);
+            $status = $request['verif_kalab'] . ' kalab';
+        } else {
+            $user = User::find($kegiatan->dospem->user->id);
+            $status = $request['verif_dospem'] . ' dospem';
+        }
+
+        $pemohon = User::find($kegiatan->user_id);
+
+        $title = 'Permohonan Kegiatan';
+        $description = 'Verifikasi Permohonan ' . $kegiatan->nama . ', Oleh ' . $pemohon->nama . ' telah ' . $status;
+        $icon = 'bx bx-calendar';
+        $uri = 'permohonan/' . $kegiatan->id;
+
+        Notification::send($user, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/permohonan')->with('success', 'Data Permohonan telah ' . $request->status);
     }
 
@@ -320,6 +354,15 @@ class PermohonanController extends Controller
         $validatedData = $request->validate($rules);
 
         Kegiatan::where('id', $permohonan->id)->update($validatedData);
+
+        $title = 'Permohonan Kegiatan';
+        $description = 'Permohonan ' . $permohonan->nama . ' telah Ditolak';
+        $icon = 'bx bx-calendar';
+        $uri = 'permohonan/' . $permohonan->id;
+
+        $user = User::find($permohonan->user_id);
+
+        Notification::send($user, new NotifPermohonan($title, $description, $uri, $icon));
 
         return redirect('/permohonan')->with('success', 'Data permohonan berhasil ditolak');
     }

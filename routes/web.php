@@ -17,6 +17,7 @@ use App\Http\Controllers\AlgoritmaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PemakaianController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PenggunaanController;
 use App\Http\Controllers\PermohonanController;
@@ -105,4 +106,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/import/training', [AlgoritmaController::class, 'import'])->name('importTraining');
     Route::post('/import/prediksi', [PrediksiController::class, 'import'])->name('importPrediksi');
+
+    Route::post('/notifikasi/read', [NotifikasiController::class, 'read']);
+    Route::post('/notifikasi/readAll', [NotifikasiController::class, 'readAll']);
+    Route::post('/notifikasi/delete', [NotifikasiController::class, 'delete']);
 });

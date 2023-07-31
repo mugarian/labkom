@@ -839,6 +839,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
+            'rencana_tgl_kembali' => '2023-06-06 12:39:00',
         ]);
 
         //  PeminjamanAlatDitolak
@@ -856,6 +857,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
+            'rencana_tgl_kembali' => '2023-06-06 12:39:00',
         ]);
 
         /**
@@ -877,6 +879,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
+            'rencana_tgl_kembali' => '2023-06-06 12:39:00',
         ]);
 
         //  PeminjamanBahanDitolak
@@ -892,6 +895,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'selesai',
             'tgl_pinjam' => '2023-06-04 10:39:00',
             'tgl_kembali' => '2023-06-05 12:39:00',
+            'rencana_tgl_kembali' => '2023-06-06 12:39:00',
         ]);
     }
 }

@@ -92,6 +92,40 @@
                                     Bahan Praktikum</a>
                             </div>
                         @endif
+                        <div class="mb-3">
+                            @if ($pelaksanaan->user_id == auth()->user()->id || $pelaksanaan->dospem->user_id == auth()->user()->id)
+                                @if ($pelaksanaan->status == 'berlangsung')
+                                    <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="status" value="selesai">
+                                        <button type="submit" class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Selesai">
+                                            Selesai
+                                        </button>
+                                    </form>
+                                @elseif ($pelaksanaan->status == 'terjadwal')
+                                    <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="status" value="berlangsung">
+                                        <button type="submit" class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Jadi">
+                                            Jadi
+                                        </button>
+                                    </form>
+                                    <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="status" value="ditolak">
+                                        <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Tidak Jadi">
+                                            Tidak Jadi
+                                        </button>
+                                    </form>
+                                @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

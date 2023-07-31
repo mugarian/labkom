@@ -11,6 +11,8 @@ use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use App\Models\PeminjamanAlat;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NotifPermohonan;
+use Illuminate\Support\Facades\Notification;
 
 class PeminjamanAlatController extends Controller
 {
@@ -197,7 +199,17 @@ class PeminjamanAlatController extends Controller
                 $validatedData['status'] = 'disetujui';
             }
 
-            PeminjamanAlat::create($validatedData);
+            $pa = PeminjamanAlat::create($validatedData);
+
+            $kalab = User::find($barangpakai->laboratorium->user->id);
+            $peminjam = User::find($validatedData['user_id']);
+            $title = 'Peminjaman Alat';
+            $description = 'Verifikasi Peminjaman ' . $barangpakai->nama . ', Oleh ' .  $peminjam->nama;
+            $icon = 'bx bx-book';
+            $uri = 'peminjamanalat/' . $pa->id;
+
+            Notification::send($kalab, new NotifPermohonan($title, $description, $uri, $icon));
+
             return redirect('/peminjamanalat')->with('success', 'Tambah data Peminjaman Alat berhasil');
         } else {
             return redirect('/peminjamanalat')->with('fail', 'Kode alat tidak ditemukan');
@@ -266,6 +278,15 @@ class PeminjamanAlatController extends Controller
 
         PeminjamanAlat::where('id', $peminjamanalat->id)->update($validatedData);
 
+        $kalab = User::find($peminjamanalat->barangpakai->laboratorium->user->id);
+        $peminjam = User::find($peminjamanalat->user_id);
+        $title = 'Peminjaman Alat';
+        $description = 'Peminjaman ' . $peminjamanalat->barangpakai->nama . ', Oleh ' .  $peminjam->nama . ' telah Selesai & Dikembalikan';
+        $icon = 'bx bx-book';
+        $uri = 'peminjamanalat/' . $peminjamanalat->id;
+
+        Notification::send($kalab, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/peminjamanalat')->with('success', 'Data peminjaman alat berhasil dicek');
     }
 
@@ -301,6 +322,14 @@ class PeminjamanAlatController extends Controller
         $validatedData['status'] = 'ditolak';
         peminjamanalat::where('id', $peminjamanalat->id)->update($validatedData);
 
+        $peminjam = User::find($peminjamanalat->user_id);
+        $title = 'Peminjaman Alat';
+        $description = 'Peminjaman ' . $peminjamanalat->barangpakai->nama . ' Ditolak';
+        $icon = 'bx bx-book';
+        $uri = 'peminjamanalat/' . $peminjamanalat->id;
+
+        Notification::send($peminjam, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/peminjamanalat')->with('success', 'Data Peminjaman Alat berhasil ditolak');
     }
 
@@ -332,6 +361,15 @@ class PeminjamanAlatController extends Controller
             'tgl_kembali' => $request->tgl_kembali ?? null,
             'updated_at' => Date('Y-m-d H:i:s'),
         ]);
+
+        $kalab = User::find($peminjamanalat->barangpakai->laboratorium->user->id);
+        $peminjam = User::find($peminjamanalat->user->id);
+        $title = 'Peminjaman Alat';
+        $description = 'Peminjaman ' . $peminjamanalat->barangpakai->nama . ' telah ' . $request->status;
+        $icon = 'bx bx-book';
+        $uri = 'peminjamanalat/' . $peminjamanalat->id;
+
+        Notification::send($peminjam, new NotifPermohonan($title, $description, $uri, $icon));
 
         return redirect('/peminjamanalat')->with('success', 'Data peminjaman alat telah ' . $request->status);
     }

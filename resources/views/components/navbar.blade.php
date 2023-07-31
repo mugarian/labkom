@@ -33,6 +33,73 @@
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
+            {{-- Notifications --}}
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar d-flex align-items-center">
+                        <i class='bx bxs-bell bx-sm'></i>
+                        @php
+                            $jumlah = auth()
+                                ->user()
+                                ->unreadNotifications->count();
+                        @endphp
+                        @if ($jumlah)
+                            <span class="position-absolute top-50 translate-middle badge rounded-pill bg-danger">
+                                <span class="w-25">
+                                    {{ $jumlah }}
+                                </span>
+                                <small class="visually-hidden">unread messages</small>
+                            </span>
+                        @endif
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end overflow-auto" style="max-height: 500px;">
+                    @forelse (auth()->user()->unreadNotifications as $notification)
+                        <li>
+                            <div class="dropdown-item">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <div class="mb-2">
+                                            <i class='{{ $notification->data['icon'] }} me-2'></i>
+                                            <small class="fw-bold">{{ $notification->data['title'] }}</small>
+                                        </div>
+                                        <a href="/{{ $notification->data['uri'] }}"
+                                            class="text-underline-none text-dark">
+                                            <div>
+                                                <small class="d-block text-wrap">
+                                                    {{ $notification->data['description'] }}
+                                                </small>
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}
+                                                </small>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="ms-2">
+                                        <form action="/notifikasi/read" method="post">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $notification->id }}">
+                                            <button type="submit" class="btn btn-light p-0">
+                                                <i class='bx bx-x'></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        </li>
+                    @empty
+                        <li>
+                            <div class="dropdown-item">
+                                <center>
+                                    <small class="text-muted text-center">Tidak Ada Notifikasi</small>
+                                </center>
+                            </div>
+                        </li>
+                    @endforelse
+                </ul>
+            </li>
+
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">

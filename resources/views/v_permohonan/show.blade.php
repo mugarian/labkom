@@ -112,6 +112,77 @@
                             <label class="form-label" for="selesai">Tanggal selesai</label>
                             <p class="form-control">{{ $permohonan->selesai ?? '-' }}</p>
                         </div>
+
+                        <div class="mb-3 d-flex justify-content-start">
+                            @if ($permohonan->user_id == auth()->user()->id)
+                                @if ($permohonan->status == 'disetujui')
+                                    <form action="/permohonan/{{ $permohonan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="status" value="berlangsung">
+                                        <input type="hidden" name="mulai" value="{{ Date('Y-m-d H:i:s') }}">
+                                        <button type="submit" class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Mulai">
+                                            Mulai
+                                        </button>
+                                    </form>
+                                @elseif ($permohonan->status == 'berlangsung')
+                                    <form action="/permohonan/{{ $permohonan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="status" value="selesai">
+                                        <input type="hidden" name="selesai" value="{{ Date('Y-m-d H:i:s') }}">
+                                        <button type="submit" class="btn btn-primary" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Selesai">
+                                            Selesai
+                                        </button>
+                                    </form>
+                                @endif
+                                {{-- Dospem --}}
+                            @elseif ($permohonan->dospem->user_id == auth()->user()->id)
+                                @if ($permohonan->verif_dospem == 'menunggu' && $permohonan->status == 'menunggu')
+                                    <form action="/permohonan/{{ $permohonan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="verif_dospem" value="disetujui">
+                                        @if ($permohonan->laboratorium->user_id == auth()->user()->id)
+                                            <input type="hidden" name="verif_kalab" value="disetujui">
+                                            <input type="hidden" name="status" value="disetujui">
+                                        @else
+                                            <input type="hidden" name="status" value="menunggu">
+                                            <input type="hidden" name="verif_kalab" value="menunggu">
+                                        @endif
+                                        <button type="submit" class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Dospem Setuju">
+                                            Setuju
+                                        </button>
+                                    </form>
+                                    <a href="/permohonan/{{ $permohonan->id }}/ditolak" class="btn btn-outline-danger "
+                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Menolak">
+                                        Tolak
+                                    </a>
+                                @endif
+                            @endif
+                            @if ($permohonan->laboratorium->user_id == auth()->user()->id)
+                                @if ($permohonan->verif_dospem == 'disetujui' && $permohonan->verif_kalab == 'menunggu')
+                                    <form action="/permohonan/{{ $permohonan->id }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="hidden" name="verif_dospem" value="disetujui">
+                                        <input type="hidden" name="verif_kalab" value="disetujui">
+                                        <input type="hidden" name="status" value="disetujui">
+                                        <button type="submit" class="btn btn-outline-primary " data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Setuju">
+                                            Setuju
+                                        </button>
+                                    </form>
+                                    <a href="/permohonan/{{ $permohonan->id }}/ditolak" class="btn btn-outline-danger "
+                                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tolak">
+                                        Tolak
+                                    </a>
+                                @endif
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

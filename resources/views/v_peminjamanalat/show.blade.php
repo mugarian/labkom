@@ -97,6 +97,28 @@
                                     height="200" width="200" id="uploadedAvatar" />
                             @endif
                         </div>
+                        <div class="mb-3 d-flex justify-content-start">
+                            @if (auth()->user()->id == $peminjamanalat->barangpakai->laboratorium->user_id && $peminjamanalat->status == 'menunggu')
+                                <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status" method="post">
+                                    @csrf
+                                    <input type="hidden" name="status" value="disetujui">
+                                    <button type="submit" class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" data-bs-title="Setuju">
+                                        Disetujui
+                                    </button>
+                                </form>
+                                <a class="btn btn-outline-danger p-1 ms-1" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Tolak" href="/peminjamanalat/{{ $peminjamanalat->id }}/ditolak">
+                                    Ditolak
+                                </a>
+                            @endif
+                            @if (auth()->user()->id == $peminjamanalat->user_id && $peminjamanalat->status == 'disetujui')
+                                <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="Kembalikan" href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">
+                                    Kembalikan
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,8 +134,8 @@
                             <div class="d-flex align-items-center align-items-sm-center justify-content-center gap-4">
                                 @if ($peminjamanalat->barangpakai->foto)
                                     <img src="{{ asset('storage') . '/' . $peminjamanalat->barangpakai->foto }}"
-                                        alt="peminjamanalat-avatar" class="d-block rounded" height="200" width="200"
-                                        id="uploadedAvatar" />
+                                        alt="peminjamanalat-avatar" class="d-block rounded" height="200"
+                                        width="200" id="uploadedAvatar" />
                                 @else
                                     <img src="{{ asset('img') }}/unknown.png" alt="user-avatar" class="d-block rounded"
                                         height="200" width="200" id="uploadedAvatar" />

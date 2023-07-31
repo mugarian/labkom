@@ -10,7 +10,10 @@ use App\Models\Mahasiswa;
 use App\Models\Pelaksanaan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NotifPermohonan;
+use Illuminate\Support\Facades\Notification;
 
 class PelaksanaanController extends Controller
 {
@@ -197,7 +200,18 @@ class PelaksanaanController extends Controller
         $validatedData['verif_kalab'] = 'disetujui';
         $validatedData['status'] = 'terjadwal';
 
-        Kegiatan::create($validatedData);
+        $pl = Kegiatan::create($validatedData);
+
+        $dospem = Dosen::find($validatedData['dospem_id']);
+        $dosen = User::find($dospem->user_id);
+
+        $title = 'Pelaksanaan Kegiatan';
+        $description = 'Pelaksanaan ' . $pl->nama . ', Telah Dijadawlkan ';
+        $icon = 'bx bx-calendar';
+        $uri = 'pelaksanaan/' . $pl->id;
+
+        Notification::send($dosen, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/pelaksanaan')->with('success', 'Tambah Data Pelaksanaan Praktium Berhasil');
     }
 

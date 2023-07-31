@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BahanJurusan;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
+use App\Models\BahanJurusan;
 use App\Models\Laboratorium;
 use Illuminate\Http\Request;
 use App\Models\PeminjamanBahan;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\NotifPermohonan;
+use Illuminate\Support\Facades\Notification;
 
 class PeminjamanBahanController extends Controller
 {
@@ -203,7 +205,17 @@ class PeminjamanBahanController extends Controller
                 ]);
             }
 
-            PeminjamanBahan::create($validatedData);
+            $pb = PeminjamanBahan::create($validatedData);
+
+            $kalab = User::find($bahanjurusan->laboratorium->user->id);
+            $peminjam = User::find($validatedData['user_id']);
+            $title = 'Peminjaman Bahan';
+            $description = 'Verifikasi Peminjaman ' . $bahanjurusan->nama . ', Oleh ' .  $peminjam->nama;
+            $icon = 'bx bx-book';
+            $uri = 'peminjamanbahan/' . $pb->id;
+
+            Notification::send($kalab, new NotifPermohonan($title, $description, $uri, $icon));
+
             return redirect('/peminjamanbahan')->with('success', 'Tambah data Peminjaman bahan jurusan berhasil');
         } else {
             return redirect('/peminjamanbahan')->with('fail', 'Kode bahan jurusan tidak ditemukan');
@@ -272,6 +284,15 @@ class PeminjamanBahanController extends Controller
 
         PeminjamanBahan::where('id', $peminjamanbahan->id)->update($validatedData);
 
+        $kalab = User::find($peminjamanbahan->bahanjurusan->laboratorium->user->id);
+        $peminjam = User::find($peminjamanbahan->user_id);
+        $title = 'Peminjaman Bahan';
+        $description = 'Peminjaman ' . $peminjamanbahan->bahanjurusan->nama . ', Oleh ' .  $peminjam->nama . ' telah Selesai & Dikembalikan';
+        $icon = 'bx bx-book';
+        $uri = 'peminjamanbahan/' . $peminjamanbahan->id;
+
+        Notification::send($kalab, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/peminjamanbahan')->with('success', 'Data peminjaman bahan berhasil diselesaikan');
     }
 
@@ -310,6 +331,14 @@ class PeminjamanBahanController extends Controller
         $validatedData['status'] = 'ditolak';
         peminjamanbahan::where('id', $peminjamanbahan->id)->update($validatedData);
 
+        $peminjam = User::find($peminjamanbahan->user_id);
+        $title = 'Peminjaman Bahan';
+        $description = 'Peminjaman ' . $peminjamanbahan->bahanjurusan->nama . ' Ditolak';
+        $icon = 'bx bx-book';
+        $uri = 'peminjamanbahan/' . $peminjamanbahan->id;
+
+        Notification::send($peminjam, new NotifPermohonan($title, $description, $uri, $icon));
+
         return redirect('/peminjamanbahan')->with('success', 'Data Peminjaman Bahan berhasil ditolak');
     }
 
@@ -347,6 +376,15 @@ class PeminjamanBahanController extends Controller
             'tgl_kembali' => $request->tgl_kembali ?? null,
             'updated_at' => Date('Y-m-d H:i:s'),
         ]);
+
+        $kalab = User::find($peminjamanbahan->bahanjurusan->laboratorium->user->id);
+        $peminjam = User::find($peminjamanbahan->user->id);
+        $title = 'Peminjaman Bahan';
+        $description = 'Peminjaman ' . $peminjamanbahan->bahanjurusan->nama . ' telah ' . $request->status;
+        $icon = 'bx bx-book';
+        $uri = 'peminjamanbahan/' . $peminjamanbahan->id;
+
+        Notification::send($peminjam, new NotifPermohonan($title, $description, $uri, $icon));
 
         return redirect('/peminjamanbahan')->with('success', 'Data peminjaman bahan telah ' . $request->status);
     }
