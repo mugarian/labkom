@@ -268,6 +268,7 @@ class PelaksanaanController extends Controller
         $matkuls = [
             'Pemrograman Dasar 1', 'Pengolahan Data & Informasi', 'Bahasa Inggris', 'Pendidikan Pancasila', 'Pendidikan Agama', 'Matematika Diskrit', 'Pengantar Teknologi Informasi dan Komunikasi', 'Sistem Informasi Manajemen', 'Pemrograman Berbasis Objek', 'Bahasa Inggris Teknis 1', 'Basis Data 1', 'Komunikasi Data dan Jaringan', 'Statistik dan Probabilitas', 'Sistem Informasi Akuntansi', 'Sistem Pengambil Keputusan', 'Data Mining', 'Bahasa Indonesia', 'Analisis dan Perancangan Sistem Informasi 2',
             'Pemrograman Dasar 2', 'Matematika Terapan', 'Manajemen', 'Sistem Operasi', 'Pendidikan Kewarganegaraan', 'Komunikasi Teknis', 'Pengatar Akuntansi', 'Project 1', 'Analisis dan Perancangan Sistem Informasi 1', 'Basis Data 2', 'Pemrograman Web', 'Etika Profesi', 'Data Warehouse', 'Project 2', 'Bahasa Inggris Teknis 2', 'E-Commerce', 'Manajemen Proyek', 'Perancangan Antar Muka', 'Kewirausahaan',
+            'Lainnya'
         ];
 
         sort($matkuls);
