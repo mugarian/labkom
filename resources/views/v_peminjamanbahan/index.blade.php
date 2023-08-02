@@ -196,7 +196,9 @@
                                                     href="/peminjamanbahan/{{ $peminjamanbahan->id }}">
                                                     <i class="bx bx-info-circle"></i>
                                                 </a>
-                                                @if ($peminjamanbahan->user_id == auth()->user()->id && $peminjamanbahan->status == 'disetujui')
+                                                @if (
+                                                    ($peminjamanbahan->user_id == auth()->user()->id && $peminjamanbahan->status == 'disetujui') ||
+                                                        $peminjamanbahan->status == 'telat')
                                                     <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Kembalikan"
                                                         href="/peminjamanbahan/{{ $peminjamanbahan->id }}/edit">

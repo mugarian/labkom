@@ -195,7 +195,9 @@
                                                     href="/peminjamanalat/{{ $peminjamanalat->id }}">
                                                     <i class="bx bx-info-circle"></i>
                                                 </a>
-                                                @if ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui')
+                                                @if (
+                                                    ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui') ||
+                                                        $peminjamanalat->status == 'telat')
                                                     <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Kembalikan"
                                                         href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">
