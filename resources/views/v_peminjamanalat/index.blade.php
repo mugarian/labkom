@@ -140,11 +140,7 @@
                                         </td>
                                         <td class="text-wrap">{{ $peminjamanalat->namauser }}</td>
                                         <td>
-                                            @if ($peminjamanalat->status == 'disetujui' || $peminjamanalat->status == 'selesai')
-                                                {{ $peminjamanalat->tgl_pinjam }}
-                                            @else
-                                                -
-                                            @endif
+                                            {{ $peminjamanalat->tgl_pinjam }}
                                         </td>
                                         <td>{{ $peminjamanalat->tgl_kembali }}</td>
                                         <td>{{ $peminjamanalat->status }}</td>
@@ -171,7 +167,9 @@
                                                         <i class="bx bx-message-square-x"></i>
                                                     </a>
                                                 @endif
-                                                @if ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui')
+                                                @if (
+                                                    ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui') ||
+                                                        $peminjamanalat->status == 'telat')
                                                     <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Kembalikan"
                                                         href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">

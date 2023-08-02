@@ -36,15 +36,16 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="bahanpraktikum_id">Kode Bahan</label>
+                                <label class="form-label" for="bahanpraktikum_id">Nama Barang Pakai</label>
                                 <input list="bahanpraktikum"
                                     class="form-control @error('bahanpraktikum_id') is-invalid @enderror"
-                                    id="bahanpraktikum_id" placeholder="Kode Bahan" value="{{ old('bahanpraktikum_id') }}"
-                                    name="bahanpraktikum_id" required autocomplete="off" onkeyup="namabp()" />
+                                    id="bahanpraktikum_id" placeholder="Nama barang pakai"
+                                    value="{{ old('bahanpraktikum_id') }}" name="bahanpraktikum_id" required
+                                    autocomplete="off" />
                                 <datalist id="bahanpraktikum">
                                     @foreach ($bahanpraktikum as $bp)
-                                        <option value="{{ $bp->kode }}">{{ $bp->nama }}
-                                            ({{ $bp->laboratorium->nama }})
+                                        <option value="{{ $bp->nama . ' ## ' . $bp->kode }}">
+                                            {{ $bp->laboratorium->nama }}
                                         </option>
                                     @endforeach
                                 </datalist>
@@ -55,28 +56,14 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Nama Bahan Praktikum</label>
-                                <div>
-                                    <input class="form-control mb-3" style="display:block" id="dummybp"
-                                        placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata" readonly />
-                                    <div id="divbp" style="display:none">
-                                        @foreach ($bahanpraktikum as $bp)
-                                            <input class="form-control mb-3" style="display:none" id="{{ $bp->kode }}"
-                                                placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata"
-                                                value="{{ $bp->nama }}" readonly />
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
+                                <label class="form-label" for="kegiatan_id">Nama Kegiatan</label>
                                 <input list="kegiatan" class="form-control @error('kegiatan_id') is-invalid @enderror"
-                                    id="kegiatan_id" placeholder="kode kegiatan" value="{{ old('kegiatan_id') }}"
-                                    name="kegiatan_id" required autocomplete="off" onkeyup="namakeg()" />
+                                    id="kegiatan_id" placeholder="Nama barang pakai" value="{{ old('kegiatan_id') }}"
+                                    name="kegiatan_id" required autocomplete="off" />
                                 <datalist id="kegiatan">
                                     @foreach ($kegiatan as $keg)
-                                        <option value="{{ $keg->kode }}">{{ $keg->nama }} ({{ $keg->status }})
-                                            ({{ $keg->laboratorium->nama }})
+                                        <option value="{{ $keg->nama . ' ## ' . $keg->kode }}">
+                                            {{ $keg->laboratorium->nama }} ({{ $keg->status }})
                                         </option>
                                     @endforeach
                                 </datalist>
@@ -85,20 +72,6 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label">Nama Kegiatan</label>
-                                <div>
-                                    <input class="form-control mb-3" style="display:block" id="dummykeg"
-                                        placeholder="nama Kegiatan terisi otomatis sesuai kode yang terdata" readonly />
-                                    <div id="divkeg" style="display:none">
-                                        @foreach ($kegiatan as $keg)
-                                            <input class="form-control mb-3" style="display:none" id="{{ $keg->kode }}"
-                                                placeholder="nama kegiatan terisi otomatis sesuai kode yang terdata"
-                                                value="{{ $keg->nama }}" readonly />
-                                        @endforeach
-                                    </div>
-                                </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>

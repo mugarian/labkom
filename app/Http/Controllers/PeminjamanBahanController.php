@@ -97,9 +97,9 @@ class PeminjamanBahanController extends Controller
             $kalab = false;
         }
 
-        $terakhir = peminjamanbahan::where('status', 'menunggu')->where('user_id', auth()->user()->id)->orderBy('tgl_pinjam', 'desc')->first();
+        $terakhir = peminjamanbahan::where('status', '<>', 'menunggu')->where('user_id', auth()->user()->id)->orderBy('tgl_pinjam', 'desc')->first();
         if ($terakhir) {
-            if ($terakhir->status != 'menunggu') {
+            if ($terakhir->status == 'menunggu' || $terakhir->status == 'terlambat') {
                 $selesai = 1;
             } else {
                 $selesai = 0;
@@ -274,7 +274,11 @@ class PeminjamanBahanController extends Controller
         }
 
         BahanJurusan::find($peminjamanbahan->bahanjurusan->id)->update(['status' => 'tersedia']);
-        $validatedData['status'] = 'selesai';
+        if ($peminjamanbahan->status == 'telat') {
+            $validatedData['status'] = 'terlambat';
+        } else {
+            $validatedData['status'] = 'selesai';
+        }
         $validatedData['tgl_kembali'] = Date('Y-m-d H:i:s');
 
         $bahanjurusan = BahanJurusan::find($peminjamanbahan->bahanjurusan_id);

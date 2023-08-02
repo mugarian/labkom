@@ -37,14 +37,14 @@
                             </div>
                             <div class="mb-3">
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <label class="form-label" for="barangpakai_id">Kode Barang Pakai</label>
+                                <label class="form-label" for="barangpakai_id">Nama Barang Pakai</label>
                                 <input list="barangpakai" class="form-control @error('barangpakai_id') is-invalid @enderror"
-                                    id="barangpakai_id" placeholder="kode barang pakai" value="{{ old('barangpakai_id') }}"
-                                    name="barangpakai_id" required autocomplete="off" onkeyup="namabp()" />
+                                    id="barangpakai_id" placeholder="Nama barang pakai" value="{{ old('barangpakai_id') }}"
+                                    name="barangpakai_id" required autocomplete="off" />
                                 <datalist id="barangpakai">
                                     @foreach ($barangpakai as $bp)
-                                        <option value="{{ $bp->kode }}">{{ $bp->nama }}
-                                            ({{ $bp->laboratorium->nama }})
+                                        <option value="{{ $bp->nama . ' ## ' . $bp->kode }}">
+                                            {{ $bp->laboratorium->nama }}
                                         </option>
                                     @endforeach
                                 </datalist>
@@ -55,20 +55,24 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Nama Barang Pakai</label>
-                                <div>
-                                    <input class="form-control mb-3" style="display:block" id="dummybp"
-                                        placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata" readonly />
-                                    <div id="divbp" style="display:none">
-                                        @foreach ($barangpakai as $bp)
-                                            <input class="form-control mb-3" style="display:none" id="{{ $bp->kode }}"
-                                                placeholder="nama barang pakai terisi otomatis sesuai kode yang terdata"
-                                                value="{{ $bp->nama }}" readonly />
-                                        @endforeach
+                                <label class="form-label" for="kegiatan_id">Nama Kegiatan</label>
+                                <input list="kegiatan" class="form-control @error('kegiatan_id') is-invalid @enderror"
+                                    id="kegiatan_id" placeholder="Nama barang pakai" value="{{ old('kegiatan_id') }}"
+                                    name="kegiatan_id" required autocomplete="off" />
+                                <datalist id="kegiatan">
+                                    @foreach ($kegiatan as $keg)
+                                        <option value="{{ $keg->nama . ' ## ' . $keg->kode }}">
+                                            {{ $keg->laboratorium->nama }} ({{ $keg->status }})
+                                        </option>
+                                    @endforeach
+                                </datalist>
+                                @error('kegiatan_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
                                     </div>
-                                </div>
+                                @enderror
                             </div>
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="form-label" for="kegiatan_id">Kode Kegiatan</label>
                                 <input list="kegiatan" class="form-control @error('kegiatan_id') is-invalid @enderror"
                                     id="kegiatan_id" placeholder="kode kegiatan" value="{{ old('kegiatan_id') }}"
@@ -99,7 +103,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
@@ -109,7 +113,7 @@
             </div>
         </div>
     </div>
-    <script>
+    {{-- <script>
         const barangpakai = document.getElementById('barangpakai_id');
         const kegiatan = document.getElementById('kegiatan_id');
 
@@ -150,5 +154,5 @@
                 document.getElementById('dummykeg').style.display = 'block';
             }
         }
-    </script>
+    </script> --}}
 @endsection

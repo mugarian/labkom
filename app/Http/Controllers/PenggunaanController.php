@@ -134,8 +134,17 @@ class PenggunaanController extends Controller
             'deskripsi' => 'required'
         ]);
 
-        $bahanpraktikum = BahanPraktikum::where('kode', $validatedData['bahanpraktikum_id'])->first();
-        $kegiatan = kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
+        $kodebp = explode(' ## ', $request->bahanpraktikum_id);
+        $validatedData['bahanpraktikum_id'] = end($kodebp);
+
+        $kodekeg = explode(' ## ', $request->kegiatan_id);
+        $validatedData['kegiatan_id'] = end($kodekeg);
+        try {
+            $bahanpraktikum = BahanPraktikum::where('kode', $validatedData['bahanpraktikum_id'])->first();
+            $kegiatan = kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
+        } catch (\Throwable $th) {
+            return redirect('/penggunaan')->with('fail', 'Penggunaan Bahan Praktikum Gagal');
+        }
 
         if ($bahanpraktikum && $kegiatan) {
             if ($bahanpraktikum->laboratorium->id != $kegiatan->laboratorium->id) {

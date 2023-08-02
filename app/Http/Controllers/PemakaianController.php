@@ -157,6 +157,7 @@ class PemakaianController extends Controller
             // admin
             $kegiatan = Kegiatan::where('status', 'berlangsung')->get();
         }
+
         return view('v_pemakaian.create', [
             'title' => 'Tambah Data Pemakaian',
             'barangpakai' => $barangpakai,
@@ -178,10 +179,20 @@ class PemakaianController extends Controller
             'kegiatan_id' => 'required',
         ]);
 
-        $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
-        $kegiatan = Kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
-        $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
-        $peminjamanTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        $kodebp = explode(' ## ', $request->barangpakai_id);
+        $validatedData['barangpakai_id'] = end($kodebp);
+
+        $kodekeg = explode(' ## ', $request->kegiatan_id);
+        $validatedData['kegiatan_id'] = end($kodekeg);
+
+        try {
+            $barangpakai = BarangPakai::where('kode', $validatedData['barangpakai_id'])->first();
+            $kegiatan = Kegiatan::where('kode', $validatedData['kegiatan_id'])->first();
+            $pemakaianTerakhir = Pemakaian::where('barangpakai_id', $barangpakai->id)->where('status', 'mulai')->orderBy('mulai', 'desc')->first();
+            $peminjamanTerakhir = PeminjamanAlat::where('barangpakai_id', $barangpakai->id)->where('status', 'disetujui')->orderBy('tgl_pinjam', 'desc')->first();
+        } catch (\Throwable $th) {
+            return redirect('/pemakaian')->with('fail', 'Pemakaian Alat Gagal');
+        }
 
         if ($barangpakai && $kegiatan) {
             if ($barangpakai->laboratorium->id != $kegiatan->laboratorium->id) {

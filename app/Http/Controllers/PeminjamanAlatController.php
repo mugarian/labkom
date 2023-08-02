@@ -93,9 +93,10 @@ class PeminjamanAlatController extends Controller
             $kalab = false;
         }
 
-        $terakhir = peminjamanalat::where('status', 'menunggu')->where('user_id', auth()->user()->id)->orderBy('tgl_pinjam', 'desc')->first();
+        $terakhir = peminjamanalat::where('status', '<>', 'menunggu')->where('user_id', auth()->user()->id)->orderBy('tgl_pinjam', 'desc')->first();
+
         if ($terakhir) {
-            if ($terakhir->status != 'menunggu') {
+            if ($terakhir->status == 'menunggu' || $terakhir->status == 'terlambat') {
                 $selesai = 1;
             } else {
                 $selesai = 0;
@@ -119,6 +120,8 @@ class PeminjamanAlatController extends Controller
                 ]);
             }
         }
+
+        // return dd($selesai);
 
         return view('v_peminjamanalat.index', [
             'title' => 'Data Peminjaman Alat',
@@ -178,7 +181,6 @@ class PeminjamanAlatController extends Controller
         } catch (\Throwable $th) {
             return redirect('/peminjamanalat')->with('fail', 'Peminjaman Alat Gagal');
         }
-
 
         if ($barangpakai) {
             if ($barangpakai->status == 'rusak') {
@@ -273,7 +275,11 @@ class PeminjamanAlatController extends Controller
         }
 
         BarangPakai::find($peminjamanalat->barangpakai->id)->update(['status' => 'tersedia']);
-        $validatedData['status'] = 'selesai';
+        if ($peminjamanalat->status == 'telat') {
+            $validatedData['status'] = 'terlambat';
+        } else {
+            $validatedData['status'] = 'selesai';
+        }
         $validatedData['tgl_kembali'] = Date('Y-m-d H:i:s');
 
         PeminjamanAlat::where('id', $peminjamanalat->id)->update($validatedData);
@@ -281,7 +287,7 @@ class PeminjamanAlatController extends Controller
         $kalab = User::find($peminjamanalat->barangpakai->laboratorium->user->id);
         $peminjam = User::find($peminjamanalat->user_id);
         $title = 'Peminjaman Alat';
-        $description = 'Peminjaman ' . $peminjamanalat->barangpakai->nama . ', Oleh ' .  $peminjam->nama . ' telah Selesai & Dikembalikan';
+        $description = 'Peminjaman ' . $peminjamanalat->barangpakai->nama . ', Oleh ' .  $peminjam->nama . ' telah Dikembalikan';
         $icon = 'bx bx-book';
         $uri = 'peminjamanalat/' . $peminjamanalat->id;
 

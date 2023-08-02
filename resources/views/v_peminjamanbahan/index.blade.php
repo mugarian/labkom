@@ -140,11 +140,7 @@
                                         </td>
                                         <td class="text-wrap">{{ $peminjamanbahan->namauser }}</td>
                                         <td>
-                                            @if ($peminjamanbahan->status == 'disetujui' || $peminjamanbahan->status == 'selesai')
-                                                {{ $peminjamanbahan->tgl_pinjam }}
-                                            @else
-                                                -
-                                            @endif
+                                            {{ $peminjamanbahan->tgl_pinjam }}
                                         </td>
                                         <td>{{ $peminjamanbahan->tgl_kembali }}</td>
                                         <td>{{ $peminjamanbahan->status }}</td>
@@ -171,7 +167,9 @@
                                                         <i class="bx bx-message-square-x"></i>
                                                     </a>
                                                 @endif
-                                                @if ($peminjamanbahan->user_id == auth()->user()->id && $peminjamanbahan->status == 'disetujui')
+                                                @if (
+                                                    ($peminjamanbahan->user_id == auth()->user()->id && $peminjamanbahan->status == 'disetujui') ||
+                                                        $peminjamanbahan->status == 'telat')
                                                     <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Kembalikan"
                                                         href="/peminjamanbahan/{{ $peminjamanbahan->id }}/edit">
