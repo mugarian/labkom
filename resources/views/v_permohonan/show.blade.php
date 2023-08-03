@@ -77,7 +77,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="matakuliah">Mata Kuliah</label>
-                            <p class="form-control">{{ $permohonan->matakuliah }}</p>
+                            <p class="form-control">{{ $permohonan->matakuliah->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="jenis">jenis</label>
@@ -90,7 +90,6 @@
                         <div class="mb-3">
                             <label class="form-label" for="Dosen Pengampu">Dosen Pengampu</label>
                             <p class="form-control">{{ $permohonan->dospem->user->nama }}</p>
-                            {{-- <p class="form-control">{{ $dospem->user->nama }}</p> --}}
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="deskripsi">deskripsi</label>

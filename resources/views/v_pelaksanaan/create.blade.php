@@ -46,6 +46,23 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="matakuliah_id">Mata Kuliah</label>
+                                <select id="organization"
+                                    class="select2 form-select @error('matakuliah_id') is-invalid @enderror"
+                                    name="matakuliah_id">
+                                    <option value="">Pilih Mata Kuliah</option>
+                                    @foreach ($matkuls as $matkul)
+                                        <option value="{{ $matkul->id }}" @selected(old('matakuliah_id') == $matkul->id)>
+                                            {{ $matkul->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('matakuliah_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            {{-- <div class="mb-3">
                                 <label class="form-label" for="matakuliah">Mata Kuliah</label>
                                 <input list="matakuliah-list" class="form-control @error('matakuliah') is-invalid @enderror"
                                     id="matakuliah" placeholder="Mata Kuliah" value="{{ old('matakuliah') }}"
@@ -62,7 +79,7 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label class="form-label" for="tipe">Tipe Pelaksanaan</label>
                                 <select id="organization" class="select2 form-select @error('tipe') is-invalid @enderror"

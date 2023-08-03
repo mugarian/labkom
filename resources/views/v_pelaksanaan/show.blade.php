@@ -38,7 +38,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="matakuliah">Mata Kuliah</label>
-                            <p class="form-control">{{ $pelaksanaan->matakuliah }}</p>
+                            <p class="form-control">{{ $pelaksanaan->matakuliah->nama }}</p>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="jenis">jenis pelasanaan</label>
@@ -105,24 +105,27 @@
                                         </button>
                                     </form>
                                 @elseif ($pelaksanaan->status == 'terjadwal')
-                                    <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
-                                        @csrf
-                                        @method('put')
-                                        <input type="hidden" name="status" value="berlangsung">
-                                        <button type="submit" class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" data-bs-title="Jadi">
-                                            Jadi
-                                        </button>
-                                    </form>
-                                    <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
-                                        @csrf
-                                        @method('put')
-                                        <input type="hidden" name="status" value="ditolak">
-                                        <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" data-bs-title="Tidak Jadi">
-                                            Tidak Jadi
-                                        </button>
-                                    </form>
+                                    <div class="d-flex justify-content-start">
+                                        <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
+                                            @csrf
+                                            @method('put')
+                                            <input type="hidden" name="status" value="berlangsung">
+                                            <button type="submit" class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" data-bs-title="Jadi">
+                                                Jadi
+                                            </button>
+                                        </form>
+                                        <form action="/pelaksanaan/{{ $pelaksanaan->id }}" method="post">
+                                            @csrf
+                                            @method('put')
+                                            <input type="hidden" name="status" value="ditolak">
+                                            <button type="submit" class="btn btn-outline-danger"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-title="Tidak Jadi">
+                                                Tidak Jadi
+                                            </button>
+                                        </form>
+                                    </div>
                                 @endif
                             @endif
                         </div>

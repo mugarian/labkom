@@ -39,4 +39,9 @@ class Kegiatan extends Model
     {
         return $this->belongsTo(Kelas::class);
     }
+
+    public function matakuliah()
+    {
+        return $this->belongsTo(MataKuliah::class);
+    }
 }

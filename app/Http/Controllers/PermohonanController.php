@@ -9,6 +9,7 @@ use App\Models\Kegiatan;
 use App\Models\Mahasiswa;
 use App\Models\Permohonan;
 use App\Models\Laboratorium;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\NotifPermohonan;
@@ -172,7 +173,8 @@ class PermohonanController extends Controller
             $kelas = Kelas::orderBy('angkatan', 'desc')->get();
         }
 
-        $matkuls = $this->matakuliah();
+        $matkuls = MataKuliah::all();
+        // $matkuls = $this->matakuliah();
 
         return view('v_permohonan.create', [
             'title' => 'Tambah Permohonan Kegiatan',
@@ -195,9 +197,9 @@ class PermohonanController extends Controller
             'laboratorium_id' => 'required',
             'kelas_id' => 'nullable',
             'dospem_id' => 'nullable',
+            'matakuliah_id' => 'required',
             'kode' => 'required|unique:kegiatans,kode',
             'nama' => 'required|max:255',
-            'matakuliah' => 'required',
             'deskripsi' => 'required',
             'tipe' => 'required',
             'mulai' => 'required',

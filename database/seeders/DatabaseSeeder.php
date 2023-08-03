@@ -14,6 +14,7 @@ use App\Models\Prediksi;
 use App\Models\Algoritma;
 use App\Models\Mahasiswa;
 use App\Models\Pemakaian;
+use App\Models\MataKuliah;
 use App\Models\Peminjaman;
 use App\Models\Penggunaan;
 use App\Models\BarangHabis;
@@ -24,10 +25,10 @@ use App\Models\Laboratorium;
 use App\Models\BahanPraktikum;
 use App\Models\PeminjamanAlat;
 use App\Models\PeminjamanBahan;
+use function PHPSTORM_META\map;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-
-use function PHPSTORM_META\map;
 
 class DatabaseSeeder extends Seeder
 {
@@ -303,6 +304,34 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'ketua jurusan',
             'jurusan' => 'mi',
             'kepalalab' => 'false'
+        ]);
+
+        /**
+         * KelasSeeder
+         */
+
+        $apsi = (string) Uuid::uuid4();
+        MataKuliah::create([
+            'id' => $apsi,
+            'dosen_id' => $dosenNur,
+            'nama' => 'Analisis dan Perancangan Sistem Informasi',
+            'jurusan' => 'mi'
+        ]);
+
+        $manpro = (string) Uuid::uuid4();
+        MataKuliah::create([
+            'id' => $manpro,
+            'dosen_id' => $dosenDwi,
+            'nama' => 'Manajemen Proyek',
+            'jurusan' => 'mi'
+        ]);
+
+        $pemdas = (string) Uuid::uuid4();
+        MataKuliah::create([
+            'id' => $pemdas,
+            'dosen_id' => $dosenNunu,
+            'nama' => 'Pemrograman Dasar',
+            'jurusan' => 'mi'
         ]);
 
         /**
@@ -641,10 +670,10 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userSlamet,
             'dospem_id' => $dosenSlamet,
             'laboratorium_id' => $labJaringan,
+            'matakuliah_id' => $apsi,
             'kelas_id' => $si20a,
             'kode' => Str::random(8),
             'nama' => 'PAM pertemuan 6',
-            'matakuliah' => 'Perancangan Antar Muka',
             'deskripsi' => 'User Interface',
             'jenis' => 'pelaksanaan',
             'tipe' => 'perkuliahan',
@@ -664,10 +693,10 @@ class DatabaseSeeder extends Seeder
             'dospem_id' => $dosenCepi,
             'laboratorium_id' => $labUX,
             'kelas_id' => $si20b,
+            'matakuliah_id' => $manpro,
             'kode' => Str::random(8),
             'nama' => 'Praktisi E-Commerce',
             'deskripsi' => 'Pengenalan Blibli',
-            'matakuliah' => 'E-Commerce',
             'jenis' => 'pelaksanaan',
             'tipe' => 'perkuliahan',
             'verif_dospem' => 'disetujui',
@@ -692,10 +721,10 @@ class DatabaseSeeder extends Seeder
             'user_id' => $userTia,
             'dospem_id' => $dosenCepi,
             'laboratorium_id' => $labUX,
+            'matakuliah_id' => $pemdas,
             'kelas_id' => $si20a,
             'kode' => Str::random(8),
             'nama' => 'Difest',
-            'matakuliah' => 'Lainnya',
             'deskripsi' => 'Digital Festival',
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',
@@ -716,9 +745,9 @@ class DatabaseSeeder extends Seeder
             'dospem_id' => $dosenSlamet,
             'laboratorium_id' => $labJaringan,
             'kelas_id' => $si20a,
+            'matakuliah_id' => $apsi,
             'kode' => Str::random(8),
             'nama' => 'Istirahat',
-            'matakuliah' => 'Lainnya',
             'deskripsi' => 'Menunggu matkul',
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',
@@ -740,9 +769,9 @@ class DatabaseSeeder extends Seeder
             'dospem_id' => $dosenNur,
             'laboratorium_id' => $labJaringan,
             'kelas_id' => $si20a,
+            'matakuliah_id' => $apsi,
             'kode' => Str::random(8),
             'nama' => 'Japok',
-            'matakuliah' => 'Lainnya',
             'deskripsi' => 'Kerja Kelompok APSI',
             'jenis' => 'permohonan',
             'tipe' => 'non perkuliahan',

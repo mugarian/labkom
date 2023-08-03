@@ -27,6 +27,7 @@ use App\Http\Controllers\PelaksanaanController;
 use App\Http\Controllers\BahanJurusanController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\BahanPraktikumController;
+use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\PeminjamanAlatController;
 use App\Http\Controllers\PeminjamanBahanController;
 
@@ -65,6 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/bahanjurusan', BahanJurusanController::class);
     Route::resource('/laboratorium', LaboratoriumController::class);
     Route::resource('/kelas', KelasController::class);
+    Route::resource('/matakuliah', MataKuliahController::class);
 
     Route::resource('pelaksanaan', PelaksanaanController::class);
 

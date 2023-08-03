@@ -17,11 +17,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->references('id')->on('users');
             $table->foreignUuid('dospem_id')->references('id')->on('dosens')->nullable();
+            $table->foreignUuid('matakuliah_id')->references('id')->on('mata_kuliahs')->nullable();
             $table->foreignUuid('laboratorium_id')->references('id')->on('laboratorium');
             $table->foreignUuid('kelas_id')->references('id')->on('kelas')->nullable();
             $table->string('kode')->unique();
             $table->string('nama');
-            $table->string('matakuliah')->nullable();
             $table->string('deskripsi');
             $table->string('keterangan')->nullable();
             $table->enum('jenis', ['pelaksanaan', 'permohonan']);

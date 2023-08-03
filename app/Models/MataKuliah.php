@@ -20,4 +20,9 @@ class MataKuliah extends Model
     {
         return $this->belongsTo(Dosen::class);
     }
+
+    public function kegiatan()
+    {
+        return $this->hasMany(Kegiatan::class);
+    }
 }

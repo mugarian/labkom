@@ -145,6 +145,13 @@
             </a>
         </li>
 
+        <li class="menu-item {{ Request::is('matakuliah*') ? 'active' : '' }}">
+            <a href="/matakuliah" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-book-open'></i>
+                <div data-i18n="Misc">Mata Kuliah</div>
+            </a>
+        </li>
+
 
         @if (auth()->user()->role != 'mahasiswa')
             @php

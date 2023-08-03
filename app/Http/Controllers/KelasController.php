@@ -91,7 +91,7 @@ class KelasController extends Controller
         $dosens = Dosen::where('id', '<>', $kelas->dosen_id)->get();
 
         return view('v_kelas.edit', [
-            'title' => 'Edit Data laboratorium',
+            'title' => 'Edit Data Kelas',
             'kelas' => $kelas,
             'dosens' => $dosens
         ]);

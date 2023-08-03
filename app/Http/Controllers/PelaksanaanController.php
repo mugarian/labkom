@@ -9,6 +9,7 @@ use App\Models\Kegiatan;
 use App\Models\Mahasiswa;
 use App\Models\Pelaksanaan;
 use App\Models\Laboratorium;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -153,7 +154,8 @@ class PelaksanaanController extends Controller
 
         $kelas = Kelas::orderBy('angkatan', 'desc')->get();
         $dospem = Dosen::all();
-        $matkuls = $this->matakuliah();
+        // $matkuls = $this->matakuliah();
+        $matkuls = MataKuliah::all();
 
         return view('v_pelaksanaan.create', [
             'title' => 'Tambah Pelaksanaan Praktikum',
@@ -176,9 +178,9 @@ class PelaksanaanController extends Controller
             'laboratorium_id' => 'required',
             'kelas_id' => 'required',
             'dospem_id' => 'required',
+            'matakuliah_id' => 'required',
             'kode' => 'required|unique:kegiatans,kode',
             'nama' => 'required|max:255',
-            'matakuliah' => 'required',
             'deskripsi' => 'required',
             'tipe' => 'required',
             'mulai' => 'required',
