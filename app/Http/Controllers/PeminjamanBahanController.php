@@ -392,4 +392,16 @@ class PeminjamanBahanController extends Controller
 
         return redirect('/peminjamanbahan')->with('success', 'Data peminjaman bahan telah ' . $request->status);
     }
+
+    public function cetak($id)
+    {
+        $peminjamanbahan = peminjamanbahan::find($id);
+        $kajur = Dosen::where('jabatan', 'ketua jurusan')->first();
+
+        return view('v_peminjamanbahan.cetak', [
+            'title' => 'peminjaman ' . $peminjamanbahan->bahanjurusan->nama,
+            'pinjam' => $peminjamanbahan,
+            'kajur' => $kajur
+        ]);
+    }
 }

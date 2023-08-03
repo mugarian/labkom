@@ -28,12 +28,15 @@
                 <h5 class="mb-0">Kelola Prediksi Pengajuan</h5>
                 <small class="text-muted float-end">
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filter">
+                        <i class="bx bx-filter-alt"></i> Filter
+                    </button>
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#import">
                         <i class="bx bx-archive-in"></i> Import
                     </button>
                     <a href="/prediksi/create"><button class="btn btn-primary">Tambah</button></a>
                 </small>
             </div>
-            <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="import" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -66,6 +69,41 @@
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="filter" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Filter Tahun Pengadaan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('prediksi.index') }}" method="GET">
+                            <div class="modal-body text-wrap">
+                                <div class="mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="tahunawal" class="form-label">Tahun Pengadaan Dari</label>
+                                            <input type="number" class="form-control" id="tahunawal" name="tahunawal"
+                                                value="{{ $_GET['tahunawal'] ?? old('tahunawal', '2000') }}"
+                                                onchange="mulaiawal()" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="tahunakhir" class="form-label">Tahun Pengadaan Sampai</label>
+                                            <input type="number" class="form-control" id="tahunakhir" name="tahunakhir"
+                                                value="{{ $_GET['tahunakhir'] ?? old('tahunakhir', date('Y')) }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <a href="{{ route('prediksi.index') }}" class="btn btn-secondary">
+                                    Reset
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -127,7 +165,8 @@
                                         <div class="d-flex justify-content-center">
                                             <a class="btn btn-outline-success p-1" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" data-bs-title="Lihat"
-                                                href="/prediksi/{{ $prediksi->id }}"><i class="bx bx-info-circle"></i></a>
+                                                href="/prediksi/{{ $prediksi->id }}"><i
+                                                    class="bx bx-info-circle"></i></a>
                                             @if (auth()->user()->id == $prediksi->user_id)
                                                 <button type="button" class="btn btn-outline-danger p-1"
                                                     data-bs-toggle="modal"

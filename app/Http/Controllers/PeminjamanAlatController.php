@@ -379,4 +379,16 @@ class PeminjamanAlatController extends Controller
 
         return redirect('/peminjamanalat')->with('success', 'Data peminjaman alat telah ' . $request->status);
     }
+
+    public function cetak($id)
+    {
+        $peminjamanalat = peminjamanalat::find($id);
+        $kajur = Dosen::where('jabatan', 'ketua jurusan')->first();
+
+        return view('v_peminjamanalat.cetak', [
+            'title' => 'peminjaman ' . $peminjamanalat->barangpakai->nama,
+            'pinjam' => $peminjamanalat,
+            'kajur' => $kajur
+        ]);
+    }
 }

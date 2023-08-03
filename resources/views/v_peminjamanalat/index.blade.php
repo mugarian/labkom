@@ -150,6 +150,11 @@
                                                     data-bs-placement="top" data-bs-title="Lihat"
                                                     href="/peminjamanalat/{{ $peminjamanalat->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
+                                                <a class="btn btn-outline-info p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Form"
+                                                    href="/peminjamanalat/cetak/{{ $peminjamanalat->id }}">
+                                                    <i class="bx bxs-book-content"></i></a>
+
                                                 @if ($peminjamanalat->status == 'menunggu')
                                                     <form action="/peminjamanalat/{{ $peminjamanalat->id }}/status"
                                                         method="post">
@@ -195,12 +200,16 @@
                                                     href="/peminjamanalat/{{ $peminjamanalat->id }}">
                                                     <i class="bx bx-info-circle"></i>
                                                 </a>
+                                                <a class="btn btn-outline-info p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Form"
+                                                    href="/peminjamanalat/cetak/{{ $peminjamanalat->id }}">
+                                                    <i class="bx bxs-book-content"></i></a>
                                                 @if (
                                                     ($peminjamanalat->user_id == auth()->user()->id && $peminjamanalat->status == 'disetujui') ||
                                                         $peminjamanalat->status == 'telat')
                                                     <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Kembalikan"
-                                                        href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">
+                                                        href="/peminjamanalat/cetak/{{ $peminjamanalat->id }}">
                                                         <i class="bx bx-arrow-to-left"></i>
                                                     </a>
                                                 @endif

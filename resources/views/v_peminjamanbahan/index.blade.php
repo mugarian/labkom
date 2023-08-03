@@ -150,6 +150,10 @@
                                                     data-bs-placement="top" data-bs-title="Lihat Detail"
                                                     href="/peminjamanbahan/{{ $peminjamanbahan->id }}"><i
                                                         class="bx bx-info-circle"></i></a>
+                                                <a class="btn btn-outline-info p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Form"
+                                                    href="/peminjamanbahan/cetak/{{ $peminjamanbahan->id }}">
+                                                    <i class="bx bxs-book-content"></i></a>
                                                 @if ($peminjamanbahan->status == 'menunggu')
                                                     <form action="/peminjamanbahan/{{ $peminjamanbahan->id }}/status"
                                                         method="post">
@@ -196,6 +200,10 @@
                                                     href="/peminjamanbahan/{{ $peminjamanbahan->id }}">
                                                     <i class="bx bx-info-circle"></i>
                                                 </a>
+                                                <a class="btn btn-outline-info p-1" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Form"
+                                                    href="/peminjamanbahan/cetak/{{ $peminjamanbahan->id }}">
+                                                    <i class="bx bxs-book-content"></i></a>
                                                 @if (
                                                     ($peminjamanbahan->user_id == auth()->user()->id && $peminjamanbahan->status == 'disetujui') ||
                                                         $peminjamanbahan->status == 'telat')

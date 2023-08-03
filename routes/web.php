@@ -88,12 +88,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/penggunaan/{id}/kegiatan', [PenggunaanController::class, 'kegiatan']);
     Route::resource('penggunaan', PenggunaanController::class);
 
+    Route::get('peminjamanalat/cetak/{id}', [PeminjamanAlatController::class, 'cetak']);
     Route::get('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'ditolak']);
     Route::post('peminjamanalat/{id}/ditolak', [PeminjamanAlatController::class, 'updateDitolak']);
     Route::get('peminjamanalat/{id}/pinjam', [PeminjamanAlatController::class, 'pinjam']);
     Route::post('peminjamanalat/{id}/status', [PeminjamanAlatController::class, 'status']);
     Route::resource('peminjamanalat', PeminjamanAlatController::class);
 
+    Route::get('peminjamanbahan/cetak/{id}', [PeminjamanBahanController::class, 'cetak']);
     Route::get('peminjamanbahan/{id}/ditolak', [PeminjamanBahanController::class, 'ditolak']);
     Route::post('peminjamanbahan/{id}/ditolak', [PeminjamanBahanController::class, 'updateDitolak']);
     Route::get('peminjamanbahan/{id}/pinjam', [PeminjamanBahanController::class, 'pinjam']);

@@ -21,15 +21,19 @@ class AlgoritmaController extends Controller
     public function index(Request $request)
     {
         if ($request->has(['tahunawal', 'tahunakhir'])) {
-            $range_mulai = [$request->mulaidari, $request->mulaisampai];
-            $range_selesai = [$request->selesaidari, $request->selesaisampai];
+            $tahun = [$request->tahunawal, $request->tahunakhir];
         } else {
             $tahunawal = DataTraining::min('tahun_pengadaan');
             $tahunakhir = DataTraining::max('tahun_pengadaan');
-            $range_mulai = [$tahunawal, $tahunakhir];
+            $tahun = [$tahunawal, $tahunakhir];
         }
+
         // $trainings = Algoritma::latest()->get();
-        $trainings = DataTraining::latest()->get();
+        $trainings = DataTraining::whereBetween('tahun_pengadaan', $tahun)->latest()->get();
+
+        // $peminjamanalat = peminjamanalat::whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+
+
         return view('v_algoritma.index', [
             'title' => 'Data Training',
             'trainings' => $trainings

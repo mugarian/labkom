@@ -21,11 +21,20 @@ class PrediksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        if ($request->has(['tahunawal', 'tahunakhir'])) {
+            $tahun = [$request->tahunawal, $request->tahunakhir];
+        } else {
+            $tahunawal = DataTraining::min('tahun_pengadaan');
+            $tahunakhir = DataTraining::max('tahun_pengadaan');
+            $tahun = [$tahunawal, $tahunakhir];
+        }
+
         $user = User::find(auth()->user()->id);
         $dosen = Dosen::where('user_Id', $user->id)->first();
-        $prediksis = DataTraining::where('isPrediksi', 1)->latest()->get();
+        $prediksis = DataTraining::whereBetween('tahun_pengadaan', $tahun)->where('isPrediksi', 1)->latest()->get();
 
         return view('v_prediksi.index', [
             'title' => 'Data prediksi',
