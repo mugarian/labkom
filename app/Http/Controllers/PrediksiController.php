@@ -103,6 +103,7 @@ class PrediksiController extends Controller
             'isPrediksi' => 1,
             'jenis_pengadaan' => $jenis_pengadaan,
             'jenis_stok' => $jenis_stok,
+            'tahun_pengadaan' => $validatedData['tahun_pengadaan'],
         ];
 
         DataTraining::create($data_training);
@@ -258,6 +259,7 @@ class PrediksiController extends Controller
                     'isPrediksi' => 1,
                     'jenis_pengadaan' => $sheet->getCell('Q' . $row)->getCalculatedValue(),
                     'jenis_stok' => $sheet->getCell('R' . $row)->getCalculatedValue(),
+                    'tahun_pengadaan' => $sheet->getCell('D' . $row)->getCalculatedValue(),
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];

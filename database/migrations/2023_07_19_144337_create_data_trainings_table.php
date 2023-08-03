@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('jenis_pengadaan', ['sesuai kuota', 'melebihi kuota', 'kurang dari kuota']);
             $table->enum('jenis_harga', ['murah', 'sedang', 'mahal', 'sangat mahal'])->nullable();
             $table->enum('jenis_stok', ['stok lebih', 'stok pas', 'stok kurang']);
+            $table->string('tahun_pengadaan');
             $table->timestamps();
         });
     }

@@ -18,8 +18,16 @@ class AlgoritmaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has(['tahunawal', 'tahunakhir'])) {
+            $range_mulai = [$request->mulaidari, $request->mulaisampai];
+            $range_selesai = [$request->selesaidari, $request->selesaisampai];
+        } else {
+            $tahunawal = DataTraining::min('tahun_pengadaan');
+            $tahunakhir = DataTraining::max('tahun_pengadaan');
+            $range_mulai = [$tahunawal, $tahunakhir];
+        }
         // $trainings = Algoritma::latest()->get();
         $trainings = DataTraining::latest()->get();
         return view('v_algoritma.index', [
@@ -64,6 +72,7 @@ class AlgoritmaController extends Controller
             'stok_barang' => 'required',
             'jenis_bahan' => 'required',
             'label' => 'required',
+            'year' => 'required',
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
@@ -98,6 +107,7 @@ class AlgoritmaController extends Controller
             'isPrediksi' => 0,
             'jenis_pengadaan' => $jenis_pengadaan,
             'jenis_stok' => $jenis_stok,
+            'tahun_pengadaan' => $validatedData['tahun_pengadaan']
         ];
 
         DataTraining::create($data_training);
@@ -197,6 +207,7 @@ class AlgoritmaController extends Controller
             'isPrediksi' => 0,
             'jenis_pengadaan' => $jenis_pengadaan,
             'jenis_stok' => $jenis_stok,
+            'tahun_pengadaan' => $validatedData['tahun_pengadaan']
         ];
 
         DataTraining::find($training->id)->update($data_training);
@@ -330,6 +341,7 @@ class AlgoritmaController extends Controller
                     'isPrediksi' => 0,
                     'jenis_pengadaan' => $sheet->getCell('R' . $row)->getCalculatedValue(),
                     'jenis_stok' => $sheet->getCell('S' . $row)->getCalculatedValue(),
+                    'tahun_pengadaan' => $sheet->getCell('D' . $row)->getCalculatedValue(),
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];

@@ -86,6 +86,7 @@
                                 <th>Jenis Pengadaan</th>
                                 <th>Jenis Harga</th>
                                 <th>Jenis Stok</th>
+                                <th>Tahun</th>
                                 <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -98,6 +99,7 @@
                                 <th>Jenis Pengadaan</th>
                                 <th>Jenis Harga</th>
                                 <th>Jenis Stok</th>
+                                <th>Tahun</th>
                                 <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -119,6 +121,7 @@
                                     <td class="text-wrap">{{ $prediksi->jenis_pengadaan }}</td>
                                     <td class="text-wrap">{{ $prediksi->jenis_harga }}</td>
                                     <td class="text-wrap">{{ $prediksi->jenis_stok }}</td>
+                                    <td class="text-wrap">{{ $prediksi->tahun_pengadaan }}</td>
                                     <td class="text-wrap">{{ $prediksi->datamentah->label }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
@@ -129,8 +132,8 @@
                                                 <button type="button" class="btn btn-outline-danger p-1"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal{{ $prediksi->id }}">
-                                                    <i class="bx bx-trash" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Hapus"></i>
+                                                    <i class="bx bx-trash" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" data-bs-title="Hapus"></i>
                                                 </button>
                                             @endif
                                         </div>
@@ -177,6 +180,7 @@
                                 <th>Jenis Pengadaan</th>
                                 <th>Jenis Harga</th>
                                 <th>Jenis Stok</th>
+                                <th>Tahun</th>
                                 <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -189,6 +193,7 @@
                                 <th>Jenis Pengadaan</th>
                                 <th>Jenis Harga</th>
                                 <th>Jenis Stok</th>
+                                <th>Tahun</th>
                                 <th>Label</th>
                                 <th style="width: 0">Aksi</th>
                             </tr>
@@ -210,6 +215,7 @@
                                     <td class="text-wrap">{{ $prediksi->jenis_pengadaan }}</td>
                                     <td class="text-wrap">{{ $prediksi->jenis_harga }}</td>
                                     <td class="text-wrap">{{ $prediksi->jenis_stok }}</td>
+                                    <td class="text-wrap">{{ $prediksi->tahun_pengadaan }}</td>
                                     <td class="text-wrap">{{ $prediksi->datamentah->label }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">

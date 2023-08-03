@@ -96,7 +96,7 @@ class PeminjamanAlatController extends Controller
         $terakhir = peminjamanalat::where('status', '<>', 'menunggu')->where('user_id', auth()->user()->id)->orderBy('tgl_pinjam', 'desc')->first();
 
         if ($terakhir) {
-            if ($terakhir->status == 'menunggu' || $terakhir->status == 'terlambat' || $terakhir->status == 'selesai') {
+            if ($terakhir->status == 'menunggu' || $terakhir->status == 'terlambat' || $terakhir->status == 'selesai' || $terakhir->status == 'ditolak') {
                 $selesai = 1;
             } else {
                 $selesai = 0;
