@@ -76,7 +76,6 @@ class AlgoritmaController extends Controller
             'stok_barang' => 'required',
             'jenis_bahan' => 'required',
             'label' => 'required',
-            'year' => 'required',
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
