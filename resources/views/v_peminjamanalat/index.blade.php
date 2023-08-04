@@ -209,7 +209,7 @@
                                                         $peminjamanalat->status == 'telat')
                                                     <a class="btn btn-outline-primary p-1" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Kembalikan"
-                                                        href="/peminjamanalat/cetak/{{ $peminjamanalat->id }}">
+                                                        href="/peminjamanalat/{{ $peminjamanalat->id }}/edit">
                                                         <i class="bx bx-arrow-to-left"></i>
                                                     </a>
                                                 @endif
