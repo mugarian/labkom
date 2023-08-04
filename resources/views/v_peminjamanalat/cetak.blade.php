@@ -66,10 +66,13 @@
     <p class="text-center my-5 mb-0">Mengetahui,</p>
     <div class="d-flex justify-content-between my-0 mx-5">
         <div class="ms-5">
-            <p class="mb-5 pb-3">
+            <p class="">
                 &nbsp;<br>
                 Peminjam,
             </p>
+            <div class="text-center fs-1" style="font-size: large">
+                <p>✔</p>
+            </div>
             <p>
                 {{ $pinjam->user->nama }} <br>
                 NIP/NIK/NIM. {{ $pinjam->user->nomor_induk }}
