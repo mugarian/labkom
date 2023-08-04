@@ -82,7 +82,7 @@
             </p>
             @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
                 <div class="text-center">
-                    <i class="bi bi-check-circle fs-1"></i>
+                    <i class="bi bi-check fs-1"></i>
                 </div>
             @endif
             <p>
@@ -100,7 +100,7 @@
         </p>
         @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
             <div class="text-center">
-                <i class="bi bi-check-circle fs-1"></i>
+                <i class="bi bi-check fs-1"></i>
             </div>
         @endif
         <p>
