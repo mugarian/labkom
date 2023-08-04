@@ -81,8 +81,8 @@
                 Kepala Laboratorium
             </p>
             @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
-                <div class="text-center">
-                    <i class="bi bi-check fs-1"></i>
+                <div class="text-center fs-1" style="font-size: large">
+                    <p>✔</p>
                 </div>
             @endif
             <p>
@@ -99,8 +99,8 @@
             Ketua Jurusan,
         </p>
         @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
-            <div class="text-center">
-                <i class="bi bi-check fs-1"></i>
+            <div class="text-center fs-1" style="font-size: large">
+                <p>✔</p>
             </div>
         @endif
         <p>
