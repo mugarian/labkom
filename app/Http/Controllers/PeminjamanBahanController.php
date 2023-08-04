@@ -80,9 +80,9 @@ class PeminjamanBahanController extends Controller
                 // todo pemakaian->bahanjurusan->laboratorium->user->id == auth()->user()->id
             } else {
                 if ($peminjamanbahan->contains('tgl_kembali', NULL)) {
-                    $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+                    $peminjamanbahan = peminjamanbahan::whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
                 } else {
-                    $peminjamanbahan = peminjamanbahan::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+                    $peminjamanbahan = peminjamanbahan::whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
                 }
 
                 $kalab = false;

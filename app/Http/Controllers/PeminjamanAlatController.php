@@ -78,9 +78,9 @@ class PeminjamanAlatController extends Controller
                 // todo pemakaian->barangpakai->laboratorium->user->id == auth()->user()->id
             } else {
                 if ($peminjamanalat->contains('tgl_kembali', NULL)) {
-                    $peminjamanalat = peminjamanalat::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
+                    $peminjamanalat = peminjamanalat::whereBetween('tgl_pinjam', $range_tgl_pinjam)->orderBy('tgl_pinjam', 'desc')->get();
                 } else {
-                    $peminjamanalat = peminjamanalat::where('user_id', $user->id)->whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
+                    $peminjamanalat = peminjamanalat::whereBetween('tgl_pinjam', $range_tgl_pinjam)->whereBetween('tgl_kembali', $range_tgl_kembali)->orderBy('tgl_pinjam', 'desc')->get();
                 }
                 $kalab = false;
             }
