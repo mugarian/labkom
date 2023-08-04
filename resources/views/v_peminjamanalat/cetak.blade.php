@@ -49,7 +49,6 @@
                 <th class="text-wrap">Tanggal Peminjam</th>
                 <th class="text-wrap">Tanggal Pengembalian</th>
                 <th>Kondisi</th>
-                <th class="text-wrap">Verifikasi</th>
             </tr>
             <tr>
                 <td>1</td>
@@ -60,14 +59,6 @@
                 <td>{{ $pinjam->tgl_pinjam }}</td>
                 <td>{{ $pinjam->tgl_kembali }}</td>
                 <td class="text-wrap">{{ $pinjam->kondisi }}</td>
-                <td class="text-wrap text-center">
-                    @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
-                        <i class="bi bi-check-circle"></i>
-                    @elseif ($pinjam->status == 'ditolak')
-                        <i class="bi bi-x-circle"></i>
-                    @else
-                    @endif
-                </td>
             </tr>
         </table>
     </div>
@@ -85,10 +76,15 @@
             </p>
         </div>
         <div class="me-5">
-            <p class="mb-5 pb-3">
+            <p>
                 Subang, {{ Illuminate\Support\Carbon::now()->isoFormat('D MMMM Y') }} <br>
                 Kepala Laboratorium
             </p>
+            @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
+                <div class="text-center">
+                    <i class="bi bi-check-circle fs-1"></i>
+                </div>
+            @endif
             <p>
                 {{ $pinjam->barangpakai->laboratorium->user->nama }} <br>
                 NIP/NIK. {{ $pinjam->barangpakai->laboratorium->user->nomor_induk }}
@@ -99,9 +95,14 @@
         </div>
     </div>
     <div class=" text-center">
-        <p class="mb-5 pb-3">
+        <p class="">
             Ketua Jurusan,
         </p>
+        @if ($pinjam->status == 'disetujui' || $pinjam->status == 'selesai')
+            <div class="text-center">
+                <i class="bi bi-check-circle fs-1"></i>
+            </div>
+        @endif
         <p>
             {{ $kajur->user->nama }} <br>
             NIP/NIK. {{ $kajur->user->nomor_induk }}
